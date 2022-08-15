@@ -22,3 +22,7 @@ function scrollEffect() {
         'linear-gradient(to right, rgba(255, 0, 0,' + (x / 100).toFixed(2) + ' ), rgba(0,0,255,' + (x / 100).toFixed(2) +
         '))'
 }
+
+import LogRocket from 'logrocket';
+
+window.onload =()=>{LogRocket.init('t7dfex/play-nerdle');}
