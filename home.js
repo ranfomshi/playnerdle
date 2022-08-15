@@ -23,10 +23,3 @@ function scrollEffect() {
         '))'
 }
 
-import LogRocket from 'logrocket';
-
-window.onload =()=>{LogRocket.init('t7dfex/play-nerdle');}
-
-function startLog(){
-    LogRocket.init('t7dfex/play-nerdle')
-}
