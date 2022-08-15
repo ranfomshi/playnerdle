@@ -33,5 +33,5 @@ function sendEvent(category, action, label) {
 }
 
 function gameClick(e){
-    sendEvent('homeSelection', 'Click', e.target.id)
+    sendEvent('homeSelection', 'Click', event.target.id)
 }
