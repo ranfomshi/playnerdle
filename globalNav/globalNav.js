@@ -9,7 +9,7 @@ var navElement = '<div class="globalNav"><ul> <li><div class="brand">PlayNerdle<
     '<li id="hideable2"><a href = "http://www.playnerdle.com/reaction/">reaction</a></li>' +
     '<li id="hideable3"><a href = "http://www.playnerdle.com/colourmatch/">colour match</a></li>' +
     '<li id="hideable4"><a href = "http://www.playnerdle.com/bludle/">bludle</a></li>' +
-    '<li><a href = "www.playnerdle.com">nerdle</a></li>' +
+    '<li id="hideable5"><a href = "http://www.playnerdle.com/codle/">codle</a></li></ul></div>'
 
 
 
