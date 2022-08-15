@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Colour Match</title>
+    <meta charset=“UTF-8”>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Reaction Game" content="A reaction game">
+    <meta name="keywords" content="reaction game">
+    <link rel="stylesheet" href="colourMatch.css">
+    <script src="colourMatch.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86454867-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-86454867-6');
+    </script>
+</head>
+
+<body onload="initialise()">
+    <div id="snackbar">Some text some message..</div>
+    <div class="submitBtn statsBtn" onclick="showStats()"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
+    <div class="submitBtn instructionsBtn" onclick="showInstructions()"><i class="fa fa-info-circle" aria-hidden="true"></i></div>
+    <div class="fullScreenDiv" id="instructionsDiv">
+        <div class="instructionText">
+            <h3>Instructions</h3>
+            <p>Match the colour in the box to that of the background by adjusting the red, green and blue values of the screen's pixels. Once you are confident, hit submit and see how far off you are. Get a different colo(u)r to guess each day!
+                <br>
+                <small>The max value of each number is 255</small>
+            </p>
+            <div class="dismissInstructionBtn" onclick="closeInstructions()">Start</div>
+        </div>
+    </div>
+    <div class="fullScreenDiv" id="statsDiv">
+        <div class="instructionText" id="Scores">All Scores
+            <div class="historicAll" id="historic"></div>
+            Your Average Score
+            <div id="average"></div>
+            Sum of all scores
+            <div id="total"></div>
+            Total games played
+            <div id="gamesPlayed"></div>
+            <div class="dismissInstructionBtn" onclick="closeStats()">Done</div>
+        </div>
+
+    </div>
+    <div class="nav" id="nav">
+        <ul class="navList">
+            <li><a href="http://playnerdle.com">Daily Word Game</a></li>
+            <li class="flash"><a href="http://playnerdle.com/reaction">Daily Reaction Game</a></li>
+        </ul>
+    </div>
+    <div id="content" class="background">
+
+        <div class="central" id="comparisonBlock">
+            <div class="inputHolder">
+
+                <div class="individualInputHolder" id="IIH1">
+                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <input type="number" id="guessValue1" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="individualInputHolder" id="IIH2">
+                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <input type="number" id="guessValue2" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="individualInputHolder" id="IIH3">
+                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <input type="number" id="guessValue3" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+
+            </div>
+            <div class="guessRepresentation" id="guessRepresentation"></div>
+        </div>
+        <button class="submitBtn" id="submitBtn" onclick="submitClick()">Submit</button>
+    </div>
+</body>
+
+</html>

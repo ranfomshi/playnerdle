@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Reaction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Reaction Game" content="A reaction game">
+    <meta name="keywords" content="reaction game">
+    <link rel="stylesheet" href="reaction.css">
+    <script src="reaction.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=roboto:wght@800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    
+       <!-- global elements -->
+       <script src="../globalNav/globalNav.js" defer></script>
+       <link rel='stylesheet' type='text/css' href='../globalNav/globalNav.css' />
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86454867-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-86454867-6');
+    </script>
+</head>
+
+<body onload="initialise()">
+    <!-- <div class="nav" id="nav">
+        <ul class="navList">
+            <li><a href="http://playnerdle.com">Daily Word Game</a></li>
+            <li class="flash"><a href="http://playnerdle.com/colourMatch">Daily Colour Match</a></li>
+        </ul>
+    </div> -->
+    <div id="mainDiv" class="mainDiv">
+        <button id="reactBtn" class="reactBtn" onclick="react()">START</button>
+        <button id="readyBtn" class="readyBtn pulse" onclick="readyClick()">READY<br><small>(Do not press
+            yet)</small></button>
+        <button id="stopBtn" class="reactBtn" onclick="stopClick()">STOP</button>
+        <div class="fullScreenDiv" id="introDiv" onclick="closeDivs()">
+            <div class="instructions">
+                <h2>This is a game all about reactions</h2>
+                <div class="examples">
+                    <div class="exampleHolder"><button id="reactBtn" class="reactBtn example">START</button><br>Start</div>
+                    <div class="exampleHolder"><button id="readyBtn" class="readyBtn example">READY<br><small>(Do not press yet)</small></button><br>Wait</div>
+                    <div class="exampleHolder"><button id="stopBtn" class="reactBtn example">STOP</button><br>HIT!</div>
+                </div>
+                <ul>
+                    <li>You can play once per day</li>
+                    <li>Click when the screen changes to black</li>
+                    <li>The wait time will be different each day</li>
+                    <li>You can see all your results in the share menu</li>
+                    <li>Press too soon and you will be given a default time of 5s for the day and not be able to play again until the next game</li>
+                </ul>
+
+
+
+            </div><br>
+            <div class="okBtnHolder"><button id="okBtn" class="reactBtn" onclick="okClick()">OK</button></div>
+        </div>
+        <div class="fullScreenDiv" id="shareDiv">
+            <div onclick="closeDivs()" class="xBtn">X</div>
+            <div> </div>
+            <canvas id="myChart" style="
+            width: 600px;
+            max-width: 600px;
+            position: relative;
+            height: 300px;
+            margin: auto;
+            margin-top: 75px;"></canvas>
+            <div class="allResults" id="allResults"></div>
+            <div class="allResults" id="avgTime"></div>
+            <button id="copyBtn" class="reactBtn" onclick="copy()">COPY</button>
+        </div>
+        <br>
+        <div class="timer" id="timer">
+            <div class="timerNumber" id="appendSeconds">00</div>:
+            <div class="timerNumber" id="appendTens">00</div>
+
+        </div>
+        <div id="countdown" class="countdown timer"></div>
+        <br>
+        <div class="timer" id="resultBox">
+            <div class="timerNumber" id="resultTime"></div>
+        </div><br>
+        <button id="shareBtn" class="reactBtn" onclick="shareClick(), loadChart()">SHARE</button>
+        <div id="snackbar">Some text some message..</div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    //chart
+    function loadChart() {
+        var xValues = [];
+        var yValues = []
+        JSON.parse(localStorage.getItem('historicScores')).forEach(i => {
+            yValues.push(i)
+
+        });
+
+        for (let i = 0; i < JSON.parse(localStorage.getItem('historicScores')).length; i++) {
+            yValues.push(JSON.parse(localStorage.getItem('historicScores'))[i])
+            xValues.push(i + 1)
+        }
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "yellow",
+                    borderColor: "#3e95cd",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: yValues.max
+                        }
+                    }],
+                }
+            }
+        });
+    }
+</script>

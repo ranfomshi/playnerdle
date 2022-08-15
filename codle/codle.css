@@ -1,0 +1,265 @@
+* {
+    font-family: 'Roboto';
+    text-decoration: none;
+    font-weight: bold;
+}
+
+html {
+    position: relative;
+    top: 60px;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-family: lobster;
+    color: white;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    text-align: center;
+}
+
+.answerList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    color: white;
+}
+
+.answerListItem {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(1px);
+    color: white;
+    list-style: none;
+    padding: 1rem;
+    margin: 1rem;
+    width: fit-content;
+    max-width: 200px;
+    border-radius: 3px;
+    letter-spacing: 2px;
+}
+
+.playAgain {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(1px);
+    color: white;
+    list-style: none;
+    padding: 1rem;
+    margin: 1rem;
+    display: none;
+    width: fit-content;
+    max-width: 200px;
+    border-radius: 3px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.playAgain>button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+
+#snackbar {
+    visibility: hidden;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    transform: translatex(-50%);
+    /* Divide value of min-width by 2 */
+    background-color: #ffffff;
+    /* Black background color */
+    color: rgb(0, 0, 0);
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    left: 50%;
+    /* Center the snackbar */
+    top: 30px;
+    /* 30px from the bottom */
+    box-shadow: 0 0 10px #00000033;
+}
+
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+
+#snackbar.show {
+    visibility: visible;
+    /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+/* Animations to fade the snackbar in and out */
+
+@-webkit-keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+.instruction {
+    background: linear-gradient(to right, transparent, black, transparent);
+    color: lightgreen;
+    padding: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    min-height: 30px;
+}
+
+#revealedLetters {
+    background: transparent;
+}
+
+.btn,
+input {
+    border-width: 4px;
+    border-style: solid;
+    border-image: linear-gradient(to top, rgb(9, 139, 0), rgb(0, 255, 191)) 1;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    padding: 4px;
+    cursor: pointer;
+    transition: color .2s;
+    outline: none;
+}
+
+btn:hover {
+    color: rgb(9, 139, 0);
+}
+
+.inputHolder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.singleInput {
+    width: 20px;
+    margin: 2px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.explanation {
+    max-height: 0;
+    overflow: hidden;
+    background: #296f8787;
+    border-radius: 10px;
+    margin: 1rem;
+    color: white;
+    font-size: 1rem;
+    transition-duration: 0.3s;
+}
+
+p {
+    font-size: 0.75rem;
+}
+
+.exToggle {
+    font-size: x-small;
+    cursor: pointer;
+    color: white;
+    text-align: right;
+}
+
+.counter {
+    font-size: x-small;
+    color: white;
+    text-align: left;
+}
+
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
+}
+
+.letterContainer {
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+}
+
+.submitBtn {
+    display: none;
+    margin-left: 50%;
+    transform: translatex(-50%);
+    margin-top: 10px;
+}

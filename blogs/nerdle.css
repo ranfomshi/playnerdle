@@ -1,0 +1,479 @@
+body {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: white;
+    font-family: 'Roboto';
+    font-weight: bold;
+    height: 100%;
+    margin: 0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    width: -webkit-fill-available;
+    -webkit-transition: background-color 0.5s ease-out;
+    -moz-transition: background-color 0.5s ease-out;
+    -o-transition: background-color 0.5s ease-out;
+    transition: background-color 0.5s ease-out;
+}
+
+.blogText{
+    margin: 20px;
+    max-width: 550px;
+    left: 50%;
+    position: relative;
+    transform: translatex(-50%);
+    text-align: justify;
+}
+
+.blogText>p{
+    margin: 20px;
+}
+
+.blogImg{
+    position: relative;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+html {
+    min-height: 600px;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.hiddenHeadings {
+    z-index: -99999;
+    height: 0;
+    color: transparent;
+    overflow: hidden;
+}
+
+.definition {
+    display: flex;
+    white-space: normal;
+    font-size: small;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    padding: 5px;
+}
+
+.bottomPortion {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+    display: block;
+    white-space: nowrap;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.24);
+    padding: 5px;
+    text-align: center !important;
+}
+
+.gameText {
+    display: inline-block;
+    white-space: normal;
+    max-width: 300px;
+}
+
+.letter {
+    border-radius: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    border-width: 1px 1px 1px 1px;
+    border-color: black;
+    border-style: solid;
+    background-color: white;
+    padding: 5px;
+    display: inline-flex;
+    justify-content: center;
+    width: 20px;
+    font-weight: bolder;
+    -webkit-animation: appear 1s;
+    animation: appear 1s;
+}
+
+.blank {
+    color: transparent;
+    cursor: none;
+}
+
+.blank:hover {
+    color: transparent;
+    cursor: not-allowed;
+}
+
+
+.timerWrapper {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    flex-direction: row;
+    min-width: 122px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.counter {
+    position: relative;
+    font-family: monospace;
+    color: white;
+    background: #556677;
+    border-radius: 2px;
+    margin: 2px;
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.incorrectArea {
+    position: fixed;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: small;
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.modalBtn {
+    font-size: small;
+    width: auto;
+}
+
+.title {
+    font-family: lobster;
+}
+
+.overlay {
+    height: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.key {
+    min-height: 30px;
+    border-width: 1px 1px 1px 1px;
+    border-color: transparent;
+    border-style: solid;
+    background-color: #556677;
+    padding: 2px;
+    display: inline-flex;
+    justify-content: center;
+    width: 8%;
+    max-width: 55px;
+    font-size: x-large;
+    font-weight: bolder;
+    border-radius: 2px;
+    color: white;
+    cursor: pointer;
+    margin: 1px;
+}
+
+.key:hover {
+    background-color: #62768a;
+    color: white;
+}
+
+.key:active {
+    box-shadow: inset 0 0 10px #00000033;
+}
+
+@media only screen and (max-height:750) {
+    .gameText {
+        min-height: 900px;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .key {
+        width: 8%;
+        font-size: medium;
+        padding: 0;
+    }
+    .definition {
+        font-size: xx-small;
+        width: 100%;
+    }
+    .letter {
+        padding: 2px;
+    }
+    .content {
+        padding: 15px 4px 0px 4px;
+    }
+}
+
+@media only screen and (max-height: 600px) {
+    h1 {
+        margin: 0px;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .key {
+        width: 10%;
+        font-size: xx-large;
+        padding: 4px;
+    }
+    .letter {
+        padding: 8px;
+        width: 25px;
+    }
+    .definition {
+        font-size: large;
+        width: 600px;
+    }
+}
+
+.stats {
+    border: 1px solid;
+    text-align: right;
+    border-radius: 5px;
+    width: 166px;
+    position: relative;
+    left: 50%;
+    transform: translatex(-50%);
+    padding: 12px;
+}
+
+.blue {
+    background-color: rgb(100, 167, 243);
+}
+
+.red {
+    background-color: #cc3c3c;
+}
+
+.green {
+    background-color: rgb(184, 237, 181);
+    color: black;
+}
+
+.black {
+    color: black;
+}
+
+.guessBox {
+    font-size: medium;
+    margin-bottom: 10px;
+    height: 16px;
+    border: black 2px solid;
+    padding: 10px;
+    max-width: 90%;
+}
+
+.toggle {
+    justify-content: center;
+    cursor: pointer;
+    font-size: x-large;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.off {
+    display: none;
+}
+
+.welcomeModal {
+    padding: 40px 10px;
+    position: fixed;
+    box-shadow: 0 0 10px #00000033;
+    width: 300px;
+    max-width: 89%;
+    height: 600px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #556677f0;
+    z-index: 1;
+}
+
+.userModal {
+    padding: 60px 10px;
+    position: fixed;
+    box-shadow: 0 0 10px #00000033;
+    width: 300px;
+    max-width: 89%;
+    height: 600px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #556677f0;
+    z-index: 1;
+    display: none;
+}
+
+.menuBtn {
+    align-items: center;
+    font-size: small;
+    max-width: fit-content;
+    width: auto;
+    padding: 8px;
+    box-shadow: #232d53 1px 1px 2px;
+}
+
+.helpBtn {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    cursor: pointer;
+    font-size: x-large;
+}
+
+.beerBtn {
+    cursor: pointer;
+    border: none;
+    background-color: #f4ff45;
+    color: black;
+    width: 200px;
+    padding: 5px;
+    border-radius: 22px;
+    position: absolute;
+    bottom: 5px;
+    font-family: 'Lobster';
+    left: 50%;
+    height: 45px;
+    transform: translatex(-50%);
+}
+
+.userBtn {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    font-size: x-large;
+}
+
+.winning {
+    -webkit-animation: jump 1s cubic-bezier(0.3, 1.2, 0.8, 1.2) infinite;
+    animation: jump 7s cubic-bezier(0.3, 1.2, 0.8, 1.2) infinite;
+}
+
+@keyframes appear {
+    0% {
+        transform: rotate3d(1, 0, 0, 90deg);
+    }
+    100% {
+        transform: rotate3d(1, 0, 0, 0deg);
+    }
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(-10px);
+    }
+    5% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+
+#snackbar {
+    visibility: hidden;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    transform: translatex(-50%);
+    /* Divide value of min-width by 2 */
+    background-color: #3c4853da;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    left: 50%;
+    /* Center the snackbar */
+    bottom: 30px;
+    /* 30px from the bottom */
+    box-shadow: 0 0 10px #00000033;
+}
+
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+
+#snackbar.show {
+    visibility: visible;
+    /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+/* Animations to fade the snackbar in and out */
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+.possibilities{
+    background-color: black;
+    color: white;
+    margin-left: 5px;
+}

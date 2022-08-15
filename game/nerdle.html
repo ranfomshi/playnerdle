@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel='stylesheet' type='text/css' href='nerdle.css'>
+    <script src="nerdle.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Lobster&family=Montserrat:wght@100&family=Open+Sans:wght@300&family=Roboto:wght@100&display=swap&family=Raleway:wght@100&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>nerdle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div onclick="closeWelcome()" class="helpBtn"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
+    <div id="welcome" class="welcomeModal">You get 5 attempts to guess a 5-letter word correctly.<br><br>
+        If you guess a letter in the correct position, it will show as green. <div class="letter green">n</div><br><br>
+        If you guess a letter but in an incorrect position, it will show as blue. <div class="letter blue">n</div>
+        <br><br>
+        <kbd class="key" style="font-size:small; width: auto;" onclick="closeWelcome()">OK - Let's Begin</kbd>
+    </div>
+
+    <div id="content" class="content">
+        <h1 style="font-family: lobster;">NERDLE</h1>
+
+        <input type="text" onkeypress="enterSubmit(event)" onsubmit="gameAttempt()" id="userInput" placeholder="guess"
+            style="margin-top: 10px; margin-bottom: 10px; height: 16px;"></input>
+        <br>
+
+        <div id="gameText" class="gameText"></div>
+        <div id="bottomPortion" style="position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: small; margin-top:20px; 
+            display:none; 
+            text-align: center; 
+            white-space: nowrap;">
+            <div id="definition" class="definition"></div>
+            <div id="possibleArea"></div>
+        </div>
+        <div id="incorrectArea" style="position: fixed;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: small; margin-top:20px; 
+            display:block; 
+            text-align: center; 
+            white-space: nowrap;">Incorrect letters will show
+            here</div>
+
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+body {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: white;
+    font-family: 'Roboto';
+    font-weight: bold;
+    height: 100%;
+    margin: 0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    width: -webkit-fill-available;
+}
+
+html {
+    min-height: 600px;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.definition {
+    font-size: x-small;
+    white-space: normal;
+    width: 370px;
+    margin-bottom: 10px;
+}
+
+.gameText {
+    display: inline-block;
+    white-space: normal;
+}
+
+.letter {
+    border-radius: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    border-width: 1px 1px 1px 1px;
+    border-color: black;
+    border-style: solid;
+    background-color: white;
+    padding: 5px;
+    display: inline-flex;
+    justify-content: center;
+    width: 20px;
+    font-weight: bolder;
+}
+
+.blank {
+    color: transparent;
+    cursor: none;
+}
+
+.blank:hover {
+    color: transparent;
+    cursor: not-allowed;
+}
+.content{
+    padding: 20px;
+}
+
+.key {
+    border-width: 1px 1px 1px 1px;
+    border-color: transparent;
+    border-style: solid;
+    background-color: #556677;
+    padding: 2px;
+    display: inline-flex;
+    justify-content: center;
+    width: 30px;
+    font-size: x-large;
+    font-weight: bolder;
+    border-radius: 2px;
+    color: white;
+    cursor: pointer;
+    margin: 1px;
+}
+
+.key:hover {
+    background-color: #62768a;
+    color: white;
+}
+
+.key:active {
+    box-shadow: inset 0 0 10px #00000033;
+}
+
+@media only screen and (max-width: 380px) {
+    .key {
+        width: 15px;
+        font-size: medium;
+        padding: 0;
+
+    }
+
+    .definition {
+        font-size: xx-small;
+        width: 100%;
+    }
+
+    .letter {
+        padding: 2px;
+    }
+    .content{
+        padding: 4px;
+    }
+
+
+}
+
+@media only screen and (max-height: 600px) {
+    h1 {
+        margin: 0px;
+    }
+
+   
+}
+
+@media only screen and (min-width: 800px) {
+    .key {
+        width: 35px;
+        font-size: xx-large;
+        padding: 4px;
+    }
+
+    .letter {
+        padding: 8px;
+        width: 25px;
+    }
+    .definition {
+        font-size: large;
+        width: 600px;
+    }
+
+}
+
+.blue {
+    background-color: rgb(100, 167, 243);
+}
+
+.green {
+    background-color: rgb(184, 237, 181);
+    color: black;
+}
+
+.welcomeModal {
+    padding: 60px 10px;
+    position: fixed;
+    box-shadow: 0 0 10px #00000033;
+    width: 89%;
+    height: 600px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #556677f0;
+    z-index: 1;
+}
+
+.helpBtn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    font-size: x-large;
+}
+
+.winning {
+    -webkit-animation: jump 1s cubic-bezier(0.3, 1.2, 0.8, 1.2) infinite;
+    animation: jump 7s cubic-bezier(0.3, 1.2, 0.8, 1.2) infinite;
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(-10px);
+    }
+
+    5% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

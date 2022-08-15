@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+    <meta name="author" content="Stuart Pecksen" />
+    <meta name="description" content="Play codle  - decode a 5 letter word" />
+    <link rel='stylesheet' type='text/css' href='codle.css' />
+    <script src="codle.js"></script>
+
+    <!-- global elements -->
+    <script src="../globalNav/globalNav.js" defer></script>
+    <link rel='stylesheet' type='text/css' href='../globalNav/globalNav.css' />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Lobster&family=Montserrat:wght@100&family=Open+Sans:wght@300&family=Roboto:wght@100&display=swap&family=Raleway:wght@100&display=swap" rel="stylesheet">
+    <title>codle - the encoded 5-letter word game.</title>
+    <meta charset=“UTF-8”>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86454867-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-86454867-6');
+    </script>
+
+</head>
+
+<body onload="init()">
+    <div id="snackbar">Some text some message..</div>
+    <div id="title" class="title">
+        <h1>CODLE</h1>
+    </div>
+    <div id="inputArea">
+        <div class="instruction">Decode this word:<br>
+            <div class="spaceBetween">
+                <div class="counter" id="counter">5</div>
+                <div id="exToggle" class="exToggle" onclick="exToggle()">how?</div>
+            </div>
+
+            <div id="explanation" class="explanation">
+                <p>The letters all correspond to a letter of the alphabet - each one offset by the same amount. The offset is randomly selected each game, as is the word to decode. If it's "z" and has been offset by 1, the coded letter is "a". "g" becomes
+                    "h" etc.</br><br> Look for clues in the relationship between letters:<br><br> Consecutive letters can be a big help. <br><br> Double letters tend to be "ee" or "oo" but could also be "tt", "ll", "gg". If a double consonant appears
+                    in places 3 and 4 then position 5 may well be a "y". <br><br> Have fun!</p>
+                <br><button onclick="exToggle()">OK</button>
+            </div>
+        </div>
+
+
+        <div class="instruction">
+
+
+            <div class="inputHolder">
+                <div id="letterContainer1" class="letterContainer">
+                    <div id="letter1"></div><input type="text" onkeyup="individualPopulation(event)" id="input1" maxlength="1" class="singleInput" />
+                </div>
+                <div id="letterContainer2" class="letterContainer">
+                    <div id="letter2"></div><input type="text" onkeyup="individualPopulation(event)" id="input2" maxlength="1" class="singleInput" />
+                </div>
+                <div id="letterContainer3" class="letterContainer">
+                    <div id="letter3"></div><input type="text" onkeyup="individualPopulation(event)" id="input3" maxlength="1" class="singleInput" />
+                </div>
+                <div id="letterContainer4" class="letterContainer">
+                    <div id="letter4"></div><input type="text" onkeyup="individualPopulation(event)" id="input4" maxlength="1" class="singleInput" />
+                </div>
+                <div id="letterContainer5" class="letterContainer">
+                    <div id="letter5"></div><input type="text" onkeyup="individualPopulation(event)" id="input5" maxlength="1" class="singleInput" />
+                </div>
+            </div>
+            <button class="playAgain submitBtn" id="submitBtn" onclick="submitBtnClick()">Submit</button>
+
+
+
+
+
+
+        </div>
+        <ul id="answers" class="answerList"></ul>
+        <div id="revealedLetters" class="instruction"></div>
+        <div id="message"></div>
+        <div id="playAgain" class="playAgain"><button onclick={location.reload()}>Play Again</button></div>
+    </div>
+</body>
+
+</html>

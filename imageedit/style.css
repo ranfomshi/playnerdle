@@ -1,0 +1,14 @@
+:root {
+    --color1: purple;
+    --color2: orange;
+    --color3: red;
+    --color4: blue;
+}
+
+body {
+    margin: 0;
+    overflow: auto;
+    background-color: var(--color2);
+}
+
+

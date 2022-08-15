@@ -1,0 +1,11 @@
+{
+    "name": "blurrify",
+    "version": "0.01",
+    "description": "-",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": ["scripting"],
+    "host_permissions": ["<all_urls>"],
+    "manifest_version": 3
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="imageedit.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>animation</title>
+</head>
+
+<body>
+
+    <canvas id="myCanvas" style="margin: 10px;"></canvas>
+
+    <div id="dotImage" style="margin: 10px;"></div>
+    <input type="text" id="newImageUrl" placeholder="image URL" onchange="update(event)">
+    <script>
+
+        var dotList = []
+        var previousPixelTotal = 0
+        var Canvas = function (canvasEl, width, height) {
+            this.el = canvasEl;
+            this.el.width = width;
+            this.el.height = height;
+            this.ctx = canvasEl.getContext("2d");
+        }
+
+
+        var canvas = new Canvas(document.getElementById("myCanvas"), 1600, 800)
+
+        //1. create img
+        var img = new Image();
+        img.crossOrigin = "";
+
+        //2. register a callback on onload event img
+        img.onload = function () {
+            //4 draw img on canvas ctx
+            canvas.ctx.drawImage(this, 0, 0, canvas.el.width, canvas.el.height)
+
+            //5 get pixel data from the ctx
+            var pixels = canvas.ctx.getImageData(0, 0, canvas.el.width, canvas.el.height)
+
+            //6 manipulate pixel data
+
+            for (var i = 0, len = pixels.data.length; i < len; i += 4) {
+
+
+                //red
+                var red = pixels.data[i];
+                //green
+                var green = pixels.data[i + 1];
+                //blue
+                var blue = pixels.data[i + 2];
+                //opacity
+                var opac = pixels.data[i + 3];
+
+
+                currentPixelTotal = red + green + blue + opac
+
+
+                pixels.data[i] = red
+                pixels.data[i + 1] = green
+                pixels.data[i + 2] = blue
+
+                // if(previousPixelTotal>currentPixelTotal){
+                //     pixels.data[i] = pixels.data[i-4]  
+                // pixels.data[i + 1] = pixels.data[i-3]  
+                // pixels.data[i + 2] = pixels.data[i-2]  
+                // }
+
+                var abovePixel = pixels.data[i-1600]+pixels.data[i-1599]+pixels.data[i+1598]
+            
+                    pixels.data[i] = pixels.data[i+6400]
+                pixels.data[i + 1] = pixels.data[i+6401]
+                pixels.data[i + 2] = pixels.data[i+6402]
+   
+                
+                
+                //pixelate - the for loop above needs to iterate every 64
+
+                dotList.push([red, green, blue, opac])
+                var c = document.getElementById('dotImage')
+                c.style.display = 'flex'
+                c.style.flexWrap = 'wrap'
+                c.style.width = (800 / 16) * 32 + 'px'
+                var newDot = document.createElement('div')
+                newDot.style.background = 'rgba(' + red + ',' + green + ',' + blue + ',' + 1 + ')'
+                newDot.style.width = '16px'
+                newDot.style.height = '1px'
+                c.appendChild(newDot)
+
+                previousPixelTotal = currentPixelTotal
+
+            }
+
+
+            //7 set new pixel data
+            canvas.ctx.putImageData(pixels, 0, 0)
+
+
+
+
+
+
+        }
+
+        img.src = 'https://images.unsplash.com/photo-1542202229-7d93c33f5d07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
+
+
+        //update pixelated image
+
+        function update(e) {
+            var c = document.getElementById('dotImage')
+            c.innerHTML = ''
+            img.src = e.target.value
+        }
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,365 @@
+* {
+    font-family: 'roboto', sans-serif;
+    overflow: hidden;
+}
+
+body{
+    margin: 0;
+}
+
+.mainDiv{
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364)
+}
+
+.countdown{
+    display: none;
+    color: white;
+    top:95px !important;
+}
+
+.counter{
+    position: relative;
+    color: white;
+    border-radius: 2px;
+    margin: 2px;
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.instructions {
+    text-align: center;
+    margin: auto;
+}
+
+.instructions>ul {
+    text-align: left;    
+    column-count:2;
+    max-width: 600px;
+    font-size: small;
+    margin: auto;
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+}
+
+.instructions>ul>li {
+    margin: 5px;
+}
+
+.reactBtn {
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 400px;
+    height: 100px;
+    background: yellow;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    left: 50%;
+    top: 50%;
+    transform: translatex(-50%);
+    border: none;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-size: xx-large;
+}
+
+.readyBtn {
+    color: white;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 400px;
+    height: 100px;
+    border: 1px solid white;
+    background: transparent;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    left: 50%;
+    top: 50%;
+    transform: translatex(-50%);
+    font-size: xx-large;
+}
+
+.timer {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 80%;
+    height: auto;
+    max-width: 400px;
+    min-width: 250px;
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    transform: translatex(-50%);
+    border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+    display: inline-flex;
+    font-size: 50px;
+    justify-content: center;
+}
+
+.timerNumber {
+    color: white;
+    flex-grow: 1;
+    position: relative;
+}
+
+.fullScreenDiv {
+    position: fixed;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgb(255 255 255 / 94%);
+    z-index: 10;
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow: auto;
+}
+
+.okBtnHolder {
+    width: 100%;
+}
+
+.allResults {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border: 1px solid black;
+    background: white;
+    justify-content: left;
+    border-radius: 5px;
+    min-width: 200px;
+    padding: 10px;
+    width: 100%;
+    margin: 0px 20px;
+}
+
+.individualResult {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.fullScreenDiv>.reactBtn {
+    left: auto;
+    transform: none;
+    position: unset;
+    margin: 0;
+    top: auto;
+}
+
+.examples {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+}
+
+.exampleHolder {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 3px 0;
+    max-width: 300px;
+    min-width: 130px;
+    height: 250px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
+}
+
+.exampleHolder:nth-child(1) {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+.exampleHolder:nth-child(2) {
+    background-color: blue;
+    color: white;
+}
+
+.exampleHolder:nth-child(3) {
+    background-color: black;
+    color: white;
+}
+
+.example {
+    position: relative;
+    width: 150px;
+    font-size: smaller;
+    cursor: auto;
+    margin: 0;
+    padding: 10px;
+    height: 50px;
+    width: 100%;
+}
+
+.xBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+
+#snackbar {
+    visibility: hidden;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    transform: translatex(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border: 1px solid black;
+    background: white;
+    justify-content: center;
+    border-radius: 5px;
+    max-width: 380px;
+    padding: 10px;
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    left: 50%;
+    /* Center the snackbar */
+    top: 30px;
+    /* 30px from the bottom */
+    box-shadow: 0 0 10px #00000033;
+    z-index: 10;
+    font-size: large;
+}
+
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+
+#snackbar.show {
+    visibility: visible;
+    /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+/* Animations to fade the snackbar in and out */
+
+@-webkit-keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+.pulse {
+    animation: pulse 1s infinite;
+}
+
+
+/* pulse */
+
+@keyframes pulse {
+    0% {
+        color: transparent;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        color: transparent;
+        text-shadow: 0 0 8px rgba(152, 152, 152, 0.5);
+    }
+    100% {
+        color: transparent;
+        text-shadow: 0 0 0px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.nav {
+    position: fixed;
+    width: 100vw;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    margin: auto;
+    background: white;
+}
+
+.navList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+@keyframes blinker {
+    0% { opacity: 0.0; }
+    25% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    75% { opacity: 1.0; }
+    100% { opacity: 0.0; }
+  }
+
+  .flash {
+    animation-name: blinker;
+    animation-iteration-count: 1;
+    animation-duration: 2s;
+  }
