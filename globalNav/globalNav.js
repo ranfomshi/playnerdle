@@ -1,15 +1,16 @@
-var navElement = '<div class="globalNav"><ul> <li><div class="brand">PlayNerdle</div></li>' +
-    '<li><a href = "http://www.playnerdle.com">nerdle</a></li>' +
+var navElement = '<div class="globalNav"><ul> <li><div class="brand"><a href = "http://www.playnerdle.com/">PlayNerdle</a></div></li>' +
+    '<li><a href = "http://www.playnerdle.com/nerdle">nerdle</a></li>' +
     '<li><a href = "http://www.playnerdle.com/reaction/">reaction</a></li>' +
     '<li><a href = "http://www.playnerdle.com/colourmatch/">colour match</a></li>' +
     '<li><a href = "http://www.playnerdle.com/bludle/">bludle</a></li>' +
     '<li><a href = "http://www.playnerdle.com/codle/">codle</a></li></ul></div>' +
-    '<div onload="initMobileNav()" class="globalMobileNav"><ul> <li><div class="brand" onclick="toggleNav()">PlayNerdle</div></li>' +
-    '<li id="hideable1"><a href = "http://www.playnerdle.com">nerdle</a></li>' +
+    '<div onload="initMobileNav()" class="globalMobileNav"><ul> <li><div class="brand" onclick="toggleNav()"><a href = "http://www.playnerdle.com/">PlayNerdle</a></div></li>' +
+    '<li id="hideable1"><a href = "http://www.playnerdle.com/nerdle">nerdle</a></li>' +
     '<li id="hideable2"><a href = "http://www.playnerdle.com/reaction/">reaction</a></li>' +
     '<li id="hideable3"><a href = "http://www.playnerdle.com/colourmatch/">colour match</a></li>' +
     '<li id="hideable4"><a href = "http://www.playnerdle.com/bludle/">bludle</a></li>' +
-    '<li id="hideable5"><a href = "http://www.playnerdle.com/codle/">codle</a></li></ul></div>'
+    '<li id="hideable5"><a href = "http://www.playnerdle.com/codle/">codle</a></li></ul></div>'+
+    "<script src='https://cdn.lr-in-prod.com/LogRocket.min.js'></script><script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>"
 
 
 
