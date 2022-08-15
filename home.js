@@ -23,3 +23,15 @@ function scrollEffect() {
         '))'
 }
 
+function sendEvent(category, action, label) {
+    if ("ga" in window) {
+        tracker = ga.getAll()[0];
+        if (tracker)
+            tracker.send("event", category, action, label);
+    }
+
+}
+
+function gameClick(e){
+    sendEvent('homeSelection', 'Click', e.target.id)
+}
