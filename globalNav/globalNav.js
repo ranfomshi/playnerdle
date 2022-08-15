@@ -32,12 +32,14 @@ document.body.appendChild(el)
 
 function toggleNav() {
     if (document.getElementById('hideable1').style.display == 'block') {
+        document.getElementById('hideable0').style.display = 'none'
         document.getElementById('hideable1').style.display = 'none'
         document.getElementById('hideable2').style.display = 'none'
         document.getElementById('hideable3').style.display = 'none'
         document.getElementById('hideable4').style.display = 'none'
         document.getElementById('hideable5').style.display = 'none'
     } else {
+        document.getElementById('hideable0').style.display = 'block'
         document.getElementById('hideable1').style.display = 'block'
         document.getElementById('hideable2').style.display = 'block'
         document.getElementById('hideable3').style.display = 'block'
