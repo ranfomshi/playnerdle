@@ -1,5 +1,5 @@
 var direction = 'down'
-var x = 80
+var x = 0
 function scrollEffect() {
 
 

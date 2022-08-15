@@ -19,27 +19,19 @@ body {
     width: 40%;
     max-width: 400px;
     min-width: 200px;
-    background: transparent;
-    min-height: 200px;
-    height: 33.3%;
-    display: flex;
-    align-content: center;
-    background-color: transparent;
 }
 
 .game {
     cursor: pointer;
     width: 80%;
+    height: 300px;
     margin: 10%;
-    height: 150px;
     border-radius: 10px;
-    margin: auto;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
-    border: black 1px solid;
 }
 .gameInfo{
     background: #ff00b8;
@@ -48,16 +40,16 @@ body {
     height: 50px;
     width: 100%;
     display: flex;
+    flex-grow: 1;
     text-align: center;
     justify-content: center;
     align-items: center;
-    position: static;
+    position: sticky;
 }
 
 .gameInfoBorder{
     border: white 2px solid;
     width: -webkit-fill-available;
-    height: 32px;
     margin: 5px;
     display: flex;
     border-radius: 10px;
