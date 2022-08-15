@@ -30,7 +30,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     text-align: center;
 }
 .gameInfo{
@@ -40,7 +40,6 @@ body {
     height: 50px;
     width: 100%;
     display: flex;
-    flex-grow: 1;
     text-align: center;
     justify-content: center;
     align-items: center;
