@@ -32,6 +32,18 @@ function sendEvent(category, action, label) {
 
 }
 
-function gameClick(e){
-    sendEvent('homeSelection', 'Click', e.target.id)
+function nerdleClick(e){
+    sendEvent('homeSelection', 'Click', 'nerdle')
+}
+function reactionClick(e){
+    sendEvent('homeSelection', 'Click', 'reaction')
+}
+function colourMatchClick(e){
+    sendEvent('homeSelection', 'Click', 'colourMatch')
+}
+function bludleClick(e){
+    sendEvent('homeSelection', 'Click', 'bludle')
+}
+function codleClick(e){
+    sendEvent('homeSelection', 'Click', 'codle')
 }
