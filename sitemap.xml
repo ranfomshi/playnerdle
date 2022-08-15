@@ -1,0 +1,23 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->
+<url>
+<loc>http://www.playnerdle.com/</loc>
+<lastmod>2022-03-18T15:00:21+00:00</lastmod>
+<priority>1.00</priority>
+</url>
+<url>
+<loc>http://www.playnerdle.com/privacy/</loc>
+<lastmod>2022-02-23T15:08:49+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>http://www.playnerdle.com/blogs/</loc>
+<lastmod>2022-02-23T18:02:33+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>http://www.playnerdle.com/benefits/</loc>
+<lastmod>2022-02-26T15:58:06+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+</urlset>
