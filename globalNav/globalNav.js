@@ -1,5 +1,6 @@
 var navElement = '<div class="globalNav"><ul> <li><div class="brand">PlayNerdle</div></li>' +
     '<li><a href = "http://www.playnerdle.com">nerdle</a></li>' +
+
     '<li><a href = "http://playnerdle.com/reaction/">reaction</a></li>' +
     '<li><a href = "http://playnerdle.com/colourmatch/">colour match</a></li>' +
     '<li><a href = "http://playnerdle.com/bludle/">bludle</a></li>' +
@@ -10,16 +11,6 @@ var navElement = '<div class="globalNav"><ul> <li><div class="brand">PlayNerdle<
     '<li id="hideable3"><a href = "http://playnerdle.com/colourmatch/">colour match</a></li>' +
     '<li id="hideable4"><a href = "http://playnerdle.com/bludle/">bludle</a></li>' +
     '<li><a href = "www.playnerdle.com">nerdle</a></li>' +
-    '<li><a href = "http://www.playnerdle.com/reaction/">reaction</a></li>' +
-    '<li><a href = "http://www.playnerdle.com/colourmatch/">colour match</a></li>' +
-    '<li><a href = "http://www.playnerdle.com/bludle/">bludle</a></li>' +
-    '<li><a href = "http://www.playnerdle.com/codle/">codle</a></li></ul></div>' +
-    '<div onload="initMobileNav()" class="globalMobileNav"><ul> <li><div class="brand" onclick="toggleNav()">PlayNerdle</div></li>' +
-    '<li id="hideable1"><a href = "www.playnerdle.com">nerdle</a></li>' +
-    '<li id="hideable2"><a href = "http://www.playnerdle.com/reaction/">reaction</a></li>' +
-    '<li id="hideable3"><a href = "http://www.playnerdle.com/colourmatch/">colour match</a></li>' +
-    '<li id="hideable4"><a href = "http://www.playnerdle.com/bludle/">bludle</a></li>' +
-    '<li id="hideable5"><a href = "http://www.playnerdle.com/codle/">codle</a></li></ul></div>'
 
 
 
