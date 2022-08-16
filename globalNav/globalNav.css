@@ -6,6 +6,7 @@
     padding: 0;
     transition: 0.3s;
     flex-wrap: wrap;
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 .globalMobileNav>ul {
@@ -17,6 +18,7 @@
     transition: 0.3s;
     flex-wrap: wrap;
     text-align: left;
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 .globalMobileNav>ul>li>.brand {
@@ -34,11 +36,13 @@
 li {
     margin-left: 4px;
     margin-right: 4px;
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 a {
     color: white;
     text-decoration: none;
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 a:hover {
