@@ -333,7 +333,7 @@ function gameAttempt(x) {
                 if (l != null) { localStorage.setItem("lTotal", parseInt(l) + 1) } else { localStorage.setItem("lTotal", "1") }
 
                 if (gameMode == 'challenge') {
-                    $('#gameText').append("<h3>"+secret+"</h3>" + "<br><kbd class='key' style='padding:10px; width: auto; min-width:100px; margin:10px' onclick='shareClick()'>Share</kbd>")
+                    $('#gameText').append("<h3>" + secret + "</h3>" + "<br><kbd class='key' style='padding:10px; width: auto; min-width:100px; margin:10px' onclick='shareClick()'>Share</kbd>")
                     $('#gameText').append("<br>Play again by switching to practice mode or waiting for tomorrow's challenge word<br><div id='timer'></div>")
                 }
                 if (gameMode == 'practice') { $('#gameText').append("<br>Play again by guessing the next word<br><kbd class='key' style='padding:10px; font-size:small; width: auto; min-width:100px; margin:10px' onclick='challengeClick()'>Challenge a friend to this word</kbd><br><div style='background:rgba(0, 0, 0, 0.24); padding:5px'><input type='text' id='customChallengeInput'></input><br><kbd  class='key' style='padding:10px; font-size:small; width: auto; min-width:100px; margin:10px' onclick='customChallengeClick()'>Challenge a friend to your own word</button></div>") }
@@ -601,10 +601,10 @@ const check = (x) => {
             } catch { def = "definition not found" }
         })
         .then(() => $('#definition').html(x + ': ' + def))
-        console.log(def)
-        if(guessNumber == 5 && winState != 'win'){
-            $('#definition').html('The answer was: '+ secret)
-        }
+    console.log(def)
+    if (guessNumber == 5 && winState != 'win') {
+        $('#definition').html('The answer was: ' + secret)
+    }
 }
 
 function snackbar(x) {
