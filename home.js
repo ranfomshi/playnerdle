@@ -33,17 +33,17 @@ function sendEvent(category, action, label) {
 }
 
 function nerdleClick(e){
-    sendEvent('homeSelection', 'Click','', 'nerdle')
+    sendEvent('homeSelection', 'Click', 'nerdle')
 }
 function reactionClick(e){
-    sendEvent('homeSelection', 'Click','', 'reaction')
+    sendEvent('homeSelection', 'Click', 'reaction')
 }
 function colourMatchClick(e){
-    sendEvent('homeSelection', 'Click','', 'colourMatch')
+    sendEvent('homeSelection', 'Click', 'colourMatch')
 }
 function bludleClick(e){
-    sendEvent('homeSelection', 'Click','', 'bludle')
+    sendEvent('homeSelection', 'Click', 'bludle')
 }
 function codleClick(e){
-    sendEvent('homeSelection', 'Click','', 'codle')
+    sendEvent('homeSelection', 'Click', 'codle')
 }
