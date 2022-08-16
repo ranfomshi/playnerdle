@@ -59,17 +59,17 @@ function sendEvent(category, action, label) {
 }
 
 function NAVnerdleClick(){
-    sendEvent('homeSelection', 'Click', 'nerdle')
+    sendEvent('navSelection', 'Click', 'nerdle')
 }
 function NAVreactionClick(){
-    sendEvent('homeSelection', 'Click', 'reaction')
+    sendEvent('navSelection', 'Click', 'reaction')
 }
 function NAVcolourMatchClick(){
-    sendEvent('homeSelection', 'Click', 'colourMatch')
+    sendEvent('navSelection', 'Click', 'colourMatch')
 }
 function NAVbludleClick(){
-    sendEvent('homeSelection', 'Click', 'bludle')
+    sendEvent('navSelection', 'Click', 'bludle')
 }
 function NAVcodleClick(){
-    sendEvent('homeSelection', 'Click', 'codle')
+    sendEvent('navSelection', 'Click', 'codle')
 }
