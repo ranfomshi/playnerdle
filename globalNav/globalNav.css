@@ -54,6 +54,7 @@ a:hover {
     width: -webkit-fill-available;
     min-height: 60px;
     max-height: 60px;
+    font-family: 'Roboto Condensed', sans-serif !important
 }
 
 .globalMobileNav {
@@ -65,6 +66,7 @@ a:hover {
     width: -webkit-fill-available;
     display: none;
     min-height: 60px;
+    font-family: 'Roboto Condensed', sans-serif !important
 }
 
 .brand {
