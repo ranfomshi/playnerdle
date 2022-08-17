@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Colour Match</title>
+    <meta charset=“UTF-8”>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A colour matching game">
+    <meta name="keywords" content="reaction game">
+    <link rel="stylesheet" href="colourMatch.css">
+    <script src="colourMatch.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=roboto:wght@800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- global elements -->
+    <script src="../globalNav/globalNav.js" defer></script>
+    <link rel='stylesheet' type='text/css' href='../globalNav/globalNav.css' />
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86454867-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-86454867-6');
+    </script>
+    
+    <!-- log rocket -->
+    <script src='https://cdn.lr-in-prod.com/LogRocket.min.js'></script><script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
+</head>
+
+<body onload="initialise()">
+    <div id="snackbar">Some text some message..</div>
+  
+ 
+    <div id="content" class="background">
+
+        <div class="central" id="comparisonBlock">
+            <div class="inputHolder">
+
+                <div class="individualInputHolder" id="IIH1">
+                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <input type="number" id="guessValue1" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="individualInputHolder" id="IIH2">
+                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <input type="number" id="guessValue2" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="individualInputHolder" id="IIH3">
+                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <input type="number" id="guessValue3" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+
+            </div>
+            <div class="guessRepresentation" id="guessRepresentation"></div>
+        </div>
+        <button class="submitBtn" id="submitBtn" onclick="submitClick()">Submit</button>
+    </div>
+</body>
+
+</html>
