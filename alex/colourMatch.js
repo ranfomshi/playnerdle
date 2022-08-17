@@ -117,6 +117,10 @@ function getDifference(a, b) {
 }
 
 function submitClick(x) {
+    $("#guessValue1").prop('disabled', true);
+    $("#guessValue2").prop('disabled', true);
+    $("#guessValue3").prop('disabled', true);
+    $("#submitBtn").prop('disabled', true);
 
     if (x == 'loadState') {
         r = localStorage.getItem('redGuess')
