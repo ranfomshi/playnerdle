@@ -4,6 +4,10 @@
     overflow: hidden;
 }
 
+.fa{
+    font:normal normal normal 14px/1 FontAwesome;
+}
+
 body {
     margin: 0;
     height: 100vh;
