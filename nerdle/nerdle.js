@@ -70,6 +70,7 @@ function acceptChallenge() {
 }
 
 window.onload = function () {
+    
     winState = 'start'
     //read url params
     const urlParams = new URLSearchParams(window.location.search);
@@ -323,7 +324,7 @@ function gameAttempt(x) {
             }
             //lose logic
 
-            if (guessNumber == 5) {
+            if (guessNumber == 5 && x==null) {
                 winState = 'lose';
                 $('#finalImg').html('<div style="font-size:40px">&#x1F63F</div>')
                 //reset streak
@@ -551,25 +552,27 @@ function closeModals() {
     $('#bottomPortion').css("display", "block");
 }
 
+
+
 function userModal() {
     sendEvent('userClick', 'toggle', 'userModal')
     //assign scores to ui
-    if (localStorage.getItem("gamesStarted") !== (null || 'NaN')) {
+    if (localStorage.getItem("gamesStarted") !== (null)) {
         $('#gamesStarted').html(localStorage.getItem("gamesStarted"))
     } else {
         $('#streak').html("0")
     }
-    if (localStorage.getItem("streak") !== (null || 'NaN')) {
+    if (localStorage.getItem("streak") !== (null)) {
         $('#streak').html(localStorage.getItem("streak"))
     } else {
         $('#streak').html("0")
     }
-    if (localStorage.getItem("wTotal") !== (null || 'NaN')) {
+    if (localStorage.getItem("wTotal") !== (null)) {
         $('#wTotal').html(localStorage.getItem("wTotal"))
     } else {
         $('#wTotal').html("0")
     }
-    if (localStorage.getItem("lTotal") !== (null || 'NaN')) {
+    if (localStorage.getItem("lTotal") !== (null)) {
         $('#lTotal').html(localStorage.getItem("lTotal"))
     } else {
         localStorage.setItem("lTotal", "0")
