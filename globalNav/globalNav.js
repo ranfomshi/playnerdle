@@ -73,3 +73,7 @@ function NAVbludleClick(){
 function NAVcodleClick(){
     sendEvent('navSelection', 'Click', 'codle')
 }
+
+function NAVhomeClick(){
+    sendEvent('navSelection', 'Click', 'home')
+}
