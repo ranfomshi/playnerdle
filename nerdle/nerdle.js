@@ -324,15 +324,16 @@ function gameAttempt(x) {
             }
             //lose logic
 
-            if (guessNumber == 5 && x==null) {
+            if (guessNumber == 5) {
                 winState = 'lose';
                 $('#finalImg').html('<div style="font-size:40px">&#x1F63F</div>')
                 //reset streak
                 localStorage.setItem("streak", 0)
+                if(x==null){
                 //add to total losses
                 var l = localStorage.getItem("lTotal")
                 if (l != null) { localStorage.setItem("lTotal", parseInt(l) + 1) } else { localStorage.setItem("lTotal", "1") }
-
+                }
                 if (gameMode == 'challenge') {
                     $('#gameText').append("<h3>" + secret + "</h3>" + "<br><kbd class='key' style='padding:10px; width: auto; min-width:100px; margin:10px' onclick='shareClick()'>Share</kbd>")
                     $('#gameText').append("<br>Play again by switching to practice mode or waiting for tomorrow's challenge word<br><div id='timer'></div>")
