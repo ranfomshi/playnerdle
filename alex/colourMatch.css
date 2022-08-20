@@ -370,16 +370,26 @@ tr {
     flex-direction: column;
 }
 
+.adjusterUpHolder{
+    display: flex;
+}
+
+.adjusterDownHolder{
+    display: flex;
+}
+
 .adjusterUp {
     border: black 2px solid;
     border-radius: 5px 5px 0 0;
     cursor: pointer;
+    flex-grow: 1;
 }
 
 .adjusterDown {
     border: black 2px solid;
     border-radius: 0 0 5px 5px;
     cursor: pointer;
+    flex-grow: 1;
 }
 
 .adjusterDown:active,

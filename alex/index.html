@@ -50,28 +50,36 @@
             <div class="inputHolder">
 
                 <div class="individualInputHolder" id="IIH1">
-                    <div class="adjusterUp" onclick="valueUp($(this).next().next(), 1)"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
-                    <div class="adjusterUp" onclick="valueUp($(this).next(), 10)"><i class="fa fa-angle-double-up adjusterIcon" aria-hidden="true"></i></div>
-                    <input type="number" id="guessValue1" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
-                    <div class="adjusterDown" onclick="valueDown($(this).prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>
-                    <div class="adjusterDown" onclick="valueDown($(this).prev().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                </div>
+                    <div class="adjusterUpHolder">
+                        <div class="adjusterUp" onclick="valueUp($(this).parent().next(), 1)"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                        <div class="adjusterUp" onclick="valueUp($(this).parent().next(), 10)"><i class="fa fa-angle-double-up adjusterIcon" aria-hidden="true"></i></div>
+                    </div>   <input type="number" id="guessValue1" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDownHolder">
+                        <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                        <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>    
+                    </div>   </div>
 
                 <div class="individualInputHolder" id="IIH2">
-                    <div class="adjusterUp" onclick="valueUp($(this).next().next(), 1)"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
-                    <div class="adjusterUp" onclick="valueUp($(this).next(), 10)"><i class="fa fa-angle-double-up adjusterIcon" aria-hidden="true"></i></div>
-                      <input type="number" id="guessValue2" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
-                      <div class="adjusterDown" onclick="valueDown($(this).prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>
-                      <div class="adjusterDown" onclick="valueDown($(this).prev().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                  </div>
+                    <div class="adjusterUpHolder">
+                    <div class="adjusterUp" onclick="valueUp($(this).parent().next(), 1)"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                    <div class="adjusterUp" onclick="valueUp($(this).parent().next(), 10)"><i class="fa fa-angle-double-up adjusterIcon" aria-hidden="true"></i></div>
+                </div>
+                    <input type="number" id="guessValue2" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                   <div class="adjusterDownHolder">
+                     <div class="adjusterDown" onclick="valueDown($(this).parent().prev().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                     <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>
+                    </div>
+                    </div>
 
                 <div class="individualInputHolder" id="IIH3">
-                    <div class="adjusterUp" onclick="valueUp($(this).next().next(), 1)"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
-                    <div class="adjusterUp" onclick="valueUp($(this).next(), 10)"><i class="fa fa-angle-double-up adjusterIcon" aria-hidden="true"></i></div>
-                    <input type="number" id="guessValue3" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
-                    <div class="adjusterDown" onclick="valueDown($(this).prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>
-                    <div class="adjusterDown" onclick="valueDown($(this).prev().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                </div>
+                    <div class="adjusterUpHolder">
+                        <div class="adjusterUp" onclick="valueUp($(this).parent().next(), 1)"><i class="fa fa-angle-up adjusterIcon" aria-hidden="true"></i></div>
+                        <div class="adjusterUp" onclick="valueUp($(this).parent().next(), 10)"><i class="fa fa-angle-double-up adjusterIcon" aria-hidden="true"></i></div>
+                    </div>   <input type="number" id="guessValue3" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
+                    <div class="adjusterDownHolder">
+                         <div class="adjusterDown" onclick="valueDown($(this).parent().prev().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
+                         <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>
+                        </div> </div>
 
             </div>
             <div class="guessRepresentation" id="guessRepresentation"></div>
