@@ -213,6 +213,7 @@ function valueUp(x, y) {
 
         if (x.val() < 255) {
             x.val(parseInt(x.val()) + y)
+            if(x.val()>255){x.val(255)}
             updateComparison()
         }
     }
