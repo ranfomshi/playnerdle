@@ -208,24 +208,27 @@ function updateComparison() {
 
 
 
-function valueUp(x) {
+function valueUp(x, y) {
     if (localStorage.getItem('lastColourPlayDay') != day) {
 
         if (x.val() < 255) {
-            x.val(parseInt(x.val()) + 1)
+            x.val(parseInt(x.val()) + y)
+            if(x.val()>255){x.val(255)}
             updateComparison()
         }
     }
 }
 
-function valueDown(x) {
+function valueDown(x, y) {
     if (localStorage.getItem('lastColourPlayDay') != day) {
 
         if (x.val() > 0) {
-            x.val(parseInt(x.val()) - 1)
+            x.val(parseInt(x.val()) - y)
+            if(x.val()<0){x.val(0)}
             updateComparison()
         }
     }
+
 }
 
 function sendEvent(category, action, label) {
