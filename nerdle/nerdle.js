@@ -129,7 +129,7 @@ function copyToClipboard(text, x) {
     if (x == 'pc') {
         dummy.value = text + " \n" + shareString + "\n challenge id:" + (wordlist.indexOf(challengeSecret)) * 1987
     } else {
-        dummy.value = text + " \nhttp://www.playnerdle.com#shared" + " nerdle number:" + day.toString();
+        dummy.value = text + " \nhttp://www.playnerdle.com/nerdle#shared" + " nerdle number:" + day.toString();
     }
     if (x == 'cc') {
         dummy.value = text
@@ -140,7 +140,7 @@ function copyToClipboard(text, x) {
     document.body.removeChild(dummy);
     if (gameMode == 'challenge') { snackbar("Results copied to clipboard") } else { if (x == 'cc') { snackbar("Challenge link copied to clipboard") } else { snackbar("Challenge link and results copied to clipboard") } }
 
-    if (x == 'pc') { var address = "I played a random nerdle - I want to challenge you to the same word \n" + "http://www.playnerdle.com?pc=" + (wordlist.indexOf(challengeSecret)) * 1987 } else { address = shareString + new Date().toUTCString() + " nerdle number:" + day.toString() }
+    if (x == 'pc') { var address = "I played a random nerdle - I want to challenge you to the same word \n" + "http://www.playnerdle.com/nerdle?pc=" + (wordlist.indexOf(challengeSecret)) * 1987 } else { address = shareString + new Date().toUTCString() + " nerdle number:" + day.toString() }
     if (x == 'cc') {
         address = text
     }
