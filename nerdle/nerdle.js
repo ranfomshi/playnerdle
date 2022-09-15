@@ -167,7 +167,7 @@ function customChallengeClick() {
 }
 
 function challengeClick() {
-    copyToClipboard("I played a random nerdle - I want to challenge you to the same word\n" + "http://www.playnerdle.com?/nerdlepc=" + (wordlist.indexOf(challengeSecret)) * 1987, 'pc')
+    copyToClipboard("I played a random nerdle - I want to challenge you to the same word\n" + "http://www.playnerdle.com/nerdle?pc=" + (wordlist.indexOf(challengeSecret)) * 1987, 'pc')
     sendEvent('userClick', 'share', 'sharePeerChallenge')
 }
 
