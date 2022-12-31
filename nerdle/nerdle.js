@@ -52,7 +52,7 @@ function reset() {
 
 function setSecret() {
     if (peerChallengeWord == null) {
-        if (gameMode == 'challenge') { secret = wordlist[randNum[day]] } else { secret = (wordlist[Math.floor(Math.random() * wordlist.length)].toLowerCase()) }
+        if (gameMode == 'challenge') { secret = wordlist[randNum[day]+365] } else { secret = (wordlist[Math.floor(Math.random() * wordlist.length)].toLowerCase()) }
     } else {
         secret = peerChallengeWord;
     }
