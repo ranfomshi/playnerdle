@@ -19,8 +19,7 @@ function scrollEffect() {
 
 
     document.getElementById('content').style.background =
-        'linear-gradient(to right, rgba(255, 0, 0,' + (x / 100).toFixed(2) + ' ), rgba(0,0,255,' + (x / 100).toFixed(2) +
-        '))'
+        '#556677'
 }
 
 function sendEvent(category, action, label) {
