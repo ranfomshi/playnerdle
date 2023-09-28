@@ -9,7 +9,43 @@
 
 <url>
   <loc>https://www.playnerdle.com/</loc>
-  <lastmod>2022-11-01T10:42:51+00:00</lastmod>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/privacy</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/blogs/about</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/blogs/1</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/blogs/2</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/blogs/3</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/blogs/4</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.playnerdle.com/blogs/5</loc>
+  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 
 
