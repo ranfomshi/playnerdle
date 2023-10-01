@@ -46,3 +46,6 @@ function bludleClick(e){
 function codleClick(e){
     sendEvent('homeSelection', 'Click', 'codle')
 }
+function codleClick(e){
+    sendEvent('homeSelection', 'Click', 'hunt')
+}
