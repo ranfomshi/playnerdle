@@ -438,71 +438,77 @@
         wrongTurnElement.appendChild(newSpan);
       }
 
-      function movePlayer(x, y) {
-        if (gameOver) {
-          return;
-        }
-
-        visited[`${playerPos.x},${playerPos.y}`] = true; // Mark the current position as visited
-
-        if (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y) {
-          animateWrongTurn();
-        }
-
-        if (turnsLeft <= 0) {
-          alert("You're out of turns!");
-          return;
-        }
-
-        playerPos.x = x;
-        playerPos.y = y;
-        updateGrid();
-        checkForTreasure();
-        generateHint();
-        turnsLeft--;
-        document.getElementById(
-          "turnsText"
-        ).innerText = `Turns left: ${turnsLeft}`;
-
-        if (
-          turnsLeft === 0 &&
-          (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y)
-        ) {
-          animateWrongTurn();
-          alert("Game Over. You are out of turns.");
-          gameOver = true;
-          visited = {};
-          turnsLeft = 3;
-          let restart = confirm("Do you want to restart the game?");
-          if (restart) {
-            startGame();
-            document.getElementById("newGameButton").style.display = "none";
-            document.getElementById("hint").style.display = "none";
-            document.getElementById("selection").style.display = "block";
-            return;
-          }
-        }
-      }
+      
 
       function checkForTreasure() {
-        if (playerPos.x === treasurePos.x && playerPos.y === treasurePos.y) {
-          alert("You found the treasure! Game Over.");
-          gameOver = true;
-          visited = {};
-          turnsLeft = 3; // Reset turns left to 3
-          document.getElementById(
-            "turns"
-          ).innerText = `Turns left: ${turnsLeft}`; // Update turns left display
-          let restart = confirm("Do you want to restart the game?");
-          if (restart) {
-            startGame();
-            turnsLeft++;
-            return;
-          } else {
+    if (playerPos.x === treasurePos.x && playerPos.y === treasurePos.y) {
+        alert("You found the treasure! Game Over.");
+        gameOver = true;
+        visited = {};
+        turnsLeft = 3; // Reset turns left to 3
+        document.getElementById(
+          "turnsText"
+        ).innerText = `Turns left: ${turnsLeft}`; // Update turns left display
+        let restart = confirm("Do you want to restart the game?");
+        if (restart) {
             document.getElementById("selection").style.display = "block";
-          }
+            document.getElementById("newGameButton").style.display = "none";
+            document.getElementById("hint").style.display = "none";
+            newGame();
+            return;
+        } else {
+            document.getElementById("selection").style.display = "block";
+            document.getElementById("newGameButton").style.display = "none";
         }
-      }
+    }
+}
+
+function movePlayer(x, y) {
+    if (gameOver) {
+        return;
+    }
+
+    visited[`${playerPos.x},${playerPos.y}`] = true; // Mark the current position as visited
+
+    if (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y) {
+        animateWrongTurn();
+    }
+
+    if (turnsLeft <= 0) {
+        alert("You're out of turns!");
+        return;
+    }
+
+    playerPos.x = x;
+    playerPos.y = y;
+    updateGrid();
+    checkForTreasure();
+    generateHint();
+    turnsLeft--;
+    document.getElementById(
+      "turnsText"
+    ).innerText = `Turns left: ${turnsLeft}`;
+
+    if (
+      turnsLeft === 0 &&
+      (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y)
+    ) {
+        animateWrongTurn();
+        alert("Game Over. You are out of turns.");
+        gameOver = true;
+        visited = {};
+        turnsLeft = 3;
+        let restart = confirm("Do you want to restart the game?");
+        if (restart) {
+            document.getElementById("selection").style.display = "block";
+            document.getElementById("newGameButton").style.display = "none";
+            document.getElementById("hint").style.display = "none";
+            newGame();
+            return;
+        }
+    }
+}
+
 
       function generateHint() {
         const xDistance = Math.abs(playerPos.x - treasurePos.x);
