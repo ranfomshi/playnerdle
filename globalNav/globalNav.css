@@ -4,6 +4,7 @@
     flex-direction: row;
     justify-content: center;
     padding: 0;
+    gap: 6px;
     transition: 0.3s;
     flex-wrap: wrap;
     font-family: 'Roboto Condensed', sans-serif !important;
@@ -15,6 +16,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap:4px;
     padding: 0;
     transition: 0.3s;
     flex-wrap: wrap;
@@ -95,6 +97,10 @@ li>.brand {
 @media only screen and (max-width: 406px) {
     .globalNav {
         font-size: smaller;
+    }
+
+    .globalNav>ul{
+        justify-content: space-around;
     }
 
     li {
