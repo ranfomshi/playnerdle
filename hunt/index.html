@@ -7,106 +7,106 @@
       rel="stylesheet"
     />
     <style>
-        body {
-          background-color: #f4f4f4;
-          font-family: "Roboto", sans-serif;
-          text-align: center;
-        }
-        .container {
-          margin: auto;
-          max-width: 600px;
-          font-size: 0; /* Eliminates the white-space */
-        }
-        .cell {
-          width: 30px;
-          height: 30px;
-          border: 1px solid #ccc;
-          display: inline-block;
-          transition: background-color 0.3s ease;
-          cursor: pointer;
-        }
-        .player {
-          background: #3498db;
-          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-  
-        #hint,
-        #turns,
-        #gridSizeInput,
-        #startButton {
-          margin-top: 20px;
-          font-size: 18px;
-          font-weight: bold;
-        }
-        h1 {
-          font-size: 2em;
-          margin-bottom: 20px;
-          color: #333;
-        }
-        input[type="number"],
-        button {
-          padding: 10px;
-          font-size: 16px;
-          margin: 5px;
-        }
-        br {
-          height: 0;
-          margin: 0;
-        }
-        #hint,
-        #turns {
-          padding: 10px;
-          margin-top: 20px;
-          font-size: 24px;
-          font-weight: bold;
-          border-radius: 8px;
-        }
-        #hint {
-          color: #2c3e50; /* Dark blue-gray */
-        }
-        #hint span {
-          padding: 5px 10px;
-          border-radius: 5px;
-          background-color: #dfe6e9; /* Light gray */
-          color: #2c3e50; /* Dark blue-gray */
-          margin: 0 5px;
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        #turns {
-          color: #c0392b; /* Dark red */
-        }
-        #gridSizeInput,
-        #startButton,
-        h1 {
-          padding: 10px;
-          margin-top: 20px;
-          font-size: 24px;
-          font-weight: bold;
-          border-radius: 8px;
-          background-color: #eee;
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-  
-        #gridSizeInput {
-          width: 80px; /* Set a specific width */
-          color: #2c3e50; /* Dark blue-gray */
-          height: 24px;
-        }
-  
-        #startButton {
-          background-color: #2ecc71; /* Green */
-          color: white;
-          cursor: pointer;
-          border: none;
-        }
-  
-        h1 {
-          background-color: #3498db; /* Blue */
-          color: white;
-          margin-top: 0;
-          padding: 20px;
-        }
-        select,
+      body {
+        background-color: #f4f4f4;
+        font-family: "Roboto", sans-serif;
+        text-align: center;
+      }
+      .container {
+        margin: auto;
+        max-width: 600px;
+        font-size: 0; /* Eliminates the white-space */
+      }
+      .cell {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+      .player {
+        background: #3498db;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      #hint,
+      #turns,
+      #gridSizeInput,
+      #startButton {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      input[type="number"],
+      button {
+        padding: 10px;
+        font-size: 16px;
+        margin: 5px;
+      }
+      br {
+        height: 0;
+        margin: 0;
+      }
+      #hint,
+      #turns {
+        padding: 10px;
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 8px;
+      }
+      #hint {
+        color: #2c3e50; /* Dark blue-gray */
+      }
+      #hint span {
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #dfe6e9; /* Light gray */
+        color: #2c3e50; /* Dark blue-gray */
+        margin: 0 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      #turns {
+        color: #c0392b; /* Dark red */
+      }
+      #gridSizeInput,
+      #startButton,
+      h1 {
+        padding: 10px;
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 8px;
+        background-color: #eee;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      #gridSizeInput {
+        width: 80px; /* Set a specific width */
+        color: #2c3e50; /* Dark blue-gray */
+        height: 24px;
+      }
+
+      #startButton {
+        background-color: #2ecc71; /* Green */
+        color: white;
+        cursor: pointer;
+        border: none;
+      }
+
+      h1 {
+        background-color: #3498db; /* Blue */
+        color: white;
+        margin-top: 0;
+        padding: 20px;
+      }
+      select,
       #newGameButton,
       button {
         padding: 10px;
@@ -118,144 +118,255 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         font-weight: bold;
         cursor: pointer;
-        width:160px
+        width: 160px;
       }
-      
+
       #newGameButton {
         display: none;
         background-color: #e74c3c; /* Red */
         color: white;
       }
-      
+
       #difficultySelect {
         width: 180px;
         color: #2c3e50; /* Dark blue-gray */
       }
 
       .modal {
-      display: none;
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1;
-    }
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1;
+      }
 
-    .modal-content {
-      background-color: white;
-      margin: 15% auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 600px;
-    }
+      .modal-content {
+        background-color: white;
+        text-align: left;
+        margin: 5% auto;
+        padding: 16px;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 16px; /* More rounded corners */
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* Updated shadow for depth */
+      }
+      .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: -10px -0px 0 0; /* Added to move the X slightly to the corner */
+      }
+      .close-btn:hover,
+      .close-btn:focus {
+        color: black;
+      }
+      h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #333;
+        font-weight: 600; /* Heavier weight for title */
+      }
+      p,
+      ul {
+        font-size: 18px; /* Larger text */
+      }
+      ul {
+        margin-top: 16px;
+        margin-bottom: 16px;
+      }
+      ul li {
+        margin: 8px 0;
+        list-style: none;
+      }
+      @keyframes wrongTurn {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
 
-    .close-btn {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
+      .treasure{
+        background-color: yellow;
+      }
 
-    .close-btn:hover,
-    .close-btn:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-      </style>
+      .wrong-turn {
+        animation: wrongTurn 0.3s ease-out;
+        font-size: 24px;
+        font-weight: bold;
+        color: #c0392b; /* Dark red */
+        display: inline-block;
+        margin-left: 10px;
+        opacity: 0.5; /* Starts hidden */
+      }
+
+      .wrong-turn-indicator {
+        color: red;
+      }
+
+      .row-number,
+      .col-number {
+        font-size: large;
+        color: black;
+        width: 31px;
+        height: 20px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+      }
+      .visited {
+        background-color: black;
+      }
+    </style>
   </head>
-  
-<body>
+
+  <body>
     <div class="container">
-        <h1>XY Marks the Spot</h1>
-        <div id="selection"> <button onclick="startGame(5)">Easy (5x5)</button>
+      <h1>XY Marks the Spot</h1>
+      <div id="selection">
+        <button onclick="startGame(5)">Easy (5x5)</button>
         <button onclick="startGame(10)">Medium (10x10)</button>
-        <button onclick="startGame(18)">Hard (18x18)</button></div>
-       
-        <button id="newGameButton" onclick="newGame()">New Game</button>
-        <div id="grid"></div>
-        <div id="hint" style="display:none">
-            <span id="hintPart1">Your hints </span> | <span id="hintPart2">will appear here</span>
-        </div>
-        <div id="turns">Turns left: 3</div>
- <!-- Button to open the modal -->
- <button onclick="openModal()">Show Rules</button>
-        
+        <button onclick="startGame(18)">Hard (18x18)</button>
+      </div>
+
+      <button id="newGameButton" onclick="newGame()">New Game</button>
+      <div id="grid"></div>
+      <div id="hint" style="display: none">
+        <span id="hintPart1">Your hints </span> |
+        <span id="hintPart2">will appear here</span>
+      </div>
+      <div id="turns">
+        <span id="turnsText">Turns left: 3</span
+        ><span id="wrongTurn" class="wrong-turn"></span>
+      </div>
+
+      <!-- Button to open the modal -->
+      <button onclick="openModal()">Show Rules</button>
     </div>
 
     <!-- Modal -->
-  <div id="rulesModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
-      <h2>Game Rules</h2>
-      <p>Welcome to <strong>XY Marks the Spot</strong>, a treasure hunt game with a twist!</p>
-      <ul>
-        <li><strong>Objective:</strong> Your goal is to find the hidden treasure on the grid.</li>
-        <li><strong>Starting a Game:</strong> Choose a difficulty level to start. The grid size will change based on the difficulty.</li>
-        <li><strong>Moving:</strong> Click on a cell in the grid to move your player to that location.</li>
-        <li><strong>Turns:</strong> You have a limited number of turns to find the treasure. Use them wisely!</li>
-        <li><strong>Hints:</strong> After each move, you'll receive a mathematical hint to help you deduce the treasure's location.</li>
-        <li><strong>Game Over:</strong> The game is over when you run out of turns or find the treasure.</li>
-      </ul>
-      <p>Good luck and happy hunting!</p>
-      
+    <div id="rulesModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 style="text-align: center">Game Rules</h2>
+        <p>
+          Welcome to <strong>XY Marks the Spot</strong>, a treasure hunt game
+          with a twist!
+        </p>
+        <ul>
+          <li>
+            <strong>Objective:</strong> Your goal is to find the hidden treasure
+            on the grid.
+          </li>
+          <li>
+            <strong>Starting a Game:</strong> Choose a difficulty level to
+            start. The grid size will change based on the difficulty.
+          </li>
+          <li>
+            <strong>Moving:</strong> Click on a cell in the grid to move your
+            player to that location.
+          </li>
+          <li>
+            <strong>Turns:</strong> You have a limited number of turns to find
+            the treasure. Use them wisely!
+          </li>
+          <li>
+            <strong>Hints:</strong> After each move, you'll receive a
+            mathematical hint to help you deduce the treasure's location.
+          </li>
+          <li>
+            <strong>Game Over:</strong> The game is over when you run out of
+            turns or find the treasure.
+          </li>
+        </ul>
+        <p style="text-align: center">Good luck and happy hunting!</p>
+      </div>
     </div>
-  </div>
 
     <script>
-        let gridSize;
-        let turnsLeft = 3;
-        let playerPos = { x: 0, y: 0 };
-        let treasurePos;
-        let gameOver = false;
+      let gridSize;
+      let turnsLeft = 3;
+      let playerPos = { x: 0, y: 0 };
+      let treasurePos;
+      let gameOver = false;
+      let visited = {}; // An object to store visited cells
 
-        function openModal() {
-      document.getElementById("rulesModal").style.display = "block";
-    }
+      function openModal() {
+        document.getElementById("rulesModal").style.display = "block";
+      }
 
-    function closeModal() {
-      document.getElementById("rulesModal").style.display = "none";
-    }
+      function closeModal() {
+        document.getElementById("rulesModal").style.display = "none";
+      }
 
-        function newGame() {
-            document.getElementById("newGameButton").style.display = "none";
-            document.getElementById("grid").innerHTML = "";
-            document.getElementById("hintPart1").innerText = "Your hints";
-            document.getElementById("hintPart2").innerText = "will appear here";
-            document.getElementById("turns").innerText = "Turns left: 3";
-            document.getElementById("selection").style.display = "block";
-            document.getElementById("hint").style.display = "none";
-        }
+      function newGame() {
+        document.getElementById("newGameButton").style.display = "none";
+        document.getElementById("grid").innerHTML = "";
+        document.getElementById("hintPart1").innerText = "Your hints";
+        document.getElementById("hintPart2").innerText = "will appear here";
+        document.getElementById("turnsText").innerText = "Turns left: 3";
+        document.getElementById("selection").style.display = "block";
+        document.getElementById("wrongTurn").innerText="";
+      }
 
-        function startGame(size) {
-            gridSize = size;
-            treasurePos = {
-                x: Math.floor(Math.random() * gridSize),
-                y: Math.floor(Math.random() * gridSize),
-            };
-            turnsLeft = 3;
-            playerPos = {
-                x: Math.floor(Math.random() * gridSize),
-                y: Math.floor(Math.random() * gridSize),
-            };
+      function clearWrongTurns() {
+        // Clear wrong turns
+        const wrongTurnElement = document.getElementById("wrongTurn");
+        wrongTurnElement.innerHTML = "";
 
-            gameOver = false;
-            document.getElementById("turns").innerText = `Turns left: ${turnsLeft}`;
-            initGrid();
-            updateGrid();
-            generateHint();
+        document.getElementById("selection").style.display = "block";
+        document.getElementById("hint").style.display = "none";
+      }
 
-            document.getElementById("newGameButton").style.display = "inline";
-            document.getElementById("selection").style.display = "none";
-            document.getElementById("hint").style.display = "block";
-        }
+      function startGame(size) {
+        visited = {};
+        clearWrongTurns();
+        gridSize = size;
+        treasurePos = {
+          x: Math.floor(Math.random() * gridSize),
+          y: Math.floor(Math.random() * gridSize),
+        };
+        turnsLeft = 3;
+        playerPos = {
+          x: Math.floor(Math.random() * gridSize),
+          y: Math.floor(Math.random() * gridSize),
+        };
+
+        gameOver = false;
+        document.getElementById(
+          "turnsText"
+        ).innerText = `Turns left: ${turnsLeft}`;
+        initGrid();
+        updateGrid();
+        generateHint();
+
+        document.getElementById("newGameButton").style.display = "inline";
+        document.getElementById("selection").style.display = "none";
+        document.getElementById("hint").style.display = "block";
+      }
 
       function initGrid() {
         let gridHTML = "";
 
+        // Add column numbers
+        gridHTML += '<div class="row-number"></div>'; // Empty corner cell
+        for (let x = 0; x < gridSize; x++) {
+          gridHTML += `<div class="col-number">${x + 1}</div>`;
+        }
+        gridHTML += "<br>";
+
         for (let y = 0; y < gridSize; y++) {
+          // Add row numbers
+          gridHTML += `<div class="row-number">${y + 1}</div>`;
+
           for (let x = 0; x < gridSize; x++) {
             let cellId = "cell-" + x + "-" + y;
             gridHTML += `<div id="${cellId}" class="cell" onclick="movePlayer(${x}, ${y})"></div>`;
@@ -276,13 +387,30 @@
             if (x === playerPos.x && y === playerPos.y) {
               cell.className += " player";
             }
+            else if (visited[`${x},${y}`]) {
+              cell.classList.add("visited");
+            }
           }
         }
+      }
+
+      function animateWrongTurn() {
+        const wrongTurnElement = document.getElementById("wrongTurn");
+        const newSpan = document.createElement("span");
+        newSpan.className = "wrong-turn-indicator";
+        newSpan.innerText = "X";
+        wrongTurnElement.appendChild(newSpan);
       }
 
       function movePlayer(x, y) {
         if (gameOver) {
           return;
+        }
+
+        visited[`${playerPos.x},${playerPos.y}`] = true; // Mark the current position as visited
+
+        if (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y) {
+          animateWrongTurn();
         }
 
         if (turnsLeft <= 0) {
@@ -296,18 +424,23 @@
         checkForTreasure();
         generateHint();
         turnsLeft--;
-        document.getElementById("turns").innerText = `Turns left: ${turnsLeft}`;
+        document.getElementById(
+          "turnsText"
+        ).innerText = `Turns left: ${turnsLeft}`;
 
         if (
           turnsLeft === 0 &&
           (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y)
         ) {
+          animateWrongTurn();
           alert("Game Over. You are out of turns.");
           gameOver = true;
+          visited = {}
           turnsLeft = 3;
           let restart = confirm("Do you want to restart the game?");
           if (restart) {
             startGame();
+            document.getElementById("newGameButton").style.display = "none";
             document.getElementById("hint").style.display = "none";
             document.getElementById("selection").style.display = "block";
             return;
@@ -319,6 +452,7 @@
         if (playerPos.x === treasurePos.x && playerPos.y === treasurePos.y) {
           alert("You found the treasure! Game Over.");
           gameOver = true;
+          visited = {};
           turnsLeft = 3; // Reset turns left to 3
           document.getElementById(
             "turns"
@@ -329,6 +463,7 @@
             turnsLeft++;
             return;
           }
+          else{document.getElementById("selection").style.display = "block";}
         }
       }
 
@@ -337,9 +472,9 @@
         const yDistance = Math.abs(playerPos.y - treasurePos.y);
         const sum = xDistance + yDistance;
         document.getElementById("hintPart1").innerText = `x+y = ${sum}`;
-        document.getElementById("hintPart2").innerText = `x-y = ${
+        document.getElementById("hintPart2").innerText = `x<->y = ${Math.abs(
           xDistance - yDistance
-        }`;
+        )}`;
       }
     </script>
   </body>
