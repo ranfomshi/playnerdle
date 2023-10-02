@@ -194,7 +194,7 @@
         }
       }
 
-      .treasure{
+      .treasure {
         background-color: yellow;
       }
 
@@ -225,13 +225,35 @@
       .visited {
         background-color: black;
       }
-      #showRules{
+      #showRules {
         position: absolute;
-        top:16px;
-        right:70px;
+        top: 16px;
+        right: 70px;
         width: 40px;
         height: 40px;
         border-radius: 60px;
+      }
+      @media (max-width: 450px) {
+        #showRules {
+          right: 20px;
+        }
+        .modal .modal-content ul{
+            font-size: small;
+            font-size: small;
+            padding: 5px;
+            margin: 1px;
+            width: 95%;
+        }
+      }
+      @media (min-width: 700px) {
+        #showRules {
+          right: 200px;
+        }
+      }
+      @media (min-width: 970px) {
+        #showRules {
+          right: 340px;
+        }
       }
     </style>
   </head>
@@ -289,6 +311,10 @@
           <li>
             <strong>Hints:</strong> After each move, you'll receive a
             mathematical hint to help you deduce the treasure's location.
+
+           <li><Strong>X+Y</Strong> Tells you the total number of squares you need to travel. </li> 
+            
+           <li><Strong>X<->Y</Strong> Tells you the difference between the Y axis distance and the X axis distance to the trasure.</li>     
           </li>
           <li>
             <strong>Game Over:</strong> The game is over when you run out of
@@ -322,7 +348,7 @@
         document.getElementById("hintPart2").innerText = "will appear here";
         document.getElementById("turnsText").innerText = "Turns left: 3";
         document.getElementById("selection").style.display = "block";
-        document.getElementById("wrongTurn").innerText="";
+        document.getElementById("wrongTurn").innerText = "";
       }
 
       function clearWrongTurns() {
@@ -394,8 +420,7 @@
 
             if (x === playerPos.x && y === playerPos.y) {
               cell.className += " player";
-            }
-            else if (visited[`${x},${y}`]) {
+            } else if (visited[`${x},${y}`]) {
               cell.classList.add("visited");
             }
           }
@@ -443,7 +468,7 @@
           animateWrongTurn();
           alert("Game Over. You are out of turns.");
           gameOver = true;
-          visited = {}
+          visited = {};
           turnsLeft = 3;
           let restart = confirm("Do you want to restart the game?");
           if (restart) {
@@ -470,8 +495,9 @@
             startGame();
             turnsLeft++;
             return;
+          } else {
+            document.getElementById("selection").style.display = "block";
           }
-          else{document.getElementById("selection").style.display = "block";}
         }
       }
 
