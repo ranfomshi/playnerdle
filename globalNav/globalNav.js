@@ -1,61 +1,170 @@
-var navElement = '<div class="globalNav"><ul>' +
-    '<li><div class="brand"><a href="http://www.playnerdle.com/" onClick="NAVhomeClick()">PlayNerdle</a></div></li>' +
-    '<li><a href="http://www.playnerdle.com/nerdle" onClick="NAVnerdleClick()">nerdle</a></li>' +
-    '<li><a href="http://www.playnerdle.com/reaction/" onClick="NAVreactionClick()">reaction</a></li>' +
-    '<li><a href="http://www.playnerdle.com/colourmatch/" onClick="NAVcolourMatchClick()">colour match</a></li>' +
-    '<li><a href="http://www.playnerdle.com/bludle/" onClick="NAVbludleClick()">bludle</a></li>' +
-    '<li><a href="http://www.playnerdle.com/codle/" onClick="NAVcodleClick()">codle</a></li>' +
-    '<li><a href="http://www.playnerdle.com/hunt/" onClick="NAVhuntClick()">XY</a></li>' +
-    '</ul></div>' +
-    '<div onload="initMobileNav()" class="globalMobileNav"><ul>' +
-    '<li><div class="brand" onclick="toggleNav()">Menu</div></li>' +
-    '<li><div class="brand"><a href="http://www.playnerdle.com/">PlayNerdle</a></div></li>' +
-    '<li id="hideable0"><a href="http://www.playnerdle.com" onClick="NAVhomeClick()">home</a></li>' +
-    '<li id="hideable1"><a href="http://www.playnerdle.com/nerdle" onClick="NAVnerdleClick()">nerdle</a></li>' +
-    '<li id="hideable2"><a href="http://www.playnerdle.com/reaction/" onClick="NAVreactionClick()">reaction</a></li>' +
-    '<li id="hideable3"><a href="http://www.playnerdle.com/colourmatch/" onClick="NAVcolourMatchClick()">colour match</a></li>' +
-    '<li id="hideable4"><a href="http://www.playnerdle.com/bludle/" onClick="NAVbludleClick()">bludle</a></li>' +
-    '<li id="hideable5"><a href="http://www.playnerdle.com/codle/" onClick="NAVcodleClick()">codle</a></li>' +
-    '<li id="hideable6"><a href="http://www.playnerdle.com/hunt/" onClick="NAVhuntClick()">XY</a></li>' +
-    '</ul></div>';
+// Function to insert the navbar HTML and CSS
+function insertNavbar() {
+    // Navbar HTML
+    const navElement = `
+      <div class="globalNav">
+        <div class="brand"><a href="/" onClick="NAVhomeClick()">PlayNerdle</a></div>
+        <button class="menu-toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <ul class="nav-list">
+          <li><a href="/nerdle" onClick="NAVnerdleClick()">nerdle</a></li>
+          <li><a href="/reaction" onClick="NAVreactionClick()">reaction</a></li>
+          <li><a href="/colourmatch" onClick="NAVcolourMatchClick()">colour match</a></li>
+          <li><a href="/bludle" onClick="NAVbludleClick()">bludle</a></li>
+          <li><a href="/codle" onClick="NAVcodleClick()">codle</a></li>
+          <li><a href="/hunt" onClick="NAVhuntClick()">XY</a></li>
+        </ul>
+      </div>
+    `;
+  
+    // Insert navbar HTML into the body
+    const navbarContainer = document.getElementById('navbar-container');
+    navbarContainer.innerHTML = navElement;
+  
+    // Toggle mobile menu
+    const mobileMenuButton = document.getElementById("mobile-menu");
+    const navList = document.querySelector(".nav-list");
+  
+    mobileMenuButton.addEventListener("click", function() {
+      navList.classList.toggle("active");
+    });
+  
+    // Insert CSS into the head
+    const head = document.head;
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    const css = `
+    .globalNav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #333;
+      color: white;
+      padding: 0.5rem 1rem;
+      margin: 0;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+    }
 
-const el = document.createElement('div');
-el.setAttribute('id', 'nav');
-el.innerHTML = navElement;
-document.body.appendChild(el);
+    .brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
 
-function toggleNav() {
-    // Existing code
-}
+    .brand a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .brand a:hover {
+      color: #00bcd4;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+    }
+
+    .nav-list li a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s, color 0.3s;
+      border-radius: 0.25rem;
+    }
+
+    .nav-list li a:hover {
+      background-color: #00bcd4;
+      color: #333;
+    }
+
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .bar {
+      background-color: white;
+      height: 0.2rem;
+      margin: 0.2rem auto;
+      width: 1.5rem;
+      display: block;
+      transition: background-color 0.3s;
+    }
+
+    @media screen and (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-list {
+        display: none;
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background-color: #333;
+        flex-direction: column;
+        z-index: 1;
+      }
+
+      .nav-list.active {
+        display: flex;
+      }
+
+      .nav-list li {
+        margin: 1rem 0;
+      }
+    }
+  `;
+    style.appendChild(document.createTextNode(css));
+    head.appendChild(style);
+  }
+  
+  // Event listener to run the insertNavbar function after the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", insertNavbar);
+  
+
+  
+
 
 function sendEvent(category, action, label) {
-    // Existing code
+    if ("ga" in window) {
+        tracker = ga.getAll()[0];
+        if (tracker)
+            tracker.send("event", category, action, label);
+    }
+
 }
 
 function NAVnerdleClick(){
-    sendEvent('navSelection', 'Click', 'nerdle');
+    sendEvent('navSelection', 'Click', 'nerdle')
 }
-
 function NAVreactionClick(){
-    sendEvent('navSelection', 'Click', 'reaction');
+    sendEvent('navSelection', 'Click', 'reaction')
 }
-
 function NAVcolourMatchClick(){
-    sendEvent('navSelection', 'Click', 'colourMatch');
+    sendEvent('navSelection', 'Click', 'colourMatch')
 }
-
 function NAVbludleClick(){
-    sendEvent('navSelection', 'Click', 'bludle');
+    sendEvent('navSelection', 'Click', 'bludle')
 }
-
 function NAVcodleClick(){
-    sendEvent('navSelection', 'Click', 'codle');
+    sendEvent('navSelection', 'Click', 'codle')
 }
 
 function NAVhomeClick(){
-    sendEvent('navSelection', 'Click', 'home');
-}
-
-function NAVhuntClick(){
-    sendEvent('navSelection', 'Click', 'hunt');
+    sendEvent('navSelection', 'Click', 'home')
 }
