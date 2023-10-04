@@ -89,6 +89,7 @@ function insertNavbar() {
     }
 
     .menu-toggle {
+      border:none;
       display: none;
       cursor: pointer;
       background: transparent;
