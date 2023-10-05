@@ -539,9 +539,9 @@ function movePlayer(x, y) {
     if (
       turnsLeft === 0 &&
       (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y)
-    ) {
+    ) {  document.getElementById(`cell-${treasurePos.x}-${treasurePos.y}`).classList.add("answer");
         animateWrongTurn();
-        document.getElementById(`cell-${treasurePos.x}-${treasurePos.y}`).classList.add("answer");
+      
 
       
             alert("Game Over. You are out of turns.");
