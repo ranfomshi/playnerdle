@@ -254,6 +254,9 @@
       .visited {
         background-color: black;
       }
+      .answer{
+        background-color: rgb(158, 158, 12);
+      }
       #showRules {
         position: absolute;
         top: 83px;
@@ -483,7 +486,10 @@ startGame
 
       function checkForTreasure() {
     if (playerPos.x === treasurePos.x && playerPos.y === treasurePos.y) {
+        document.getElementById(`cell-${treasurePos.x}-${treasurePos.y}`).classList.add("answer");
         alert("You found the treasure! Game Over.");
+        
+
         gameOver = true;
         visited = {};
         turnsLeft = 3; // Reset turns left to 3
@@ -535,18 +541,21 @@ function movePlayer(x, y) {
       (playerPos.x !== treasurePos.x || playerPos.y !== treasurePos.y)
     ) {
         animateWrongTurn();
-        alert("Game Over. You are out of turns.");
-        gameOver = true;
-        visited = {};
-        turnsLeft = 3;
-        let restart = confirm("Do you want to restart the game?");
-        if (restart) {
-            document.getElementById("selection").style.display = "block";
-            document.getElementById("newGameButton").style.display = "none";
-            document.getElementById("hint").style.display = "none";
-            newGame();
-            return;
-        }
+        document.getElementById(`cell-${treasurePos.x}-${treasurePos.y}`).classList.add("answer");
+
+      
+            alert("Game Over. You are out of turns.");
+            gameOver = true;
+            visited = {};
+            turnsLeft = 3;
+            let restart = confirm("Do you want to restart the game?");
+            if (restart) {
+                document.getElementById("selection").style.display = "block";
+                document.getElementById("newGameButton").style.display = "none";
+                document.getElementById("hint").style.display = "none";
+                newGame();
+                return;
+            }
     }
 }
 
