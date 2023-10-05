@@ -433,7 +433,8 @@ startGame
         let gridHTML = "";
 
         // Add column numbers
-        gridHTML += '<div class="row-number"></div>'; // Empty corner cell
+        if(gridSize==18){gridHTML += '<div class="smallRow-number"></div>'; }
+          else{gridHTML += '<div class="row-number"></div>'; }
         for (let x = 0; x < gridSize; x++) {
           if(gridSize==18){gridHTML += `<div class="smallCol-number">${x + 1}</div>`;}
           else{gridHTML += `<div class="col-number">${x + 1}</div>`;}
