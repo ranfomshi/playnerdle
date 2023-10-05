@@ -1,7 +1,6 @@
 * {
     font-family: 'Roboto Condensed', sans-serif !important;
     font-weight: normal !important;
-    overflow: hidden;
 }
 
 body{
@@ -116,7 +115,7 @@ body{
     width: 100%;
     height: 100%;
     left: 0;
-    top: 0;
+    top: 20;
     background: rgb(255 255 255 / 94%);
     z-index: 10;
     display: none;
@@ -203,7 +202,7 @@ body{
 
 .xBtn {
     position: fixed;
-    top: 20px;
+    top: 40px;
     right: 20px;
     font-size: 50px;
     cursor: pointer;
