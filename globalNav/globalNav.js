@@ -51,6 +51,7 @@ function insertNavbar() {
       top: 0;
       left: 0;
       box-sizing: border-box;
+      z-index:999;
     }
 
     .brand {
@@ -73,6 +74,7 @@ function insertNavbar() {
       padding: 0;
       margin: 0;
       display: flex;
+      z-index:999;
     }
 
     .nav-list li a {
@@ -81,11 +83,13 @@ function insertNavbar() {
       padding: 0.5rem 1rem;
       transition: background-color 0.3s, color 0.3s;
       border-radius: 0.25rem;
+      z-index:999;
     }
 
     .nav-list li a:hover {
       background-color: #00bcd4;
       color: #333;
+      z-index:999;
     }
 
     .menu-toggle {
@@ -93,6 +97,7 @@ function insertNavbar() {
       display: none;
       cursor: pointer;
       background: transparent;
+      z-index:999;
     }
 
     .bar {
@@ -102,6 +107,7 @@ function insertNavbar() {
       width: 1.5rem;
       display: block;
       transition: background-color 0.3s;
+      z-index:999;
     }
 
     @media screen and (max-width: 768px) {
@@ -118,7 +124,7 @@ function insertNavbar() {
         left: 0;
         background-color: #333;
         flex-direction: column;
-        z-index: 1;
+        z-index: 9999999999999999999999999;
       }
 
       .nav-list.active {

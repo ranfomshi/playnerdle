@@ -321,27 +321,7 @@ body{
     }
 }
 
-.nav {
-    position: fixed;
-    width: 100vw;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    margin: auto;
-    background: white;
-}
 
-.navList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    flex-direction: row;
-}
 
 a {
     color: black;
