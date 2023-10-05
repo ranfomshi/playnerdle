@@ -556,7 +556,7 @@ function movePlayer(x, y) {
         const yDistance = Math.abs(playerPos.y - treasurePos.y);
         const sum = xDistance + yDistance;
         document.getElementById("hintPart1").innerText = `x+y = ${sum}`;
-        document.getElementById("hintPart2").innerText = `x<->y = ${Math.abs(
+        document.getElementById("hintPart2").innerText = `|x - y| = ${Math.abs(
           xDistance - yDistance
         )}`;
       }
