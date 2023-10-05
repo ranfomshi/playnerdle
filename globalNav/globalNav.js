@@ -120,7 +120,7 @@ function insertNavbar() {
         width: 100%;
         text-align: center;
         position: absolute;
-        top: 60px;
+        top: 44px;
         left: 0;
         background-color: #333;
         flex-direction: column;
