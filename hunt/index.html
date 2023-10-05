@@ -32,6 +32,29 @@
         transition: background-color 0.3s ease;
         cursor: pointer;
       }
+
+      .smallCell{
+        width: 15px;
+        height: 15px;
+        border: 1px solid #ccc;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .smallCol-number, .smallRow-number{
+        font-size: small;
+    color: black;
+    width: 17px;
+    letter-spacing: 0px;
+    height: 17px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+      }
+
+  
+      
       .player {
         background: #3498db;
         box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
@@ -348,7 +371,7 @@
       function openModal() {
         document.getElementById("rulesModal").style.display = "block";
       }
-
+startGame
       function closeModal() {
         document.getElementById("rulesModal").style.display = "none";
       }
@@ -373,6 +396,9 @@
       }
 
       function startGame(size) {
+        console.log("Inside initGrid, size = ", size); // Debug statement
+  console.log("Type of size: ", typeof size); // Debug statement
+  
         visited = {};
         clearWrongTurns();
         gridSize = size;
@@ -400,22 +426,27 @@
       }
 
       function initGrid() {
+
+        console.log("Inside initGrid, gridSize = ", gridSize); // Debug statement
+  console.log("Type of gridSize: ", typeof gridSize); // Debug statement
+  
         let gridHTML = "";
 
         // Add column numbers
         gridHTML += '<div class="row-number"></div>'; // Empty corner cell
         for (let x = 0; x < gridSize; x++) {
-          gridHTML += `<div class="col-number">${x + 1}</div>`;
+          if(gridSize==18){gridHTML += `<div class="smallCol-number">${x + 1}</div>`;}
+          else{gridHTML += `<div class="col-number">${x + 1}</div>`;}
         }
         gridHTML += "<br>";
 
         for (let y = 0; y < gridSize; y++) {
           // Add row numbers
-          gridHTML += `<div class="row-number">${y + 1}</div>`;
-
+          if(gridSize==18){gridHTML += `<div class="smallRow-number">${y + 1}</div>`;}
+          else{{gridHTML += `<div class="row-number">${y + 1}</div>`;}}
           for (let x = 0; x < gridSize; x++) {
             let cellId = "cell-" + x + "-" + y;
-            gridHTML += `<div id="${cellId}" class="cell" onclick="movePlayer(${x}, ${y})"></div>`;
+            gridHTML += `<div id="${cellId}" class="smallCell" onclick="movePlayer(${x}, ${y})"></div>`;
           }
           gridHTML += "<br>";
         }
@@ -428,7 +459,8 @@
           for (let x = 0; x < gridSize; x++) {
             let cellId = "cell-" + x + "-" + y;
             let cell = document.getElementById(cellId);
-            cell.className = "cell";
+            if(gridSize ==18){cell.className = "smallCell";}
+            else{cell.className = "cell";}
 
             if (x === playerPos.x && y === playerPos.y) {
               cell.className += " player";
