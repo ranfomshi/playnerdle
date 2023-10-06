@@ -1,135 +1,169 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Play Hue and find the odd one out!" />
-    <meta
-      name="keywords"
-      content="colour, colour, game, find, odd, different"
-    />
-    <meta name="author" content="PlayNerdle" />
-    <title>Hue - find the odd one out!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        background-color: #f4f4f4;
-        font-family: "Roboto", sans-serif;
-        text-align: center;
-      }
-      .container {
-        margin: auto;
-        max-width: 600px;
-        font-size: 0;
-        margin-top: 80px;
-      }
-      #timer {
-        width: 100%;
-        height: 20px;
-        background-color: #00ff00;
-        transition: width 4s linear;
-      }
-    </style>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hue - find the odd one out!</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: "Roboto", sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      margin: auto;
+      max-width: 600px;
+      font-size: 0;
+      margin-top: 100px;
+    }
+
+    #timer {
+      width: 100%;
+      height: 20px;
+      margin-top: 100px;
+      background: green;
+    }
+
+    #gameOverScreen {
+      display: none;
+      position: absolute;
+      padding-top: 20px;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      font-size: 32px;
+    }
+  </style>
+</head>
+
+<body>
     <div id="navbar-container"></div>
-    <div class="container"></div>
-    <div id="streakCounter">Streak: <span id="streak">0</span></div>
-    <div id="timer"></div>
-    <script>
-      // Variable to keep track of the streak and timer
-      let streak = 0;
-      let timer;
+  <div id="streakCounter">Streak: <span id="streak">0</span></div>
+  <div id="timer"></div>
+  <div class="container"></div>
+  <div id="gameOverScreen">
+    Game Over!<br>
+    Final Streak: <span id="finalStreak">0</span><br>
+    Average Time: <span id="averageTime">0</span>s<br>
+    Slowest Time: <span id="slowestTime">0</span>s<br>
+    <button id="restartButton">Restart</button>
+  </div>
 
-      // Update the streak display
-      const updateStreakDisplay = () => {
-        document.getElementById("streak").textContent = streak;
-      };
+  <script>
+    let streak = 0;
+    let oddPosition;
+    let timer;
+    let startTime;
+    let roundTimes = [];
+    let slowestTime = 0;
 
-      // Function to start the timer
-      const startTimer = () => {
-        clearTimeout(timer);
-        const timerElement = document.getElementById("timer");
-        timerElement.style.transition = "none"; // Disable transition for instant reset
-        timerElement.style.width = "100%"; // Instantly set to 100%
-        // Force a reflow to make sure the transition will be applied for the shrinking
-        void timerElement.offsetWidth;
-        timerElement.style.transition = "width 4s linear"; // Enable transition again
-        timerElement.style.width = "0%"; // Start shrinking
-        timer = setTimeout(() => {
-          alert("Time's up! Game Over!");
-          streak = 0;
-          updateStreakDisplay();
-          initGameBoard();
-        }, 4000);
-      };
+    const updateStreakDisplay = () => {
+      document.getElementById("streak").textContent = streak;
+    };
 
-      // Function to initialize a new game board
-      const initGameBoard = () => {
-        const container = document.querySelector(".container");
-        container.innerHTML = ""; // Clear previous squares
+    const generateColor = () => {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      return `rgb(${r}, ${g}, ${b})`;
+    };
 
-        const mainColor = generateColor();
-        const oddColor = generateSlightlyDifferentColor(mainColor);
-        const oddPosition = Math.floor(Math.random() * 9);
+    const generateSlightlyDifferentColor = (color) => {
+      const [r, g, b] = color.match(/\d+/g).map(Number);
+      const newR = Math.min(255, r + 10);
+      const newG = Math.min(255, g + 10);
+      const newB = Math.min(255, b + 10);
+      return `rgb(${newR}, ${newG}, ${newB})`;
+    };
 
-        for (let i = 0; i < 9; i++) {
-          const square = document.createElement("div");
-          square.style.width = "100px";
-          square.style.height = "100px";
-          square.style.display = "inline-block";
-          square.style.margin = "5px";
-          square.style.backgroundColor =
-            i === oddPosition ? oddColor : mainColor;
-          square.onclick = () => checkSquare(i, oddPosition);
-          container.appendChild(square);
+    const startTimer = () => {
+      const timerElement = document.getElementById('timer');
+      let width = 100;
+      timerElement.style.width = `${width}%`;
+
+      clearInterval(timer);
+      timer = setInterval(() => {
+        width -= 1;
+        timerElement.style.width = `${width}%`;
+        if (width <= 0) {
+          clearInterval(timer);
+          showGameOver();
         }
+      }, 40);
+    };
 
-        startTimer();
-      };
+    const calculateAverageTime = () => {
+      
+      const total = roundTimes.reduce((acc, val) => acc + val, 0);
+      return (total / roundTimes.length).toFixed(2);
+    };
 
-      // Function to generate a random color
-      const generateColor = () => {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        return `rgb(${r}, ${g}, ${b})`;
-      };
+    const initGameBoard = () => {
+      const container = document.querySelector('.container');
+      container.innerHTML = '';
+      const mainColor = generateColor();
+      const oddColor = generateSlightlyDifferentColor(mainColor);
+      oddPosition = Math.floor(Math.random() * 9);
 
-      // Function to generate a slightly different color based on the given color
-      const generateSlightlyDifferentColor = (color) => {
-        const [r, g, b] = color.match(/\d+/g).map(Number);
-        const newR = Math.min(255, r + 10);
-        const newG = Math.min(255, g + 10);
-        const newB = Math.min(255, b + 10);
-        return `rgb(${newR}, ${newG}, ${newB})`;
-      };
+      for (let i = 0; i < 9; i++) {
+        const square = document.createElement('div');
+        square.style.width = '100px';
+        square.style.height = '100px';
+        square.style.display = 'inline-block';
+        square.style.margin = '5px';
+        square.style.backgroundColor = i === oddPosition ? oddColor : mainColor;
+        square.addEventListener('click', () => checkSquare(i));
+        container.appendChild(square);
+      }
+      startTime = Date.now();  // Initialize startTime
+      startTimer();
+    };
 
-      // Function to check if the clicked square is the odd one out
-      const checkSquare = (index, oddPosition) => {
-        if (index === oddPosition) {
-          streak++;
-          updateStreakDisplay();
-          initGameBoard();
-        } else {
-          alert("Game Over!");
-          streak = 0;
-          updateStreakDisplay();
-          initGameBoard();
-        }
-      };
+    const showGameOver = () => {
+      clearInterval(timer);
+      document.getElementById('finalStreak').textContent = streak;
+      document.getElementById('averageTime').textContent = calculateAverageTime();
+      document.getElementById('slowestTime').textContent = slowestTime.toFixed(2);
+      document.getElementById('gameOverScreen').style.display = 'block';
+    };
 
-      // Disable right-click context menu to prevent easy cheating
-      document.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-      });
-
-      // Initialize the game board for the first time
+    const restartGame = () => {
+      streak = 0;
+      updateStreakDisplay();
       initGameBoard();
-    </script>
+      document.getElementById('gameOverScreen').style.display = 'none';
+    };
+
+    document.getElementById('restartButton').addEventListener('click', restartGame);
+
+    const checkSquare = (index) => {
+      const endTime = Date.now();
+      const timeTaken = (endTime - startTime) / 1000;
+      roundTimes.push(timeTaken);
+      slowestTime = Math.max(slowestTime, timeTaken);
+
+      if (index === oddPosition) {
+        streak++;
+        updateStreakDisplay();
+        initGameBoard();
+      } else {
+        showGameOver();
+      }
+    };
+
+    // Disable right-click context menu to prevent easy cheating
+    document.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
+
+    initGameBoard();
+  </script>
     <script src="../globalNav/globalNav.js" defer></script>
-  </body>
+</body>
+
 </html>
