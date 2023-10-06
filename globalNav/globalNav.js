@@ -16,6 +16,7 @@ function insertNavbar() {
           <li><a href="/bludle" onClick="NAVbludleClick()">bludle</a></li>
           <li><a href="/codle" onClick="NAVcodleClick()">codle</a></li>
           <li><a href="/hunt" onClick="NAVhuntClick()">XY</a></li>
+          <li><a href="/hue" onClick="NAVhueClick()">hue</a></li>
         </ul>
       </div>
     `;
@@ -174,4 +175,7 @@ function NAVcodleClick(){
 
 function NAVhomeClick(){
     sendEvent('navSelection', 'Click', 'home')
+}
+function NAVhueClick(){
+  sendEvent('navSelection', 'Click', 'hue')
 }
