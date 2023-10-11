@@ -45,6 +45,7 @@
       /* CSS */
       .button-85 {
         padding: 0.6em 2em;
+        margin-top: 40px;
         border: none;
         outline: none;
         color: rgb(255, 255, 255);
@@ -110,6 +111,12 @@
         border-radius: 10px;
       }
 
+      .statContainer{
+        display: flex;
+    flex-direction: row;
+    justify-content: center;
+      }
+
       .stat {
         background-color: white;
         color: black;
@@ -123,6 +130,18 @@
         margin-top: 5px;
         margin-bottom: 5px;
       }
+
+      @media only screen and (max-width: 500px) {
+        .stat {
+       font-size: 1.2rem;
+      }
+}
+
+      #welcome{
+       font-size: 2rem;
+        width:300px;
+        margin: auto; margin-top: 10px;
+      }
     </style>
   </head>
 
@@ -133,7 +152,7 @@
     <div class="container"></div>
     <div id="gameOverScreen">
       Game Over!<br />
-
+<div class="statContainer">
       <div class="stat">
         <h6>Final Streak:</h6>
         <span id="finalStreak">0</span>
@@ -145,9 +164,13 @@
       <div class="stat">
         <h6>Slowest Time:</h6>
         <span id="slowestTime">0</span>s
-      </div>
+      </div></div>
       <br />
       <button id="restartButton" class="button-85">Restart</button>
+      <div id="welcome">
+        <h6>If you're new here:</h6>
+        <p><small>You have 4 seconds per coloured grid to choose the odd one out and keep your streak going. It's as simple as that!</small> </p>
+      </div>
     </div>
 
     <script>
