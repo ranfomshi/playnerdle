@@ -194,6 +194,7 @@
       };
 
       const calculateAverageTime = () => {
+        if(roundTimes.length == 0){return(0)}
         const total = roundTimes.reduce((acc, val) => acc + val, 0);
         return (total / roundTimes.length).toFixed(2);
       };
