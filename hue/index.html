@@ -135,6 +135,7 @@
         .stat {
        font-size: 1.2rem;
       }
+      p{font-size: 1.2rem;}
 }
 
       #welcome{
@@ -142,6 +143,12 @@
         width:300px;
         margin: auto; margin-top: 10px;
       }
+      
+      #highScoreStat{
+        background-color: black;
+        color: white;
+      }
+
     </style>
   </head>
 
@@ -152,27 +159,33 @@
     <div class="container"></div>
     <div id="gameOverScreen">
       Game Over!<br />
-<div class="statContainer">
-      <div class="stat">
-        <h6>Final Streak:</h6>
-        <span id="finalStreak">0</span>
+      <div class="statContainer">
+        <div class="stat">
+          <h6>Final Streak:</h6>
+          <span id="finalStreak">0</span>
+        </div>
+        <div class="stat">
+          <h6>Average Time:</h6>
+          <span id="averageTime">0</span>s
+        </div>
+        <div class="stat">
+          <h6>Slowest Time:</h6>
+          <span id="slowestTime">0</span>s
+        </div>
+        <div class="stat" id="highScoreStat">
+          <h6>High Score:</h6>
+          <span id="highScore">0</span>
+        </div>
       </div>
-      <div class="stat">
-        <h6>Average Time:</h6>
-        <span id="averageTime">0</span>s
-      </div>
-      <div class="stat">
-        <h6>Slowest Time:</h6>
-        <span id="slowestTime">0</span>s
-      </div></div>
+      <div class='statContainer'><div id="newRecord" class="stat" style="display: none;">New Record!</div></div>
       <br />
       <button id="restartButton" class="button-85">Restart</button>
       <div id="welcome">
         <h6>If you're new here:</h6>
-        <p><small>You have 4 seconds per coloured grid to choose the odd one out and keep your streak going. It's as simple as that!</small> </p>
+        <p><small>You have 4 seconds per coloured grid to choose the odd one out and keep your streak going. It's as simple as that!</small></p>
       </div>
     </div>
-
+    <script src="../globalNav/globalNav.js" defer></script>
     <script>
       let streak = 0;
       let oddPosition;
@@ -180,18 +193,27 @@
       let startTime;
       let roundTimes = [];
       let slowestTime = 0;
-
+      
+      // Load high score from local storage
+      const loadHighScore = () => {
+        const highScore = localStorage.getItem('highScore') || 0;
+        document.getElementById('highScore').textContent = highScore;
+        return highScore;
+      };
+  
+      let highScore = loadHighScore();
+  
       const updateStreakDisplay = () => {
         document.getElementById("streak").textContent = streak;
       };
-
+  
       const generateColor = () => {
         const r = Math.floor(Math.random() * 256);
         const g = Math.floor(Math.random() * 256);
         const b = Math.floor(Math.random() * 256);
         return `rgb(${r}, ${g}, ${b})`;
       };
-
+  
       const generateSlightlyDifferentColor = (color) => {
         const [r, g, b] = color.match(/\d+/g).map(Number);
         const newR = Math.min(255, r + 10);
@@ -199,12 +221,12 @@
         const newB = Math.min(255, b + 10);
         return `rgb(${newR}, ${newG}, ${newB})`;
       };
-
+  
       const startTimer = () => {
         const timerElement = document.getElementById("timer");
         let width = 100;
         timerElement.style.width = `${width}%`;
-
+  
         clearInterval(timer);
         timer = setInterval(() => {
           width -= 1;
@@ -215,69 +237,71 @@
           }
         }, 40);
       };
-
+  
       const calculateAverageTime = () => {
-        if(roundTimes.length == 0){return(0)}
+        if(roundTimes.length === 0) return 0;
         const total = roundTimes.reduce((acc, val) => acc + val, 0);
         return (total / roundTimes.length).toFixed(2);
       };
-
+  
       const initGameBoard = () => {
         const container = document.querySelector(".container");
         container.innerHTML = "";
         const mainColor = generateColor();
         const oddColor = generateSlightlyDifferentColor(mainColor);
         oddPosition = Math.floor(Math.random() * 9);
-
+  
         for (let i = 0; i < 9; i++) {
           const square = document.createElement("div");
           square.style.width = "100px";
           square.style.height = "100px";
           square.style.display = "inline-block";
           square.style.cursor = "pointer";
-          square.style.backgroundColor =
-            i === oddPosition ? oddColor : mainColor;
+          square.style.backgroundColor = i === oddPosition ? oddColor : mainColor;
           square.addEventListener("click", () => checkSquare(i));
           container.appendChild(square);
         }
-        startTime = Date.now(); // Initialize startTime
+        startTime = Date.now();
         startTimer();
       };
-
+  
       const showGameOver = () => {
         clearInterval(timer);
         document.getElementById("finalStreak").textContent = streak;
-        document.getElementById("averageTime").textContent =
-          calculateAverageTime();
-        document.getElementById("slowestTime").textContent =
-          slowestTime.toFixed(2);
+        document.getElementById("averageTime").textContent = calculateAverageTime();
+        document.getElementById("slowestTime").textContent = slowestTime.toFixed(2);
         document.getElementById("gameOverScreen").style.display = "block";
+  
+        if (streak > highScore) {
+          highScore = streak;
+          localStorage.setItem('highScore', highScore);
+          document.getElementById('highScore').textContent = highScore;
+          document.getElementById('newRecord').style.display = 'block';
+        }
       };
-
+  
       const restartGame = () => {
         streak = 0;
-        oddPosition;
-        timer;
-        startTime;
+        oddPosition = null;
+        timer = null;
+        startTime = null;
         roundTimes = [];
         slowestTime = 0;
         updateStreakDisplay();
         initGameBoard();
         document.getElementById("gameOverScreen").style.display = "none";
+        document.getElementById('newRecord').style.display = 'none';
       };
-
-      document
-        .getElementById("restartButton")
-        .addEventListener("click", restartGame);
-
+  
+      document.getElementById("restartButton").addEventListener("click", restartGame);
+  
       const checkSquare = (index) => {
         const endTime = Date.now();
         const timeTaken = (endTime - startTime) / 1000;
-
+  
         if (index === oddPosition) {
-          roundTimes.push(timeTaken); // Moved inside the condition
-          slowestTime = Math.max(slowestTime, timeTaken); // Moved inside the condition
-
+          roundTimes.push(timeTaken);
+          slowestTime = Math.max(slowestTime, timeTaken);
           streak++;
           updateStreakDisplay();
           initGameBoard();
@@ -285,14 +309,9 @@
           showGameOver();
         }
       };
-
-      // Disable right-click context menu to prevent easy cheating
-      document.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-      });
-
+  
       initGameBoard();
     </script>
-    <script src="../globalNav/globalNav.js" defer></script>
   </body>
+  
 </html>
