@@ -36,7 +36,7 @@
         color: black;
         font-size: 24px;
         border-radius: 15px;
-        padding:10px;
+        padding: 10px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease;
         cursor: pointer;
@@ -120,19 +120,24 @@
         scoreDisplay.textContent += `\nHigh Score: ${highScore}`;
       }
 
+      // This function sets the text color based on the background color
+      function setTextColorBasedOnBackground() {
+        gameArea.style.color = gameArea.style.backgroundColor === "black" ? "yellow" : "black";
+      }
+
       function changeColor() {
-        if(!isGameOver) {
-            gameArea.textContent = "";  // Clear the "Click" text during the wait period
-            let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
-            timeoutId = setTimeout(() => {
-                isBlack = !isBlack;
-                gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
-                gameArea.style.color = isBlack ? "yellow" : "black";
-                gameArea.textContent = "Click";
-                startTime = new Date().getTime();
-                isWaitingForClick = true;
-                timeInterval = setInterval(updateTimeDisplay, 50);
-            }, randomTime);
+        if (!isGameOver) {
+          gameArea.textContent = ""; // Clear the "Click" text during the wait period
+          let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
+          timeoutId = setTimeout(() => {
+            isBlack = !isBlack;
+            gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
+            setTextColorBasedOnBackground(); // Set the text color based on the background color
+            gameArea.textContent = "Click";
+            startTime = new Date().getTime();
+            isWaitingForClick = true;
+            timeInterval = setInterval(updateTimeDisplay, 50);
+          }, randomTime);
         }
       }
 
@@ -141,7 +146,9 @@
         let totalTime = elapsed + totalReactionTime;
         let percentage = (totalTime / 5000) * 100;
         document.body.style.background = `linear-gradient(to top, #ddd ${percentage}%, #f4f4f4 ${percentage}%)`;
-        reactionTimeDisplay.textContent = `Time: ${(totalTime / 1000).toFixed(2)}s / 5s`;
+        reactionTimeDisplay.textContent = `Time: ${(totalTime / 1000).toFixed(
+          2
+        )}s / 5s`;
         if (totalTime >= 5000) {
           gameOver();
         }
@@ -151,6 +158,9 @@
         isGameOver = true;
         clearInterval(timeInterval);
         clearTimeout(timeoutId);
+        if (reason === "Clicked too soon!") {
+          setTextColorBasedOnBackground(); // Ensuring the text color is set correctly for this message
+        }
         gameArea.textContent = reason || "Game Over!";
         gameArea.style.backgroundColor = "yellow";
         isGameStarted = false;
@@ -177,7 +187,9 @@
         clearInterval(timeInterval);
         let reactionTime = new Date().getTime() - startTime;
         totalReactionTime += reactionTime;
-        reactionTimeDisplay.textContent = `Time: ${(totalReactionTime / 1000).toFixed(2)}s / 5s`;
+        reactionTimeDisplay.textContent = `Time: ${(
+          totalReactionTime / 1000
+        ).toFixed(2)}s / 5s`;
         if (totalReactionTime >= 5000) {
           gameOver();
         } else {
@@ -189,21 +201,20 @@
       }
 
       function restartGame() {
-    isGameOver = false;
-    clearInterval(timeInterval);
-    isBlack = false;
-    totalReactionTime = 0;
-    score = 0;
-    scoreDisplay.textContent = "Score: 0";
-    reactionTimeDisplay.textContent = "Time: 0s / 5s";
-    restartButton.style.display = "none";
-    gameArea.textContent = "Click to Start!"; // This line ensures the "Click to Start!" message is displayed.
-    gameArea.style.backgroundColor = "yellow";
-    isGameStarted = false;
-    isWaitingForClick = false;
-    clearTimeout(timeoutId);
-}
-
+        isGameOver = false;
+        clearInterval(timeInterval);
+        isBlack = false;
+        totalReactionTime = 0;
+        score = 0;
+        scoreDisplay.textContent = "Score: 0";
+        reactionTimeDisplay.textContent = "Time: 0s / 5s";
+        restartButton.style.display = "none";
+        gameArea.textContent = "Click to Start!"; // This line ensures the "Click to Start!" message is displayed.
+        gameArea.style.backgroundColor = "yellow";
+        isGameStarted = false;
+        isWaitingForClick = false;
+        clearTimeout(timeoutId);
+      }
     </script>
   </body>
 </html>
