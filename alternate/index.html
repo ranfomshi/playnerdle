@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alternate</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(#f4f4f4, #ddd);
+      }
+
+      #title {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #gameArea {
+        width: 300px;
+        height: 300px;
+        text-align: center;
+        background-color: yellow;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-size: 24px;
+        border-radius: 15px;
+        padding:10px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      #gameArea:hover {
+        transform: scale(1.05);
+      }
+
+      #score,
+      #reactionTime {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #score {
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      #reactionTime {
+        margin-top: 10px;
+        font-size: 20px;
+      }
+
+      #restart {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        font-weight: 700;
+      }
+
+      #restart:hover {
+        background-color: #555;
+        transform: scale(1.05);
+      }
+
+      #restart:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar-container"></div>
+    <div id="title">Alternate</div>
+    <div id="gameArea" onclick="userClicked()">Click to Start!</div>
+    <div id="score">Score: 0</div>
+    <div id="reactionTime">Time: 0s / 5s</div>
+    <button id="restart" onclick="restartGame()">Restart</button>
+    <script src="../globalNav/globalNav.js" defer></script>
+    <script>
+      let gameArea = document.getElementById("gameArea");
+      let scoreDisplay = document.getElementById("score");
+      let reactionTimeDisplay = document.getElementById("reactionTime");
+      let restartButton = document.getElementById("restart");
+      let isBlack = false;
+      let isGameStarted = false;
+      let isWaitingForClick = false;
+      let startTime;
+      let totalReactionTime = 0;
+      let score = 0;
+      let timeoutId;
+      let timeInterval;
+      let isGameOver = false;
+
+      // Get the high score from local storage
+      let highScore = localStorage.getItem("highScore") || 0;
+
+      function displayHighScore() {
+        let currentScore = parseInt(scoreDisplay.textContent.split(": ")[1]);
+        if (currentScore > highScore) {
+          highScore = currentScore;
+          localStorage.setItem("highScore", highScore);
+          gameArea.textContent += "\nNew Record!";
+        }
+        scoreDisplay.textContent += `\nHigh Score: ${highScore}`;
+      }
+
+      function changeColor() {
+        let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
+        timeoutId = setTimeout(() => {
+          isBlack = !isBlack;
+          gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
+          startTime = new Date().getTime();
+          isWaitingForClick = true;
+          timeInterval = setInterval(updateTimeDisplay, 50);
+        }, randomTime);
+      }
+
+      function updateTimeDisplay() {
+        let elapsed = new Date().getTime() - startTime;
+        let totalTime = elapsed + totalReactionTime;
+        let percentage = (totalTime / 5000) * 100;
+        document.body.style.background = `linear-gradient(to top, #ddd ${percentage}%, #f4f4f4 ${percentage}%)`;
+        reactionTimeDisplay.textContent = `Time: ${(totalTime / 1000).toFixed(2)}s / 5s`;
+        if (totalTime >= 5000) {
+          gameOver();
+        }
+      }
+
+      function gameOver(reason) {
+        isGameOver = true;
+        clearInterval(timeInterval);
+        clearTimeout(timeoutId);
+        gameArea.textContent = reason || "Game Over!";
+        gameArea.style.backgroundColor = "yellow";
+        isGameStarted = false;
+        restartButton.style.display = "block";
+        totalReactionTime = 5000;
+        reactionTimeDisplay.textContent = `Time: 5s / 5s`;
+        displayHighScore();
+      }
+
+      function userClicked() {
+        if (isGameOver) return;
+        if (!isGameStarted) {
+          isGameStarted = true;
+          gameArea.textContent = "";
+          changeColor();
+          return;
+        }
+        if (!isWaitingForClick) {
+          totalReactionTime = 5000;
+          reactionTimeDisplay.textContent = `Time: 5s / 5s`;
+          gameOver("Clicked too soon!");
+          return;
+        }
+        clearInterval(timeInterval);
+        let reactionTime = new Date().getTime() - startTime;
+        totalReactionTime += reactionTime;
+        reactionTimeDisplay.textContent = `Time: ${(totalReactionTime / 1000).toFixed(2)}s / 5s`;
+        if (totalReactionTime >= 5000) {
+          gameOver();
+        } else {
+          score++;
+          scoreDisplay.textContent = "Score: " + score;
+          isWaitingForClick = false;
+          changeColor();
+        }
+      }
+
+      function restartGame() {
+        isGameOver = false;
+        clearInterval(timeInterval);
+        isBlack = false;
+        totalReactionTime = 0;
+        score = 0;
+        scoreDisplay.textContent = "Score: 0";
+        reactionTimeDisplay.textContent = "Time: 0s / 5s";
+        restartButton.style.display = "none";
+        gameArea.textContent = "Click to Start!";
+        gameArea.style.backgroundColor = "yellow";
+        isGameStarted = false;
+        isWaitingForClick = false;
+        clearTimeout(timeoutId);
+      }
+    </script>
+  </body>
+</html>
