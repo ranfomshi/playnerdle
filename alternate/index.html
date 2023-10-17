@@ -108,13 +108,13 @@
       let isGameOver = false;
 
       // Get the high score from local storage
-      let highScore = localStorage.getItem("highScore") || 0;
+      let highScore = localStorage.getItem("alternatehighScore") || 0;
 
       function displayHighScore() {
         let currentScore = parseInt(scoreDisplay.textContent.split(": ")[1]);
         if (currentScore > highScore) {
           highScore = currentScore;
-          localStorage.setItem("highScore", highScore);
+          localStorage.setItem("alternatehighScore", highScore);
           gameArea.textContent += "\nNew Record!";
         }
         scoreDisplay.textContent += `\nHigh Score: ${highScore}`;
