@@ -121,14 +121,19 @@
       }
 
       function changeColor() {
-        let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
-        timeoutId = setTimeout(() => {
-          isBlack = !isBlack;
-          gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
-          startTime = new Date().getTime();
-          isWaitingForClick = true;
-          timeInterval = setInterval(updateTimeDisplay, 50);
-        }, randomTime);
+        if(!isGameOver) {
+            gameArea.textContent = "";  // Clear the "Click" text during the wait period
+            let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
+            timeoutId = setTimeout(() => {
+                isBlack = !isBlack;
+                gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
+                gameArea.style.color = isBlack ? "yellow" : "black";
+                gameArea.textContent = "Click";
+                startTime = new Date().getTime();
+                isWaitingForClick = true;
+                timeInterval = setInterval(updateTimeDisplay, 50);
+            }, randomTime);
+        }
       }
 
       function updateTimeDisplay() {
