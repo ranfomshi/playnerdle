@@ -3,7 +3,7 @@ function insertNavbar() {
     // Navbar HTML
     const navElement = `
       <div class="globalNav">
-        <div class="brand"><a href="/" onClick="NAVhomeClick()">PlayNerdle</a><img style="margin-left:20px; height:28px; width:28px; border-radius:5px" src='images/icon.png'/></div>
+        <div class="brand"><a href="/" onClick="NAVhomeClick()">PlayNerdle</a><img style="margin-left:20px; height:28px; width:28px; border-radius:5px" src='https://www.playnerdle.com/images/icon.png'/></div>
         <button class="menu-toggle" id="mobile-menu">
           <span class="bar"></span>
           <span class="bar"></span>
