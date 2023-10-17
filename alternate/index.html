@@ -189,20 +189,21 @@
       }
 
       function restartGame() {
-        isGameOver = false;
-        clearInterval(timeInterval);
-        isBlack = false;
-        totalReactionTime = 0;
-        score = 0;
-        scoreDisplay.textContent = "Score: 0";
-        reactionTimeDisplay.textContent = "Time: 0s / 5s";
-        restartButton.style.display = "none";
-        gameArea.textContent = "Click to Start!";
-        gameArea.style.backgroundColor = "yellow";
-        isGameStarted = false;
-        isWaitingForClick = false;
-        clearTimeout(timeoutId);
-      }
+    isGameOver = false;
+    clearInterval(timeInterval);
+    isBlack = false;
+    totalReactionTime = 0;
+    score = 0;
+    scoreDisplay.textContent = "Score: 0";
+    reactionTimeDisplay.textContent = "Time: 0s / 5s";
+    restartButton.style.display = "none";
+    gameArea.textContent = "Click to Start!"; // This line ensures the "Click to Start!" message is displayed.
+    gameArea.style.backgroundColor = "yellow";
+    isGameStarted = false;
+    isWaitingForClick = false;
+    clearTimeout(timeoutId);
+}
+
     </script>
   </body>
 </html>
