@@ -1,52 +1,107 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!--  created with sitemap generator https://octopus.do  -->
 
-
-<url>
-  <loc>https://www.playnerdle.com/</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/privacy</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/blogs/about</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/blogs/1</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/blogs/2</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/blogs/3</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/blogs/4</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.playnerdle.com/blogs/5</loc>
-  <lastmod>2023-09-28T13:02:29+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-
+    <url>
+        <loc>https://www.playnerdle.com</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/1</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/2</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/3</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/4</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/5</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/6</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/blogs/about</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/privacy</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/colourmatch</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/nerdle</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/reaction</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/bludle</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/alternate</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/codle</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/hue</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://www.playnerdle.com/hunt</loc>
+        <lastmod>2023-10-18</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
 </urlset>
