@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
@@ -21,6 +22,7 @@
             height: 50px;
             border: 1px solid #000;
             overflow: hidden;
+            margin-bottom: 20px;
         }
 
         #ball {
@@ -39,65 +41,106 @@
             left: 50%;
             transform: translateX(-50%);
         }
+
+        #errorIndicator {
+            position: absolute;
+            width: 5px;
+            height: 50px;
+            background-color: blue;
+            display: none;
+        }
+
+        #message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        #level {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+    <div id="level">Level: 1</div>
     <div id="gameZone">
         <div id="targetZone"></div>
         <div id="ball"></div>
+        <div id="errorIndicator"></div>
     </div>
+    <div id="message"></div>
 
     <script>
         let ball = document.getElementById("ball");
         let gameZone = document.getElementById("gameZone");
+        let messageDiv = document.getElementById("message");
+        let levelDiv = document.getElementById("level");
+        let errorIndicator = document.getElementById("errorIndicator");
         let direction = 1; // 1 means right, -1 means left
         let speed = 2; // Starting speed
-        let isTransparent = false;
+        let level = 1;
         let interval;
         let transparentInterval;
 
         const moveBall = () => {
             let ballPosition = ball.offsetLeft;
-            if (ballPosition <= 0 || ballPosition >= gameZone.offsetWidth - ball.offsetWidth) {
-                direction *= -1; // Change direction
+            if (ballPosition <= 0) {
+                direction = 1; // Move right
+            } else if (ballPosition >= gameZone.offsetWidth - ball.offsetWidth) {
+                direction = -1; // Move left
             }
             ball.style.left = ballPosition + (direction * speed) + "px";
         };
 
         const checkWin = () => {
-            let ballPosition = ball.offsetLeft;
+            // Calculate the center position of the ball
+            let ballCenterPosition = ball.offsetLeft + ball.offsetWidth / 2;
             let targetPosition = gameZone.offsetWidth / 2 - 50; // Target zone is centered
-            if (ballPosition >= targetPosition && ballPosition <= targetPosition + 100) {
-                clearInterval(interval);
-                clearInterval(transparentInterval);
+
+            if (ballCenterPosition >= targetPosition && ballCenterPosition <= targetPosition + 100) {
+                messageDiv.textContent = "Success!";
+                level++;
                 speed += 0.5; // Increase speed for next level
-                startGame();
+            } else {
+                messageDiv.textContent = "Try Again!";
+                // Position errorIndicator at the center of the ball
+                errorIndicator.style.left = ballCenterPosition - errorIndicator.offsetWidth / 2 + "px";
+                errorIndicator.style.display = "block";
             }
+            levelDiv.textContent = "Level: " + level;
+            clearInterval(interval);
+            setTimeout(startGame, 2000); // Restart game after 2 seconds
         };
 
-        gameZone.addEventListener("click", () => {
-            if (!isTransparent) {
-                checkWin();
-            }
-        });
+        const enableClicks = () => {
+            document.body.style.pointerEvents = "auto"; // Enable clicks
+        };
 
         const makeTransparent = () => {
-            if (!isTransparent) {
-                ball.style.opacity = "0";
-                isTransparent = true;
-                setTimeout(() => {
-                    ball.style.opacity = "1";
-                    isTransparent = false;
-                }, 2000); // 2 seconds transparency
-            }
+            ball.style.opacity = "0";
+            enableClicks(); // Allow clicking once the ball is transparent
         };
 
         const startGame = () => {
+            // Clear existing timeouts and intervals
+            clearTimeout(transparentInterval);
+            clearInterval(interval);
+            
             ball.style.left = "0px";
+            ball.style.opacity = "1";
+            document.body.style.pointerEvents = "none"; // Disable clicks again
+            messageDiv.textContent = ""; // Clear previous message
+            errorIndicator.style.display = "none";
             interval = setInterval(moveBall, 50); // Refresh every 50ms
-            transparentInterval = setInterval(makeTransparent, 5000); // Make transparent every 5 seconds
+            transparentInterval = setTimeout(makeTransparent, 5000); // Make transparent after 5 seconds
+            
+            // Remove any previous click event listeners
+            document.body.removeEventListener("click", checkWin);
         };
 
+        document.body.addEventListener("click", checkWin);
+        
+        // Start the game for the first time
         startGame();
     </script>
 </body>
