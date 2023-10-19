@@ -83,12 +83,18 @@
         outline: none;
       }
     </style>
-    <meta name="description" content="Play Alternate, a fun and challenging reaction game. Test your reflexes and set new high scores. Join the PlayNerdle gaming community!"/>
-
+    <meta
+      name="description"
+      content="Play Alternate, a fun and challenging reaction game. Test your reflexes and set new high scores. Join the PlayNerdle gaming community!"
+    />
   </head>
   <body>
     <div id="navbar-container"></div>
-    <p style="display: none;">Welcome to Alternate, a reflex-based game where you test your reaction speed. Click when prompted and try to achieve the highest score possible. Can you beat the challenge?</p>
+    <p style="display: none">
+      Welcome to Alternate, a reflex-based game where you test your reaction
+      speed. Click when prompted and try to achieve the highest score possible.
+      Can you beat the challenge?
+    </p>
     <div id="title">Alternate</div>
     <div id="gameArea" onclick="userClicked()">Click to Start!</div>
     <div id="score">Score: 0</div>
@@ -111,21 +117,24 @@
       let isGameOver = false;
 
       const titleElement = document.getElementById("title");
-const originalText = titleElement.textContent;
+      const originalText = titleElement.textContent;
 
-let coloredText = '';
-let isYellow = true;
+      let coloredText = "";
+      let isYellow = true;
 
-for (let char of originalText) {
-    if (char !== ' ') {  // Check if the character is not a space
-        coloredText += `<span style="color:${isYellow ? 'yellow' : 'black'}">${char}</span>`;
-        isYellow = !isYellow;  // Toggle the color for the next character
-    } else {
-        coloredText += char;  // Preserve the space without any color change
-    }
-}
+      for (let char of originalText) {
+        if (char !== " ") {
+          // Check if the character is not a space
+          coloredText += `<span style="color:${
+            isYellow ? "yellow" : "black"
+          }">${char}</span>`;
+          isYellow = !isYellow; // Toggle the color for the next character
+        } else {
+          coloredText += char; // Preserve the space without any color change
+        }
+      }
 
-titleElement.innerHTML = coloredText;
+      titleElement.innerHTML = coloredText;
 
       // Get the high score from local storage
       let highScore = localStorage.getItem("alternatehighScore") || 0;
@@ -142,7 +151,11 @@ titleElement.innerHTML = coloredText;
 
       // This function sets the text color based on the background color
       function setTextColorBasedOnBackground() {
-       if(gameArea.style.backgroundColor === "black") {gameArea.style.color = "yellow"}else{gameArea.style.color = "black"};
+        if (gameArea.style.backgroundColor === "black") {
+          gameArea.style.color = "yellow";
+        } else {
+          gameArea.style.color = "black";
+        }
       }
 
       function changeColor() {
@@ -158,6 +171,20 @@ titleElement.innerHTML = coloredText;
             isWaitingForClick = true;
             timeInterval = setInterval(updateTimeDisplay, 50);
           }, randomTime);
+        }
+      }
+
+      function getColorByPercentage(percentage) {
+        if (percentage <= 50) {
+          // Use #ddd until 50%
+          return `linear-gradient(#f4f4f4 ${
+            100 - percentage
+          }%, #ddd ${percentage}%)`;
+        } else {
+          // Switch to #aaa after 50%
+          return `linear-gradient(#f4f4f4 ${
+            100 - percentage
+          }%, #aaa ${percentage}%)`;
         }
       }
 
@@ -178,12 +205,12 @@ titleElement.innerHTML = coloredText;
         isGameOver = true;
         clearInterval(timeInterval);
         clearTimeout(timeoutId);
-      
-        gameArea.textContent = reason || "Game Over!"; 
-         if (reason === "Clicked too soon!") {
+
+        gameArea.textContent = reason || "Game Over!";
+        if (reason === "Clicked too soon!") {
           setTextColorBasedOnBackground(); // Ensuring the text color is set correctly for this message
         }
-     
+
         isGameStarted = false;
         restartButton.style.display = "block";
         totalReactionTime = 5000;

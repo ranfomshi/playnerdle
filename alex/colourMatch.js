@@ -208,7 +208,7 @@ function updateComparison() {
 
 
 
-function valueUp(x, y) {
+function valueUp(x) {
     if (localStorage.getItem('lastColourPlayDay') != day) {
 
         if (x.val() < 255) {
@@ -219,7 +219,7 @@ function valueUp(x, y) {
     }
 }
 
-function valueDown(x, y) {
+function valueDown(x) {
     if (localStorage.getItem('lastColourPlayDay') != day) {
 
         if (x.val() > 0) {
