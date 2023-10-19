@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ball Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        #gameZone {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 50px;
+            border: 1px solid #000;
+            overflow: hidden;
+        }
+
+        #ball {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        #targetZone {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            background-color: #00ff0040;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameZone">
+        <div id="targetZone"></div>
+        <div id="ball"></div>
+    </div>
+
+    <script>
+        let ball = document.getElementById("ball");
+        let gameZone = document.getElementById("gameZone");
+        let direction = 1; // 1 means right, -1 means left
+        let speed = 2; // Starting speed
+        let isTransparent = false;
+        let interval;
+        let transparentInterval;
+
+        const moveBall = () => {
+            let ballPosition = ball.offsetLeft;
+            if (ballPosition <= 0 || ballPosition >= gameZone.offsetWidth - ball.offsetWidth) {
+                direction *= -1; // Change direction
+            }
+            ball.style.left = ballPosition + (direction * speed) + "px";
+        };
+
+        const checkWin = () => {
+            let ballPosition = ball.offsetLeft;
+            let targetPosition = gameZone.offsetWidth / 2 - 50; // Target zone is centered
+            if (ballPosition >= targetPosition && ballPosition <= targetPosition + 100) {
+                clearInterval(interval);
+                clearInterval(transparentInterval);
+                speed += 0.5; // Increase speed for next level
+                startGame();
+            }
+        };
+
+        gameZone.addEventListener("click", () => {
+            if (!isTransparent) {
+                checkWin();
+            }
+        });
+
+        const makeTransparent = () => {
+            if (!isTransparent) {
+                ball.style.opacity = "0";
+                isTransparent = true;
+                setTimeout(() => {
+                    ball.style.opacity = "1";
+                    isTransparent = false;
+                }, 2000); // 2 seconds transparency
+            }
+        };
+
+        const startGame = () => {
+            ball.style.left = "0px";
+            interval = setInterval(moveBall, 50); // Refresh every 50ms
+            transparentInterval = setInterval(makeTransparent, 5000); // Make transparent every 5 seconds
+        };
+
+        startGame();
+    </script>
+</body>
+</html>
