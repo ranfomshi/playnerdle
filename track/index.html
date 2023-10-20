@@ -2,65 +2,84 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>Ball Game</title>
     <style>
+        /* ... [unchanged styles] ... */
+
         body {
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            background-color: #f5f5f5;
+            height: 100%;
+            padding-top: 10%;
+            background-color: #3c4555;
+            color: white;
         }
 
         #gameZone {
             position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 50px;
+            width: 54px;
+            height: 400px;
             border: 1px solid #000;
             overflow: hidden;
             margin-bottom: 20px;
+            border-radius: 30px;
+            border: 3px solid rgb(5, 90, 5);
         }
 
         #ball {
             position: absolute;
+            left: 0;
             width: 50px;
             height: 50px;
             background-color: red;
             border-radius: 50%;
+            margin-left: 2px;
+            margin-right: 2px;
         }
 
         #targetZone {
             position: absolute;
-            width: 100px;
-            height: 50px;
+            width: 50px;
+            height: 100px;
             background-color: #00ff0040;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 5px;
+            margin-left: 2px;
+            margin-right: 2px;
         }
 
-        #errorIndicator {
-            position: absolute;
-            width: 5px;
-            height: 50px;
-            background-color: blue;
+        #restartButton {
             display: none;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            color: white;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        #restartButton:hover {
+            background-color: #45a049;
         }
 
         #message {
             font-size: 24px;
             margin-top: 20px;
+            position: absolute;
+            bottom: 20px;
         }
 
-        #level {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
+        #level,
         #lives {
             font-size: 18px;
             margin-bottom: 20px;
@@ -69,97 +88,102 @@
 </head>
 
 <body>
+    <h4>Trak</h4>
     <div id="level">Level: 1</div>
     <div id="lives">Lives: 3</div>
     <div id="gameZone">
         <div id="targetZone"></div>
         <div id="ball"></div>
-        <div id="errorIndicator"></div>
     </div>
     <div id="message"></div>
+    <button id="restartButton" onclick="restartGame()">Restart Game</button>
 
     <script>
         let ball = document.getElementById("ball");
         let gameZone = document.getElementById("gameZone");
         let messageDiv = document.getElementById("message");
         let levelDiv = document.getElementById("level");
-        let errorIndicator = document.getElementById("errorIndicator");
-        let direction = 1; // 1 means right, -1 means left
-        let speed = 2; // Starting speed
+        let direction = 1; // 1 means down, -1 means up
+        let speed = 2;
         let level = 1;
         let interval;
         let transparentInterval;
 
-        let lives = 3; // Initialize with 3 lives
-        let livesDiv = document.getElementById("lives"); // Get the div to display the lives
+        let lives = 3;
+        let livesDiv = document.getElementById("lives");
 
         const moveBall = () => {
-            let ballPosition = ball.offsetLeft;
+            let ballPosition = ball.offsetTop;
             if (ballPosition <= 0) {
-                direction = 1; // Move right
-            } else if (ballPosition >= gameZone.offsetWidth - ball.offsetWidth) {
-                direction = -1; // Move left
+                direction = 1; // Move down
+            } else if (ballPosition >= gameZone.offsetHeight - ball.offsetHeight) {
+                direction = -1; // Move up
             }
-            ball.style.left = ballPosition + (direction * speed) + "px";
+            ball.style.top = ballPosition + direction * speed + "px";
+        };
+
+        const enableClicks = () => {
+            document.body.style.pointerEvents = "auto";
+        };
+
+        const makeTransparent = () => {
+            ball.style.opacity = "0";
+            enableClicks();
         };
 
         const checkWin = () => {
-            // Calculate the center position of the ball
-            let ballCenterPosition = ball.offsetLeft + ball.offsetWidth / 2;
-            let targetPosition = gameZone.offsetWidth / 2 - 50; // Target zone is centered
+            ball.style.opacity = 0.5;
+            let ballCenterPosition = ball.offsetTop + ball.offsetHeight / 2;
+            let targetPosition = gameZone.offsetHeight / 2 - 50;
 
             if (ballCenterPosition >= targetPosition && ballCenterPosition <= targetPosition + 100) {
                 messageDiv.textContent = "Success!";
                 level++;
-                speed += 0.5; // Increase speed for next level
+                speed += 0.5;
             } else {
                 messageDiv.textContent = "Try Again!";
-                errorIndicator.style.left = ballCenterPosition - errorIndicator.offsetWidth / 2 + "px";
-                errorIndicator.style.display = "block";
-
-                lives--; // Decrement the lives count
-                livesDiv.textContent = "Lives: " + lives; // Update the displayed lives count
+                lives--;
+                livesDiv.textContent = "Lives: " + lives;
 
                 if (lives <= 0) {
                     messageDiv.textContent = "Game Over!";
                     clearInterval(interval);
                     clearTimeout(transparentInterval);
-                    document.body.removeEventListener("click", checkWin); // Remove click event listener to prevent further gameplay
-                    return; // Exit the function early
+                    document.body.removeEventListener("click", checkWin);
+                    document.getElementById("restartButton").style.display = "block";
+                    return;
                 }
             }
             levelDiv.textContent = "Level: " + level;
             clearInterval(interval);
-            setTimeout(startGame, 2000); // Restart game after 2 seconds
+            setTimeout(startGame, 2000);
         };
 
-        const enableClicks = () => {
-            document.body.style.pointerEvents = "auto"; // Enable clicks
-        };
-
-        const makeTransparent = () => {
-            ball.style.opacity = "0";
-            enableClicks(); // Allow clicking once the ball is transparent
+        const restartGame = () => {
+            lives = 3;
+            level = 1;
+            speed = 2;
+            livesDiv.textContent = "Lives: " + lives;
+            levelDiv.textContent = "Level: " + level;
+            document.getElementById("restartButton").style.display = "none";
+            ball.style.opacity = "1";
+            startGame();
         };
 
         const startGame = () => {
-            // Clear existing timeouts and intervals
             clearTimeout(transparentInterval);
             clearInterval(interval);
-            
-            ball.style.left = "0px";
+
+            ball.style.top = "0px";
             ball.style.opacity = "1";
-            document.body.style.pointerEvents = "none"; // Disable clicks again
-            messageDiv.textContent = ""; // Clear previous message
-            errorIndicator.style.display = "none";
-            interval = setInterval(moveBall, 50); // Refresh every 50ms
-            transparentInterval = setTimeout(makeTransparent, 5000); // Make transparent after 5 seconds
-            
-            // Add click event listener
+            document.body.style.pointerEvents = "none";
+            messageDiv.textContent = "";
+            interval = setInterval(moveBall, 50);
+            transparentInterval = setTimeout(makeTransparent, 5000);
+
             document.body.addEventListener("click", checkWin);
         };
 
-        // Start the game for the first time
         startGame();
     </script>
 </body>
