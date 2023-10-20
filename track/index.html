@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,10 +60,17 @@
             font-size: 18px;
             margin-bottom: 20px;
         }
+
+        #lives {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
     <div id="level">Level: 1</div>
+    <div id="lives">Lives: 3</div>
     <div id="gameZone">
         <div id="targetZone"></div>
         <div id="ball"></div>
@@ -81,6 +89,9 @@
         let level = 1;
         let interval;
         let transparentInterval;
+
+        let lives = 3; // Initialize with 3 lives
+        let livesDiv = document.getElementById("lives"); // Get the div to display the lives
 
         const moveBall = () => {
             let ballPosition = ball.offsetLeft;
@@ -103,9 +114,19 @@
                 speed += 0.5; // Increase speed for next level
             } else {
                 messageDiv.textContent = "Try Again!";
-                // Position errorIndicator at the center of the ball
                 errorIndicator.style.left = ballCenterPosition - errorIndicator.offsetWidth / 2 + "px";
                 errorIndicator.style.display = "block";
+
+                lives--; // Decrement the lives count
+                livesDiv.textContent = "Lives: " + lives; // Update the displayed lives count
+
+                if (lives <= 0) {
+                    messageDiv.textContent = "Game Over!";
+                    clearInterval(interval);
+                    clearTimeout(transparentInterval);
+                    document.body.removeEventListener("click", checkWin); // Remove click event listener to prevent further gameplay
+                    return; // Exit the function early
+                }
             }
             levelDiv.textContent = "Level: " + level;
             clearInterval(interval);
@@ -134,14 +155,13 @@
             interval = setInterval(moveBall, 50); // Refresh every 50ms
             transparentInterval = setTimeout(makeTransparent, 5000); // Make transparent after 5 seconds
             
-            // Remove any previous click event listeners
-            document.body.removeEventListener("click", checkWin);
+            // Add click event listener
+            document.body.addEventListener("click", checkWin);
         };
 
-        document.body.addEventListener("click", checkWin);
-        
         // Start the game for the first time
         startGame();
     </script>
 </body>
+
 </html>
