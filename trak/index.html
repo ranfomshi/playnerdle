@@ -20,11 +20,12 @@
         padding-top: 10%;
         background-color: #3c4555;
         color: white;
+        cursor: pointer;
       }
 
       #gameZone {
         position: absolute;
-        top:50%;
+        top: 50%;
         transform: translateY(-50%);
         width: 54px;
         height: 400px;
@@ -91,16 +92,28 @@
         font-size: 18px;
         margin-bottom: 20px;
       }
-      #info{
+      #info {
         position: fixed;
         left: 10px;
-        top:50%;
+        top: 50%;
         transform: translateY(-50%);
       }
 
-      #title{
+      #title {
         position: absolute;
-        top:40px
+        top: 40px;
+      }
+
+      #clickArea{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     </style>
   </head>
@@ -111,11 +124,13 @@
       <div id="level">Level: 1</div>
       <div id="lives">Lives: 3</div>
     </div>
-
-    <div id="gameZone">
-      <div id="targetZone"></div>
-      <div id="ball"></div>
+    <div id="clickArea">
+      <div id="gameZone">
+        <div id="targetZone"></div>
+        <div id="ball"></div>
+      </div>
     </div>
+
     <div id="message"></div>
     <button id="restartButton" onclick="restartGame()">Restart Game</button>
 
@@ -129,6 +144,7 @@
       let level = 1;
       let interval;
       let transparentInterval;
+      let checkWinTimeout; // Declare this variable for timeout
 
       let lives = 3;
       let livesDiv = document.getElementById("lives");
@@ -173,14 +189,14 @@
             messageDiv.textContent = "Game Over!";
             clearInterval(interval);
             clearTimeout(transparentInterval);
-            document.body.removeEventListener("click", checkWin);
+            document.getElementById("clickArea").removeEventListener("click", checkWin);
             document.getElementById("restartButton").style.display = "block";
             return;
           }
         }
         levelDiv.textContent = "Level: " + level;
         clearInterval(interval);
-        setTimeout(startGame, 2000);
+        checkWinTimeout = setTimeout(startGame, 2000); // Assign the timeout to the variable
       };
 
       const restartGame = () => {
@@ -196,6 +212,7 @@
 
       const startGame = () => {
         clearTimeout(transparentInterval);
+        clearTimeout(checkWinTimeout); // Clear any existing timeout
         clearInterval(interval);
 
         ball.style.top = "0px";
@@ -205,7 +222,7 @@
         interval = setInterval(moveBall, 50);
         transparentInterval = setTimeout(makeTransparent, 5000);
 
-        document.body.addEventListener("click", checkWin);
+        document.getElementById("clickArea").addEventListener("click", checkWin);
       };
 
       startGame();
