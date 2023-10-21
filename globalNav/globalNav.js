@@ -54,7 +54,7 @@ function insertNavbar() {
       top: 0;
       left: 0;
       box-sizing: border-box;
-      z-index:999;
+      z-index:9999999999999;
     }
 
     .brand {
