@@ -18,6 +18,7 @@ function insertNavbar() {
           <li><a href="/hunt" onClick="NAVhuntClick()">XY</a></li>
           <li><a href="/hue" onClick="NAVhueClick()">hue</a></li>
           <li><a href="/alternate" onClick="NAValternateClick()">alternate</a></li>
+          <li><a href="/trak" onClick="NAVtrakClick()">trak</a></li>
         </ul>
       </div>
     `;
@@ -183,4 +184,7 @@ function NAVhueClick(){
 }
 function NAValternateClick(){
   sendEvent('navSelection', 'Click', 'alternate')
+}
+function NAVtrakClick(){
+  sendEvent('navSelection', 'Click', 'trak')
 }
