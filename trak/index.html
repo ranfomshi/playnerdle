@@ -18,7 +18,7 @@
         justify-content: center;
         max-height: 80%;
         padding-top: 10%;
-        background-color: #3c4555;
+        background-color: #252a34;
         color: white;
         cursor: pointer;
       }
@@ -31,6 +31,7 @@
         height: 400px;
         max-height: 400px;
         border: 1px solid #000;
+        background: #485265;
         overflow: hidden;
         margin-bottom: 20px;
         border-radius: 30px;
@@ -90,13 +91,22 @@
       #level,
       #lives {
         font-size: 18px;
-        margin-bottom: 20px;
+        font-weight: bold;
+        color: white;
       }
       #info {
         position: fixed;
         left: 10px;
         top: 50%;
+        width:100px;
         transform: translateY(-50%);
+        border: 2px solid #45a049;
+        padding: 5px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 90px;
       }
 
       #title {
@@ -104,7 +114,7 @@
         top: 40px;
       }
 
-      #clickArea{
+      #clickArea {
         position: absolute;
         top: 0;
         left: 0;
@@ -119,6 +129,7 @@
   </head>
 
   <body>
+    <div id="navbar-container"></div>
     <h4 id="title">Trak</h4>
     <div id="info">
       <div id="level">Level: 1</div>
@@ -133,7 +144,7 @@
 
     <div id="message"></div>
     <button id="restartButton" onclick="restartGame()">Restart Game</button>
-
+    <script src="../globalNav/globalNav.js" defer></script>
     <script>
       let ball = document.getElementById("ball");
       let gameZone = document.getElementById("gameZone");
@@ -144,10 +155,19 @@
       let level = 1;
       let interval;
       let transparentInterval;
-      let checkWinTimeout; // Declare this variable for timeout
 
       let lives = 3;
       let livesDiv = document.getElementById("lives");
+
+      let totalDistanceTraveled = 0;
+
+      function computeTransparencyDistance() {
+        // Calculate the number of brackets of 5 levels
+        let brackets = Math.floor((level - 1) / 5);
+        return (
+          410 + Math.random() * 10 + 400 * brackets - ball.offsetHeight / 2
+        );
+      }
 
       const moveBall = () => {
         let ballPosition = ball.offsetTop;
@@ -156,16 +176,26 @@
         } else if (ballPosition >= gameZone.offsetHeight - ball.offsetHeight) {
           direction = -1; // Move up
         }
-        ball.style.top = ballPosition + direction * speed + "px";
+
+        // Calculate the new position
+        let newPosition = ballPosition + direction * speed;
+        ball.style.top = newPosition + "px";
+
+        // Update the total distance traveled
+        totalDistanceTraveled += Math.abs(newPosition - ballPosition);
+
+        // Check if the ball should be made transparent
+        if (
+          totalDistanceTraveled >= computeTransparencyDistance() &&
+          ball.style.opacity != "0"
+        ) {
+          ball.style.opacity = "0";
+          enableClicks();
+        }
       };
 
       const enableClicks = () => {
         document.body.style.pointerEvents = "auto";
-      };
-
-      const makeTransparent = () => {
-        ball.style.opacity = "0";
-        enableClicks();
       };
 
       const checkWin = () => {
@@ -188,15 +218,14 @@
           if (lives <= 0) {
             messageDiv.textContent = "Game Over!";
             clearInterval(interval);
-            clearTimeout(transparentInterval);
-            document.getElementById("clickArea").removeEventListener("click", checkWin);
+            document.body.removeEventListener("click", checkWin);
             document.getElementById("restartButton").style.display = "block";
             return;
           }
         }
         levelDiv.textContent = "Level: " + level;
         clearInterval(interval);
-        checkWinTimeout = setTimeout(startGame, 2000); // Assign the timeout to the variable
+        setTimeout(startGame, 2000);
       };
 
       const restartGame = () => {
@@ -211,8 +240,7 @@
       };
 
       const startGame = () => {
-        clearTimeout(transparentInterval);
-        clearTimeout(checkWinTimeout); // Clear any existing timeout
+        totalDistanceTraveled = 0; // Reset the distance traveled when the game restarts
         clearInterval(interval);
 
         ball.style.top = "0px";
@@ -220,9 +248,8 @@
         document.body.style.pointerEvents = "none";
         messageDiv.textContent = "";
         interval = setInterval(moveBall, 50);
-        transparentInterval = setTimeout(makeTransparent, 5000);
 
-        document.getElementById("clickArea").addEventListener("click", checkWin);
+        document.body.addEventListener("click", checkWin);
       };
 
       startGame();
