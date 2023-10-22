@@ -78,6 +78,8 @@
   </style>
 
   <body onscroll="scrollEffect()">
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v18.0&appId=395661084387771" nonce="0n0lHzrT"></script>
     <div id="navbar-container"></div>
     <div class="hiddenHeadings">
       <p>
@@ -235,14 +237,27 @@
   onclick="window.location.href='./trak', huntClick()"
 >
   <div class="game">
-    <img alt="hue" src="./images/trak.png" />
+    <img alt="trak" src="./images/trak.png" />
     <div class="gameTitle">Trak</div>
     <div class="gameInfo">
       <div>Stop the ball in the green zone. What ball?</div>
     </div>
   </div>
 </div>
-      
+        <div
+  class="tile"
+  id="trak"
+  onclick="window.location.href=`https://www.facebook.com/profile.php?id=61552171184790`, huntClick()"
+>
+  <div class="game" style="background-color: aliceblue;">
+    <div style="margin: auto; width: 100%; height: 100%; margin-top: 50%; transform: translatey(-35%);" class="fb-page" data-href="https://www.facebook.com/profile.php?id=61552171184790" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=61552171184790" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=61552171184790">Facebook</a></blockquote></div>
+  
+    <div class="gameTitle">Facebook</div>
+    <div class="gameInfo">
+      <div>Like and follow</div>
+    </div>
+  </div>
+</div>
       <div
         class="tile"
         id="Coffee onclick="
@@ -270,11 +285,13 @@
           </div>
         </div>
       </div>
+    
     </div>
     <div class="cookies">
       We don't use cookies at all. We don't care about your personal data :) <button onclick="{document.getElementsByClassName('cookies')[0].style.display = 'none';}">ok</button>
     </div>
     <div class="footer">
+     
       <div class="footer-section">
         <h4>Benefits</h4>
         <a target="_blank" href="https://www.progresslifeline.org.uk/news/the-benefit-of-puzzles-for-the-brain">How is this good for me?</a>
@@ -314,8 +331,9 @@
           <li><a href="/trak" target="_blank">trak</a></li>
         </ul>
       </div>
+     
     </div>
-    <!-- global elements -->
+   <!-- global elements -->
     <script src="globalNav/globalNav.js" defer></script>
   </body>
 </html>
