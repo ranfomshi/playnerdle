@@ -202,8 +202,8 @@
       }
 
       function gameOver(reason) {
-        mixpanel.track('Sign Up', {
-  'test': 'test'
+        mixpanel.track('Alternate score', {
+  'test': score
 })
         isGameOver = true;
         clearInterval(timeInterval);
