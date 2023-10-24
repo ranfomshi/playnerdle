@@ -112,5 +112,5 @@ body {
   }
 
   span>iframe{
-    width:100px;
+    width:100px !important;
   }
