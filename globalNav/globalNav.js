@@ -19,6 +19,7 @@ function insertNavbar() {
           <li><a href="/hue" onClick="NAVhueClick()">hue</a></li>
           <li><a href="/alternate" onClick="NAValternateClick()">alternate</a></li>
           <li><a href="/trak" onClick="NAVtrakClick()">trak</a></li>
+          <li><a href="/tintuition" onClick="NAVtrakClick()">tintuition</a></li>
         </ul>
       </div>
     `;
@@ -151,40 +152,44 @@ function insertNavbar() {
   
 
 
-function sendEvent(category, action, label) {
-    if ("ga" in window) {
-        tracker = ga.getAll()[0];
-        if (tracker)
-            tracker.send("event", category, action, label);
+  function sendEvent(eventName, params) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', eventName, params);
     }
-
 }
 
-function NAVnerdleClick(){
-    sendEvent('navSelection', 'Click', 'nerdle')
-}
 function NAVreactionClick(){
-    sendEvent('navSelection', 'Click', 'reaction')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'reaction' });
 }
+
 function NAVcolourMatchClick(){
-    sendEvent('navSelection', 'Click', 'colourMatch')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'colourMatch' });
 }
+
 function NAVbludleClick(){
-    sendEvent('navSelection', 'Click', 'bludle')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'bludle' });
 }
+
 function NAVcodleClick(){
-    sendEvent('navSelection', 'Click', 'codle')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'codle' });
 }
 
 function NAVhomeClick(){
-    sendEvent('navSelection', 'Click', 'home')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'home' });
 }
+
 function NAVhueClick(){
-  sendEvent('navSelection', 'Click', 'hue')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'hue' });
 }
+
 function NAValternateClick(){
-  sendEvent('navSelection', 'Click', 'alternate')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'alternate' });
 }
+
 function NAVtrakClick(){
-  sendEvent('navSelection', 'Click', 'trak')
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'trak' });
+}
+
+function NAVtintuitionClick(){
+    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'tintuition' });
 }
