@@ -110,3 +110,7 @@ body {
   .footer-section ul li a:hover {
     text-decoration: underline;
   }
+
+  span>iframe{
+    width:100px;
+  }
