@@ -162,6 +162,8 @@
 
       let totalDistanceTraveled = 0;
 
+      
+
       function computeTransparencyDistance() {
         // Calculate the number of brackets of 5 levels
         let brackets = Math.floor((level - 1) / 5);
@@ -241,6 +243,8 @@
       };
 
       const startGame = () => {
+        document.getElementById("submitBtn").style.display = "inline-block"; // Show the submit button
+          
         totalDistanceTraveled = 0; // Reset the distance traveled when the game restarts
         clearInterval(interval);
 
@@ -252,6 +256,33 @@
 
         document.body.addEventListener("click", checkWin);
       };
+
+      function checkColors() {
+            let hueDifference = Math.abs(targetHue - hueSlider.value);
+            let saturationDifference = Math.abs(targetSaturation - saturationSlider.value);
+            let brightnessDifference = Math.abs(targetBrightness - brightnessSlider.value);
+            let totalDifference = hueDifference + saturationDifference + brightnessDifference;
+
+            message.textContent = `Hue difference: ${hueDifference}, Saturation difference: ${saturationDifference}, Brightness difference: ${brightnessDifference}. `;
+
+            if (totalDifference <= MAX_DIFFERENCE) {
+                message.textContent += 'Well done!';
+                level++;
+                levelDisplay.textContent = level;
+                setTimeout(startGame, 2000);
+            } else {
+                lives--;
+                livesDisplay.textContent = lives;
+                if (lives <= 0) {
+                    message.textContent += 'Game Over!';
+                    restartBtn.style.display = "block";
+                    document.getElementById("submitBtn").style.display = "none";
+                } else {
+                    message.textContent += 'Try again!';
+                    setTimeout(startGame, 2000);
+                }
+            }
+        }
 
       startGame();
     </script>

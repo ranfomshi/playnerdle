@@ -96,12 +96,17 @@
         display: flex;
         justify-content: center;
       }
+
+      #submitBtn{
+        display: none;
+      }
     </style>
   </head>
 
   <body>
+    <div id="navbar-container"></div>
     <div id="gameArea">
-      <h2>Match the Color</h2>
+      <h2>Tintuition</h2>
       <p>
         Adjust the hue, saturation, and brightness sliders to match the target
         color before the timer runs out!
@@ -188,7 +193,7 @@
         </button>
       </div>
     </div>
-
+    <script src="../globalNav/globalNav.js" defer></script>
     <script>
       const BASE_GAME_DURATION = 60000;
       const TIME_REDUCTION = 5000;
@@ -217,6 +222,8 @@
       let level = 1;
 
       function startGame() {
+        document.getElementById("submitBtn").style.display = "inline-block"; 
+        document.getElementById("restartBtn").style.display = "none"; 
         startBtn.style.display = "none";
         targetHue = Math.floor(Math.random() * 361);
         targetSaturation = Math.floor(Math.random() * 71) + 30;
@@ -275,34 +282,36 @@
       }
 
       function checkColors() {
-        let hueDifference = Math.abs(targetHue - hueSlider.value);
-        let saturationDifference = Math.abs(
-          targetSaturation - saturationSlider.value
-        );
-        let brightnessDifference = Math.abs(
-          targetBrightness - brightnessSlider.value
-        );
-        let totalDifference =
-          hueDifference + saturationDifference + brightnessDifference;
+    let hueDifference = Math.abs(targetHue - hueSlider.value);
+    let saturationDifference = Math.abs(
+      targetSaturation - saturationSlider.value
+    );
+    let brightnessDifference = Math.abs(
+      targetBrightness - brightnessSlider.value
+    );
+    let totalDifference =
+      hueDifference + saturationDifference + brightnessDifference;
 
-        if (totalDifference <= MAX_DIFFERENCE) {
-          message.textContent = "Well done!";
-          level++;
-          levelDisplay.textContent = level;
-          setTimeout(startGame, 2000);
-        } else {
-          lives--;
-          livesDisplay.textContent = lives;
-          if (lives <= 0) {
-            message.textContent = "Game Over!";
-            restartBtn.style.display = "block";
-            document.getElementById("submitBtn").style.display = "none";
-          } else {
-            message.textContent = "Try again!";
-            setTimeout(startGame, 2000);
-          }
-        }
+    if (totalDifference <= MAX_DIFFERENCE) {
+      message.textContent = `Well done!`;
+      level++;
+      levelDisplay.textContent = level;
+      setTimeout(startGame, 2500);
+    } else {
+      lives--;
+      livesDisplay.textContent = lives;
+      if (lives <= 0) {
+        message.textContent = "Game Over!";
+        restartBtn.style.display = "block";
+        document.getElementById("submitBtn").style.display = "none";
+      } else {
+        message.textContent = `Try again! Differences: Hue: ${hueDifference}, Saturation: ${saturationDifference}, Brightness: ${brightnessDifference}`;
+        document.getElementById("submitBtn").style.display = "none"; // Hide the submit button
+        setTimeout(startGame, 2500);
       }
+    }
+}
+
 
       function restartGame() {
         lives = 3;
