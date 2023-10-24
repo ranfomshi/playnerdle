@@ -114,6 +114,23 @@
         max-width: 400px;
         text-align: center;
       }
+
+      .close-btn {
+    position: relative;
+    width: 100%;
+    text-align: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    color: #180d0d;
+}
+
+.close-btn:hover {
+    color: #555;
+}
     </style>
     <meta
       name="description"
@@ -124,11 +141,12 @@
     <div id="navbar-container"></div>
     <!-- submit score modal -->
     <div id="scoreModal" class="modal">
-      <div class="modal-content">
+      <div class="modal-content"> <div class="close-btn" onclick="closeModal()">&times;</div>
         <h2>Game Over!</h2>
         <p>Your Score: <span id="finalScore"></span></p>
         <p>You can submit to the global leaderboard</p>
-      
+       
+
         <form id="scoreForm" style="margin-bottom: 20px;">
           <input 
             type="text"
@@ -139,7 +157,7 @@
           <input style="margin-left:10px" type="email" id="email" placeholder="Email"/>
           <button class="btn" type="submit">Submit Score</button>
       
-        <button class="btn" onclick="closeModal()">Cancel</button>  </form>  <small>Submit your email to be contacted if you win a prize</small>
+     </form>  <small>Submit your email to be contacted if you win a prize</small>
       </div>
     </div>
 
