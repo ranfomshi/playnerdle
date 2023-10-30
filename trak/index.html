@@ -113,11 +113,11 @@
 
       #clickArea {
         position: absolute;
-        top: 0;
+        top: 50px;
         left: 0;
         background-color: transparent;
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 50px);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -202,7 +202,7 @@
       };
 
       const enableClicks = () => {
-        document.body.style.pointerEvents = "auto";
+        document.getElementById('clickArea').style.pointerEvents = "auto";
       };
 
       const checkWin = () => {
@@ -259,7 +259,7 @@
 
         ball.style.top = "0px";
         ball.style.opacity = "1";
-        document.body.style.pointerEvents = "none";
+        document.getElementById('clickArea').style.pointerEvents = "none";
         messageDiv.textContent = "";
         interval = setInterval(moveBall, 50);
 
