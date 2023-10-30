@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1"
-    />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title>Trak</title>
     <style>
       /* ... [unchanged styles] ... */
@@ -85,7 +82,7 @@
         font-size: 24px;
         margin-top: 20px;
         position: absolute;
-        bottom: 20px;
+        bottom: 60px;
       }
 
       #level,
@@ -125,10 +122,19 @@
         justify-content: center;
         align-items: center;
       }
+
+      #instruction{
+        position: absolute;
+        bottom: 20px;
+        text-align: center;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
     </style>
   </head>
 
   <body>
+    <div id="instruction">When the ball disappears, keep track of it and click when it's in the green zone</div>
     <div id="navbar-container"></div>
     <h4 id="title">Trak</h4>
     <div id="info">
@@ -160,8 +166,6 @@
       let livesDiv = document.getElementById("lives");
 
       let totalDistanceTraveled = 0;
-
-      
 
       function computeTransparencyDistance() {
         // Calculate the number of brackets of 5 levels
@@ -209,11 +213,18 @@
           ballCenterPosition >= targetPosition &&
           ballCenterPosition <= targetPosition + 100
         ) {
-          messageDiv.textContent = "Success!";
+          messageDiv.innerHTML = `
+  <div style="width: 50px; height: 50px; background-color: green; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+    <span style="color: white; font-size: 24px;">✓</span>
+  </div>`;
+
           level++;
           speed += 0.5;
         } else {
-          messageDiv.textContent = "Try Again!";
+          messageDiv.innerHTML = `
+  <div style="width: 50px; height: 50px; background-color: red; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+    <span style="color: white; font-size: 24px;">X</span>
+  </div>`;
           lives--;
           livesDiv.textContent = "Lives: " + lives;
 
@@ -242,8 +253,6 @@
       };
 
       const startGame = () => {
-        document.getElementById("submitBtn").style.display = "inline-block"; // Show the submit button
-          
         totalDistanceTraveled = 0; // Reset the distance traveled when the game restarts
         clearInterval(interval);
 
@@ -255,33 +264,6 @@
 
         document.body.addEventListener("click", checkWin);
       };
-
-      function checkColors() {
-            let hueDifference = Math.abs(targetHue - hueSlider.value);
-            let saturationDifference = Math.abs(targetSaturation - saturationSlider.value);
-            let brightnessDifference = Math.abs(targetBrightness - brightnessSlider.value);
-            let totalDifference = hueDifference + saturationDifference + brightnessDifference;
-
-            message.textContent = `Hue difference: ${hueDifference}, Saturation difference: ${saturationDifference}, Brightness difference: ${brightnessDifference}. `;
-
-            if (totalDifference <= MAX_DIFFERENCE) {
-                message.textContent += 'Well done!';
-                level++;
-                levelDisplay.textContent = level;
-                setTimeout(startGame, 2000);
-            } else {
-                lives--;
-                livesDisplay.textContent = lives;
-                if (lives <= 0) {
-                    message.textContent += 'Game Over!';
-                    restartBtn.style.display = "block";
-                    document.getElementById("submitBtn").style.display = "none";
-                } else {
-                    message.textContent += 'Try again!';
-                    setTimeout(startGame, 2000);
-                }
-            }
-        }
 
       startGame();
     </script>
