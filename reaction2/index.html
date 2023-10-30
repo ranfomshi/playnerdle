@@ -245,16 +245,16 @@
       }
 
       function logReactionTime(reactionTime) {
-        const auditLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
+        const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
         const today = getTodayAsString();
-        auditLog.push({
+        historicLog.push({
           date: today,
           reactionTime: reactionTime,
         });
-        localStorage.setItem("historicScores", JSON.stringify(auditLog));
+        localStorage.setItem("historicScores", JSON.stringify(historicLog));
       }
       function showReactionTimes() {
-        const auditLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
+        const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
         const reactionGraph = document.getElementById("reactionGraph");
 
         // Clear previous bars
@@ -263,7 +263,7 @@
         let totalReactionTime = 0;
         let maxReactionTime = 0; // New variable to store the maximum reaction time
 
-        const reversedLog = [...auditLog]
+        const reversedLog = [...historicLog]
 
         reversedLog.forEach((entry) => {
           totalReactionTime += entry.reactionTime;
@@ -292,7 +292,7 @@
         const averageTime = document.getElementById("averageTime");
         averageTime.textContent =
           "Average Reaction Time: " +
-          (totalReactionTime / auditLog.length / 1000).toFixed(3) +
+          (totalReactionTime / historicLog.length / 1000).toFixed(3) +
           " s";
       }
 
