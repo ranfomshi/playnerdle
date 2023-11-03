@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reaction Timer Game</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: rgb(41, 41, 41);
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      #start-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2em;
+        user-select: none;
+      }
+      #timer,
+      #total-timer {
+        position: absolute;
+        font-size: 2em;
+        color: white;
+        background-color: rgba(
+          255,
+          165,
+          0,
+          0.75
+        ); /* Making the background semi-transparent */
+        border-radius: 10px;
+        padding: 10px;
+        display: none; /* Initially hide the timers */
+      }
+      #timer {
+        bottom: 20px;
+        right: 20px;
+      }
+      #total-timer {
+        bottom: 20px;
+        left: 20px;
+      }
+      #game-over-message {
+        display: none;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2em;
+        user-select: none;
+      }
+      @keyframes bonus-fade-move {
+        from {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateX(-50%) translateY(-50px);
+        }
+      }
+
+      .bonus-animation {
+        animation: bonus-fade-move 2s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="start-message">Click to start</div>
+    <div id="timer">0.00</div>
+    <div id="total-timer">0.00</div>
+    <div id="game-over-message">
+      Game over!<br />You scored <span id="click-count"></span>
+    </div>
+
+    <script>
+      let gameStarted = false;
+      let timerStarted = false;
+      let reactionStart = 0;
+      let timeoutHandle;
+      let intervalHandle;
+      let totalReactionTime = 0;
+      let successfulClicks = 0; // Counter for successful clicks
+
+      const startMessage = document.getElementById("start-message");
+      const timerDisplay = document.getElementById("timer");
+      const totalTimerDisplay = document.getElementById("total-timer");
+      const gameOverMessage = document.getElementById("game-over-message");
+      const clickCountElement = document.getElementById("click-count");
+
+      function updateTimer() {
+        const currentTime = Date.now();
+        const elapsedTime = (currentTime - reactionStart) / 1000;
+        timerDisplay.textContent = elapsedTime.toFixed(2);
+
+        // Check if the total time exceeds 5 seconds
+        if (totalReactionTime + elapsedTime >= 5) {
+          gameOver();
+        }
+      }
+
+      function startGame() {
+        gameStarted = true;
+        successfulClicks = 0; // Reset successful clicks for a new game
+        totalReactionTime = 0; // Reset total reaction time for a new game
+        startMessage.style.display = "none";
+        gameOverMessage.style.display = "none"; // Ensure the game over message is hidden
+        totalTimerDisplay.textContent = totalReactionTime.toFixed(2);
+        totalTimerDisplay.style.display = "block";
+        startRandomTimer();
+      }
+
+      function startRandomTimer() {
+        timerStarted = false;
+        timerDisplay.style.display = "none";
+        const waitTime = Math.random() * 1500 + 500;
+        timeoutHandle = setTimeout(() => {
+          document.body.style.backgroundColor = "white";
+          reactionStart = Date.now();
+          timerStarted = true;
+          timerDisplay.textContent = "0.00";
+          timerDisplay.style.display = "block";
+          intervalHandle = setInterval(updateTimer, 10);
+        }, waitTime);
+      }
+
+      function showBonusAnimation(actualReactionTime, bonusTime = 0) {
+        const bonusElement = document.createElement("div");
+        let message = `Reaction: ${actualReactionTime.toFixed(2)}s<br>`;
+        if (bonusTime > 0) {
+          message += `Bonus: -${bonusTime.toFixed(2)}s<br>`;
+        }
+        message += `Score: ${successfulClicks}`;
+
+        // Set innerHTML to include HTML tags like <br>
+        bonusElement.innerHTML = message;
+        bonusElement.style.position = "absolute";
+        bonusElement.style.left = "50%";
+        bonusElement.style.bottom = "50px";
+        bonusElement.style.transform = "translateX(-50%)";
+        bonusElement.style.color = "#FFA500";
+        bonusElement.style.fontWeight = "bold";
+        bonusElement.style.fontSize = "1.5em";
+        bonusElement.classList.add("bonus-animation");
+        document.body.appendChild(bonusElement);
+
+        // Remove the bonus element after the animation is done
+        bonusElement.onanimationend = () => {
+          document.body.removeChild(bonusElement);
+        };
+      }
+
+      function stopTimer() {
+        if (timerStarted) {
+          clearInterval(intervalHandle);
+          const reactionTime = (Date.now() - reactionStart) / 1000;
+          let bonusTime = 0;
+
+          // Calculate bonus based on reaction time
+          if (reactionTime <= 0.2) {
+            bonusTime = 0.5;
+          } else if (reactionTime <= 0.4) {
+            bonusTime = 0.2;
+          } else if (reactionTime <= 0.6) {
+            bonusTime = 0.1;
+          }
+
+          // Apply bonus time
+          totalReactionTime += reactionTime - bonusTime;
+          totalReactionTime = Math.max(0, totalReactionTime); // Ensure it doesn't go below zero
+
+          successfulClicks++; // Increment successful clicks
+
+          showBonusAnimation(reactionTime, bonusTime);
+
+          totalTimerDisplay.textContent = totalReactionTime.toFixed(2);
+          document.body.style.backgroundColor = "black";
+
+          if (totalReactionTime >= 5) {
+            gameOver();
+          } else {
+            startRandomTimer();
+          }
+        } else if (gameStarted) {
+          // Here we do not update successfulClicks because the click was not successful (it was early)
+          gameOver();
+        }
+      }
+
+      function gameOver() {
+        clearTimeout(timeoutHandle);
+        clearInterval(intervalHandle);
+        document.body.style.backgroundColor = "black";
+        gameOverMessage.style.display = "block";
+        clickCountElement.textContent = successfulClicks; // Display the successful clicks
+        timerDisplay.style.display = "none";
+        totalTimerDisplay.style.display = "none";
+        startMessage.style.display = "block";
+        startMessage.textContent = "Click to restart";
+        gameStarted = false;
+      }
+
+      document.body.addEventListener("click", function () {
+        if (!gameStarted) {
+          startGame();
+        } else {
+          stopTimer();
+        }
+      });
+    </script>
+  </body>
+</html>
