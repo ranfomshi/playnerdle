@@ -68,16 +68,59 @@
       }
 
       .bonus-animation {
-        animation: bonus-fade-move 2s ease-out forwards;
+        animation: bonus-fade-move 2.5s ease-out forwards;
+      }
+
+      #time-bar-container {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 20px; /* Width of the progress bar */
+        height: 100%;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.2
+        ); /* Slightly visible background */
+      }
+
+      #time-bar {
+        width: 100%;
+        height: 0%; /* Initial height of the bar */
+        background-color: rgb(255, 165, 0); /* Color of the progress bar */
+        transition: height 0.5s ease; /* Smooth transition for height changes */
+      }
+
+      #restart-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1em;
+        color: white;
+        background-color: #ffa500;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
-    <div id="start-message">Click to start</div>
+    <div id="start-message">
+      <b>Click the screen whenever it turns white</b><br /><br />You have a bank
+      of 5s to use<br /><br />See how many times you can react in total<br /><br />You
+      will get bonuses for reacting quicker to keep the game going.<br /><br />Click
+      to start
+    </div>
     <div id="timer">0.00</div>
     <div id="total-timer">0.00</div>
     <div id="game-over-message">
-      Game over!<br />You scored <span id="click-count"></span>
+      Game over!<br />You scored <span id="click-count"></span><br />
+      <button id="restart-button">Click to Restart</button>
+      <!-- New restart button -->
+    </div>
+
+    <div id="time-bar-container">
+      <div id="time-bar"></div>
     </div>
 
     <script>
@@ -86,7 +129,7 @@
       let reactionStart = 0;
       let timeoutHandle;
       let intervalHandle;
-      let totalReactionTime = 0;
+      let totalTimeAllowed = 5; // Changed to represent the countdown start time
       let successfulClicks = 0; // Counter for successful clicks
 
       const startMessage = document.getElementById("start-message");
@@ -95,24 +138,48 @@
       const gameOverMessage = document.getElementById("game-over-message");
       const clickCountElement = document.getElementById("click-count");
 
+      // Remove the restart game logic from the body click event
+      document.body.addEventListener("click", function () {
+        if (!gameStarted) {
+          // startGame(); // This line should be removed
+        } else {
+          stopTimer();
+        }
+      });
+
+      // Add a new event listener to the restart button
+      document
+        .getElementById("restart-button")
+        .addEventListener("click", function () {
+          startGame();
+        });
+
       function updateTimer() {
         const currentTime = Date.now();
         const elapsedTime = (currentTime - reactionStart) / 1000;
         timerDisplay.textContent = elapsedTime.toFixed(2);
 
-        // Check if the total time exceeds 5 seconds
-        if (totalReactionTime + elapsedTime >= 5) {
+        // Update the countdown timer instead of counting up
+        const remainingTime = totalTimeAllowed - elapsedTime;
+        totalTimerDisplay.textContent = Math.max(0, remainingTime).toFixed(2);
+
+        // If time runs out, game over
+        if (remainingTime <= 0) {
           gameOver();
         }
+
+        // Calculate the height of the time bar based on the remaining time
+        const timeBarHeight = (totalTimeAllowed / 5) * 100;
+        document.getElementById("time-bar").style.height = `${timeBarHeight}%`;
       }
 
       function startGame() {
         gameStarted = true;
         successfulClicks = 0; // Reset successful clicks for a new game
-        totalReactionTime = 0; // Reset total reaction time for a new game
+        totalTimeAllowed = 5; // Reset total allowed time for a new game
         startMessage.style.display = "none";
         gameOverMessage.style.display = "none"; // Ensure the game over message is hidden
-        totalTimerDisplay.textContent = totalReactionTime.toFixed(2);
+        totalTimerDisplay.textContent = totalTimeAllowed.toFixed(2);
         totalTimerDisplay.style.display = "block";
         startRandomTimer();
       }
@@ -135,7 +202,7 @@
         const bonusElement = document.createElement("div");
         let message = `Reaction: ${actualReactionTime.toFixed(2)}s<br>`;
         if (bonusTime > 0) {
-          message += `Bonus: -${bonusTime.toFixed(2)}s<br>`;
+          message += `Bonus: +${bonusTime.toFixed(2)}s<br>`;
         }
         message += `Score: ${successfulClicks}`;
 
@@ -172,26 +239,40 @@
             bonusTime = 0.1;
           }
 
-          // Apply bonus time
-          totalReactionTime += reactionTime - bonusTime;
-          totalReactionTime = Math.max(0, totalReactionTime); // Ensure it doesn't go below zero
+          // Update total time and progress bar for reaction time deduction
+          totalTimeAllowed -= reactionTime;
+          updateProgressBar();
+
+          // Add bonus time and update progress bar to reflect the bonus
+          if (bonusTime > 0) {
+            totalTimeAllowed += bonusTime;
+            setTimeout(updateProgressBar, 500); // Delay to show the reaction time deduction before adding bonus
+          }
 
           successfulClicks++; // Increment successful clicks
 
           showBonusAnimation(reactionTime, bonusTime);
 
-          totalTimerDisplay.textContent = totalReactionTime.toFixed(2);
+          totalTimerDisplay.textContent = Math.max(0, totalTimeAllowed).toFixed(
+            2
+          );
           document.body.style.backgroundColor = "black";
 
-          if (totalReactionTime >= 5) {
+          // Check if any time is left after adding the bonus
+          if (totalTimeAllowed <= 0) {
             gameOver();
           } else {
             startRandomTimer();
           }
         } else if (gameStarted) {
-          // Here we do not update successfulClicks because the click was not successful (it was early)
+          // Early click handling
           gameOver();
         }
+      }
+
+      function updateProgressBar() {
+        const timeBarHeight = (totalTimeAllowed / 5) * 100;
+        document.getElementById("time-bar").style.height = `${timeBarHeight}%`;
       }
 
       function gameOver() {
@@ -205,6 +286,7 @@
         startMessage.style.display = "block";
         startMessage.textContent = "Click to restart";
         gameStarted = false;
+        startMessage.style.display = "none"; // Hide the start message during game over
       }
 
       document.body.addEventListener("click", function () {
