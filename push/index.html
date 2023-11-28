@@ -1,301 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reaction Timer Game</title>
+<html>
+<head>
+    <title>Reaction Time Game</title>
     <style>
-      body,
-      html {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: rgb(41, 41, 41);
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-      }
-      #start-message {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 2em;
-        user-select: none;
-      }
-      #timer,
-      #total-timer {
-        position: absolute;
-        font-size: 2em;
-        color: white;
-        background-color: rgba(
-          255,
-          165,
-          0,
-          0.75
-        ); /* Making the background semi-transparent */
-        border-radius: 10px;
-        padding: 10px;
-        display: none; /* Initially hide the timers */
-      }
-      #timer {
-        bottom: 20px;
-        right: 20px;
-      }
-      #total-timer {
-        bottom: 20px;
-        left: 20px;
-      }
-      #game-over-message {
-        display: none;
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 2em;
-        user-select: none;
-      }
-      @keyframes bonus-fade-move {
-        from {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
         }
-        to {
-          opacity: 0;
-          transform: translateX(-50%) translateY(-50px);
+
+        #game-container {
+            text-align: center;
         }
-      }
 
-      .bonus-animation {
-        animation: bonus-fade-move 2.5s ease-out forwards;
-      }
+        #game-screen {
+            width: 100vw;
+            height: 100vh;
+            background-color: grey;
+        }
 
-      #time-bar-container {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 20px; /* Width of the progress bar */
-        height: 100%;
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.2
-        ); /* Slightly visible background */
-      }
+        #instructions, #time-bank, #bonus-bank {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
 
-      #time-bar {
-        width: 100%;
-        height: 0%; /* Initial height of the bar */
-        background-color: rgb(255, 165, 0); /* Color of the progress bar */
-        transition: height 0.5s ease; /* Smooth transition for height changes */
-      }
+        #instructions {
+            top: 20%;
+        }
 
-      #restart-button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 1em;
-        color: white;
-        background-color: #ffa500;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+        #time-bank {
+            top: 40%;
+        }
+
+        #bonus-bank {
+            top: 50%;
+        }
+
+        #progress-bar-container {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            background-color: #ddd;
+        }
+
+        #progress-bar {
+            height: 20px;
+            width: 100%;
+            background-color: #4CAF50;
+            transition: width 0.5s;
+        }
     </style>
-  </head>
-  <body>
-    <div id="start-message">
-      <b>Click the screen whenever it turns white</b><br /><br />You have a bank
-      of 5s to use<br /><br />See how many times you can react in total<br /><br />You
-      will get bonuses for reacting quicker to keep the game going.<br /><br />Click
-      to start
-    </div>
-    <div id="timer">0.00</div>
-    <div id="total-timer">0.00</div>
-    <div id="game-over-message">
-      Game over!<br />You scored <span id="click-count"></span><br />
-      <button id="restart-button">Click to Restart</button>
-      <!-- New restart button -->
-    </div>
-
-    <div id="time-bar-container">
-      <div id="time-bar"></div>
+</head>
+<body>
+    <div id="game-container">
+        <div id="instructions">Click to start the game. React quickly when the screen turns white.</div>
+        <div id="game-screen" onclick="handleClick()"></div>
+        <div id="time-bank">Time left: <span id="time-left">5</span>s</div>
+        <div id="bonus-bank">Bonus Time: <span id="bonus-time">0</span>s</div>
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
     </div>
 
     <script>
-      let gameStarted = false;
-      let timerStarted = false;
-      let reactionStart = 0;
-      let timeoutHandle;
-      let intervalHandle;
-      let totalTimeAllowed = 5; // Changed to represent the countdown start time
-      let successfulClicks = 0; // Counter for successful clicks
+        let timeLeft = 5;
+        let bonusTime = 0;
+        let gameStarted = false;
+        let reactionTime = 0;
+        let gameScreen = document.getElementById("game-screen");
+        let timeLeftDisplay = document.getElementById("time-left");
+        let bonusTimeDisplay = document.getElementById("bonus-time");
+        let progressBar = document.getElementById("progress-bar");
+        let timeout;
 
-      const startMessage = document.getElementById("start-message");
-      const timerDisplay = document.getElementById("timer");
-      const totalTimerDisplay = document.getElementById("total-timer");
-      const gameOverMessage = document.getElementById("game-over-message");
-      const clickCountElement = document.getElementById("click-count");
-
-      // Remove the restart game logic from the body click event
-      document.body.addEventListener("click", function () {
-        if (!gameStarted) {
-          // startGame(); // This line should be removed
-        } else {
-          stopTimer();
-        }
-      });
-
-      // Add a new event listener to the restart button
-      document
-        .getElementById("restart-button")
-        .addEventListener("click", function () {
-          startGame();
-        });
-
-      function updateTimer() {
-        const currentTime = Date.now();
-        const elapsedTime = (currentTime - reactionStart) / 1000;
-        timerDisplay.textContent = elapsedTime.toFixed(2);
-
-        // Update the countdown timer instead of counting up
-        const remainingTime = totalTimeAllowed - elapsedTime;
-        totalTimerDisplay.textContent = Math.max(0, remainingTime).toFixed(2);
-
-        // If time runs out, game over
-        if (remainingTime <= 0) {
-          gameOver();
+        function startGame() {
+            gameStarted = true;
+            document.getElementById("instructions").style.display = "none";
+            triggerColorChange();
         }
 
-        // Calculate the height of the time bar based on the remaining time
-        const timeBarHeight = (totalTimeAllowed / 5) * 100;
-        document.getElementById("time-bar").style.height = `${timeBarHeight}%`;
-      }
-
-      function startGame() {
-        gameStarted = true;
-        successfulClicks = 0; // Reset successful clicks for a new game
-        totalTimeAllowed = 5; // Reset total allowed time for a new game
-        startMessage.style.display = "none";
-        gameOverMessage.style.display = "none"; // Ensure the game over message is hidden
-        totalTimerDisplay.textContent = totalTimeAllowed.toFixed(2);
-        totalTimerDisplay.style.display = "block";
-        startRandomTimer();
-      }
-
-      function startRandomTimer() {
-        timerStarted = false;
-        timerDisplay.style.display = "none";
-        const waitTime = Math.random() * 1500 + 500;
-        timeoutHandle = setTimeout(() => {
-          document.body.style.backgroundColor = "white";
-          reactionStart = Date.now();
-          timerStarted = true;
-          timerDisplay.textContent = "0.00";
-          timerDisplay.style.display = "block";
-          intervalHandle = setInterval(updateTimer, 10);
-        }, waitTime);
-      }
-
-      function showBonusAnimation(actualReactionTime, bonusTime = 0) {
-        const bonusElement = document.createElement("div");
-        let message = `Reaction: ${actualReactionTime.toFixed(2)}s<br>`;
-        if (bonusTime > 0) {
-          message += `Bonus: +${bonusTime.toFixed(2)}s<br>`;
+        function isTimeUp() {
+            return timeLeft + bonusTime <= 0;
         }
-        message += `Score: ${successfulClicks}`;
 
-        // Set innerHTML to include HTML tags like <br>
-        bonusElement.innerHTML = message;
-        bonusElement.style.position = "absolute";
-        bonusElement.style.left = "50%";
-        bonusElement.style.bottom = "50px";
-        bonusElement.style.transform = "translateX(-50%)";
-        bonusElement.style.color = "#FFA500";
-        bonusElement.style.fontWeight = "bold";
-        bonusElement.style.fontSize = "1.5em";
-        bonusElement.classList.add("bonus-animation");
-        document.body.appendChild(bonusElement);
+        function triggerColorChange() {
+            if (isTimeUp()) {
+                gameOver("Time's up!");
+                return;
+            }
 
-        // Remove the bonus element after the animation is done
-        bonusElement.onanimationend = () => {
-          document.body.removeChild(bonusElement);
-        };
-      }
-
-      function stopTimer() {
-        if (timerStarted) {
-          clearInterval(intervalHandle);
-          const reactionTime = (Date.now() - reactionStart) / 1000;
-          let bonusTime = 0;
-
-          // Calculate bonus based on reaction time
-          if (reactionTime <= 0.2) {
-            bonusTime = 0.5;
-          } else if (reactionTime <= 0.4) {
-            bonusTime = 0.2;
-          } else if (reactionTime <= 0.6) {
-            bonusTime = 0.1;
-          }
-
-          // Update total time and progress bar for reaction time deduction
-          totalTimeAllowed -= reactionTime;
-          updateProgressBar();
-
-          // Add bonus time and update progress bar to reflect the bonus
-          if (bonusTime > 0) {
-            totalTimeAllowed += bonusTime;
-            setTimeout(updateProgressBar, 500); // Delay to show the reaction time deduction before adding bonus
-          }
-
-          successfulClicks++; // Increment successful clicks
-
-          showBonusAnimation(reactionTime, bonusTime);
-
-          totalTimerDisplay.textContent = Math.max(0, totalTimeAllowed).toFixed(
-            2
-          );
-          document.body.style.backgroundColor = "black";
-
-          // Check if any time is left after adding the bonus
-          if (totalTimeAllowed <= 0) {
-            gameOver();
-          } else {
-            startRandomTimer();
-          }
-        } else if (gameStarted) {
-          // Early click handling
-          gameOver();
+            let randomTime = Math.random() * 1500 + 500; // Random time between 0.5 and 2 seconds
+            timeout = setTimeout(changeToWhite, randomTime);
         }
-      }
 
-      function updateProgressBar() {
-        const timeBarHeight = (totalTimeAllowed / 5) * 100;
-        document.getElementById("time-bar").style.height = `${timeBarHeight}%`;
-      }
-
-      function gameOver() {
-        clearTimeout(timeoutHandle);
-        clearInterval(intervalHandle);
-        document.body.style.backgroundColor = "black";
-        gameOverMessage.style.display = "block";
-        clickCountElement.textContent = successfulClicks; // Display the successful clicks
-        timerDisplay.style.display = "none";
-        totalTimerDisplay.style.display = "none";
-        startMessage.style.display = "block";
-        startMessage.textContent = "Click to restart";
-        gameStarted = false;
-        startMessage.style.display = "none"; // Hide the start message during game over
-      }
-
-      document.body.addEventListener("click", function () {
-        if (!gameStarted) {
-          startGame();
-        } else {
-          stopTimer();
+        function changeToWhite() {
+            reactionTime = Date.now();
+            gameScreen.style.backgroundColor = "white";
         }
-      });
+
+        function handleClick() {
+            if (!gameStarted) {
+                startGame();
+                return;
+            }
+
+            if (isTimeUp()) {
+                gameOver("Time's up!");
+                return;
+            }
+
+            if (gameScreen.style.backgroundColor != "white") {
+                gameOver("Clicked too early!");
+                return;
+            }
+
+            let currentTime = Date.now();
+            let reaction = (currentTime - reactionTime) / 1000;
+            updateTimes(reaction);
+            gameScreen.style.backgroundColor = "grey";
+            if (timeLeft > 0) {
+                triggerColorChange();
+            } else if (bonusTime > 0) {
+                useBonusTime();
+            } else {
+                gameOver("Time's up!");
+            }
+        }
+
+        function updateTimes(reaction) {
+            timeLeft -= reaction;
+            timeLeft = Math.max(timeLeft, 0);
+            timeLeftDisplay.textContent = timeLeft.toFixed(2);
+
+            if (reaction <= 0.5) {
+                let additionalTime = 0.05;
+                if (reaction <= 0.4) additionalTime = 0.1;
+                if (reaction <= 0.3) additionalTime = 0.2;
+                if (reaction <= 0.2) additionalTime = 0.3;
+
+                bonusTime += additionalTime;
+                bonusTimeDisplay.textContent = bonusTime.toFixed(2);
+            }
+
+            updateProgressBar();
+        }
+
+        function useBonusTime() {
+            timeLeft = bonusTime;
+            bonusTime = 0;
+            bonusTimeDisplay.textContent = bonusTime.toFixed(2);
+            timeLeftDisplay.textContent = timeLeft.toFixed(2);
+            triggerColorChange();
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            let totalAvailableTime = timeLeft + bonusTime;
+            let progressBarWidth = (totalAvailableTime / 5) * 100; // Assuming initial time is 5s
+            progressBar.style.width = progressBarWidth + '%';
+        }
+
+        function gameOver(message) {
+            alert(message);
+            clearTimeout(timeout);
+            // Reset game
+            timeLeft = 5;
+            bonusTime = 0;
+            gameStarted = false;
+            document.getElementById("instructions").style.display = "block";
+            gameScreen.style.backgroundColor = "grey";
+            timeLeftDisplay.textContent = timeLeft.toFixed(2);
+            bonusTimeDisplay.textContent = bonusTime.toFixed(2);
+            progressBar.style.width = '100%';
+        }
     </script>
-  </body>
+</body>
 </html>

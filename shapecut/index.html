@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shape Cutting Game</title>
+    <style>
+        #gameArea {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+            position: relative;
+            margin: 20px auto;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #square {
+            width: 300px;
+            height: 300px;
+            border: 1px solid blue;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+
+        .line {
+            position: absolute;
+            background-color: red;
+            height: 1px;
+            transform-origin: top left;
+        }
+
+        #info {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="gameArea" onclick="handleClick(event)">
+    <div id="square"></div>
+</div>
+<div id="info"></div>
+
+<script>
+    const gameArea = document.getElementById('gameArea');
+    const square = document.getElementById('square');
+    let startPoint = null;
+    let tempLine = null;
+    let drawnLines = [];
+
+    function handleClick(event) {
+        const x = event.clientX - gameArea.getBoundingClientRect().left;
+        const y = event.clientY - gameArea.getBoundingClientRect().top;
+
+        if (!startPoint) {
+            // Remove previous lines
+            drawnLines.forEach(line => gameArea.removeChild(line));
+            drawnLines = [];
+
+            startPoint = { x, y };
+            tempLine = createLineElement(startPoint, startPoint);
+            gameArea.appendChild(tempLine);
+        } else {
+            updateLineElement(tempLine, startPoint, { x, y });
+            calculateArea(startPoint, { x, y });
+            drawnLines.push(tempLine);
+            startPoint = null;
+            tempLine = null;
+        }
+    }
+
+    function createLineElement(start, end) {
+        const line = document.createElement('div');
+        line.className = 'line';
+        updateLineElement(line, start, end);
+        return line;
+    }
+
+    function updateLineElement(line, start, end) {
+        const length = Math.sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2);
+        const angle = Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI;
+
+        line.style.width = `${length}px`;
+        line.style.left = `${start.x}px`;
+        line.style.top = `${start.y}px`;
+        line.style.transform = `rotate(${angle}deg)`;
+    }
+
+    function getSquareEdges(bounds) {
+        const gameAreaBounds = gameArea.getBoundingClientRect();
+        return [
+            { start: { x: bounds.left - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top }, end: { x: bounds.right - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top } },
+            { start: { x: bounds.right - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top }, end: { x: bounds.right - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top } },
+            { start: { x: bounds.left - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top }, end: { x: bounds.right - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top } },
+            { start: { x: bounds.left - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top }, end: { x: bounds.left - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top } }
+        ];
+    }
+
+    function getIntersection(line1, line2) {
+        const x1 = line1.start.x;
+        const y1 = line1.start.y;
+        const x2 = line1.end.x;
+        const y2 = line1.end.y;
+
+        const x3 = line2.start.x;
+        const y3 = line2.start.y;
+        const x4 = line2.end.x;
+        const y4 = line2.end.y;
+
+        const den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        if (den === 0) return null; // Lines are parallel
+
+        const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den;
+        const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den;
+
+        if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+            return {
+                x: parseFloat((x1 + t * (x2 - x1)).toFixed(2)),
+                y: parseFloat((y1 + t * (y2 - y1)).toFixed(2))
+            };
+        }
+
+        return null; // No intersection
+    }
+
+    function calculateArea(start, end) {
+    const squareBounds = square.getBoundingClientRect();
+    const edges = getSquareEdges(squareBounds);
+    const line = { start, end };
+
+    let intersections = [];
+    for (let edge of edges) {
+        let intersection = getIntersection(line, edge);
+        if (intersection) {
+            intersections.push(intersection);
+        }
+    }
+
+    if (intersections.length === 2) {
+        const newShapes = createNewShapes(square, intersections);
+        const originalArea = square.offsetWidth * square.offsetHeight;
+        const areas = newShapes.map(shape => calculatePolygonArea(shape));
+        let totalCalculatedArea = areas.reduce((acc, area) => acc + area, 0);
+
+        // Adjust for any minor discrepancies due to floating-point arithmetic
+        if (totalCalculatedArea !== originalArea) {
+            let discrepancy = originalArea - totalCalculatedArea;
+            areas[0] += discrepancy; // Adjust one of the areas by the discrepancy
+        }
+
+        const percentages = areas.map(area => (area / originalArea * 100).toFixed(2));
+
+        document.getElementById('info').textContent = `Areas: ${areas.join(', ')} (Percentages: ${percentages.join('% , ')}%)`;
+    } else {
+        document.getElementById('info').textContent = 'Line must intersect the square exactly two times. Try again.';
+    }
+}
+
+
+    gameArea.addEventListener('mousemove', (event) => {
+        if (startPoint && tempLine) {
+            const currentX = event.clientX - gameArea.getBoundingClientRect().left;
+            const currentY = event.clientY - gameArea.getBoundingClientRect().top;
+            updateLineElement(tempLine, startPoint, { x: currentX, y: currentY });
+        }
+    });
+
+    function createNewShapes(square, intersections) {
+    const bounds = square.getBoundingClientRect();
+    const gameAreaBounds = gameArea.getBoundingClientRect();
+    const vertices = [
+        { x: bounds.left - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top },
+        { x: bounds.right - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top },
+        { x: bounds.right - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top },
+        { x: bounds.left - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top }
+    ];
+
+    // Determine the type of cut (adjacent or opposite sides)
+    let cutType = determineCutType(intersections, vertices);
+
+    let shape1 = [];
+    let shape2 = [];
+
+    // Process vertices based on cut type
+    if (cutType === 'opposite') {
+        shape1 = [intersections[0], vertices[0], vertices[3], intersections[1]];
+        shape2 = [intersections[1], vertices[1], vertices[2], intersections[0]];
+    } else { // Adjacent
+        vertices.forEach((v, i) => {
+            if (isPointOnLeftSideOfLine(v, intersections[0], intersections[1])) {
+                shape1.push(v);
+            } else {
+                shape2.push(v);
+            }
+        });
+        shape1.push(intersections[0], intersections[1]);
+        shape2.push(intersections[1], intersections[0]);
+    }
+
+    return [shape1, shape2];
+}
+
+function determineCutType(intersections, vertices) {
+    // Function to check if a point is on a segment between two other points
+    const isOnSegment = (pt, v1, v2) => {
+        return Math.min(v1.x, v2.x) <= pt.x && pt.x <= Math.max(v1.x, v2.x) &&
+               Math.min(v1.y, v2.y) <= pt.y && pt.y <= Math.max(v1.y, v2.y);
+    };
+
+    let onOppositeSides = false;
+    vertices.forEach((vertex, i) => {
+        let nextVertex = vertices[(i + 1) % vertices.length];
+        if (isOnSegment(intersections[0], vertex, nextVertex) && isOnSegment(intersections[1], vertex, nextVertex)) {
+            onOppositeSides = true;
+        }
+    });
+
+    return onOppositeSides ? 'opposite' : 'adjacent';
+}
+
+
+function isPointOnLine(point, lineStart, lineEnd) {
+    const crossProduct = (point.y - lineStart.y) * (lineEnd.x - lineStart.x) - (point.x - lineStart.x) * (lineEnd.y - lineStart.y);
+    if (Math.abs(crossProduct) > 0.01) return false; // Not on line
+
+    const dotProduct = (point.x - lineStart.x) * (lineEnd.x - lineStart.x) + (point.y - lineStart.y) * (lineEnd.y - lineStart.y);
+    if (dotProduct < 0) return false; // Beyond lineStart
+
+    const squaredLengthLine = (lineEnd.x - lineStart.x) * (lineEnd.x - lineStart.x) + (lineEnd.y - lineStart.y) * (lineEnd.y - lineStart.y);
+    if (dotProduct > squaredLengthLine) return false; // Beyond lineEnd
+
+    return true;
+}
+
+
+    function isPointOnLeftSideOfLine(point, lineStart, lineEnd) {
+        return ((lineEnd.x - lineStart.x) * (point.y - lineStart.y) - (lineEnd.y - lineStart.y) * (point.x - lineStart.x)) > 0;
+    }
+
+    function calculatePolygonArea(vertices) {
+        let area = 0;
+        for (let i = 0; i < vertices.length; i++) {
+            const j = (i + 1) % vertices.length;
+            area += (vertices[i].x + vertices[j].x) * (vertices[j].y - vertices[i].y);
+        }
+        return Math.abs(area / 2);
+    }
+</script>
+
+</body>
+</html>
