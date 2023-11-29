@@ -13044,7 +13044,7 @@ function copyToClipboard(text, x) {
   } else {
     dummy.value =
       text +
-      " \nhttp://www.playnerdle.com/nerdle#shared" +
+      " \nhttp://www.bludle.com/nerdle#shared" +
       " nerdle number:" +
       day.toString();
   }
@@ -13068,7 +13068,7 @@ function copyToClipboard(text, x) {
   if (x == "pc") {
     var address =
       "I played a random nerdle - I want to challenge you to the same word \n" +
-      "http://www.playnerdle.com/nerdle?pc=" +
+      "http://www.bludle.com/nerdle?pc=" +
       wordlist.indexOf(challengeSecret) * 1987;
   } else {
     address =
@@ -13082,7 +13082,7 @@ function copyToClipboard(text, x) {
   }
   navigator.share({
     text: address,
-    url: "http://playnerdle.com#share",
+    url: "http://bludle.com#share",
   });
 }
 
@@ -13096,7 +13096,7 @@ function customChallengeClick() {
   if (wordlist.includes(chosenWord)) {
     copyToClipboard(
       "I want to challenge you to a nerdle word I chose\n" +
-        "http://www.playnerdle.com/nerdle?pc=" +
+        "http://www.bludle.com/nerdle?pc=" +
         wordlist.indexOf(chosenWord) * 1987,
       "cc"
     );
@@ -13109,7 +13109,7 @@ function customChallengeClick() {
 function challengeClick() {
   copyToClipboard(
     "I played a random nerdle - I want to challenge you to the same word\n" +
-      "http://www.playnerdle.com/nerdle?pc=" +
+      "http://www.bludle.com/nerdle?pc=" +
       wordlist.indexOf(challengeSecret) * 1987,
     "pc"
   );

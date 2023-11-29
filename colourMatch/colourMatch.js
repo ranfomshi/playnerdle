@@ -194,7 +194,7 @@ function shareClick() {
     var dummy = document.createElement("textarea");
     document.body.appendChild(dummy);
     dummy.style.fontWeight = "normal"
-    dummy.value = 'http://playnerdle.com/colourMatch#shared\nMy average score is ' + $('#averageScore').html() + '\n' +
+    dummy.value = 'http://bludle.com/colourMatch#shared\nMy average score is ' + $('#averageScore').html() + '\n' +
         'and my latest score is ' + JSON.parse(localStorage.getItem('historicColourMatchScores'))[JSON.parse(localStorage.getItem('historicColourMatchScores')).length - 1]
     dummy.select();
     document.execCommand("copy");
