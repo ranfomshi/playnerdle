@@ -3,14 +3,14 @@ function insertNavbar() {
     // Navbar HTML
     const navElement = `
       <div class="globalNav">
-        <div class="brand"><a href="/" onClick="NAVhomeClick()">PlayNerdle</a><img style="margin-left:20px; height:28px; width:28px; border-radius:5px" src='https://www.bludle.com/images/icon.png'/></div>
+        <div class="brand"><a href="/" onClick="NAVhomeClick()">Bludle</a><img style="margin-left:20px; height:28px; width:28px; border-radius:5px" src='https://www.bludle.com/images/icon.png'/></div>
         <button class="menu-toggle" id="mobile-menu">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </button>
         <ul class="nav-list">
-          <li><a href="/nerdle" onClick="NAVnerdleClick()">nerdle</a></li>
+          <li><a href="/werdle" onClick="NAVnerdleClick()">werdle</a></li>
           <li><a href="/reaction" onClick="NAVreactionClick()">reaction</a></li>
           <li><a href="/colourmatch" onClick="NAVcolourMatchClick()">colour match</a></li>
           <li><a href="/bludle" onClick="NAVbludleClick()">bludle</a></li>
