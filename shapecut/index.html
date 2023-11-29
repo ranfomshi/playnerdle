@@ -31,7 +31,7 @@
             transform-origin: top left;
         }
 
-        #info {
+        #info, #levelInfo, #fractionGoal, #livesInfo {
             margin-top: 20px;
             text-align: center;
         }
@@ -43,6 +43,9 @@
     <div id="square"></div>
 </div>
 <div id="info"></div>
+<div id="levelInfo">Level: <span id="level">1</span></div>
+<div id="fractionGoal">Goal: <span id="fraction">1/2</span></div>
+<div id="livesInfo">Lives: <span id="lives">3</span></div>
 
 <script>
     const gameArea = document.getElementById('gameArea');
@@ -50,13 +53,15 @@
     let startPoint = null;
     let tempLine = null;
     let drawnLines = [];
+    let currentLevel = 1;
+    let currentFraction = 1/2; // Start with 1/2
+    let lives = 3;
 
     function handleClick(event) {
         const x = event.clientX - gameArea.getBoundingClientRect().left;
         const y = event.clientY - gameArea.getBoundingClientRect().top;
 
         if (!startPoint) {
-            // Remove previous lines
             drawnLines.forEach(line => gameArea.removeChild(line));
             drawnLines = [];
 
@@ -89,6 +94,51 @@
         line.style.transform = `rotate(${angle}deg)`;
     }
 
+    function calculateArea(start, end) {
+        const squareBounds = square.getBoundingClientRect();
+        const edges = getSquareEdges(squareBounds);
+        const line = { start, end };
+
+        let intersections = [];
+        for (let edge of edges) {
+            let intersection = getIntersection(line, edge);
+            if (intersection) {
+                intersections.push(intersection);
+            }
+        }
+
+        if (intersections.length === 2) {
+            const newShapes = createNewShapes(square, intersections);
+            const originalArea = square.offsetWidth * square.offsetHeight;
+            const areas = newShapes.map(shape => calculatePolygonArea(shape));
+            let totalCalculatedArea = areas.reduce((acc, area) => acc + area, 0);
+
+            if (totalCalculatedArea !== originalArea) {
+                let discrepancy = originalArea - totalCalculatedArea;
+                areas[0] += discrepancy;
+            }
+
+            const largerArea = Math.max(...areas);
+            let success = Math.abs(largerArea / originalArea - currentFraction) <= 0.05;
+
+            if (success) {
+                currentLevel++;
+                updateLevelAndFraction();
+                alert("Success! Moving to level " + currentLevel);
+            } else {
+                lives--;
+                if (lives <= 0) {
+                    alert("Game Over");
+                    resetGame();
+                } else {
+                    alert("Try Again! Lives remaining: " + lives);
+                }
+            }
+        } else {
+            document.getElementById('info').textContent = 'Line must intersect the square exactly two times. Try again.';
+        }
+    }
+
     function getSquareEdges(bounds) {
         const gameAreaBounds = gameArea.getBoundingClientRect();
         return [
@@ -118,77 +168,27 @@
 
         if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
             return {
-                x: parseFloat((x1 + t * (x2 - x1)).toFixed(2)),
-                y: parseFloat((y1 + t * (y2 - y1)).toFixed(2))
+                x: x1 + t * (x2 - x1),
+                y: y1 + t * (y2 - y1)
             };
         }
 
         return null; // No intersection
     }
 
-    function calculateArea(start, end) {
-    const squareBounds = square.getBoundingClientRect();
-    const edges = getSquareEdges(squareBounds);
-    const line = { start, end };
-
-    let intersections = [];
-    for (let edge of edges) {
-        let intersection = getIntersection(line, edge);
-        if (intersection) {
-            intersections.push(intersection);
-        }
-    }
-
-    if (intersections.length === 2) {
-        const newShapes = createNewShapes(square, intersections);
-        const originalArea = square.offsetWidth * square.offsetHeight;
-        const areas = newShapes.map(shape => calculatePolygonArea(shape));
-        let totalCalculatedArea = areas.reduce((acc, area) => acc + area, 0);
-
-        // Adjust for any minor discrepancies due to floating-point arithmetic
-        if (totalCalculatedArea !== originalArea) {
-            let discrepancy = originalArea - totalCalculatedArea;
-            areas[0] += discrepancy; // Adjust one of the areas by the discrepancy
-        }
-
-        const percentages = areas.map(area => (area / originalArea * 100).toFixed(2));
-
-        document.getElementById('info').textContent = `Areas: ${areas.join(', ')} (Percentages: ${percentages.join('% , ')}%)`;
-    } else {
-        document.getElementById('info').textContent = 'Line must intersect the square exactly two times. Try again.';
-    }
-}
-
-
-    gameArea.addEventListener('mousemove', (event) => {
-        if (startPoint && tempLine) {
-            const currentX = event.clientX - gameArea.getBoundingClientRect().left;
-            const currentY = event.clientY - gameArea.getBoundingClientRect().top;
-            updateLineElement(tempLine, startPoint, { x: currentX, y: currentY });
-        }
-    });
-
     function createNewShapes(square, intersections) {
-    const bounds = square.getBoundingClientRect();
-    const gameAreaBounds = gameArea.getBoundingClientRect();
-    const vertices = [
-        { x: bounds.left - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top },
-        { x: bounds.right - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top },
-        { x: bounds.right - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top },
-        { x: bounds.left - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top }
-    ];
+        const bounds = square.getBoundingClientRect();
+        const gameAreaBounds = gameArea.getBoundingClientRect();
+        const vertices = [
+            { x: bounds.left - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top },
+            { x: bounds.right - gameAreaBounds.left, y: bounds.top - gameAreaBounds.top },
+            { x: bounds.right - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top },
+            { x: bounds.left - gameAreaBounds.left, y: bounds.bottom - gameAreaBounds.top }
+        ];
 
-    // Determine the type of cut (adjacent or opposite sides)
-    let cutType = determineCutType(intersections, vertices);
+        let shape1 = [];
+        let shape2 = [];
 
-    let shape1 = [];
-    let shape2 = [];
-
-    // Process vertices based on cut type
-    if (cutType === 'opposite') {
-        shape1 = [intersections[0], vertices[0], vertices[3], intersections[1]];
-        shape2 = [intersections[1], vertices[1], vertices[2], intersections[0]];
-    } else { // Adjacent
         vertices.forEach((v, i) => {
             if (isPointOnLeftSideOfLine(v, intersections[0], intersections[1])) {
                 shape1.push(v);
@@ -198,43 +198,9 @@
         });
         shape1.push(intersections[0], intersections[1]);
         shape2.push(intersections[1], intersections[0]);
+
+        return [shape1, shape2];
     }
-
-    return [shape1, shape2];
-}
-
-function determineCutType(intersections, vertices) {
-    // Function to check if a point is on a segment between two other points
-    const isOnSegment = (pt, v1, v2) => {
-        return Math.min(v1.x, v2.x) <= pt.x && pt.x <= Math.max(v1.x, v2.x) &&
-               Math.min(v1.y, v2.y) <= pt.y && pt.y <= Math.max(v1.y, v2.y);
-    };
-
-    let onOppositeSides = false;
-    vertices.forEach((vertex, i) => {
-        let nextVertex = vertices[(i + 1) % vertices.length];
-        if (isOnSegment(intersections[0], vertex, nextVertex) && isOnSegment(intersections[1], vertex, nextVertex)) {
-            onOppositeSides = true;
-        }
-    });
-
-    return onOppositeSides ? 'opposite' : 'adjacent';
-}
-
-
-function isPointOnLine(point, lineStart, lineEnd) {
-    const crossProduct = (point.y - lineStart.y) * (lineEnd.x - lineStart.x) - (point.x - lineStart.x) * (lineEnd.y - lineStart.y);
-    if (Math.abs(crossProduct) > 0.01) return false; // Not on line
-
-    const dotProduct = (point.x - lineStart.x) * (lineEnd.x - lineStart.x) + (point.y - lineStart.y) * (lineEnd.y - lineStart.y);
-    if (dotProduct < 0) return false; // Beyond lineStart
-
-    const squaredLengthLine = (lineEnd.x - lineStart.x) * (lineEnd.x - lineStart.x) + (lineEnd.y - lineStart.y) * (lineEnd.y - lineStart.y);
-    if (dotProduct > squaredLengthLine) return false; // Beyond lineEnd
-
-    return true;
-}
-
 
     function isPointOnLeftSideOfLine(point, lineStart, lineEnd) {
         return ((lineEnd.x - lineStart.x) * (point.y - lineStart.y) - (lineEnd.y - lineStart.y) * (point.x - lineStart.x)) > 0;
@@ -248,6 +214,44 @@ function isPointOnLine(point, lineStart, lineEnd) {
         }
         return Math.abs(area / 2);
     }
+
+    function updateLevelAndFraction() {
+    // Updating the current fraction based on the level
+    currentFraction = (currentLevel + 1) / (currentLevel + 2); 
+
+    // Convert the currentFraction to a fraction string
+    const fractionString = `${currentLevel + 1}/${currentLevel + 2}`;
+
+    // Update the DOM elements
+    document.getElementById('level').textContent = currentLevel;
+    document.getElementById('fraction').textContent = fractionString; // Display as a fraction
+    document.getElementById('lives').textContent = lives;
+}
+
+
+    function resetGame() {
+        currentLevel = 1;
+        lives = 3;
+        currentFraction = 1/2;
+        updateLevelAndFraction();
+    }
+
+    updateLevelAndFraction(); // Initialize the game
+
+    gameArea.addEventListener('mousemove', (event) => {
+        if (startPoint && tempLine) {
+            const currentX = event.clientX - gameArea.getBoundingClientRect().left;
+            const currentY = event.clientY - gameArea.getBoundingClientRect().top;
+            updateLineElement(tempLine, startPoint, { x: currentX, y: currentY });
+        }
+    });
+
+    // Other existing functions...
+
+    // This code will be executed when the document is loaded and ready
+    document.addEventListener('DOMContentLoaded', function() {
+        updateLevelAndFraction(); // Initialize game values
+    });
 </script>
 
 </body>
