@@ -42,102 +42,102 @@ function insertNavbar() {
     style.type = 'text/css';
     const css = `
     .globalNav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #333;
-      color: white;
-      padding: 0.5rem 1rem;
-      margin: 0;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      box-sizing: border-box;
-      z-index:9999999999999;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      background-color: #333 !important;
+      color: white !important;
+      padding: 0.5rem 1rem !important;
+      margin: 0 !important;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
+      width: 100% !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      box-sizing: border-box !important;
+      z-index:9999999999999 !important;
     }
 
     .brand {
-      font-size: 1.5rem;
-      font-weight: bold;
-      display:flex
+      font-size: 1.5rem !important;
+      font-weight: bold !important;
+      display:flex !important
     }
 
     .brand a {
-      color: white;
-      text-decoration: none;
-      transition: color 0.3s;
+      color: white !important;
+      text-decoration: none !important;
+      transition: color 0.3s !important;
     }
 
     .brand a:hover {
-      color: #00bcd4;
+      color: #00bcd4 !important;
     }
 
     .nav-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      z-index:999;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      z-index:999 !important;
     }
 
     .nav-list li a {
-      color: white;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      transition: background-color 0.3s, color 0.3s;
-      border-radius: 0.25rem;
-      z-index:999;
+      color: white !important;
+      text-decoration: none !important;
+      padding: 0.5rem 1rem !important;
+      transition: background-color 0.3s, color 0.3s !important;
+      border-radius: 0.25rem !important;
+      z-index:999 !important;
     }
 
     .nav-list li a:hover {
-      background-color: #00bcd4;
-      color: #333;
-      z-index:999;
+      background-color: #00bcd4 !important;
+      color: #333 !important;
+      z-index:999 !important;
     }
 
     .menu-toggle {
-      border:none;
-      display: none;
-      cursor: pointer;
-      background: transparent;
-      z-index:999;
+      border:none !important;
+      display: none !important;
+      cursor: pointer !important;
+      background: transparent !important;
+      z-index:999 !important;
     }
 
     .bar {
-      background-color: white;
-      height: 0.2rem;
-      margin: 0.2rem auto;
-      width: 1.5rem;
-      display: block;
-      transition: background-color 0.3s;
-      z-index:999;
+      background-color: white !important;
+      height: 0.2rem !important;
+      margin: 0.2rem auto !important;
+      width: 1.5rem !important;
+      display: block !important;
+      transition: background-color 0.3s !important;
+      z-index:999 !important;
     }
 
     @media screen and (max-width: 768px) {
       .menu-toggle {
-        display: block;
+        display: block !important;
       }
 
       .nav-list {
-        display: none;
-        width: 100%;
-        text-align: center;
-        position: absolute;
-        top: 44px;
-        left: 0;
-        background-color: #333;
-        flex-direction: column;
-        z-index: 9999999999999999999999999;
+        display: none !important;
+        width: 100% !important;
+        text-align: center !important;
+        position: absolute !important;
+        top: 44px !important;
+        left: 0 !important;
+        background-color: #333 !important;
+        flex-direction: column !important;
+        z-index: 9999999999999999999999999 !important;
       }
 
       .nav-list.active {
-        display: flex;
+        display: flex !important;
       }
 
       .nav-list li {
-        margin: 1rem 0;
+        margin: 1rem 0 !important;
       }
     }
   `;
