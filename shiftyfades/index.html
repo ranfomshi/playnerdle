@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shifty Fades</title>
     <style>
         /* CSS Variables for light and dark themes */
@@ -87,11 +88,13 @@
         }
 
         #level,
-        #lives {
+        #lives,
+        #highScore {
             font-size: 1.2rem;
             margin-bottom: 10px;
             font-weight: 600;
             animation: fadeIn 1s ease;
+            text-align: center;
         }
 
         #target {
@@ -142,6 +145,7 @@
             color: var(--message-color);
             font-weight: 600;
             animation: fadeIn 0.8s ease;
+            text-align: center;
         }
 
         @keyframes fadeIn {
@@ -210,6 +214,39 @@
         .modal .actions {
             text-align: right;
         }
+
+        /* Responsive Styles for Mobile */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #target {
+                width: 140px;
+                height: 140px;
+            }
+
+            .option {
+                width: 80px;
+                height: 80px;
+            }
+
+            #level,
+            #lives,
+            #highScore,
+            #message {
+                font-size: 1rem;
+            }
+
+            .toggle-btn {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+
+            .modal-content {
+                padding: 15px 20px;
+            }
+        }
     </style>
 </head>
 
@@ -219,9 +256,10 @@
         <button class="toggle-btn" id="darkToggle">Dark Mode</button>
     </header>
     <div>
-        <div><small id="level">Level: 1</small><small> /50</small></div>
+        <small id="level">Level: 1</small> <small>/50</small>
     </div>
     <div id="lives">Lives: 3</div>
+    <div id="highScore">High Score: 0</div>
     <div id="target"></div>
     <div class="options" id="options"></div>
     <div id="message"></div>
@@ -312,18 +350,27 @@
             };
         }
 
-        // Update HUD with current level and lives.
+        // Update HUD with current level, lives, and high score.
         function updateHUD() {
             document.getElementById('level').textContent = "Level: " + level;
             document.getElementById('lives').textContent = "Lives: " + lives;
+
+            // Retrieve stored high score (or use 0 if not set)
+            let storedHS = parseInt(localStorage.getItem('highScore')) || 0;
+            // We'll define the current score as levels completed (level - 1)
+            let currentScore = level - 1;
+            // Update high score if current run beats it.
+            if (currentScore > storedHS) {
+                storedHS = currentScore;
+                localStorage.setItem('highScore', storedHS);
+            }
+            document.getElementById('highScore').textContent = "High Score: " + storedHS;
         }
 
         // Set up a new level.
         function setUpLevel() {
             document.getElementById('message').textContent = "";
             updateHUD();
-
-            // Animate target appearance.
             const targetElem = document.getElementById("target");
             targetElem.style.opacity = 0;
             targetColor = getRandomColor();
@@ -354,9 +401,7 @@
                 optionDiv.dataset.r = optionColor.r;
                 optionDiv.dataset.g = optionColor.g;
                 optionDiv.dataset.b = optionColor.b;
-                // Fade-in effect for each option.
                 setTimeout(() => { optionDiv.style.opacity = 1; }, 100);
-                // Add a click handler that passes the element reference along.
                 optionDiv.addEventListener("click", function () {
                     checkAnswer(parseInt(this.dataset.r), parseInt(this.dataset.g), parseInt(this.dataset.b), this);
                 });
@@ -365,26 +410,22 @@
         }
 
         // Check if the selected option matches the target colour.
-        // The extra parameter "clickedEl" is the element that was clicked.
+        // "clickedEl" is the element that was clicked.
         function checkAnswer(r, g, b, clickedEl) {
-            // If correct answer:
             if (r === targetColor.r && g === targetColor.g && b === targetColor.b) {
                 streak++;
                 document.getElementById("message").textContent = "Correct!";
-                // Award bonus life every 10 in a row (up to maximum of 3).
                 if (streak % 10 === 0 && lives < 3) {
                     lives++;
                     document.getElementById("message").textContent += " Bonus Life Awarded!";
                 }
                 level++;
-                // Check for victory (level > 50 means player has completed level 50).
                 if (level > 50) {
                     showWinModal();
                 } else {
                     setTimeout(setUpLevel, 1000);
                 }
             } else {
-                // Disable the clicked option so it can't be re-selected.
                 clickedEl.classList.add("disabled");
                 lives--;
                 streak = 0;
