@@ -1,7 +1,7 @@
 // Function to insert the navbar HTML and CSS
 function insertNavbar() {
-    // Navbar HTML
-    const navElement = `
+  // Navbar HTML
+  const navElement = `
       <div class="globalNav">
         <div class="brand"><a href="/" onClick="NAVhomeClick()">Bludle</a><img style="margin-left:20px; height:28px; width:28px; border-radius:5px" src='https://www.bludle.com/images/icon.png'/></div>
         <button class="menu-toggle" id="mobile-menu">
@@ -12,6 +12,7 @@ function insertNavbar() {
         <ul class="nav-list">
           <li><a href="/werdle" onClick="NAVnerdleClick()">werdle</a></li>
           <li><a href="/reaction" onClick="NAVreactionClick()">reaction</a></li>
+          <li><a href="/shiftyfades" onClick="NAVshiftyFadesClick()">shifty fades</a></li>
           <li><a href="/colourmatch" onClick="NAVcolourMatchClick()">colour match</a></li>
           <li><a href="/bludle" onClick="NAVbludleClick()">bludle</a></li>
           <li><a href="/codle" onClick="NAVcodleClick()">codle</a></li>
@@ -23,24 +24,24 @@ function insertNavbar() {
         </ul>
       </div>
     `;
-  
-    // Insert navbar HTML into the body
-    const navbarContainer = document.getElementById('navbar-container');
-    navbarContainer.innerHTML = navElement;
-  
-    // Toggle mobile menu
-    const mobileMenuButton = document.getElementById("mobile-menu");
-    const navList = document.querySelector(".nav-list");
-  
-    mobileMenuButton.addEventListener("click", function() {
-      navList.classList.toggle("active");
-    });
-  
-    // Insert CSS into the head
-    const head = document.head;
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    const css = `
+
+  // Insert navbar HTML into the body
+  const navbarContainer = document.getElementById('navbar-container');
+  navbarContainer.innerHTML = navElement;
+
+  // Toggle mobile menu
+  const mobileMenuButton = document.getElementById("mobile-menu");
+  const navList = document.querySelector(".nav-list");
+
+  mobileMenuButton.addEventListener("click", function () {
+    navList.classList.toggle("active");
+  });
+
+  // Insert CSS into the head
+  const head = document.head;
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  const css = `
     .globalNav {
       display: flex !important;
       justify-content: space-between !important;
@@ -141,55 +142,59 @@ function insertNavbar() {
       }
     }
   `;
-    style.appendChild(document.createTextNode(css));
-    head.appendChild(style);
+  style.appendChild(document.createTextNode(css));
+  head.appendChild(style);
+}
+
+// Event listener to run the insertNavbar function after the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", insertNavbar);
+
+
+
+
+
+function sendEvent(eventName, params) {
+  if (typeof gtag !== 'undefined') {
+    gtag('event', eventName, params);
   }
-  
-  // Event listener to run the insertNavbar function after the DOM is fully loaded
-  document.addEventListener("DOMContentLoaded", insertNavbar);
-  
-
-  
-
-
-  function sendEvent(eventName, params) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', eventName, params);
-    }
 }
 
-function NAVreactionClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'reaction' });
+function NAVreactionClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'reaction' });
 }
 
-function NAVcolourMatchClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'colourMatch' });
+function NAVshiftFadesClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'shiftyFades' });
 }
 
-function NAVbludleClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'bludle' });
+function NAVcolourMatchClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'colourMatch' });
 }
 
-function NAVcodleClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'codle' });
+function NAVbludleClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'bludle' });
 }
 
-function NAVhomeClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'home' });
+function NAVcodleClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'codle' });
 }
 
-function NAVhueClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'hue' });
+function NAVhomeClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'home' });
 }
 
-function NAValternateClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'alternate' });
+function NAVhueClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'hue' });
 }
 
-function NAVtrakClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'trak' });
+function NAValternateClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'alternate' });
 }
 
-function NAVtintuitionClick(){
-    sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'tintuition' });
+function NAVtrakClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'trak' });
+}
+
+function NAVtintuitionClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'tintuition' });
 }
