@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shifty Fades</title>
+    <style>
+        /* CSS Variables for light and dark themes */
+        :root {
+            --bg-color: #eceff1;
+            --bg-gradient: linear-gradient(135deg, #eceff1, #ffffff);
+            --text-color: #37474f;
+            --target-border: #37474f;
+            --option-border: #cfd8dc;
+            --message-color: #00796b;
+            --modal-bg: #ffffff;
+            --modal-text: #37474f;
+            --button-bg: #00796b;
+            --button-bg-hover: #005b4f;
+        }
+
+        body.dark {
+            --bg-color: #263238;
+            --bg-gradient: linear-gradient(135deg, #37474f, #263238);
+            --text-color: #eceff1;
+            --target-border: #eceff1;
+            --option-border: #78909c;
+            --message-color: #80cbc4;
+            --modal-bg: #455a64;
+            --modal-text: #eceff1;
+            --button-bg: #80cbc4;
+            --button-bg-hover: #4db6ac;
+        }
+
+        /* Reset and basic styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            padding: 8px 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: var(--button-bg);
+            color: #fff;
+            transition: background 0.2s ease;
+        }
+
+        .toggle-btn:hover {
+            background: var(--button-bg-hover);
+        }
+
+        #level,
+        #lives {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            animation: fadeIn 1s ease;
+        }
+
+        #target {
+            width: 180px;
+            height: 180px;
+            border-radius: 12px;
+            border: 4px solid var(--target-border);
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            max-width: 700px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .option {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            border: 2px solid var(--option-border);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease;
+            opacity: 0;
+        }
+
+        .option:hover:not(.disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Disabled option style */
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        #message {
+            font-size: 1.1rem;
+            margin-top: 15px;
+            color: var(--message-color);
+            font-weight: 600;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            color: var(--modal-text);
+            width: 90%;
+            max-width: 500px;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        .modal h2 {
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .modal button {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: background 0.2s ease;
+        }
+
+        .modal button:hover {
+            background: var(--button-bg-hover);
+        }
+
+        .modal .actions {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Shifty Fades</h1>
+        <button class="toggle-btn" id="darkToggle">Dark Mode</button>
+    </header>
+    <div>
+        <div><small id="level">Level: 1</small><small> /50</small></div>
+    </div>
+    <div id="lives">Lives: 3</div>
+    <div id="target"></div>
+    <div class="options" id="options"></div>
+    <div id="message"></div>
+
+    <!-- Modal for Instructions -->
+    <div class="modal" id="instructionModal">
+        <div class="modal-content">
+            <h2>How to Play</h2>
+            <p>
+                A target colour is shown in the large box. Below you see 5 similar colour options.
+                Only one option exactly matches the target colour.
+            </p>
+            <p>
+                Select the colour you believe is the exact match. You start with 3 lives; every wrong answer costs a
+                life.
+                Every 10 correct answers in a row rewards you with an extra life (up to 3 lives maximum).
+            </p>
+            <p>
+                The challenge goes up to level 50. Can you reach the top?
+            </p>
+            <div class="actions">
+                <button id="closeModal">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Game Over -->
+    <div class="modal" id="gameOverModal" style="display: none;">
+        <div class="modal-content">
+            <h2>Game Over</h2>
+            <p>Your final level: <span id="finalLevel"></span></p>
+            <div class="actions">
+                <button id="playAgain">Play Again</button>
+                <button id="shareGame">Share</button>
+                <button id="goHome">Go Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Victory (Beating Level 50) -->
+    <div class="modal" id="winModal" style="display: none;">
+        <div class="modal-content">
+            <h2>Congratulations!</h2>
+            <p>You conquered all 50 levels!</p>
+            <p>It's time for a wild celebration!</p>
+            <div class="actions">
+                <button id="playAgainWin">Play Again</button>
+                <button id="shareGameWin">Share</button>
+                <button id="goHomeWin">Go Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state variables
+        let level = 1;
+        let lives = 3;
+        let streak = 0;
+        const totalOptions = 5;
+        let targetColor = {};
+
+        // Utility: Generate a random colour in RGB format.
+        function getRandomColor() {
+            return {
+                r: Math.floor(Math.random() * 256),
+                g: Math.floor(Math.random() * 256),
+                b: Math.floor(Math.random() * 256)
+            };
+        }
+
+        // Utility: Convert colour object to CSS rgb() string.
+        function rgbToString(color) {
+            return `rgb(${color.r}, ${color.g}, ${color.b})`;
+        }
+
+        // Generate a similar colour by tweaking each component.
+        // Increased starting offset by using 60 instead of 50.
+        function getSimilarColor(baseColor) {
+            const maxOffset = Math.max(60 - level * 3, 5);
+            function tweak(value) {
+                const offset = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
+                return Math.min(255, Math.max(0, value + offset));
+            }
+            return {
+                r: tweak(baseColor.r),
+                g: tweak(baseColor.g),
+                b: tweak(baseColor.b)
+            };
+        }
+
+        // Update HUD with current level and lives.
+        function updateHUD() {
+            document.getElementById('level').textContent = "Level: " + level;
+            document.getElementById('lives').textContent = "Lives: " + lives;
+        }
+
+        // Set up a new level.
+        function setUpLevel() {
+            document.getElementById('message').textContent = "";
+            updateHUD();
+
+            // Animate target appearance.
+            const targetElem = document.getElementById("target");
+            targetElem.style.opacity = 0;
+            targetColor = getRandomColor();
+            targetElem.style.backgroundColor = rgbToString(targetColor);
+            setTimeout(() => { targetElem.style.opacity = 1; }, 100);
+
+            // Create option boxes.
+            const correctIndex = Math.floor(Math.random() * totalOptions);
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = ""; // clear previous options
+
+            for (let i = 0; i < totalOptions; i++) {
+                let optionColor;
+                if (i === correctIndex) {
+                    optionColor = targetColor;
+                } else {
+                    do {
+                        optionColor = getSimilarColor(targetColor);
+                    } while (
+                        optionColor.r === targetColor.r &&
+                        optionColor.g === targetColor.g &&
+                        optionColor.b === targetColor.b
+                    );
+                }
+                const optionDiv = document.createElement("div");
+                optionDiv.classList.add("option");
+                optionDiv.style.backgroundColor = rgbToString(optionColor);
+                optionDiv.dataset.r = optionColor.r;
+                optionDiv.dataset.g = optionColor.g;
+                optionDiv.dataset.b = optionColor.b;
+                // Fade-in effect for each option.
+                setTimeout(() => { optionDiv.style.opacity = 1; }, 100);
+                // Add a click handler that passes the element reference along.
+                optionDiv.addEventListener("click", function () {
+                    checkAnswer(parseInt(this.dataset.r), parseInt(this.dataset.g), parseInt(this.dataset.b), this);
+                });
+                optionsDiv.appendChild(optionDiv);
+            }
+        }
+
+        // Check if the selected option matches the target colour.
+        // The extra parameter "clickedEl" is the element that was clicked.
+        function checkAnswer(r, g, b, clickedEl) {
+            // If correct answer:
+            if (r === targetColor.r && g === targetColor.g && b === targetColor.b) {
+                streak++;
+                document.getElementById("message").textContent = "Correct!";
+                // Award bonus life every 10 in a row (up to maximum of 3).
+                if (streak % 10 === 0 && lives < 3) {
+                    lives++;
+                    document.getElementById("message").textContent += " Bonus Life Awarded!";
+                }
+                level++;
+                // Check for victory (level > 50 means player has completed level 50).
+                if (level > 50) {
+                    showWinModal();
+                } else {
+                    setTimeout(setUpLevel, 1000);
+                }
+            } else {
+                // Disable the clicked option so it can't be re-selected.
+                clickedEl.classList.add("disabled");
+                lives--;
+                streak = 0;
+                if (lives <= 0) {
+                    document.getElementById("message").textContent = "Game Over! You've run out of lives.";
+                    showGameOver();
+                } else {
+                    document.getElementById("message").textContent = "Wrong, try again!";
+                    updateHUD();
+                }
+            }
+        }
+
+        // Display game over modal.
+        function showGameOver() {
+            document.getElementById('finalLevel').textContent = level;
+            document.getElementById('gameOverModal').style.display = "flex";
+        }
+
+        // Display win modal for beating level 50.
+        function showWinModal() {
+            document.getElementById('winModal').style.display = "flex";
+        }
+
+        // Restart the game.
+        function resetGame() {
+            level = 1;
+            lives = 3;
+            streak = 0;
+            document.getElementById('gameOverModal').style.display = "none";
+            document.getElementById('winModal').style.display = "none";
+            setUpLevel();
+        }
+
+        // Share functionality using navigator.share, if available.
+        function shareGame() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Shifty Fades',
+                    text: `I reached level ${level} in Shifty Fades! Can you beat my score?`,
+                    url: window.location.href
+                }).catch(err => console.error("Error sharing:", err));
+            } else {
+                alert("Share not supported on your browser.");
+            }
+        }
+
+        // Dark Mode Toggle handler.
+        const darkToggle = document.getElementById("darkToggle");
+        darkToggle.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+            darkToggle.textContent = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+        });
+
+        // Modal functionality for instructions.
+        const instructionModal = document.getElementById("instructionModal");
+        const closeModalButton = document.getElementById("closeModal");
+        closeModalButton.addEventListener("click", function () {
+            instructionModal.style.display = "none";
+            setUpLevel();
+        });
+        window.addEventListener("click", function (event) {
+            if (event.target === instructionModal) {
+                instructionModal.style.display = "none";
+                setUpLevel();
+            }
+        });
+
+        // Game Over Modal buttons.
+        document.getElementById("playAgain").addEventListener("click", resetGame);
+        document.getElementById("shareGame").addEventListener("click", shareGame);
+        document.getElementById("goHome").addEventListener("click", function () {
+            window.location.href = "https://bludle.com";
+        });
+
+        // Win Modal buttons.
+        document.getElementById("playAgainWin").addEventListener("click", resetGame);
+        document.getElementById("shareGameWin").addEventListener("click", shareGame);
+        document.getElementById("goHomeWin").addEventListener("click", function () {
+            window.location.href = "https://bludle.com";
+        });
+
+        // Display instructions modal on load.
+        window.onload = function () {
+            instructionModal.style.display = "flex";
+        };
+    </script>
+</body>
+
+</html>
