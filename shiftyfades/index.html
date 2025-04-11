@@ -18,6 +18,8 @@
             --modal-text: #37474f;
             --button-bg: #00796b;
             --button-bg-hover: #005b4f;
+            --bonus-bg: #ccc;
+            --bonus-fill: var(--button-bg);
         }
 
         body.dark {
@@ -31,6 +33,8 @@
             --modal-text: #eceff1;
             --button-bg: #80cbc4;
             --button-bg-hover: #4db6ac;
+            --bonus-bg: #666;
+            --bonus-fill: #4db6ac;
         }
 
         /* Reset and basic styles */
@@ -51,6 +55,9 @@
             padding: 20px;
             overflow-x: hidden;
             transition: background 0.3s, color 0.3s;
+            position: relative;
+            padding-bottom: 80px;
+            /* Room at bottom for bonus meter */
         }
 
         header {
@@ -91,7 +98,7 @@
         #lives,
         #highScore {
             font-size: 1.2rem;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
             font-weight: 600;
             animation: fadeIn 1s ease;
             text-align: center;
@@ -133,7 +140,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
         }
 
-        /* Disabled option style */
         .option.disabled {
             pointer-events: none;
             opacity: 0.4;
@@ -158,6 +164,40 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* Bonus meter (shows progress toward extra life) at bottom */
+        #bonusContainer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-color);
+            border-top: 2px solid var(--option-border);
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        #bonusLabel {
+            margin-bottom: 5px;
+        }
+
+        #bonusProgressContainer {
+            width: 80%;
+            max-width: 400px;
+            height: 15px;
+            background: var(--bonus-bg);
+            border-radius: 5px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        #bonusProgress {
+            height: 100%;
+            width: 0%;
+            background: var(--bonus-fill);
+            transition: width 0.3s ease;
         }
 
         /* Modal Styles */
@@ -222,6 +262,7 @@
             }
 
             #target {
+                margin: 10px;
                 width: 140px;
                 height: 140px;
             }
@@ -234,7 +275,8 @@
             #level,
             #lives,
             #highScore,
-            #message {
+            #message,
+            #bonusContainer {
                 font-size: 1rem;
             }
 
@@ -258,11 +300,19 @@
     <div>
         <small id="level">Level: 1</small> <small>/50</small>
     </div>
-    <div id="lives">Lives: 3</div>
+    <div id="lives">Lives: 3</div><small style="font-size: xx-small; margin-top: -10;">(max 5)</small>
     <div id="highScore">High Score: 0</div>
     <div id="target"></div>
     <div class="options" id="options"></div>
     <div id="message"></div>
+
+    <!-- Bonus meter at the bottom (only visible when lives are below max) -->
+    <div id="bonusContainer">
+        <div id="bonusLabel">Extra Life Meter: Progress 0 / 5</div>
+        <div id="bonusProgressContainer">
+            <div id="bonusProgress"></div>
+        </div>
+    </div>
 
     <!-- Modal for Instructions -->
     <div class="modal" id="instructionModal">
@@ -275,7 +325,7 @@
             <p>
                 Select the colour you believe is the exact match. You start with 3 lives; every wrong answer costs a
                 life.
-                Every 10 correct answers in a row rewards you with an extra life (up to 3 lives maximum).
+                Every 5 correct answers in a row awards you an extra life (up to 5 lives maximum).
             </p>
             <p>
                 The challenge goes up to level 50. Can you reach the top?
@@ -316,17 +366,19 @@
     <script>
         // Game state variables
         let level = 1;
-        let lives = 3;
+        let lives = 3;  // Start with 3 lives.
+        const maxLives = 5;  // Maximum lives allowed.
         let streak = 0;
         const totalOptions = 5;
         let targetColor = {};
 
-        // Utility: Generate a random colour in RGB format.
+        // Utility: Generate a random colour in RGB format with a minimum threshold.
         function getRandomColor() {
+            const min = 50;  // Ensure the target color is never too dark.
             return {
-                r: Math.floor(Math.random() * 256),
-                g: Math.floor(Math.random() * 256),
-                b: Math.floor(Math.random() * 256)
+                r: Math.floor(Math.random() * (256 - min)) + min,
+                g: Math.floor(Math.random() * (256 - min)) + min,
+                b: Math.floor(Math.random() * (256 - min)) + min
             };
         }
 
@@ -336,35 +388,39 @@
         }
 
         // Generate a similar colour by tweaking each component.
-        // Increased starting offset by using 60 instead of 50.
         function getSimilarColor(baseColor) {
             const maxOffset = Math.max(60 - level * 3, 5);
             function tweak(value) {
                 const offset = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
                 return Math.min(255, Math.max(0, value + offset));
             }
-            return {
-                r: tweak(baseColor.r),
-                g: tweak(baseColor.g),
-                b: tweak(baseColor.b)
-            };
+            return { r: tweak(baseColor.r), g: tweak(baseColor.g), b: tweak(baseColor.b) };
         }
 
-        // Update HUD with current level, lives, and high score.
+        // Update HUD with level, lives, high score, and bonus meter progress.
         function updateHUD() {
             document.getElementById('level').textContent = "Level: " + level;
             document.getElementById('lives').textContent = "Lives: " + lives;
 
-            // Retrieve stored high score (or use 0 if not set)
+            // High score tracking.
             let storedHS = parseInt(localStorage.getItem('highScore')) || 0;
-            // We'll define the current score as levels completed (level - 1)
             let currentScore = level - 1;
-            // Update high score if current run beats it.
             if (currentScore > storedHS) {
                 storedHS = currentScore;
                 localStorage.setItem('highScore', storedHS);
             }
             document.getElementById('highScore').textContent = "High Score: " + storedHS;
+
+            // Update bonus meter only if lives are below maxLives.
+            if (lives < maxLives) {
+                document.getElementById('bonusContainer').style.display = "block";
+                const bonusProgress = streak % 5;
+                document.getElementById('bonusLabel').textContent = "Extra Life Meter: Progress " + bonusProgress + " / 5";
+                document.getElementById('bonusProgress').style.width = (bonusProgress / 5 * 100) + "%";
+            } else {
+                // Hide bonus meter if maximum lives reached.
+                document.getElementById('bonusContainer').style.display = "none";
+            }
         }
 
         // Set up a new level.
@@ -380,7 +436,7 @@
             // Create option boxes.
             const correctIndex = Math.floor(Math.random() * totalOptions);
             const optionsDiv = document.getElementById("options");
-            optionsDiv.innerHTML = ""; // clear previous options
+            optionsDiv.innerHTML = "";
 
             for (let i = 0; i < totalOptions; i++) {
                 let optionColor;
@@ -409,13 +465,13 @@
             }
         }
 
-        // Check if the selected option matches the target colour.
-        // "clickedEl" is the element that was clicked.
+        // Check if the selected option is correct.
         function checkAnswer(r, g, b, clickedEl) {
             if (r === targetColor.r && g === targetColor.g && b === targetColor.b) {
                 streak++;
                 document.getElementById("message").textContent = "Correct!";
-                if (streak % 10 === 0 && lives < 3) {
+                // Award bonus life every 5 correct answers if below maxLives.
+                if (streak % 5 === 0 && lives < maxLives) {
                     lives++;
                     document.getElementById("message").textContent += " Bonus Life Awarded!";
                 }
@@ -439,13 +495,13 @@
             }
         }
 
-        // Display game over modal.
+        // Show game over modal.
         function showGameOver() {
             document.getElementById('finalLevel').textContent = level;
             document.getElementById('gameOverModal').style.display = "flex";
         }
 
-        // Display win modal for beating level 50.
+        // Show win modal.
         function showWinModal() {
             document.getElementById('winModal').style.display = "flex";
         }
@@ -460,7 +516,7 @@
             setUpLevel();
         }
 
-        // Share functionality using navigator.share, if available.
+        // Share functionality.
         function shareGame() {
             if (navigator.share) {
                 navigator.share({
@@ -494,14 +550,12 @@
             }
         });
 
-        // Game Over Modal buttons.
+        // Modal button handlers.
         document.getElementById("playAgain").addEventListener("click", resetGame);
         document.getElementById("shareGame").addEventListener("click", shareGame);
         document.getElementById("goHome").addEventListener("click", function () {
             window.location.href = "https://bludle.com";
         });
-
-        // Win Modal buttons.
         document.getElementById("playAgainWin").addEventListener("click", resetGame);
         document.getElementById("shareGameWin").addEventListener("click", shareGame);
         document.getElementById("goHomeWin").addEventListener("click", function () {
@@ -513,6 +567,8 @@
             instructionModal.style.display = "flex";
         };
     </script>
+    <!-- global elements -->
+    <script src="../globalNav/globalNav.js" defer></script>
 </body>
 
 </html>
