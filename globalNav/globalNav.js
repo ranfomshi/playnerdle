@@ -17,7 +17,7 @@ function insertNavbar() {
           <li><a href="/bludle" onClick="NAVbludleClick()">bludle</a></li>
           <li><a href="/codle" onClick="NAVcodleClick()">codle</a></li>
           <li><a href="/hunt" onClick="NAVhuntClick()">XY</a></li>
-          <li><a href="/hue" onClick="NAVhueClick()">hue</a></li>
+          <li><a href="/guesshue" onClick="NAVguessHueClick()">guess hue</a></li>
           <li><a href="/alternate" onClick="NAValternateClick()">alternate</a></li>
           <li><a href="/trak" onClick="NAVtrakClick()">trak</a></li>
           <li><a href="/tintuition" onClick="NAVtrakClick()">tintuition</a></li>
@@ -183,8 +183,8 @@ function NAVhomeClick() {
   sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'home' });
 }
 
-function NAVhueClick() {
-  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'hue' });
+function NAVguessHueClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'guess hue' });
 }
 
 function NAValternateClick() {
