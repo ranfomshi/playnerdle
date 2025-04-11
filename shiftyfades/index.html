@@ -405,11 +405,11 @@
             document.getElementById('lives').textContent = "Lives: " + lives;
 
             // High score tracking.
-            let storedHS = parseInt(localStorage.getItem('highScore')) || 0;
+            let storedHS = parseInt(localStorage.getItem('shiftyHighScore')) || 0;
             let currentScore = level - 1;
             if (currentScore > storedHS) {
                 storedHS = currentScore;
-                localStorage.setItem('highScore', storedHS);
+                localStorage.setItem('shiftyHighScore', storedHS);
             }
             document.getElementById('highScore').textContent = "High Score: " + storedHS;
 
