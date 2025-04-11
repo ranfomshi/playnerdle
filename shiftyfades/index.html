@@ -58,7 +58,6 @@
             transition: background 0.3s, color 0.3s;
             position: relative;
             padding-bottom: 80px;
-            /* Room at bottom for bonus meter */
         }
 
         header {
@@ -391,8 +390,8 @@
 
         // Generate a similar colour by tweaking each component.
         function getSimilarColor(baseColor) {
-            // Slower difficulty ramp: as level increases, maxOffset decreases more gradually
-            const maxOffset = Math.max(80 - level, 15);
+            // Adjusted difficulty: A balance between early challenge and a gradual ramp-up.
+            const maxOffset = Math.max(60 - level * 1.5, 15);
             function tweak(value) {
                 const offset = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
                 return Math.min(255, Math.max(0, value + offset));
