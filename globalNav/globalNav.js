@@ -15,6 +15,7 @@ function insertNavbar() {
           <li><a href="/shiftyfades" onClick="NAVshiftyFadesClick()">shifty fades</a></li>
           <li><a href="/colourmatch" onClick="NAVcolourMatchClick()">colour match</a></li>
           <li><a href="/bludle" onClick="NAVbludleClick()">bludle</a></li>
+          <li><a href="/heardle" onClick="NAVheardleClick()">heardle</a></li>
           <li><a href="/codle" onClick="NAVcodleClick()">codle</a></li>
           <li><a href="/hunt" onClick="NAVhuntClick()">XY</a></li>
           <li><a href="/guesshue" onClick="NAVguessHueClick()">guess hue</a></li>
@@ -197,4 +198,8 @@ function NAVtrakClick() {
 
 function NAVtintuitionClick() {
   sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'tintuition' });
+}
+
+function NAVheardleClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'heardle' });
 }

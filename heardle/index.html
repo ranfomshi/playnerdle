@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Heardle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font for a nicer look -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 10px 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .status-bar {
+            margin: 10px 0;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        /* compositionArea wraps level indicator, guess history, and current composition */
+        #compositionArea {
+            width: 90%;
+            min-height: 100px;
+            border: 2px solid #555;
+            background: #333;
+            margin: 20px auto;
+            border-radius: 8px;
+            transition: background 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        /* Large level indicator (hidden by default) */
+        #compositionLevel {
+            font-size: 64px;
+            font-weight: bold;
+            color: #fff;
+            margin: 10px 0;
+            line-height: 1;
+            display: none;
+        }
+
+        /* Guess History section */
+        #guessHistory {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #guessHistory .guessRow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        #guessHistory .guessRow span {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            margin: 4px;
+            border: 1px solid #000;
+            border-radius: 6px;
+        }
+
+        /* Current composition area (playerPanel) */
+        #playerPanel {
+            width: 100%;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #playerPanel span {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            margin: 4px;
+            border: 1px solid #000;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #playerPanel span:hover {
+            transform: scale(1.1);
+        }
+
+        /* Note Buttons */
+        #noteButtons {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .note-button {
+            padding: 10px 20px;
+            margin: 8px;
+            border: none;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .note-button:hover {
+            transform: scale(1.05);
+        }
+
+        .control-buttons button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #2ECC40;
+            color: #000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .control-buttons button:hover {
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background: #777;
+            cursor: not-allowed;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            font-size: 1.2em;
+            min-height: 2em;
+        }
+
+        /* Ripple Animation */
+        #rippleContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            background-color: currentColor;
+            opacity: 0.5;
+            animation: rippleAnim 0.8s ease-out forwards;
+        }
+
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        #volumeReminder {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 1em;
+            z-index: 1000;
+            /* ensures the message stays on top of other elements */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="volumeReminder">
+        Please make sure you have your volume turned up!
+    </div>
+    <!-- Ripple Container -->
+    <div id="rippleContainer"></div>
+    <h1>Heardle</h1>
+    <div class="container">
+        <div class="status-bar">
+            <div>Level: <span id="levelDisplay">1</span></div>
+            <div>Lives: <span id="livesDisplay">3</span></div>
+            <div>Melody Length: <span id="melodyLengthDisplay">3</span></div>
+        </div>
+        <div class="control-buttons">
+            <button id="playTargetBtn">Play Target Melody</button>
+        </div>
+        <h2>Your Composition</h2>
+        <!-- compositionArea contains the temporary level indicator, guess history, and current composition -->
+        <div id="compositionArea" title="Click a note to remove it from your composition">
+            <div id="compositionLevel">1</div>
+            <div id="guessHistory"></div>
+            <div id="playerPanel"></div>
+        </div>
+        <div id="noteButtons"></div>
+        <div class="control-buttons">
+            <button id="submitBtn">Submit Composition</button>
+        </div>
+        <div id="feedback"></div>
+    </div>
+    <script>
+        /***************************************
+         * Global Configuration & Variables  *
+         ***************************************/
+        let currentLevel = 1;
+        const baseCompositionLength = 3; // starting length for level 1
+        let compositionLength = baseCompositionLength; // updates with level progression
+        let lives = 3;
+        // Variables for target melody replays.
+        const baseReplays = 2;
+        let remainingReplays;  // replays left for the current level
+
+        // Determine available note count based on level.
+        function getAvailableNoteCount(level) {
+            return Math.min(5, Math.floor((level - 1) / 4) + 3);
+        }
+
+        // Note names and frequencies.
+        const noteNames = ["C", "D", "E", "F", "G"];
+        const freqMapping = [261.63, 293.66, 329.63, 349.23, 392.00];
+
+        // All notes use blue hues.
+        const minLight = 30;
+        const maxLight = 80;
+        function getBlueColor(i, total) {
+            let L = (total > 1) ? (minLight + ((maxLight - minLight) * (i / (total - 1)))) : minLight;
+            return `hsl(210, 100%, ${L}%)`;
+        }
+
+        // Game state arrays.
+        let availableNotes = [];  // current available notes objects
+        let targetSequence = [];  // target melody sequence (array of note objects)
+        let playerSequence = [];  // player's current composition
+
+        /***************************************
+         * Audio Setup with Web Audio API      *
+         ***************************************/
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+        function playTone(freq) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+        function playSequence(sequence) {
+            let delay = 0;
+            sequence.forEach(noteObj => {
+                setTimeout(() => { playTone(noteObj.freq); }, delay);
+                delay += 600;
+            });
+        }
+
+        /***************************************
+         * UI Update Functions                 *
+         ***************************************/
+        const levelDisplay = document.getElementById("levelDisplay");
+        const livesDisplay = document.getElementById("livesDisplay");
+        const melodyLengthDisplay = document.getElementById("melodyLengthDisplay");
+        const feedbackEl = document.getElementById("feedback");
+        const compositionLevelEl = document.getElementById("compositionLevel");
+        // compositionArea holds guessHistory and playerPanel:
+        const guessHistoryDiv = document.getElementById("guessHistory");
+        const playerPanel = document.getElementById("playerPanel");
+        const noteButtonsDiv = document.getElementById("noteButtons");
+        const submitBtn = document.getElementById("submitBtn");
+        const playTargetBtn = document.getElementById("playTargetBtn");
+
+        // Update primary status (without affecting the large level indicator)
+        function updateStatusDisplay() {
+            levelDisplay.textContent = currentLevel;
+            livesDisplay.textContent = lives;
+            melodyLengthDisplay.textContent = compositionLength;
+        }
+
+        // Show level indicator temporarily (only on new level transition)
+        function showLevelIndicator() {
+            compositionLevelEl.textContent = currentLevel;
+            compositionLevelEl.style.display = "block";
+            setTimeout(() => {
+                compositionLevelEl.style.display = "none";
+            }, 500);
+        }
+
+        // Update the target melody button text with remaining replays.
+        function updateTargetReplayDisplay() {
+            playTargetBtn.textContent = `Play Target Melody (${remainingReplays} replays left)`;
+        }
+
+        // Render player's current composition in playerPanel.
+        function updatePlayerPanel() {
+            playerPanel.innerHTML = "";
+            playerSequence.forEach((noteObj, index) => {
+                const span = document.createElement("span");
+                span.style.backgroundColor = noteObj.color;
+                span.title = noteObj.note;
+                // When clicked, remove the note.
+                span.addEventListener("click", () => {
+                    playerSequence.splice(index, 1);
+                    updatePlayerPanel();
+                });
+                playerPanel.appendChild(span);
+            });
+        }
+
+        // Create a ripple effect originating from where the note button is clicked.
+        function createRipple(e, btnColor) {
+            const rippleContainer = document.getElementById("rippleContainer");
+            const ripple = document.createElement("div");
+            ripple.className = "ripple";
+            ripple.style.color = btnColor;
+            const size = Math.max(window.innerWidth, window.innerHeight);
+            ripple.style.width = ripple.style.height = `${size}px`;
+            const x = e.clientX - size / 2;
+            const y = e.clientY - size / 2;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            rippleContainer.appendChild(ripple);
+            ripple.addEventListener("animationend", () => {
+                ripple.remove();
+            });
+        }
+
+        // Render note buttons.
+        function updateNoteButtons() {
+            noteButtonsDiv.innerHTML = "";
+            availableNotes.forEach((noteObj) => {
+                const btn = document.createElement("button");
+                btn.className = "note-button";
+                btn.textContent = noteObj.note;
+                btn.style.backgroundColor = noteObj.color;
+                btn.addEventListener("click", (e) => {
+                    createRipple(e, noteObj.color);
+                    if (playerSequence.length < compositionLength) {
+                        playerSequence.push(noteObj);
+                        updatePlayerPanel();
+                        playTone(noteObj.freq);
+                    }
+                });
+                noteButtonsDiv.appendChild(btn);
+            });
+        }
+
+        /***************************************
+         * Game Setup & Level Progression      *
+         ***************************************/
+        function generateAvailableNotes() {
+            const count = getAvailableNoteCount(currentLevel);
+            availableNotes = [];
+            for (let i = 0; i < count; i++) {
+                availableNotes.push({
+                    note: noteNames[i],
+                    freq: freqMapping[i],
+                    color: getBlueColor(i, count)
+                });
+            }
+        }
+        function generateTargetSequence() {
+            targetSequence = [];
+            for (let i = 0; i < compositionLength; i++) {
+                const randomIndex = Math.floor(Math.random() * availableNotes.length);
+                targetSequence.push(availableNotes[randomIndex]);
+            }
+        }
+        function setupLevel() {
+            // Reset level parameters.
+            compositionLength = baseCompositionLength + currentLevel - 1;
+            lives = 3;
+            playerSequence = [];
+            remainingReplays = baseReplays + (currentLevel - 1);
+            // Clear guess history between levels.
+            guessHistoryDiv.innerHTML = "";
+            generateAvailableNotes();
+            generateTargetSequence();
+            updateStatusDisplay();
+            updatePlayerPanel();
+            updateNoteButtons();
+            updateTargetReplayDisplay();
+            feedbackEl.textContent = "";
+            submitBtn.disabled = false;
+        }
+        function nextLevel() {
+            currentLevel++;
+            setupLevel();
+            showLevelIndicator(); // Only show level indicator on new level.
+            feedbackEl.textContent = "Great! Moving on to level " + currentLevel + ".";
+        }
+
+        /***************************************
+         * Evaluation & Event Handlers         *
+         ***************************************/
+        function evaluateComposition() {
+            let correctCount = 0;
+            for (let i = 0; i < compositionLength; i++) {
+                if (playerSequence[i] && playerSequence[i].note === targetSequence[i].note) {
+                    correctCount++;
+                }
+            }
+            return correctCount;
+        }
+        function submitComposition() {
+            if (playerSequence.length < compositionLength) {
+                feedbackEl.textContent = "Complete your composition before submitting!";
+                return;
+            }
+            const correctCount = evaluateComposition();
+
+            // Create a container for the guess so that the note boxes and score are separate.
+            const guessContainer = document.createElement("div");
+            guessContainer.style.display = "flex";
+            guessContainer.style.flexDirection = "column";
+            guessContainer.style.alignItems = "center";
+
+            // Create the row with note boxes.
+            const guessRow = document.createElement("div");
+            guessRow.className = "guessRow";
+            playerSequence.forEach(note => {
+                const noteBlock = document.createElement("span");
+                noteBlock.style.backgroundColor = note.color;
+                noteBlock.title = note.note;
+                guessRow.appendChild(noteBlock);
+            });
+            guessContainer.appendChild(guessRow);
+
+            // Create the score element in its own block.
+            const scoreText = document.createElement("div");
+            scoreText.style.border = "none";
+            scoreText.style.fontSize = "16px";
+            scoreText.textContent = `${correctCount}/${compositionLength} correct`;
+            guessContainer.appendChild(scoreText);
+
+            // Append the container to the guess history.
+            guessHistoryDiv.appendChild(guessContainer);
+
+            if (correctCount === compositionLength) {
+                feedbackEl.textContent = "Perfect! You've replicated the target melody!";
+                submitBtn.disabled = true;
+                setTimeout(nextLevel, 1500);
+            } else {
+                lives--;
+                updateStatusDisplay();
+                if (lives > 0) {
+                    feedbackEl.textContent = `You matched ${correctCount} out of ${compositionLength} notes. Try again!`;
+                    playerSequence = [];
+                    updatePlayerPanel();
+                } else {
+                    feedbackEl.textContent = `Game Over on Level ${currentLevel}! You matched ${correctCount} out of ${compositionLength} notes.`;
+                    submitBtn.disabled = true;
+                    noteButtonsDiv.querySelectorAll("button").forEach(btn => btn.disabled = true);
+                    setTimeout(() => {
+                        alert("The target melody was: " + targetSequence.map(n => n.note).join(" - "));
+                    }, 200);
+                }
+            }
+        }
+
+        playTargetBtn.addEventListener("click", (e) => {
+            if (remainingReplays > 0) {
+                playSequence(targetSequence);
+                remainingReplays--;
+                updateTargetReplayDisplay();
+            } else {
+                feedbackEl.textContent = "No more replays available this level!";
+            }
+        });
+
+        document.getElementById("submitBtn").addEventListener("click", submitComposition);
+
+        /***************************************
+         * Initialize the Game                 *
+         ***************************************/
+        setupLevel();
+    </script>
+</body>
+
+</html>
