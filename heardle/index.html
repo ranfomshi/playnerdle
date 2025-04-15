@@ -210,7 +210,44 @@
             text-align: center;
             font-size: 1em;
             z-index: 1000;
-            /* ensures the message stays on top of other elements */
+        }
+
+        /* Tutorial & Stats Modal Styles */
+        .modal {
+            display: none;
+            /* hidden by default */
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 100px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            color: #000;
+            text-align: left;
+            position: relative;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
         }
     </style>
 </head>
@@ -219,8 +256,37 @@
     <div id="volumeReminder">
         Please make sure you have your volume turned up!
     </div>
+
     <!-- Ripple Container -->
     <div id="rippleContainer"></div>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorialModal" class="modal">
+        <div class="modal-content">
+            <span id="closeTutorial" class="close-button">&times;</span>
+            <h2>Welcome to Heardle!</h2>
+            <p>Match the sequence of notes played to replicate the melody. Here’s how:</p>
+            <ul>
+                <li><strong>Step 1:</strong> Listen to the target melody by clicking the "Play Target Melody" button.
+                </li>
+                <li><strong>Step 2:</strong> Recreate the melody by selecting the right sequence of notes.</li>
+                <li><strong>Step 3:</strong> You have a few lives per level—improve your memory as you advance!</li>
+            </ul>
+            <button id="dismissTutorial">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Game Over Stats Modal -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <h2>Game Over!</h2>
+            <div id="statsContent">
+                <!-- Dynamic stats content will be inserted here -->
+            </div>
+            <button id="playAgainBtn">Play Again</button>
+        </div>
+    </div>
+
     <h1>Heardle</h1>
     <div class="container">
         <div class="status-bar">
@@ -232,7 +298,7 @@
             <button id="playTargetBtn">Play Target Melody</button>
         </div>
         <h2>Your Composition</h2>
-        <!-- compositionArea contains the temporary level indicator, guess history, and current composition -->
+        <!-- compositionArea holds the temporary level indicator, guess history, and current composition -->
         <div id="compositionArea" title="Click a note to remove it from your composition">
             <div id="compositionLevel">1</div>
             <div id="guessHistory"></div>
@@ -244,6 +310,7 @@
         </div>
         <div id="feedback"></div>
     </div>
+
     <script>
         /***************************************
          * Global Configuration & Variables  *
@@ -255,6 +322,10 @@
         // Variables for target melody replays.
         const baseReplays = 2;
         let remainingReplays;  // replays left for the current level
+
+        // Global stats variables for tracking overall performance
+        let totalCorrectNotes = 0;
+        let totalNotesAttempted = 0;
 
         // Determine available note count based on level.
         function getAvailableNoteCount(level) {
@@ -274,9 +345,9 @@
         }
 
         // Game state arrays.
-        let availableNotes = [];  // current available notes objects
-        let targetSequence = [];  // target melody sequence (array of note objects)
-        let playerSequence = [];  // player's current composition
+        let availableNotes = [];   // current available notes objects
+        let targetSequence = [];   // target melody sequence (array of note objects)
+        let playerSequence = [];   // player's current composition
 
         /***************************************
          * Audio Setup with Web Audio API      *
@@ -438,6 +509,18 @@
         }
 
         /***************************************
+         * Stats Tracking Functions            *
+         ***************************************/
+        function updateAccuracy(correctCount, totalNotes) {
+            totalCorrectNotes += correctCount;
+            totalNotesAttempted += totalNotes;
+        }
+        function computeOverallAccuracy() {
+            if (totalNotesAttempted === 0) return 0;
+            return ((totalCorrectNotes / totalNotesAttempted) * 100).toFixed(2);
+        }
+
+        /***************************************
          * Evaluation & Event Handlers         *
          ***************************************/
         function evaluateComposition() {
@@ -455,6 +538,8 @@
                 return;
             }
             const correctCount = evaluateComposition();
+            // Record accuracy stats for this attempt.
+            updateAccuracy(correctCount, compositionLength);
 
             // Create a container for the guess so that the note boxes and score are separate.
             const guessContainer = document.createElement("div");
@@ -475,7 +560,6 @@
 
             // Create the score element in its own block.
             const scoreText = document.createElement("div");
-            scoreText.style.border = "none";
             scoreText.style.fontSize = "16px";
             scoreText.textContent = `${correctCount}/${compositionLength} correct`;
             guessContainer.appendChild(scoreText);
@@ -496,15 +580,61 @@
                     updatePlayerPanel();
                 } else {
                     feedbackEl.textContent = `Game Over on Level ${currentLevel}! You matched ${correctCount} out of ${compositionLength} notes.`;
+                    // Disable further game interaction.
                     submitBtn.disabled = true;
                     noteButtonsDiv.querySelectorAll("button").forEach(btn => btn.disabled = true);
-                    setTimeout(() => {
-                        alert("The target melody was: " + targetSequence.map(n => n.note).join(" - "));
-                    }, 200);
+                    // Instead of using alert, end game and show stats.
+                    setTimeout(endGame, 500);
                 }
             }
         }
 
+        function endGame() {
+            // Display the stats modal.
+            displayStats();
+        }
+
+        function displayStats() {
+            // Calculate stats.
+            const stats = {
+                levelReached: currentLevel,
+                totalAttempts: document.querySelectorAll('.guessRow').length,
+                accuracy: computeOverallAccuracy()
+            };
+
+            // Update best level in localStorage.
+            let bestLevel = Number(localStorage.getItem("bestLevel")) || 0;
+            if (stats.levelReached > bestLevel) {
+                bestLevel = stats.levelReached;
+                localStorage.setItem("bestLevel", bestLevel);
+            }
+
+            // Create HTML content for the stats.
+            const statsContent = document.getElementById("statsContent");
+            statsContent.innerHTML = `
+        <p>Level Reached: ${stats.levelReached}</p>
+        <p>Total Attempts: ${stats.totalAttempts}</p>
+        <p>Accuracy: ${stats.accuracy}%</p>
+        <p>Best Level: ${bestLevel}</p>
+      `;
+
+            // Show the stats modal.
+            document.getElementById("statsModal").style.display = "block";
+        }
+
+        // Event handler for Play Again button.
+        document.getElementById("playAgainBtn").addEventListener("click", () => {
+            // Hide stats modal.
+            document.getElementById("statsModal").style.display = "none";
+            // Reset global stats
+            totalCorrectNotes = 0;
+            totalNotesAttempted = 0;
+            // Reset level and game state.
+            currentLevel = 1;
+            setupLevel();
+        });
+
+        // Event listener for "Play Target Melody" button.
         playTargetBtn.addEventListener("click", (e) => {
             if (remainingReplays > 0) {
                 playSequence(targetSequence);
@@ -518,10 +648,33 @@
         document.getElementById("submitBtn").addEventListener("click", submitComposition);
 
         /***************************************
+         * Tutorial Modal Handlers             *
+         ***************************************/
+        // Show the tutorial modal on first load if not dismissed before.
+        window.addEventListener("load", () => {
+            if (!localStorage.getItem("tutorialDismissed")) {
+                document.getElementById("tutorialModal").style.display = "block";
+            }
+        });
+
+        // Dismiss tutorial modal and record preference.
+        document.getElementById("dismissTutorial").addEventListener("click", () => {
+            document.getElementById("tutorialModal").style.display = "none";
+            localStorage.setItem("tutorialDismissed", "true");
+        });
+        document.getElementById("closeTutorial").addEventListener("click", () => {
+            document.getElementById("tutorialModal").style.display = "none";
+            localStorage.setItem("tutorialDismissed", "true");
+        });
+
+        /***************************************
          * Initialize the Game                 *
          ***************************************/
         setupLevel();
     </script>
+    </script>
+    <!-- global elements -->
+    <script src="../globalNav/globalNav.js" defer></script>
 </body>
 
 </html>
