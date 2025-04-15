@@ -15,7 +15,6 @@
 
         body {
             margin: 0;
-            margin-top: 25px;
             padding: 0;
             background: linear-gradient(135deg, #1e1e2f, #2b2b45);
             color: #fff;
@@ -213,10 +212,10 @@
             z-index: 1000;
         }
 
-        /* Tutorial & Stats Modal Styles */
+        /* Modal Styles matching the game design */
         .modal {
             display: none;
-            /* hidden by default */
+            /* Hidden by default */
             position: fixed;
             z-index: 1001;
             left: 0;
@@ -229,20 +228,24 @@
         }
 
         .modal-content {
-            background-color: #fefefe;
+            background-color: rgba(0, 0, 0, 0.85);
             margin: auto;
-            padding: 20px;
+            padding: 20px 30px;
             border-radius: 10px;
             width: 80%;
             max-width: 500px;
-            color: #000;
+            color: #fff;
             text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             position: relative;
         }
 
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
         .close-button {
-            color: #aaa;
-            float: right;
+            color: #fff;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
@@ -250,11 +253,31 @@
             top: 10px;
             right: 15px;
         }
+
+        .close-button:hover {
+            color: #ccc;
+        }
+
+        .modal-content button {
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #2ECC40;
+            color: #000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .modal-content button:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
 <body>
-    <div id="navbar-container"></div>
     <div id="volumeReminder">
         Please make sure you have your volume turned up!
     </div>
@@ -312,6 +335,8 @@
         </div>
         <div id="feedback"></div>
     </div>
+
+    <div id="navbar-container"></div>
 
     <script>
         /***************************************
@@ -585,7 +610,7 @@
                     // Disable further game interaction.
                     submitBtn.disabled = true;
                     noteButtonsDiv.querySelectorAll("button").forEach(btn => btn.disabled = true);
-                    // Instead of using alert, end game and show stats.
+                    // End game and show stats.
                     setTimeout(endGame, 500);
                 }
             }
@@ -674,8 +699,6 @@
          ***************************************/
         setupLevel();
     </script>
-    </script>
-    <!-- global elements -->
     <script src="../globalNav/globalNav.js" defer></script>
 </body>
 
