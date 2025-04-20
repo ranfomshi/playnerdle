@@ -22,6 +22,7 @@ function insertNavbar() {
           <li><a href="/alternate" onClick="NAValternateClick()">alternate</a></li>
           <li><a href="/trak" onClick="NAVtrakClick()">trak</a></li>
           <li><a href="/tintuition" onClick="NAVtrakClick()">tintuition</a></li>
+          <li><a href="/connex" onClick="NAVconnexClick()">connex</a></li>
         </ul>
       </div>
     `;
@@ -202,4 +203,8 @@ function NAVtintuitionClick() {
 
 function NAVheardleClick() {
   sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'heardle' });
+}
+
+function NAVconnexClick() {
+  sendEvent('navSelection', { 'interaction_type': 'click', 'item_name': 'connex' });
 }
