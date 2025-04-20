@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connex</title>
+    <script src="../globalNav/globalNav.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            color: #00b96b;
+        }
+
+        .word-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 0 auto 20px auto;
+            max-width: 600px;
+        }
+
+        .word-item {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .word-item.selected {
+            background-color: #00b96b;
+        }
+
+        .word-item.correct {
+            background-color: #007a3e;
+            pointer-events: none;
+        }
+
+        .word-item:hover {
+            background-color: #444;
+        }
+
+        .game-status {
+            margin-top: 30px;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #f00;
+        }
+
+        .lives {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .connection-reason {
+            color: #00b96b;
+            font-size: 18px;
+            margin-top: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .group-container {
+            display: block;
+            background-color: #333;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .group-items-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .group-item {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            width: 100%;
+            max-width: 120px;
+        }
+
+        #completedGroups {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        #gameOverModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal-button {
+            background-color: #00b96b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .modal-button:hover {
+            background-color: #007a3e;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+    <h1>Spot the Connection Game</h1>
+    <p>Find the 3 words from the same connection bank.</p>
+
+    <div id="completedGroups"></div>
+
+    <div id="wordList" class="word-list"></div>
+
+    <div class="lives" id="lives">Lives: 5</div>
+    <div class="feedback" id="feedback"></div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <h2>Game Over</h2>
+            <p id="finalFeedback"></p>
+            <button class="modal-button" onclick="restartGame()">Restart</button>
+            <button class="modal-button" onclick="exitGame()">Exit</button>
+        </div>
+    </div>
+
+    <script>
+        const banks = [
+            { words: ["beam", "bright", "radiant", "shine", "glow"], connectionReason: "Conceptual Connection: Sun" },
+            { words: ["cat", "hat", "bat", "mat", "rat"], connectionReason: "Rhyming" },
+            { words: ["apple", "banana", "grape", "cherry", "kiwi"], connectionReason: "Category Words: Fruits" },
+            { words: ["dog", "log", "frog", "bog", "hog"], connectionReason: "Rhyming" },
+            { words: ["fast", "quick", "speedy", "swift", "rapid"], connectionReason: "Synonyms" },
+            { words: ["happy", "joyful", "content", "cheerful", "delighted"], connectionReason: "Synonyms" },
+            { words: ["overcome", "overjoyed", "overkill", "overlook"], connectionReason: "Common Prefix: Over" },
+            { words: ["preheat", "prepare", "preview", "preorder", "preempt"], connectionReason: "Same Prefix: Pre" },
+            { words: ["unhappy", "unfair", "unlock", "unload", "unveil"], connectionReason: "Same Prefix: Un" },
+            { words: ["rose", "lily", "tulip", "daisy", "orchid"], connectionReason: "Category Words: Flowers" },
+            { words: ["car", "bus", "train", "plane", "bike"], connectionReason: "Category Words: Vehicles" },
+            { words: ["mountain", "hill", "valley", "cliff", "ridge"], connectionReason: "Category Words: Terrain" },
+            { words: ["jazz", "rock", "pop", "classical", "hip-hop"], connectionReason: "Category Words: Music Genres" },
+            { words: ["red", "blue", "green", "yellow", "purple"], connectionReason: "Category Words: Colors" },
+            { words: ["north", "south", "east", "west", "centre"], connectionReason: "Directions" },
+            { words: ["zero", "one", "two", "three", "four"], connectionReason: "Numbers" },
+            { words: ["january", "february", "march", "april", "may"], connectionReason: "Months of the Year" },
+            { words: ["french", "spanish", "german", "italian", "portuguese"], connectionReason: "Languages" },
+            { words: ["black", "white", "gray", "beige", "ivory"], connectionReason: "Neutral Colors" },
+            { words: ["shoes", "socks", "shirt", "pants", "hat"], connectionReason: "Clothing" },
+            { words: ["unbelievable", "unfortunate", "unforeseen", "unusual", "unseen"], connectionReason: "Common Prefix: Un" },
+            { words: ["replay", "restart", "reboot", "recharge", "revive"], connectionReason: "Common Prefix: Re" },
+            { words: ["sensitive", "delicate", "fragile", "brittle", "tender"], connectionReason: "Synonyms" },
+            { words: ["brave", "courageous", "fearless", "heroic", "valiant"], connectionReason: "Synonyms" },
+            { words: ["calm", "serene", "peaceful", "quiet", "still"], connectionReason: "Synonyms" },
+            { words: ["bird", "fish", "dog", "cat", "rabbit"], connectionReason: "Pets" },
+            { words: ["football", "basketball", "soccer", "tennis", "baseball"], connectionReason: "Sports" },
+            { words: ["airplane", "helicopter", "jet", "glider", "drone"], connectionReason: "Aircraft" },
+            { words: ["mat", "bat", "rat", "chat", "hat"], connectionReason: "Rhyming" },
+            { words: ["early", "soon", "quickly", "rapidly", "swiftly"], connectionReason: "Synonyms" },
+            { words: ["large", "huge", "gigantic", "enormous", "massive"], connectionReason: "Synonyms" },
+            { words: ["water", "fire", "earth", "wind", "air"], connectionReason: "Elements" },
+            { words: ["spring", "summer", "autumn", "winter", "season"], connectionReason: "Seasons" },
+            { words: ["aggressive", "hostile", "angry", "violent", "fierce"], connectionReason: "Synonyms" },
+            { words: ["marriage", "wedding", "engagement", "union", "partnership"], connectionReason: "Marriage Terms" },
+            { words: ["dog", "puppy", "kitten", "cat", "fish"], connectionReason: "Animals" },
+            { words: ["tiger", "lion", "cheetah", "panther", "leopard"], connectionReason: "Big Cats" },
+            { words: ["almond", "peanut", "cashew", "walnut", "hazelnut"], connectionReason: "Nuts" },
+            { words: ["sun", "moon", "earth", "star", "galaxy"], connectionReason: "Astronomy" },
+            { words: ["fiction", "nonfiction", "mystery", "romance", "fantasy"], connectionReason: "Literary Genres" },
+            { words: ["ice", "snow", "hail", "frost", "blizzard"], connectionReason: "Cold Weather" },
+            { words: ["breakfast", "lunch", "dinner", "brunch", "snack"], connectionReason: "Meals" },
+            { words: ["friction", "inertia", "momentum", "gravity", "velocity"], connectionReason: "Physics Concepts" },
+            { words: ["serenity", "peace", "calm", "tranquility", "stillness"], connectionReason: "Synonyms" },
+            { words: ["dog", "cat", "bird", "fish", "hamster"], connectionReason: "Pets" },
+            { words: ["china", "japan", "india", "nepal", "sri lanka"], connectionReason: "Asian Countries" },
+            { words: ["north", "south", "east", "west", "center"], connectionReason: "Cardinal Directions" },
+            { words: ["eat", "devour", "consume", "gobble", "ingest"], connectionReason: "Synonyms" },
+            { words: ["moon", "star", "planet", "sun", "galaxy"], connectionReason: "Astronomy" },
+            { words: ["paris", "rome", "london", "berlin", "madrid"], connectionReason: "European Capitals" },
+            { words: ["saw", "hammer", "nail", "screwdriver", "wrench"], connectionReason: "Tools" },
+            { words: ["chef", "cook", "baker", "barista", "waiter"], connectionReason: "Kitchen Jobs" },
+            { words: ["mars", "venus", "earth", "jupiter", "saturn"], connectionReason: "Planets" },
+            { words: ["pencil", "pen", "marker", "highlighter", "chalk"], connectionReason: "Writing Tools" },
+            { words: ["blue", "green", "red", "yellow", "purple"], connectionReason: "Primary and Secondary Colors" },
+            { words: ["deep", "shallow", "high", "low", "steep"], connectionReason: "Describing Depth or Height" },
+            { words: ["solid", "liquid", "gas", "plasma", "matter"], connectionReason: "States of Matter" },
+            { words: ["fast", "speedy", "quick", "swift", "rapid"], connectionReason: "Synonyms" },
+            { words: ["emotional", "mental", "physical", "psychological", "spiritual"], connectionReason: "Human Aspects" },
+            { words: ["new", "old", "ancient", "modern", "traditional"], connectionReason: "Time-Based Descriptions" },
+            { words: ["map", "globe", "atlas", "chart", "diagram"], connectionReason: "Tools for Navigation" },
+            { words: ["vacuum", "air", "wind", "storm", "gust"], connectionReason: "Types of Air" },
+            { words: ["beach", "ocean", "lake", "river", "pond"], connectionReason: "Bodies of Water" },
+            { words: ["speed", "velocity", "momentum", "acceleration", "force"], connectionReason: "Physics Concepts" },
+            { words: ["sodium", "potassium", "calcium", "magnesium", "zinc"], connectionReason: "Chemical Elements" },
+            { words: ["sun", "moon", "earth", "star", "galaxy", "planet", "comet", "asteroid", "universe", "nebula", "solar system", "black hole", "meteor", "eclipse", "orbit", "telescope", "satellite", "constellation", "astro", "cosmic"], connectionReason: "Astronomy" },
+            { words: ["pencil", "pen", "marker", "highlighter", "chalk", "eraser", "crayon", "fountain pen", "sharpener", "brush", "paint", "ruler", "scissors", "glue", "paperclip", "stapler", "tape", "clipboard", "stamps", "notebook"], connectionReason: "Writing Tools" },
+            { words: ["emotional", "mental", "physical", "psychological", "spiritual", "social", "empathy", "anger", "happiness", "sadness", "fear", "joy", "stress", "calm", "anxiety", "loneliness", "depression", "hope", "love", "self-esteem"], connectionReason: "Human Aspects" },
+            { words: ["solid", "liquid", "gas", "plasma", "matter", "atoms", "molecules", "compound", "element", "solution", "mixture", "chemical reaction", "evaporation", "condensation", "fusion", "fission", "precipitate", "solvent", "solute", "phase"], connectionReason: "States of Matter" },
+            { words: ["china", "japan", "india", "nepal", "sri lanka", "pakistan", "bangladesh", "malaysia", "vietnam", "thailand", "korea", "singapore", "myanmar", "indonesia", "philipines", "bhutan", "maldives", "mongolia", "cambodia", "laos"], connectionReason: "Asian Countries" },
+            { words: ["beach", "ocean", "lake", "river", "pond", "stream", "swamp", "bay", "floodplain", "estuary", "delta", "wetlands", "creek", "cove", "fjord", "reef", "marsh", "spring", "waterfall", "riverside"], connectionReason: "Bodies of Water" },
+            { words: ["rose", "lily", "tulip", "daisy", "orchid", "sunflower", "violet", "carnation", "daffodil", "magnolia", "hibiscus", "camellia", "jasmine", "lavender", "peony", "poppy", "zinnia", "chrysanthemum", "geranium", "begonia"], connectionReason: "Flowers" },
+            { words: ["school", "university", "college", "teacher", "student", "lecture", "homework", "exam", "study", "research", "graduation", "degree", "diploma", "curriculum", "tutor", "seminar", "campus", "classroom", "academic", "peer"], connectionReason: "Education" },
+            { words: ["mountain", "hill", "valley", "cliff", "ridge", "peak", "summit", "plateau", "slope", "canyon", "rock", "mound", "highland", "dune", "spine", "gorge", "ravine", "outcrop", "escarpment", "knoll"], connectionReason: "Terrain" },
+            { words: ["history", "science", "literature", "math", "art", "music", "philosophy", "politics", "economics", "psychology", "geography", "sociology", "anthropology", "education", "theology", "law", "religion", "linguistics", "mathematics"], connectionReason: "Academic Subjects" },
+            { words: ["hammer", "nail", "screwdriver", "wrench", "drill", "saw", "pliers", "tape measure", "level", "screw", "bolt", "nut", "spanner", "clamp", "vice", "pliers", "chisel", "file", "hacksaw", "crowbar"], connectionReason: "Tools" },
+            { words: ["mountain", "hill", "valley", "cliff", "ridge", "peak", "summit", "plateau", "slope", "canyon", "rock", "mound", "highland", "dune", "spine", "gorge", "ravine", "outcrop", "escarpment", "knoll"], connectionReason: "Geographical Features" },
+            { words: ["breakfast", "lunch", "dinner", "brunch", "snack", "dessert", "appetizer", "salad", "sandwich", "pasta", "soup", "pizza", "burger", "fries", "steak", "fish", "chicken", "sushi", "rice", "curry"], connectionReason: "Meals" },
+            { words: ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"], connectionReason: "Numbers" },
+            { words: ["north", "south", "east", "west", "centre", "up", "down", "northeast", "northwest", "southeast", "southwest", "middle", "top", "bottom", "left", "right", "forward", "backward", "above", "below", "interior"], connectionReason: "Cardinal Directions" },
+            { words: ["dog", "puppy", "kitten", "cat", "fish", "hamster", "guinea pig", "rabbit", "ferret", "lizard", "snake", "turtle", "parrot", "mouse", "rat", "gerbil", "frog", "chinchilla", "goldfish", "betta fish"], connectionReason: "Pets" },
+            { words: ["china", "japan", "india", "nepal", "sri lanka", "pakistan", "bangladesh", "malaysia", "vietnam", "thailand", "korea", "singapore", "myanmar", "indonesia", "philipines", "bhutan", "maldives", "mongolia", "cambodia", "laos"], connectionReason: "Asian Countries" },
+            { words: ["french", "spanish", "german", "italian", "portuguese", "english", "chinese", "japanese", "russian", "arabic", "hindi", "korean", "turkish", "dutch", "swedish", "greek", "hebrew", "polish", "finnish", "norwegian"], connectionReason: "Languages" },
+            {
+                words: ["hat", "tan", "shade", "screen", "flower", "glasses", "shine", "burn", "roof", "light"],
+                connectionReason: "Words that follow 'sun'"
+                // sunhat, suntan, sunshade, sunscreen, sunflower, sunglasses, sunshine, sunburn, sunroof, sunlight
+            },
+            {
+                words: ["cream", "cube", "water", "hockey", "cold", "skate", "pick", "berg", "breaker", "pack"],
+                connectionReason: "Words that follow 'ice'"
+                // ice cream, ice cube, ice water, ice hockey, ice cold, ice skate, ice pick, iceberg, icebreaker, icepack
+            },
+            {
+                words: ["drop", "coat", "bow", "forest", "fall", "cloud", "check", "water", "storm", "proof"],
+                connectionReason: "Words that follow 'rain'"
+                // raindrop, raincoat, rainbow, rainforest, rainfall, raincloud, raincheck, rainwater, rainstorm, rainproof
+            },
+            {
+                words: ["brush", "paste", "pick", "ache", "fairy", "decay", "enamel", "whitening", "cavity", "filling"],
+                connectionReason: "Words that follow 'tooth'"
+                // toothbrush, toothpaste, toothpick, toothache, tooth fairy, tooth decay, tooth enamel, tooth whitening, tooth cavity, tooth filling
+            },
+            {
+                words: ["light", "stop", "cone", "sign", "rules", "jam", "warden", "flow", "circle", "calming"],
+                connectionReason: "Words that follow 'traffic'"
+                // traffic light, traffic stop, traffic cone, traffic sign, traffic rules, traffic jam, traffic warden, traffic flow, traffic circle, traffic calming
+            },
+            {
+                words: ["conditioning", "flow", "pressure", "freshener", "tight", "way", "craft", "port", "borne", "base"],
+                connectionReason: "Words that follow 'air'"
+                // air conditioning, airflow, air pressure, air freshener, airtight, airway, aircraft, airport, airborne, airbase
+            },
+            {
+                words: ["keeper", "wife", "husband", "guest", "hold", "bound", "warming", "plant", "party", "mate"],
+                connectionReason: "Words that follow 'house'"
+                // housekeeper, housewife, househusband, houseguest, household, housebound, housewarming, houseplant, house party, housemate
+            },
+            {
+                words: ["ache", "beat", "rate", "attack", "broken", "felt", "warming", "land", "burn", "less"],
+                connectionReason: "Words that follow 'heart'"
+                // heartache, heartbeat, heart rate, heart attack, heartbroken, heartfelt, heartwarming, heartland, heartburn, heartless
+            },
+            {
+                words: ["bag", "frame", "side", "time", "room", "linen", "bug", "spread", "rock", "ridden"],
+                connectionReason: "Words that follow 'bed'"
+                // bedbag, bedframe, bedside, bedtime, bedroom, bed linen, bedbug, bedspread, bedrock, bedridden
+            },
+            {
+                words: ["land", "quake", "worm", "work", "bound", "day", "crust", "tone", "rise", "science"],
+                connectionReason: "Words that follow 'earth'"
+                // earthland, earthquake, earthworm, earthwork, earthbound, earth day, earth crust, earth tone, earthrise, earth science
+            },
+            {
+                words: ["ball", "storm", "man", "flake", "angel", "mobile", "shoes", "drift", "fall", "board"],
+                connectionReason: "Words that follow 'snow'"
+                // snowball, snowstorm, snowman, snowflake, snow angel, snowmobile, snowshoes, snowdrift, snowfall, snowboard
+            },
+            {
+                words: ["proof", "melon", "mark", "front", "works", "color", "fall", "gate", "line", "logged"],
+                connectionReason: "Words that follow 'water'"
+                // waterproof, watermelon, watermark, waterfront, waterworks, watercolor, waterfall, watergate, waterline, waterlogged
+            },
+            {
+                words: ["box", "light", "print", "room", "line", "worm", "bag", "clip", "weight", "mill"],
+                connectionReason: "Words that follow 'paper'"
+                // paperbox, paperlight, paperprint, paper room, paperline, paperworm, paperbag, paperclip, paperweight, papermill
+            },
+            {
+                words: ["ball", "court", "table", "player", "net", "match", "coach", "shoe", "racket"],
+                connectionReason: "Words that follow 'tennis'"
+                // tennis ball, tennis room, tennis court, tennis table, tennis player, tennis net, tennis match, tennis coach, tennis shoe, tennis racket
+            },
+            {
+                words: ["pitch", "goal", "team", "club", "match", "player", "stadium"],
+                connectionReason: "Words that follow 'football'"
+                // football drive, football court, football keeper, football goal, football post, football team, football club, football match, football player, football stadium
+            },
+        ];
+
+        const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+
+        const selectRandomWordsFromBanks = () => {
+            const shuffledBanks = shuffle(banks).slice(0, 3);
+            let selectedWords = [];
+            shuffledBanks.forEach(bank => {
+                if (bank.words.length >= 3) {
+                    selectedWords = selectedWords.concat(shuffle(bank.words).slice(0, 3));
+                }
+            });
+            return shuffledBanks.map(bank => ({
+                words: shuffle(bank.words).slice(0, 3),
+                connectionReason: bank.connectionReason
+            }));
+        };
+
+        let currentWords = [];
+        let correctAnswerBanks = [];
+        let lives = 5;
+        let selectedGroups = [false, false, false];
+        let completedGroups = 0;
+
+        const getWordsForConnection = () => {
+            const selectedBanks = selectRandomWordsFromBanks();
+            currentWords = shuffle(selectedBanks.flatMap(bank => bank.words));
+            correctAnswerBanks = selectedBanks;
+            selectedGroups = [false, false, false];
+            completedGroups = 0;
+            renderWordList();
+            resetSelection();
+            updateLives();
+        };
+
+        const renderWordList = () => {
+            const wordListDiv = document.getElementById('wordList');
+            wordListDiv.innerHTML = '';
+            currentWords.forEach(word => {
+                const wordItem = document.createElement('div');
+                wordItem.classList.add('word-item');
+                wordItem.textContent = word;
+                wordItem.addEventListener('click', () => handleWordClick(wordItem));
+                wordListDiv.appendChild(wordItem);
+            });
+        };
+
+        const handleWordClick = (wordItem) => {
+            if (wordItem.classList.contains('correct')) return;
+            wordItem.classList.toggle('selected');
+            const selectedItems = document.querySelectorAll('.word-item.selected');
+            if (selectedItems.length === 3) {
+                checkAnswer(selectedItems);
+            }
+        };
+
+        const checkAnswer = (selectedItems) => {
+            const selectedWords = Array.from(selectedItems).map(el => el.textContent);
+            const selectedBanksWords = correctAnswerBanks.map(bank => bank.words);
+
+            const groupsSelected = correctAnswerBanks.filter(bank =>
+                selectedWords.every(word => bank.words.includes(word))
+            );
+
+            if (groupsSelected.length !== 1) {
+                document.getElementById('feedback').textContent = 'Oops! Incorrect guess.';
+                document.getElementById('feedback').style.color = '#f00';
+                lives--;
+                updateLives();
+
+                if (lives === 0) {
+                    showGameOverDialog("Game Over! You have no lives left.");
+                    return;
+                } else {
+                    setTimeout(() => {
+                        document.querySelectorAll('.word-item.selected').forEach(item => {
+                            item.classList.remove('selected');
+                        });
+                    }, 500);
+                }
+            } else {
+                let groupIndex = correctAnswerBanks.indexOf(groupsSelected[0]);
+                selectedItems.forEach(item => item.classList.add('correct'));
+                document.getElementById('feedback').textContent = `Correct! Connection: ${correctAnswerBanks[groupIndex].connectionReason}`;
+                document.getElementById('feedback').style.color = '#00b96b';
+                moveToTop(selectedItems);
+
+                const groupDiv = document.createElement('div');
+                groupDiv.classList.add('group-container');
+                const groupWrapper = document.createElement('div');
+                groupWrapper.classList.add('group-items-wrapper');
+                selectedItems.forEach(item => {
+                    const groupItem = document.createElement('div');
+                    groupItem.classList.add('group-item');
+                    groupItem.textContent = item.textContent;
+                    groupWrapper.appendChild(groupItem);
+                });
+                groupDiv.appendChild(groupWrapper);
+
+                const connectionReasonDiv = document.createElement('div');
+                connectionReasonDiv.classList.add('connection-reason');
+                connectionReasonDiv.textContent = correctAnswerBanks[groupIndex].connectionReason;
+                groupDiv.appendChild(connectionReasonDiv);
+
+                // Append the new group at the end of the completedGroups div
+                document.getElementById('completedGroups').appendChild(groupDiv);
+
+                selectedItems.forEach(item => item.remove());
+                completedGroups++; // Increment completedGroups when a group is found
+
+                if (completedGroups === 3) {
+                    showGameOverDialog("Congratulations! You found all connections!", true);
+                }
+            }
+        };
+
+        const moveToTop = (selectedItems) => {
+            const wordListDiv = document.getElementById('wordList');
+            selectedItems.forEach(item => wordListDiv.insertBefore(item, wordListDiv.firstChild));
+        };
+
+        const resetSelection = () => {
+            document.querySelectorAll('.word-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+        };
+
+        const updateLives = () => {
+            document.getElementById('lives').textContent = `Lives: ${lives}`;
+        };
+
+        const showGameOverDialog = (message, isGameWon = false) => {
+            document.getElementById('finalFeedback').textContent = message;
+            document.getElementById('gameOverModal').style.display = 'flex';
+
+            // Change buttons based on whether the game is won or lost
+            const restartButton = document.querySelector('.modal-button');
+            const exitButton = document.querySelectorAll('.modal-button')[1];
+
+            if (isGameWon) {
+                document.getElementById('finalFeedback').textContent = "You won! Do you want to play again?";
+                restartButton.textContent = "Play Again";
+            } else {
+                document.getElementById('finalFeedback').textContent = message;
+                restartButton.textContent = "Restart";
+            }
+
+            exitButton.textContent = "Exit";
+        };
+
+        const restartGame = () => {
+            document.getElementById('gameOverModal').style.display = 'none';
+            lives = 5;
+            completedGroups = 0;
+            getWordsForConnection();
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('completedGroups').innerHTML = '';  // Clear completed groups
+        };
+
+        const exitGame = () => {
+            window.close(); // Will attempt to close the window, but may not work on all browsers
+        };
+
+        getWordsForConnection();
+    </script>
+
+</body>
+
+</html>
