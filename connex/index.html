@@ -29,6 +29,7 @@
         }
 
         .word-item {
+            text-transform: lowercase;
             background-color: #2a2a2a;
             padding: 20px;
             border-radius: 5px;
@@ -166,6 +167,175 @@
 
     <script>
         const banks = [
+            {
+                words: ["knight", "comb", "lamb", "thumb", "dumb"],
+                connectionReason: "Words ending with a silent letter"
+            },
+            {
+                words: ["psychology", "gnome", "knee", "honest", "wrinkle"],
+                connectionReason: "Words starting with a silent letter"
+            },
+            {
+                words: ["Aries", "Taurus", "Gemini", "Cancer", "Leo"],
+                connectionReason: "Zodiac Signs"
+            }, {
+                words: ["Zeus", "Odin", "Ra", "Thor", "Apollo"],
+                connectionReason: "Mythological Gods"
+            }, {
+                words: ["Hamlet", "Othello", "Macbeth", "Cymbeline", "Pericles"],
+                connectionReason: "One-word Shakespeare Plays"
+            }, {
+                words: ["Malaria", "Cholera", "Measles", "Influenza", "Tuberculosis"],
+                connectionReason: "Diseases"
+            }, {
+                words: ["Dalmatian", "Leopard", "Ladybird", "Mushroom", "Cheetah"],
+                connectionReason: "Things known for having spots"
+            },
+            {
+                words: ["Toaster", "Kettle", "Spatula", "Fridge", "Blender"],
+                connectionReason: "Common Kitchen Items"
+            }, {
+                words: ["Level", "Rotor", "Civic", "Madam", "Racecar"],
+                connectionReason: "Palindromes"
+            },
+            {
+                words: ["Civic", "Accord", "Jazz", "CR-V", "Integra"],
+                connectionReason: "Honda Car Models"
+            },
+
+            {
+                words: [
+                    "Huge",
+                    "Enormous",
+                    "Massive",
+                    "Gigantic",
+                    "Vast",
+                    "Immense",
+                    "Colossal",
+                    "Jumbo",
+                    "Hefty",
+                    "Monumental"
+                ],
+                connectionReason: "Common Synonyms for 'Large'"
+            }
+            ,
+            {
+                words: [
+                    "Tiny",
+                    "Miniature",
+                    "Petite",
+                    "Diminutive",
+                    "Compact",
+                    "Little",
+                    "Small",
+                    "Microscopic",
+                    "Pint-sized",
+                    "Wee"
+                ],
+                connectionReason: "Common Synonyms for 'Small'"
+            }, {
+                words: ["Georgia", "Washington", "Missouri", "Montana", "Indiana"],
+                connectionReason: "U.S. States"
+            },
+            {
+                words: ["Indiana", "Bridget", "Jessica", "Barnaby", "Davy"],
+                connectionReason: "Fictional Characters Named 'Jones'"
+            }
+            ,
+            {
+                words: ["Blur", "Oasis", "Pulp", "Suede", "Elastica"],
+                connectionReason: "Britpop Bands"
+            }
+            , {
+                words: ["Zest", "Pith", "Pulp", "Rind", "Seed", "flesh"],
+                connectionReason: "Parts of Fruit"
+            }, {
+                words: ["Chip", "Belle", "Buzz", "Jasmine", "Beast", "scar", "flounder"],
+                connectionReason: "Disney Characters with Ambiguous Meanings"
+            }, {
+                words: ["Basil", "Thyme", "Oregano", "Parsley", "Cilantro", "Mint", "Sage", "Dill", "Rosemary", "Chives"],
+                connectionReason: "Common Culinary Herbs"
+            }, {
+                words: [
+                    "Empty",
+                    "Absent",
+                    "Bare",
+                    "Devoid",
+                    "Scarce",
+                    "Vacant",
+                    "Sparse",
+                    "Deficient",
+                    "Hollow",
+                    "Unfilled"
+                ],
+                connectionReason: "Synonyms for 'Lacking' or 'Without'"
+            },
+
+            {
+                words: [
+                    "Above",
+                    "Below",
+                    "Under",
+                    "Over",
+                    "Between",
+                    "Across",
+                    "Near",
+                    "Through",
+                    "Behind",
+                    "Inside"
+                ],
+                connectionReason: "Prepositions"
+            },
+            {
+                words: ["Upon", "Bitten", "More", "Again", "Removed"],
+                connectionReason: "Commonly follow 'Once' in phrases"
+            },
+            {
+                words: [
+                    "Moon",      // Blue Moon
+                    "Whale",     // Blue Whale
+                    "Sky",       // Blue Sky
+                    "Jeans",     // Blue Jeans
+                    "Berry",     // Blueberry
+                    "Sapphire",  // A blue gemstone
+                    "Note",      // As in "blue note" (jazz) or sadness
+                    "Monday",    // "Blue Monday" = day of gloom
+                    "Lips",      // Can turn blue from cold
+                    "Bird"       // Bluebird, or just birds with blue feathers
+                ],
+                connectionReason: "Commonly associated with 'Blue'"
+            }, {
+                words: [
+                    "Nevermind",     // Nirvana
+                    "Revolver",      // The Beatles
+                    "Parachutes",    // Coldplay
+                    "Ten",           // Pearl Jam
+                    "Amnesiac",      // Radiohead
+                    "Tusk",          // Fleetwood Mac
+                    "Absolution",    // Muse
+                    "Origin",        // Imagine Dragons
+                ],
+                connectionReason: "One-word Titles of Famous Rock Albums"
+            }
+
+            ,
+            {
+                words: [
+                    "Alert",     // Red Alert
+                    "Carpet",    // Red Carpet
+                    "Wine",      // Red Wine
+                    "Eye",       // Red Eye (as in a flight or an eye condition)
+                    "Flag",      // Red Flag (literal or metaphorical)
+                    "Tape",      // Red Tape (bureaucracy)
+                    "Light",     // Red Light
+                    "Blood",     // Naturally red
+                    "Rose"       // Red Rose
+                ],
+                connectionReason: "Commonly associated with 'Red'"
+            }
+            ,
+
+
             { words: ["beam", "bright", "radiant", "shine", "glow"], connectionReason: "Conceptual Connection: Sun" },
             { words: ["cat", "hat", "bat", "mat", "rat"], connectionReason: "Rhyming" },
             { words: ["apple", "banana", "grape", "cherry", "kiwi"], connectionReason: "Category Words: Fruits" },
@@ -324,23 +494,171 @@
                 connectionReason: "Words that follow 'football'"
                 // football drive, football court, football keeper, football goal, football post, football team, football club, football match, football player, football stadium
             },
+            {
+                words: ["triangle", "square", "pentagon", "hexagon", "octagon"],
+                connectionReason: "Geometric shapes"
+            },
+            {
+                words: ["lemon", "gold", "mustard", "butter", "amber"],
+                connectionReason: "Shades of Yellow"
+            },
+            {
+                words: ["guitar", "piano", "drums", "violin", "flute"],
+                connectionReason: "Musical Instruments"
+            },
+            {
+                words: ["doctor", "nurse", "paramedic", "surgeon", "therapist"],
+                connectionReason: "Healthcare professions"
+            },
+            {
+                words: ["bicycle", "tricycle", "unicycle", "motorcycle", "quadbike"],
+                connectionReason: "Types of Cycles"
+            },
+            {
+                words: ["butterfly", "bee", "ant", "mosquito", "ladybug"],
+                connectionReason: "Insects"
+            },
+            {
+                words: ["sleeping", "rolling", "dining", "waiting", "living"],
+                connectionReason: "Words ending with 'room'"
+                // sleeping room, rolling room, dining room, waiting room, living room
+            },
+            {
+                words: ["panic", "button", "station", "exit", "number"],
+                connectionReason: "Words that follow 'emergency'"
+                // emergency panic, emergency button, emergency station, emergency exit, emergency number
+            },
+            {
+                words: ["run", "jump", "throw", "hurdle", "vault"],
+                connectionReason: "Track and field events"
+            },
+            {
+                words: ["feather", "fur", "scales", "shell", "skin"],
+                connectionReason: "Animal coverings"
+            },
+            {
+                words: ["lettuce", "spinach", "kale", "cabbage", "broccoli"],
+                connectionReason: "Leafy green vegetables"
+            },
+            {
+                words: ["skyscraper", "bungalow", "apartment", "cottage", "villa"],
+                connectionReason: "Types of houses/buildings"
+            },
+            {
+                words: ["clock", "machine", "travel", "zone", "frame"],
+                connectionReason: "Words that follow 'time'"
+                // time clock, time machine, time travel, time zone, time frame
+            },
+            {
+                words: ["lightning", "thunder", "hurricane", "tornado", "monsoon"],
+                connectionReason: "Severe weather phenomena"
+            },
+            {
+                words: ["piano", "keyboard", "typewriter", "accordion", "calculator"],
+                connectionReason: "Objects with keys"
+            },
+            {
+                words: ["north", "irish", "pacific", "dead", "red"],
+                connectionReason: "Words that precede 'sea'"
+                // North Sea, Irish Sea, Pacific Sea, Dead Sea, Red Sea
+            },
+            {
+                words: ["eyes", "ears", "nose", "tongue", "skin"],
+                connectionReason: "Human senses"
+            },
+            {
+                words: ["wrench", "pipes", "faucet", "sink", "drain"],
+                connectionReason: "Plumbing related words"
+            },
+            {
+                words: ["baker", "carpenter", "smith", "fisher", "miller"],
+                connectionReason: "Occupational surnames"
+            },
+            {
+                words: ["whale", "shark", "salmon", "trout", "eel"],
+                connectionReason: "Aquatic creatures"
+            },
+            { words: ["coffee", "tea", "juice", "soda", "water"], connectionReason: "Drinks" },
+            { words: ["oak", "pine", "maple", "birch", "willow"], connectionReason: "Types of Trees" },
+            { words: ["actor", "director", "producer", "screenwriter", "editor"], connectionReason: "Film Industry Roles" },
+            { words: ["Mars", "Twix", "Snickers", "Bounty", "Milky Way"], connectionReason: "Chocolate Bars" },
+            { words: ["lion", "dragon", "griffin", "unicorn", "phoenix"], connectionReason: "Mythical Creatures" },
+            { words: ["cricket", "ant", "grasshopper", "beetle", "cockroach"], connectionReason: "Insects" },
+            { words: ["diamond", "ruby", "sapphire", "emerald", "opal"], connectionReason: "Precious Stones" },
+            { words: ["butcher", "candlestick maker", "baker"], connectionReason: "Nursery Rhyme Occupations" },
+            { words: ["Germany", "Spain", "France", "Italy", "Norway"], connectionReason: "European Countries" },
+            { words: ["viola", "cello", "harp", "double bass", "violin"], connectionReason: "String Instruments" },
+            { words: ["coffee", "tea", "juice", "soda", "water"], connectionReason: "Drinks" },
+            { words: ["oak", "pine", "maple", "birch", "willow"], connectionReason: "Types of Trees" },
+            { words: ["actor", "director", "producer", "screenwriter", "editor"], connectionReason: "Film Industry Roles" },
+            { words: ["Mars", "Twix", "Snickers", "Bounty", "Milky Way"], connectionReason: "Chocolate Bars" },
+            { words: ["lion", "dragon", "griffin", "unicorn", "phoenix"], connectionReason: "Mythical Creatures" },
+            { words: ["cricket", "ant", "grasshopper", "beetle", "cockroach"], connectionReason: "Insects" },
+            { words: ["diamond", "ruby", "sapphire", "emerald", "opal"], connectionReason: "Precious Stones" },
+            { words: ["butcher", "candlestick maker", "baker"], connectionReason: "Nursery Rhyme Occupations" },
+            { words: ["Germany", "Spain", "France", "Italy", "Norway"], connectionReason: "European Countries" },
+            { words: ["viola", "cello", "harp", "double bass", "violin"], connectionReason: "String Instruments" },
+            { words: ["satellite", "cable", "antenna", "streaming", "broadcast"], connectionReason: "Television Transmission Methods" },
+            { words: ["rose", "violet", "lily", "orchid", "tulip"], connectionReason: "Flowers" },
+            { words: ["mercury", "venus", "earth", "mars", "jupiter"], connectionReason: "Planets in the Solar System" },
+            { words: ["winter", "spring", "summer", "autumn", "monsoon"], connectionReason: "Seasons" },
+            { words: ["red", "blue", "green", "yellow", "purple"], connectionReason: "Primary and Secondary Colors" },
+            { words: ["brick", "stone", "concrete", "wood", "steel"], connectionReason: "Building Materials" },
+            { words: ["apple", "banana", "cherry", "date", "fig"], connectionReason: "Fruits" },
+            { words: ["car", "bus", "train", "airplane", "boat"], connectionReason: "Transportation Methods" },
+            { words: ["bass", "guitar", "piano", "drums", "trumpet"], connectionReason: "Musical Instruments" },
+            { words: ["bear", "wolf", "fox", "lynx", "deer"], connectionReason: "Forest Animals" },
+            { words: ["painting", "sculpture", "drawing", "photography", "engraving"], connectionReason: "Art Forms" },
+            { words: ["pizza", "pasta", "burger", "sandwich", "salad"], connectionReason: "Common Foods" },
+            { words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], connectionReason: "Weekdays" },
+            { words: ["January", "February", "March", "April", "May"], connectionReason: "Months of the Year" },
+            { words: ["math", "science", "history", "literature", "art"], connectionReason: "School Subjects" },
+            { words: ["happy", "sad", "angry", "excited", "nervous"], connectionReason: "Emotions" },
+            { words: ["Canada", "Mexico", "Brazil", "Argentina", "Chile"], connectionReason: "Countries in the Americas" },
+            { words: ["keyboard", "mouse", "monitor", "printer", "scanner"], connectionReason: "Computer Peripherals" },
+            { words: ["cotton", "silk", "wool", "linen", "denim"], connectionReason: "Textile Fabrics" },
+            { words: ["circle", "square", "triangle", "rectangle", "hexagon"], connectionReason: "Geometric Shapes" },
+            { words: ["dog", "cat", "hamster", "parrot", "goldfish"], connectionReason: "Common Pets" },
+            { words: ["lion", "tiger", "leopard", "jaguar", "cheetah"], connectionReason: "Big Cats" },
+            { words: ["coffee", "espresso", "latte", "cappuccino", "mocha"], connectionReason: "Coffee Drinks" },
+            { words: ["flute", "clarinet", "oboe", "bassoon", "saxophone"], connectionReason: "Woodwind Instruments" },
+            { words: ["hip hop", "rock", "pop", "jazz", "classical"], connectionReason: "Music Genres" },
+            { words: ["lake", "river", "ocean", "pond", "stream"], connectionReason: "Bodies of Water" },
+            { words: ["Eiffel", "Leaning", "CN", "Shard", "Burj"], connectionReason: "Famous Towers" },
+            { words: ["cabbage", "broccoli", "carrot", "spinach", "peas"], connectionReason: "Vegetables" },
+            { words: ["morning", "afternoon", "evening", "night", "dawn"], connectionReason: "Parts of the Day" },
+            { words: ["boxing", "wrestling", "judo", "karate", "taekwondo"], connectionReason: "Martial Arts" }
         ];
 
         const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
         const selectRandomWordsFromBanks = () => {
-            const shuffledBanks = shuffle(banks).slice(0, 3);
-            let selectedWords = [];
-            shuffledBanks.forEach(bank => {
-                if (bank.words.length >= 3) {
-                    selectedWords = selectedWords.concat(shuffle(bank.words).slice(0, 3));
+            const shuffledBanks = shuffle(banks);
+            const selectedBanks = [];
+            const usedWords = new Set();
+
+            let attempts = 0;
+            while (selectedBanks.length < 3 && attempts < 100) {
+                const candidate = shuffledBanks[selectedBanks.length];
+                if (!candidate) break;
+
+                const uniqueWords = candidate.words.filter(word => !usedWords.has(word.toLowerCase()));
+
+                if (uniqueWords.length >= 3) {
+                    const chosenWords = shuffle(uniqueWords).slice(0, 3);
+                    chosenWords.forEach(word => usedWords.add(word.toLowerCase()));
+                    selectedBanks.push({
+                        words: chosenWords,
+                        connectionReason: candidate.connectionReason
+                    });
                 }
-            });
-            return shuffledBanks.map(bank => ({
-                words: shuffle(bank.words).slice(0, 3),
-                connectionReason: bank.connectionReason
-            }));
+
+                attempts++;
+            }
+
+            return selectedBanks;
         };
+
 
         let currentWords = [];
         let correctAnswerBanks = [];
