@@ -22,10 +22,10 @@
 
         .word-list {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             margin: 0 auto 20px auto;
-            max-width: 600px;
+            max-width: 800px;
         }
 
         .word-item {
@@ -101,12 +101,11 @@
             display: grid;
             gap: 10px;
             margin-bottom: 20px;
-            max-width: 600px;
+            max-width: 800px;
             margin: 10px auto;
             text-align: center;
         }
 
-        /* Modal Styles */
         #gameOverModal {
             display: none;
             position: fixed;
@@ -146,7 +145,7 @@
 <body>
     <div id="navbar-container"></div>
     <h1>Spot the Connection Game</h1>
-    <p>Find the 3 words from the same connection bank.</p>
+    <p>Find the 4 words from the same connection bank.</p>
 
     <div id="completedGroups"></div>
 
@@ -155,7 +154,6 @@
     <div class="lives" id="lives">Lives: 5</div>
     <div class="feedback" id="feedback"></div>
 
-    <!-- Game Over Modal -->
     <div id="gameOverModal" class="modal">
         <div class="modal-content">
             <h2>Game Over</h2>
@@ -166,6 +164,8 @@
     </div>
 
     <script>
+        const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+
         const banks = [
             {
                 words: ["pitch", "goal", "referee", "striker", "offside"],
@@ -664,53 +664,39 @@
             { words: ["flute", "clarinet", "oboe", "bassoon", "saxophone"], connectionReason: "Woodwind Instruments" },
             { words: ["hip hop", "rock", "pop", "jazz", "classical"], connectionReason: "Music Genres" },
             { words: ["lake", "river", "ocean", "pond", "stream"], connectionReason: "Bodies of Water" },
-            { words: ["Eiffel", "Leaning", "CN", "Shard", "Burj"], connectionReason: "Famous Towers" },
+            { words: ["Eiffel", "Leaning", "blackpool", "Shard", "Burj"], connectionReason: "Famous Towers" },
             { words: ["cabbage", "broccoli", "carrot", "spinach", "peas"], connectionReason: "Vegetables" },
             { words: ["morning", "afternoon", "evening", "night", "dawn"], connectionReason: "Parts of the Day" },
             { words: ["boxing", "wrestling", "judo", "karate", "taekwondo"], connectionReason: "Martial Arts" }
         ];
 
-        const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
         const selectRandomWordsFromBanks = () => {
             const shuffledBanks = shuffle(banks);
             const selectedBanks = [];
             const usedWords = new Set();
-
             let attempts = 0;
-            while (selectedBanks.length < 3 && attempts < 100) {
-                const candidate = shuffledBanks[selectedBanks.length];
-                if (!candidate) break;
-
+            while (selectedBanks.length < 4 && attempts < 100) {
+                const candidate = shuffledBanks[attempts % shuffledBanks.length];
                 const uniqueWords = candidate.words.filter(word => !usedWords.has(word.toLowerCase()));
-
-                if (uniqueWords.length >= 3) {
-                    const chosenWords = shuffle(uniqueWords).slice(0, 3);
-                    chosenWords.forEach(word => usedWords.add(word.toLowerCase()));
-                    selectedBanks.push({
-                        words: chosenWords,
-                        connectionReason: candidate.connectionReason
-                    });
+                if (uniqueWords.length === 4) {
+                    uniqueWords.forEach(word => usedWords.add(word.toLowerCase()));
+                    selectedBanks.push({ words: uniqueWords, connectionReason: candidate.connectionReason });
                 }
-
                 attempts++;
             }
-
             return selectedBanks;
         };
-
 
         let currentWords = [];
         let correctAnswerBanks = [];
         let lives = 5;
-        let selectedGroups = [false, false, false];
         let completedGroups = 0;
 
         const getWordsForConnection = () => {
             const selectedBanks = selectRandomWordsFromBanks();
             currentWords = shuffle(selectedBanks.flatMap(bank => bank.words));
             correctAnswerBanks = selectedBanks;
-            selectedGroups = [false, false, false];
             completedGroups = 0;
             renderWordList();
             resetSelection();
@@ -733,103 +719,41 @@
             if (wordItem.classList.contains('correct')) return;
             wordItem.classList.toggle('selected');
             const selectedItems = document.querySelectorAll('.word-item.selected');
-            if (selectedItems.length === 3) {
+            if (selectedItems.length === 4) {
                 checkAnswer(selectedItems);
             }
         };
 
         const checkAnswer = (selectedItems) => {
             const selectedWords = Array.from(selectedItems).map(el => el.textContent);
-            const selectedBanksWords = correctAnswerBanks.map(bank => bank.words);
-
-            const groupsSelected = correctAnswerBanks.filter(bank =>
-                selectedWords.every(word => bank.words.includes(word))
-            );
-
-            if (groupsSelected.length !== 1) {
+            const matchedBank = correctAnswerBanks.find(bank => selectedWords.every(w => bank.words.includes(w)));
+            if (!matchedBank) {
                 document.getElementById('feedback').textContent = 'Oops! Incorrect guess.';
                 document.getElementById('feedback').style.color = '#f00';
                 lives--;
                 updateLives();
-
                 if (lives === 0) {
                     showGameOverDialog("Game Over! You have no lives left.");
-                    return;
                 } else {
-                    setTimeout(() => {
-                        document.querySelectorAll('.word-item.selected').forEach(item => {
-                            item.classList.remove('selected');
-                        });
-                    }, 500);
+                    setTimeout(() => selectedItems.forEach(i => i.classList.remove('selected')), 500);
                 }
             } else {
-                let groupIndex = correctAnswerBanks.indexOf(groupsSelected[0]);
                 selectedItems.forEach(item => item.classList.add('correct'));
-                document.getElementById('feedback').textContent = `Correct! Connection: ${correctAnswerBanks[groupIndex].connectionReason}`;
+                document.getElementById('feedback').textContent = `Correct! Connection: ${matchedBank.connectionReason}`;
                 document.getElementById('feedback').style.color = '#00b96b';
-                moveToTop(selectedItems);
-
-                const groupDiv = document.createElement('div');
-                groupDiv.classList.add('group-container');
-                const groupWrapper = document.createElement('div');
-                groupWrapper.classList.add('group-items-wrapper');
-                selectedItems.forEach(item => {
-                    const groupItem = document.createElement('div');
-                    groupItem.classList.add('group-item');
-                    groupItem.textContent = item.textContent;
-                    groupWrapper.appendChild(groupItem);
-                });
-                groupDiv.appendChild(groupWrapper);
-
-                const connectionReasonDiv = document.createElement('div');
-                connectionReasonDiv.classList.add('connection-reason');
-                connectionReasonDiv.textContent = correctAnswerBanks[groupIndex].connectionReason;
-                groupDiv.appendChild(connectionReasonDiv);
-
-                // Append the new group at the end of the completedGroups div
-                document.getElementById('completedGroups').appendChild(groupDiv);
-
+                completedGroups++;
                 selectedItems.forEach(item => item.remove());
-                completedGroups++; // Increment completedGroups when a group is found
-
-                if (completedGroups === 3) {
-                    showGameOverDialog("Congratulations! You found all connections!", true);
-                }
+                if (completedGroups === 4) showGameOverDialog("Congratulations! You found all connections!", true);
             }
         };
 
-        const moveToTop = (selectedItems) => {
-            const wordListDiv = document.getElementById('wordList');
-            selectedItems.forEach(item => wordListDiv.insertBefore(item, wordListDiv.firstChild));
-        };
-
-        const resetSelection = () => {
-            document.querySelectorAll('.word-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-        };
-
-        const updateLives = () => {
-            document.getElementById('lives').textContent = `Lives: ${lives}`;
-        };
+        const resetSelection = () => document.querySelectorAll('.word-item').forEach(i => i.classList.remove('selected'));
+        const updateLives = () => document.getElementById('lives').textContent = `Lives: ${lives}`;
 
         const showGameOverDialog = (message, isGameWon = false) => {
-            document.getElementById('finalFeedback').textContent = message;
+            document.getElementById('finalFeedback').textContent = isGameWon ? "You won! Do you want to play again?" : message;
             document.getElementById('gameOverModal').style.display = 'flex';
-
-            // Change buttons based on whether the game is won or lost
-            const restartButton = document.querySelector('.modal-button');
-            const exitButton = document.querySelectorAll('.modal-button')[1];
-
-            if (isGameWon) {
-                document.getElementById('finalFeedback').textContent = "You won! Do you want to play again?";
-                restartButton.textContent = "Play Again";
-            } else {
-                document.getElementById('finalFeedback').textContent = message;
-                restartButton.textContent = "Restart";
-            }
-
-            exitButton.textContent = "Exit";
+            document.querySelector('.modal-button').textContent = isGameWon ? "Play Again" : "Restart";
         };
 
         const restartGame = () => {
@@ -838,16 +762,13 @@
             completedGroups = 0;
             getWordsForConnection();
             document.getElementById('feedback').textContent = '';
-            document.getElementById('completedGroups').innerHTML = '';  // Clear completed groups
+            document.getElementById('completedGroups').innerHTML = '';
         };
 
-        const exitGame = () => {
-            window.location.href = "https://bludle.com";
-        };
+        const exitGame = () => window.location.href = "https://bludle.com";
 
         getWordsForConnection();
     </script>
-
 </body>
 
 </html>
