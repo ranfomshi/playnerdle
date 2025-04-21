@@ -22,7 +22,7 @@
 
         .word-list {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             margin: 0 auto 20px auto;
             max-width: 600px;
@@ -145,8 +145,8 @@
 
 <body>
     <div id="navbar-container"></div>
-    <h1>Spot the Connection Game</h1>
-    <p>Find the 3 words from the same connection bank.</p>
+    <h1>Connex</h1>
+    <p>Find the 4 words that are connected somehow</p>
 
     <div id="completedGroups"></div>
 
@@ -604,7 +604,7 @@
             },
             {
                 words: ["eyes", "ears", "nose", "tongue", "skin"],
-                connectionReason: "Human senses"
+                connectionReason: "Human senseorgans"
             },
             {
                 words: ["wrench", "pipes", "faucet", "sink", "drain"],
@@ -678,14 +678,14 @@
             const usedWords = new Set();
 
             let attempts = 0;
-            while (selectedBanks.length < 3 && attempts < 100) {
+            while (selectedBanks.length < 4 && attempts < 100) {
                 const candidate = shuffledBanks[selectedBanks.length];
                 if (!candidate) break;
 
                 const uniqueWords = candidate.words.filter(word => !usedWords.has(word.toLowerCase()));
 
-                if (uniqueWords.length >= 3) {
-                    const chosenWords = shuffle(uniqueWords).slice(0, 3);
+                if (uniqueWords.length >= 4) {
+                    const chosenWords = shuffle(uniqueWords).slice(0, 4);
                     chosenWords.forEach(word => usedWords.add(word.toLowerCase()));
                     selectedBanks.push({
                         words: chosenWords,
@@ -703,7 +703,7 @@
         let currentWords = [];
         let correctAnswerBanks = [];
         let lives = 5;
-        let selectedGroups = [false, false, false];
+        let selectedGroups = [false, false, false, false];
         let completedGroups = 0;
 
         const getWordsForConnection = () => {
@@ -733,7 +733,7 @@
             if (wordItem.classList.contains('correct')) return;
             wordItem.classList.toggle('selected');
             const selectedItems = document.querySelectorAll('.word-item.selected');
-            if (selectedItems.length === 3) {
+            if (selectedItems.length === 4) {
                 checkAnswer(selectedItems);
             }
         };
@@ -792,7 +792,7 @@
                 selectedItems.forEach(item => item.remove());
                 completedGroups++; // Increment completedGroups when a group is found
 
-                if (completedGroups === 3) {
+                if (completedGroups === 4) {
                     showGameOverDialog("Congratulations! You found all connections!", true);
                 }
             }
