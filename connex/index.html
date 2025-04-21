@@ -140,6 +140,22 @@
         .modal-button:hover {
             background-color: #007a3e;
         }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .word-list {
+                gap: 5px;
+            }
+
+            .word-item {
+                padding: 10px;
+                font-size: 14px;
+                /* Optional: adjust for smaller screens */
+            }
+        }
     </style>
 </head>
 
@@ -605,6 +621,18 @@
             {
                 words: ["eyes", "ears", "nose", "tongue", "skin"],
                 connectionReason: "Human senseorgans"
+            },
+            {
+                words: ["Tiger", "Sherman", "Leopard", "Crusader"],
+                connectionReason: "Military tank names"
+            },
+            {
+                words: ["gryff", "sly", "raven", "huff"],
+                connectionReason: "Potter houses"
+            },
+            {
+                words: ["sigh", "slouch", "grumble", "huff"],
+                connectionReason: "Actions when fed up"
             },
             {
                 words: ["wrench", "pipes", "faucet", "sink", "drain"],
