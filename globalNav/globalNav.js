@@ -7,41 +7,43 @@ function sendEvent(eventName, params) {
 }
 
 function createNavbarHTML() {
-  const nav = document.createElement("div");
+  const nav = document.createElement("nav");
   nav.className = "globalNav";
 
-  // Brand
+  // Brand section
   const brand = document.createElement("div");
   brand.className = "brand";
-  brand.innerHTML = `<a href="/" onclick="sendEvent('navSelection', { interaction_type: 'click', item_name: 'home' })">Bludle</a>
-                     <img src="https://www.bludle.com/images/icon.png" style="margin-left:20px; height:28px; width:28px; border-radius:5px;" />`;
+  brand.innerHTML = `
+    <a href="/" onclick="sendEvent('navSelection', { interaction_type: 'click', item_name: 'home' })">Bludle</a>
+    <img src="https://www.bludle.com/images/icon.png" style="margin-left:10px; height:28px; width:28px; border-radius:5px;" />
+  `;
   nav.appendChild(brand);
 
-  // Mobile toggle
-  const toggle = document.createElement("button");
-  toggle.className = "menu-toggle";
-  toggle.id = "mobile-menu";
-  toggle.innerHTML = `<span class="bar"></span><span class="bar"></span><span class="bar"></span>`;
-  nav.appendChild(toggle);
+  // Dropdown button
+  const dropdownToggle = document.createElement("button");
+  dropdownToggle.className = "menu-toggle";
+  dropdownToggle.id = "dropdown-toggle";
+  dropdownToggle.innerHTML = `Menu &#x2630;`; // ☰
+  nav.appendChild(dropdownToggle);
 
-  // Navigation list
-  const ul = document.createElement("ul");
-  ul.className = "nav-list";
+  // Dropdown menu
+  const dropdownMenu = document.createElement("ul");
+  dropdownMenu.className = "dropdown-menu";
 
   navLinks.forEach(link => {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.href = link.href;
     a.textContent = link.name;
-    a.addEventListener("click", () => sendEvent('navSelection', {
-      interaction_type: 'click',
-      item_name: link.name
-    }));
+    a.addEventListener("click", () => {
+      sendEvent('navSelection', { interaction_type: 'click', item_name: link.name });
+      dropdownMenu.classList.remove("active");
+    });
     li.appendChild(a);
-    ul.appendChild(li);
+    dropdownMenu.appendChild(li);
   });
 
-  nav.appendChild(ul);
+  nav.appendChild(dropdownMenu);
   return nav;
 }
 
@@ -50,11 +52,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (container) {
     container.appendChild(createNavbarHTML());
 
-    // Toggle mobile menu
-    const toggle = document.getElementById("mobile-menu");
-    const navList = document.querySelector(".nav-list");
+    const toggle = document.getElementById("dropdown-toggle");
+    const dropdown = document.querySelector(".dropdown-menu");
+
     toggle.addEventListener("click", () => {
-      navList.classList.toggle("active");
+      dropdown.classList.toggle("active");
+    });
+
+    // Optional: close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove("active");
+      }
     });
   }
 });
