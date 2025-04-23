@@ -1,4 +1,5 @@
-const navLinks = [
+// globalNav/navLinks.js
+export const navLinks = [
     { name: "werdle", href: "/werdle" },
     { name: "reaction", href: "/reaction" },
     { name: "shifty fades", href: "/shiftyfades" },
@@ -11,22 +12,5 @@ const navLinks = [
     { name: "alternate", href: "/alternate" },
     { name: "trak", href: "/trak" },
     { name: "tintuition", href: "/tintuition" },
-    { name: "connex", href: "/connex" },
+    { name: "connex", href: "/connex" }
 ];
-
-function setupNavbar() {
-    const ul = document.createElement('ul');
-    ul.className = 'nav-list';
-
-    navLinks.forEach(link => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = link.href;
-        a.textContent = link.name;
-        a.onclick = () => sendEvent('navSelection', { interaction_type: 'click', item_name: link.name });
-        li.appendChild(a);
-        ul.appendChild(li);
-    });
-
-    document.querySelector('.globalNav').appendChild(ul);
-}
