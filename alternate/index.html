@@ -1,368 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alternate</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
-      body {
-        font-family: "Montserrat", sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-        background: linear-gradient(#f4f4f4, #ddd);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alternate</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
-      #title {
-        font-size: 36px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      }
+    body {
+      font-family: "Montserrat", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(#f4f4f4, #ddd);
+    }
 
-      #gameArea {
-        width: 300px;
-        height: 300px;
-        text-align: center;
-        background-color: yellow;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: black;
-        font-size: 24px;
-        border-radius: 15px;
-        padding: 10px;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-        cursor: pointer;
-      }
+    #title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-      #gameArea:hover {
-        transform: scale(1.05);
-      }
+    #gameArea {
+      width: 300px;
+      height: 300px;
+      text-align: center;
+      background-color: yellow;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-size: 24px;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
 
-      #score,
-      #reactionTime {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      }
+    #gameArea:hover {
+      transform: scale(1.05);
+    }
 
-      #score {
-        margin-top: 20px;
-        font-size: 24px;
-        font-weight: 700;
-      }
+    #score,
+    #reactionTime {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-      #reactionTime {
-        margin-top: 10px;
-        font-size: 20px;
-      }
+    #score {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: 700;
+    }
 
-      #restart {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #333;
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        font-weight: 700;
-      }
+    #reactionTime {
+      margin-top: 10px;
+      font-size: 20px;
+    }
 
-      .btn{
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #333;
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        font-weight: 700;
-      }
+    #restart {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      font-weight: 700;
+    }
 
-      #restart:hover {
-        background-color: #555;
-        transform: scale(1.05);
-      }
+    .btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      font-weight: 700;
+    }
 
-      #restart:focus {
-        outline: none;
-      }
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1000;
-      }
+    #restart:hover {
+      background-color: #555;
+      transform: scale(1.05);
+    }
 
-      .modal-content {
-        background-color: #fff;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 400px;
-        text-align: center;
-      }
+    #restart:focus {
+      outline: none;
+    }
 
-      .close-btn {
-    position: relative;
-    width: 100%;
-    text-align: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    background: none;
-    border: none;
-    outline: none;
-    color: #180d0d;
-}
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
 
-.close-btn:hover {
-    color: #555;
-}
-    </style>
-    <meta
-      name="description"
-      content="Play Alternate, a fun and challenging reaction game. Test your reflexes and set new high scores. Join the Bludle gaming community!"
-    />
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .close-btn {
+      position: relative;
+      width: 100%;
+      text-align: right;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      color: #180d0d;
+    }
+
+    .close-btn:hover {
+      color: #555;
+    }
+  </style>
+  <meta name="description"
+    content="Play Alternate, a fun and challenging reaction game. Test your reflexes and set new high scores. Join the Bludle gaming community!" />
   <script type="text/javascript" src="/mixpanel.js"></script>
 
-  </head>
-  <body>
-    <div id="navbar-container"></div>
-    <!-- submit score modal -->
-    <div id="scoreModal" class="modal">
-      <div class="modal-content"> <div class="close-btn" onclick="closeModal()">&times;</div>
-        <h2>Game Over!</h2>
-        <p>Your Score: <span id="finalScore"></span></p>
-        <p>You can submit to the global leaderboard</p>
-       
+</head>
 
-        <form id="scoreForm" style="margin-bottom: 20px;">
-          <input 
-            type="text"
-            id="screenName"
-            placeholder="Screen Name"
-            required
-          />*
-          <input style="margin-left:10px" type="email" id="email" placeholder="Email"/>
-          <button class="btn" type="submit">Submit Score</button>
-      
-     </form>  <small>Submit your email to be contacted if you win a prize</small>
-      </div>
+<body>
+  <div id="navbar-container"></div>
+  <!-- submit score modal -->
+  <div id="scoreModal" class="modal">
+    <div class="modal-content">
+      <div class="close-btn" onclick="closeModal()">&times;</div>
+      <h2>Game Over!</h2>
+      <p>Your Score: <span id="finalScore"></span></p>
+      <p>You can submit to the global leaderboard</p>
+
+
+      <form id="scoreForm" style="margin-bottom: 20px;">
+        <input type="text" id="screenName" placeholder="Screen Name" required />*
+        <input style="margin-left:10px" type="email" id="email" placeholder="Email" />
+        <button class="btn" type="submit">Submit Score</button>
+
+      </form> <small>Submit your email to be contacted if you win a prize</small>
     </div>
+  </div>
 
-    <p style="display: none">
-      Welcome to Alternate, a reflex-based game where you test your reaction
-      speed. Click when prompted and try to achieve the highest score possible.
-      Can you beat the challenge?
-    </p>
-    <div id="title">Alternate</div>
-    <div id="gameArea" onclick="userClicked()">Click to Start!</div>
-    <div id="score">Score: 0</div>
-    <div id="reactionTime">Time: 0s / 5s</div>
-    <button id="restart" onclick="restartGame()">Restart</button>
-    <script src="../globalNav/globalNav.js" defer></script>
-    <script>
-      let gameArea = document.getElementById("gameArea");
-      let scoreDisplay = document.getElementById("score");
-      let reactionTimeDisplay = document.getElementById("reactionTime");
-      let restartButton = document.getElementById("restart");
-      let isBlack = false;
-      let isGameStarted = false;
-      let isWaitingForClick = false;
-      let startTime;
-      let totalReactionTime = 0;
-      let score = 0;
-      let timeoutId;
-      let timeInterval;
-      let isGameOver = false;
-      let scoreModal = document.getElementById("scoreModal");
-      let finalScoreElem = document.getElementById("finalScore");
-      let scoreForm = document.getElementById("scoreForm");
+  <p style="display: none">
+    Welcome to Alternate, a reflex-based game where you test your reaction
+    speed. Click when prompted and try to achieve the highest score possible.
+    Can you beat the challenge?
+  </p>
+  <div id="title">Alternate</div>
+  <div id="gameArea" onclick="userClicked()">Click to Start!</div>
+  <div id="score">Score: 0</div>
+  <div id="reactionTime">Time: 0s / 5s</div>
+  <button id="restart" onclick="restartGame()">Restart</button>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script>
+    let gameArea = document.getElementById("gameArea");
+    let scoreDisplay = document.getElementById("score");
+    let reactionTimeDisplay = document.getElementById("reactionTime");
+    let restartButton = document.getElementById("restart");
+    let isBlack = false;
+    let isGameStarted = false;
+    let isWaitingForClick = false;
+    let startTime;
+    let totalReactionTime = 0;
+    let score = 0;
+    let timeoutId;
+    let timeInterval;
+    let isGameOver = false;
+    let scoreModal = document.getElementById("scoreModal");
+    let finalScoreElem = document.getElementById("finalScore");
+    let scoreForm = document.getElementById("scoreForm");
 
-      const titleElement = document.getElementById("title");
-      const originalText = titleElement.textContent;
+    const titleElement = document.getElementById("title");
+    const originalText = titleElement.textContent;
 
-      let coloredText = "";
-      let isYellow = true;
+    let coloredText = "";
+    let isYellow = true;
 
-      for (let char of originalText) {
-        if (char !== " ") {
-          // Check if the character is not a space
-          coloredText += `<span style="color:${
-            isYellow ? "yellow" : "black"
+    for (let char of originalText) {
+      if (char !== " ") {
+        // Check if the character is not a space
+        coloredText += `<span style="color:${isYellow ? "yellow" : "black"
           }">${char}</span>`;
-          isYellow = !isYellow; // Toggle the color for the next character
-        } else {
-          coloredText += char; // Preserve the space without any color change
-        }
+        isYellow = !isYellow; // Toggle the color for the next character
+      } else {
+        coloredText += char; // Preserve the space without any color change
       }
+    }
 
-      titleElement.innerHTML = coloredText;
+    titleElement.innerHTML = coloredText;
 
-      // Get the high score from local storage
-      let highScore = localStorage.getItem("alternatehighScore") || 0;
+    // Get the high score from local storage
+    let highScore = localStorage.getItem("alternatehighScore") || 0;
 
-      function displayHighScore() {
-        let currentScore = parseInt(scoreDisplay.textContent.split(": ")[1]);
-        if (currentScore > highScore) {
-          highScore = currentScore;
-          localStorage.setItem("alternatehighScore", highScore);
-          gameArea.textContent += "\nNew Record!";
-        }
-        scoreDisplay.textContent += `\nHigh Score: ${highScore}`;
+    function displayHighScore() {
+      let currentScore = parseInt(scoreDisplay.textContent.split(": ")[1]);
+      if (currentScore > highScore) {
+        highScore = currentScore;
+        localStorage.setItem("alternatehighScore", highScore);
+        gameArea.textContent += "\nNew Record!";
       }
+      scoreDisplay.textContent += `\nHigh Score: ${highScore}`;
+    }
 
-      // This function sets the text color based on the background color
-      function setTextColorBasedOnBackground() {
-        if (gameArea.style.backgroundColor === "black") {
-          gameArea.style.color = "yellow";
-        } else {
-          gameArea.style.color = "black";
-        }
+    // This function sets the text color based on the background color
+    function setTextColorBasedOnBackground() {
+      if (gameArea.style.backgroundColor === "black") {
+        gameArea.style.color = "yellow";
+      } else {
+        gameArea.style.color = "black";
       }
+    }
 
-      function changeColor() {
-        if (!isGameOver) {
-          gameArea.textContent = ""; // Clear the "Click" text during the wait period
-          let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
-          timeoutId = setTimeout(() => {
-            isBlack = !isBlack;
-            gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
-            setTextColorBasedOnBackground(); // Set the text color based on the background color
-            gameArea.textContent = "Click";
-            startTime = new Date().getTime();
-            isWaitingForClick = true;
-            timeInterval = setInterval(updateTimeDisplay, 50);
-          }, randomTime);
-        }
+    function changeColor() {
+      if (!isGameOver) {
+        gameArea.textContent = ""; // Clear the "Click" text during the wait period
+        let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
+        timeoutId = setTimeout(() => {
+          isBlack = !isBlack;
+          gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
+          setTextColorBasedOnBackground(); // Set the text color based on the background color
+          gameArea.textContent = "Click";
+          startTime = new Date().getTime();
+          isWaitingForClick = true;
+          timeInterval = setInterval(updateTimeDisplay, 50);
+        }, randomTime);
       }
+    }
 
-      function getColorByPercentage(percentage) {
-        if (percentage <= 50) {
-          // Use #ddd until 50%
-          return `linear-gradient(#f4f4f4 ${
-            100 - percentage
+    function getColorByPercentage(percentage) {
+      if (percentage <= 50) {
+        // Use #ddd until 50%
+        return `linear-gradient(#f4f4f4 ${100 - percentage
           }%, #ddd ${percentage}%)`;
-        } else {
-          // Switch to #aaa after 50%
-          return `linear-gradient(#f4f4f4 ${
-            100 - percentage
+      } else {
+        // Switch to #aaa after 50%
+        return `linear-gradient(#f4f4f4 ${100 - percentage
           }%, #aaa ${percentage}%)`;
-        }
+      }
+    }
+
+    function updateTimeDisplay() {
+      let elapsed = new Date().getTime() - startTime;
+      let totalTime = elapsed + totalReactionTime;
+      let percentage = (totalTime / 5000) * 100;
+      document.body.style.background = `linear-gradient(to top, #ddd ${percentage}%, #f4f4f4 ${percentage}%)`;
+      reactionTimeDisplay.textContent = `Time: ${(totalTime / 1000).toFixed(
+        2
+      )}s / 5s`;
+      if (totalTime >= 5000) {
+        gameOver();
+      }
+    }
+
+    function gameOver(reason) {
+      mixpanel.track("Alternate score", {
+        "alternate score": score,
+      });
+      isGameOver = true;
+      clearInterval(timeInterval);
+      clearTimeout(timeoutId);
+
+      gameArea.textContent = reason || "Game Over!";
+      if (reason === "Clicked too soon!") {
+        setTextColorBasedOnBackground(); // Ensuring the text color is set correctly for this message
       }
 
-      function updateTimeDisplay() {
-        let elapsed = new Date().getTime() - startTime;
-        let totalTime = elapsed + totalReactionTime;
-        let percentage = (totalTime / 5000) * 100;
-        document.body.style.background = `linear-gradient(to top, #ddd ${percentage}%, #f4f4f4 ${percentage}%)`;
-        reactionTimeDisplay.textContent = `Time: ${(totalTime / 1000).toFixed(
-          2
-        )}s / 5s`;
-        if (totalTime >= 5000) {
-          gameOver();
-        }
+      isGameStarted = false;
+      restartButton.style.display = "block";
+      totalReactionTime = 5000;
+      reactionTimeDisplay.textContent = `Time: 5s / 5s`;
+      displayHighScore();
+      scoreModal.style.display = "block";
+      finalScoreElem.textContent = score;
+    }
+
+    function userClicked() {
+      if (isGameOver) return;
+      if (!isGameStarted) {
+        isGameStarted = true;
+        gameArea.textContent = "";
+        changeColor();
+        return;
       }
-
-      function gameOver(reason) {
-        mixpanel.track("Alternate score", {
-          "alternate score": score,
-        });
-        isGameOver = true;
-        clearInterval(timeInterval);
-        clearTimeout(timeoutId);
-
-        gameArea.textContent = reason || "Game Over!";
-        if (reason === "Clicked too soon!") {
-          setTextColorBasedOnBackground(); // Ensuring the text color is set correctly for this message
-        }
-
-        isGameStarted = false;
-        restartButton.style.display = "block";
+      if (!isWaitingForClick) {
         totalReactionTime = 5000;
         reactionTimeDisplay.textContent = `Time: 5s / 5s`;
-        displayHighScore();
-        scoreModal.style.display = "block";
-        finalScoreElem.textContent = score;
+        gameOver("Clicked too soon!");
+        return;
       }
-
-      function userClicked() {
-        if (isGameOver) return;
-        if (!isGameStarted) {
-          isGameStarted = true;
-          gameArea.textContent = "";
-          changeColor();
-          return;
-        }
-        if (!isWaitingForClick) {
-          totalReactionTime = 5000;
-          reactionTimeDisplay.textContent = `Time: 5s / 5s`;
-          gameOver("Clicked too soon!");
-          return;
-        }
-        clearInterval(timeInterval);
-        let reactionTime = new Date().getTime() - startTime;
-        totalReactionTime += reactionTime;
-        reactionTimeDisplay.textContent = `Time: ${(
-          totalReactionTime / 1000
-        ).toFixed(2)}s / 5s`;
-        if (totalReactionTime >= 5000) {
-          gameOver();
-        } else {
-          score++;
-          scoreDisplay.textContent = "Score: " + score;
-          isWaitingForClick = false;
-          changeColor();
-        }
-      }
-
-      function restartGame() {
-        isGameOver = false;
-        clearInterval(timeInterval);
-        isBlack = false;
-        totalReactionTime = 0;
-        score = 0;
-        scoreDisplay.textContent = "Score: 0";
-        reactionTimeDisplay.textContent = "Time: 0s / 5s";
-        restartButton.style.display = "none";
-        gameArea.textContent = "Click to Start!"; // This line ensures the "Click to Start!" message is displayed.
-        gameArea.style.backgroundColor = "yellow";
-        gameArea.style.background = "black"
-        isGameStarted = false;
+      clearInterval(timeInterval);
+      let reactionTime = new Date().getTime() - startTime;
+      totalReactionTime += reactionTime;
+      reactionTimeDisplay.textContent = `Time: ${(
+        totalReactionTime / 1000
+      ).toFixed(2)}s / 5s`;
+      if (totalReactionTime >= 5000) {
+        gameOver();
+      } else {
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
         isWaitingForClick = false;
-        clearTimeout(timeoutId);
+        changeColor();
       }
-      // Close the modal and restart the game
-      function closeModal() {
-        scoreModal.style.display = "none";
-        restartGame();
-      }
+    }
 
-      // Listen to the form submission
-      scoreForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        let screenName = document.getElementById("screenName").value;
-        let email = document.getElementById("email").value;
-        mixpanel.track("User Score Submission", {
-          "screen name": screenName,
-          email: email,
-          score: score,
-        });
-        closeModal();
+    function restartGame() {
+      isGameOver = false;
+      clearInterval(timeInterval);
+      isBlack = false;
+      totalReactionTime = 0;
+      score = 0;
+      scoreDisplay.textContent = "Score: 0";
+      reactionTimeDisplay.textContent = "Time: 0s / 5s";
+      restartButton.style.display = "none";
+      gameArea.textContent = "Click to Start!"; // This line ensures the "Click to Start!" message is displayed.
+      gameArea.style.backgroundColor = "yellow";
+      gameArea.style.background = "black"
+      isGameStarted = false;
+      isWaitingForClick = false;
+      clearTimeout(timeoutId);
+    }
+    // Close the modal and restart the game
+    function closeModal() {
+      scoreModal.style.display = "none";
+      restartGame();
+    }
+
+    // Listen to the form submission
+    scoreForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      let screenName = document.getElementById("screenName").value;
+      let email = document.getElementById("email").value;
+      mixpanel.track("User Score Submission", {
+        "screen name": screenName,
+        email: email,
+        score: score,
       });
-    </script>
-  </body>
+      closeModal();
+    });
+  </script>
+</body>
+
 </html>
