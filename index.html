@@ -1,298 +1,136 @@
 <!DOCTYPE html>
-<html lang="gb">
+<html lang="en">
 
 <head>
-  <link rel="logo" sizes="180x180" href="/icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="home.js"></script>
-  <link rel="stylesheet" type="text/css" href="home.css" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <meta name="keywords"
-    content="nerdle, merdle, nurdle, nerdel, nerdlegame, xy, hunt, alternate, guesshue, codle, bludle, colour match, color match, games, wordgames, reaction time, playnerdle, nerdleword, needle, needel, word-game, play-nerdle, online, app, wordle, word, wordgame, five, 5, lettergame, words, wordsgamr, unlimited, practice, 5letter, nerdle, play, playnerdle, werdle, wordel, nerdel, " />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441"
-    crossorigin="anonymous"></script>
-  <meta name="author" content="Stuart Pecksen" />
-  <meta name="description"
-    content="Play nerdle - A spot to play a host of unique games inspired by wordle in the most part" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Lobster&family=Montserrat:wght@100&family=Open+Sans:wght@300&family=Roboto+Condensed&family=Roboto:wght@100&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
-  <title>play Bludle (plus more) - logic / word games for all</title>
-  <meta charset="“UTF-8”" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-3Z3GM1YNZE');
-  </script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "UA-86454867-6");
-  </script>
-
-  <!-- log rocket -->
-  <script src="https://cdn.lr-in-prod.com/LogRocket.min.js"></script>
-  <script>
-    window.LogRocket && window.LogRocket.init("t7dfex/play-nerdle");
-  </script>
-  <script type="text/javascript" src="/mixpanel.js"></script>
+  <title>Play Bludle (and more)</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script src="home.js" defer></script>
 </head>
-<style>
-  .hiddenHeadings {
-    display: none;
-  }
-</style>
 
-<body onscroll="scrollEffect()">
-  <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous"
-    src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v18.0&appId=395661084387771"
-    nonce="0n0lHzrT"></script>
+<body>
   <div id="navbar-container"></div>
-  <div class="hiddenHeadings">
-    <p>
-      This is the best and most original game site since wordle. There are
-      many to choose from and you can read about their benefits at the bottom
-      of the page
-    </p>
-    This isn't just word games. It's all sorts of games that get your brain
-    working. Suitable for most age groups so there is a challenge for
-    everyone. Personally, I play most days. My favourite is colour match. My
-    kids love this one too and I event had to make a version just for my son
-    that he can play multiple times per day. I read a story about a developer
-    that was working with RGB values so often that he could identify most
-    colours' / colors' RGB values correctly just from site alone. I think I'm
-    some way off being able to do that but you never know - some day soon
-    maybe!
-    <h1>Play today</h1>
-    <h2>color match</h2>
-    <h3>match background color</h3>
-    <h4>rgb color game</h4>
-    <h5>wordle color game</h5>
-    <h6>codle - decode wordle</h6>
-    <p>The best way to train your brain!</p>
-    <div>
-      <p>
-        Play often and see your scores improve. Don't forget to share with
-        your friends and family
-      </p>
-      <p>
-        It's been a year since I started work on my original nerdle game. I
-        hope people are enjoying them and that we can keep the site going.
-        Please ise th elink to "buy me a coffee" if you want to show your
-        appreciatetion. It means a lot!
-      </p>
-    </div>
-  </div>
 
-  <div class="content" id="content">
-    <div class="tile" id="bludle" onclick="window.location.href='./bludle' , bludleClick()">
-      <div class="game">
-        <img alt="bludle" src="./images/bludle.jpg" />
+  <main class="content" id="content">
+    <div class="tile" id="bludle">
+      <div class="game" style="background-image: url('./images/bludle.jpg')">
         <div class="gameTitle">Bludle</div>
-        <div class="gameInfo">
-          <div>Decode a 5 letter word from shades of blue</div>
-        </div>
+        <div class="gameInfo">Decode a 5 letter word from shades of blue</div>
       </div>
     </div>
-    <div class="tile" id="werdle" onclick="window.location.href='./werdle' , nerdleClick()">
-      <div class="game" style="
-            background: url('./images/werdle.png');
-            background-size: contain;
-            background-repeat: round;
-          ">
+
+    <div class="tile" id="werdle">
+      <div class="game" style="background-image: url('./images/werdle.png')">
         <div class="gameTitle">Werdle</div>
-        <div class="gameInfo">
-          <div>Daily word game with challenge mode</div>
-        </div>
+        <div class="gameInfo">Daily word game with challenge mode</div>
       </div>
     </div>
-    <div class="tile" id="reaction" onclick="window.location.href='./reaction' , reactionClick()">
-      <div class="game">
-        <img alt="reaction" src="./images/reaction.jpg" />
+
+    <div class="tile" id="reaction">
+      <div class="game" style="background-image: url('./images/reaction.jpg')">
         <div class="gameTitle">Reaction</div>
-        <div class="gameInfo">
-          <div>Increase your reaction speed daily</div>
-        </div>
+        <div class="gameInfo">Increase your reaction speed daily</div>
       </div>
     </div>
-    <div class="tile" id="shiftyFades" onclick="window.location.href='./shiftyfades' , shiftyFadesClick()">
-      <div class="game">
-        <img alt="shifty fades" src="./images/shifty.png" />
+
+    <div class="tile" id="shiftyFades">
+      <div class="game" style="background-image: url('./images/shifty.png')">
         <div class="gameTitle">Shifty Fades</div>
-        <div class="gameInfo">
-          <div>find the color that matches from the selection</div>
-        </div>
+        <div class="gameInfo">Find the color that matches from the selection</div>
       </div>
     </div>
-    <div class="tile" id="colourMatch" onclick="window.location.href='./colourmatch' , colourMatchClick()">
-      <div class="game">
-        <img alt="colour match" src="./images/cm.jpg" />
+
+    <div class="tile" id="colourMatch">
+      <div class="game" style="background-image: url('./images/cm.jpg')">
         <div class="gameTitle">Colo(u)r Match</div>
-        <div class="gameInfo">
-          <div>Create a matching color. Just how good is your eyesight?</div>
-        </div>
+        <div class="gameInfo">Create a matching color. Just how good is your eyesight?</div>
       </div>
     </div>
 
-    <div class="tile" id="codle" onclick="window.location.href='./codle', codleClick()">
-      <div class="game">
-        <img alt="codle" src="./images/codle.jpg" />
+    <div class="tile" id="codle">
+      <div class="game" style="background-image: url('./images/codle.jpg')">
         <div class="gameTitle">Codle</div>
-        <div class="gameInfo">
-          <div>Decode 5 letter words from a random offset</div>
-        </div>
+        <div class="gameInfo">Decode 5 letter words from a random offset</div>
       </div>
     </div>
-    <div class="tile" id="codle" onclick="window.location.href='./alternate', alternateClick()">
-      <div class="game">
-        <img alt="codle" src="./images/alternate.jpg" />
+
+    <div class="tile" id="alternate">
+      <div class="game" style="background-image: url('./images/alternate.jpg')">
         <div class="gameTitle">Alternate</div>
-        <div class="gameInfo">
-          <div>Click when the colour changes. Build your score before your time runs out!</div>
-        </div>
+        <div class="gameInfo">Click when the colour changes. Build your score before your time runs out!</div>
       </div>
     </div>
 
-    <div class="tile" id="tintuition" onclick="window.location.href='./trak', huntClick()">
-      <div class="game">
-        <img alt="trak" src="./images/tintuition.png" />
+    <div class="tile" id="tintuition">
+      <div class="game" style="background-image: url('./images/tintuition.png')">
         <div class="gameTitle">Tintuition</div>
-        <div class="gameInfo">
-          <div>Match the colours in the time given!</div>
-        </div>
+        <div class="gameInfo">Match the colours in the time given!</div>
       </div>
     </div>
 
-    <div class="tile" id="hunt" onclick="window.location.href='./hunt', huntClick()">
-      <div class="game">
-        <img alt="hunt" src="./images/hunt.png" />
+    <div class="tile" id="hunt">
+      <div class="game" style="background-image: url('./images/hunt.png')">
         <div class="gameTitle">XY Marks the Spot</div>
-        <div class="gameInfo">
-          <div>Use algebraic hints to discover the treasure</div>
-        </div>
+        <div class="gameInfo">Use algebraic hints to discover the treasure</div>
       </div>
     </div>
 
-    <div class="tile" id="guesshue" onclick="window.location.href='./guesshue', huntClick()">
-      <div class="game">
-        <img alt="guesshue" src="./images/hue.png" />
+    <div class="tile" id="guesshue">
+      <div class="game" style="background-image: url('./images/hue.png')">
         <div class="gameTitle">Guess Hue</div>
-        <div class="gameInfo">
-          <div>Spot the odd one out and go on a streak</div>
-        </div>
+        <div class="gameInfo">Spot the odd one out and go on a streak</div>
       </div>
     </div>
 
-    <div class="tile" id="trak" onclick="window.location.href='./trak', huntClick()">
-      <div class="game">
-        <img alt="trak" src="./images/trak.png" />
+    <div class="tile" id="trak">
+      <div class="game" style="background-image: url('./images/trak.png')">
         <div class="gameTitle">Trak</div>
-        <div class="gameInfo">
-          <div>Stop the ball in the green zone. What ball?</div>
-        </div>
+        <div class="gameInfo">Stop the ball in the green zone. What ball?</div>
       </div>
     </div>
 
-    <div class="tile" id="connex" onclick="window.location.href='./connex', connexClick()">
-      <div class="game">
-        <img alt="connex" src="./images/connex.png" />
+    <div class="tile" id="connex">
+      <div class="game" style="background-image: url('./images/connex.png')">
         <div class="gameTitle">Connex</div>
-        <div class="gameInfo">
-          <div>StFind the 3 words from the same connection bank</div>
-        </div>
+        <div class="gameInfo">Find the 3 words from the same connection bank</div>
       </div>
     </div>
 
-    <div class="tile" id="heardle" onclick="window.location.href='./heardle', heardleClick()">
-      <div class="game">
-        <img alt="heardle" src="./images/heardle.png" />
+    <div class="tile" id="heardle">
+      <div class="game" style="background-image: url('./images/heardle.png')">
         <div class="gameTitle">Heardle</div>
-        <div class="gameInfo">
-          <div>Listen carefully & play it by ear</div>
-        </div>
+        <div class="gameInfo">Listen carefully & play it by ear</div>
       </div>
     </div>
 
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-      src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v18.0&appId=395661084387771"
-      nonce="H1tLL8eN"></script>
-
-    <div class="tile" id="facebook"
-      onclick="window.location.href='https://www.facebook.com/profile.php?id=61552171184790'">
-      <div class="game" style="background-color: aliceblue;">
-
-        <div class="fb-like" data-href="https://www.facebook.com/profile.php?id=61552171184790" data-width="350px"
-          data-layout="box_count" data-action="like" data-size="small" data-share="true"></div>
-        <div class="gameTitle">Facebook</div>
-        <div class="gameInfo">
-          <div>Like and follow</div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="tile" id="Coffee onclick=" window.location.href="www.buymeacoffee.com/stuart1510K">
-      <div class="game">
-        <a href="https://www.buymeacoffee.com/stuart1510K" target="_blank"
-          style="background: black; padding-top: 50%; height: 100%"><img
-            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="
-                height: 60px !important;
-                width: 217px !important;
-                margin: auto !important;
-                transform: translateY(-85%);
-              " /></a>
-
+    <div class="tile" id="coffee">
+      <a class="game" href="https://www.buymeacoffee.com/stuart1510K" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
+          style="height: 60px; width: 217px; margin: auto; transform: translateY(-85%);" />
         <div class="gameTitle">Buy me a coffee (beer) :)</div>
-        <div class="gameInfo">
-          <div>Show your appreciation and donate some beer tokens</div>
-        </div>
-      </div>
+        <div class="gameInfo">Donate some beer tokens if you enjoy the games</div>
+      </a>
     </div>
+  </main>
 
-  </div>
-  <div class="cookies">
-    We don't use cookies at all. We don't care about your personal data :) But our 3rd party adverts may use
-    them.<button onclick="{document.getElementsByClassName('cookies')[0].style.display = 'none';}">ok</button>
-  </div>
-  <div class="footer">
-
+  <footer class="footer">
     <div class="footer-section">
       <h4>Benefits</h4>
-      <a target="_blank" href="https://www.progresslifeline.org.uk/news/the-benefit-of-puzzles-for-the-brain">How is
-        this good for me?</a>
-      <p>As it turns out, the games on this site aren't just fun but also could help you to improve or maintain brain
-        function.</p>
+      <a target="_blank" href="https://www.progresslifeline.org.uk/news/the-benefit-of-puzzles-for-the-brain">
+        How is this good for me?
+      </a>
+      <p>These games may help maintain or improve brain function.</p>
     </div>
+
     <div class="footer-section">
       <h4>Support</h4>
-      <p>If you are enjoying these games and want to support the maker (me), you can use the "buy me a coffee" link
-        above to drop me some maintenance money and help keep the site going and even contribute towards the development
-        of new games. Thanks!</p>
+      <p>Use the “Buy me a coffee” link above to help maintain and grow the site. Thank you!</p>
     </div>
+
     <div class="footer-section">
       <h4>Quick Links</h4>
       <ul>
@@ -301,14 +139,11 @@
         <li><a href="/blogs/2" target="_blank">Blog 2</a></li>
         <li><a href="/blogs/3" target="_blank">Blog 3</a></li>
         <li><a href="/blogs/4" target="_blank">Blog 4</a></li>
-        <li><a href="/blogs/5" target="_blank">Blog 5</a></li>
-        <li><a href="/blogs/6" target="_blank">Blog 6</a></li>
-        <li><a href="sitemap.xml" target="_blank">Sitemap</a></li>
-        <li><a href="https://www.bludle.com/privacy" target="_blank">Privacy</a></li>
-        <li><a href="/disclaimer.html" target="_blank">Disclaimer</a></li>
+        <li><a href="/privacy" target="_blank">Privacy</a></li>
         <li><a href="/terms_and-conditions.html" target="_blank">Terms</a></li>
       </ul>
     </div>
+
     <div class="footer-section">
       <h4>Games</h4>
       <ul>
@@ -322,16 +157,11 @@
         <li><a href="/guesshue" target="_blank">guess hue</a></li>
         <li><a href="/trak" target="_blank">trak</a></li>
         <li><a href="/tintuition" target="_blank">tintuition</a></li>
-        <li><a href="/shiftfades" target="_blank">shifty fades</a></li>
         <li><a href="/heardle" target="_blank">heardle</a></li>
-        <li><a href="/connec" target="_blank">connex</a></li>
+        <li><a href="/connex" target="_blank">connex</a></li>
       </ul>
     </div>
-
-  </div>
-  <!-- global elements -->
-  <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  </footer>
 </body>
 
 </html>
