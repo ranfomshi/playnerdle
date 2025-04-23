@@ -11,7 +11,8 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441"
         crossorigin="anonymous"></script>
     <meta name="author" content="Stuart Pecksen" />
-    <meta name="description" content="Bludle encodes 5-lettered words into shades of blue. The lighter the shade, the closer to 'A' - darker is closer to 'z'" />
+    <meta name="description"
+        content="Bludle encodes 5-lettered words into shades of blue. The lighter the shade, the closer to 'A' - darker is closer to 'z'" />
     <meta name="title" content="Bludle" />
     <script src="./bludle.js"></script>
     <link rel="stylesheet" href="./bludle.css">
@@ -19,22 +20,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- global elements -->
-    <script src="../globalNav/globalNav.js" defer></script>
+    <link rel="stylesheet" href="/globalNav/globalNav.css">
+    <script type="module" src="/globalNav/globalNav.js" defer></script>
     <link rel='stylesheet' type='text/css' href='../globalNav/globalNav.css' />
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Lobster&family=Montserrat:wght@100&family=Open+Sans:wght@300&family=Roboto:wght@100&display=swap&family=Raleway:wght@100&display=swap" rel="stylesheet">
-     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Lobster&family=Montserrat:wght@100&family=Open+Sans:wght@300&family=Roboto:wght@100&display=swap&family=Raleway:wght@100&display=swap"
+        rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-3Z3GM1YNZE');
-</script>
-     
+        gtag('config', 'G-3Z3GM1YNZE');
+    </script>
+
     <!-- log rocket -->
-    <script src='https://cdn.lr-in-prod.com/LogRocket.min.js'></script><script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
+    <script src='https://cdn.lr-in-prod.com/LogRocket.min.js'></script>
+    <script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
     <script type="text/javascript" src="/mixpanel.js"></script>
 </head>
 
@@ -43,17 +48,21 @@
     <div id="content">
         <div id="snackbar">Some text some message..</div>
         <div class="titleArea">
-            <div class="helpIcon" id="helpIcon" onclick="toggleHelp()"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
+            <div class="helpIcon" id="helpIcon" onclick="toggleHelp()"><i class="fa fa-question-circle"
+                    aria-hidden="true"></i></div>
             <div id="counter" class="counter">
-                <div id="limit">4</div>/4</div>
+                <div id="limit">4</div>/4
+            </div>
             <h1>BLUDLE</h1>
 
         </div>
         <div class="help" id="help">
-            <h3>HELP!</h3><br> Each wonderful shade of blue represents a letter of the alphabet. The lighter the shade, the closer to "A" it is. You get 4 guesses to decode the word. 
+            <h3>HELP!</h3><br> Each wonderful shade of blue represents a letter of the alphabet. The lighter the shade,
+            the closer to "A" it is. You get 4 guesses to decode the word.
             Each time you guess, you will recieve a check/tick for each correctly placed
             letter.<br>
-            Correct letters in the wrong place will have no check/tick<br><br> This is an approximate representation of the underlying concept:<br><br>
+            Correct letters in the wrong place will have no check/tick<br><br> This is an approximate representation of
+            the underlying concept:<br><br>
             <div class="gradientDisplay">
                 <div>a</div>
                 <div>z</div>
@@ -66,9 +75,10 @@
         <div class="inputs">
             <input type="text" maxlength="5" placeholder="GUESS..." id="guessInput" onkeydown="enterSubmit(event)" />
             <button type="button" onclick="submitGuess()" class="btn" id="submitButton">GUESS</input>
-                <button type="button" onclick="window.location.reload()" style="display: none" class="btn" id="playAgain">PLAY AGAIN</input>
+                <button type="button" onclick="window.location.reload()" style="display: none" class="btn"
+                    id="playAgain">PLAY AGAIN</input>
         </div>
-        
+
     </div>
 
 

@@ -1,394 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reaction Game</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 0;
-        padding-top: 50px;
-        height: calc(100vh - 50px);
-        margin: 0;
-        animation: hue-rotate-animation 10s infinite linear;
-        background: black;
-        color: white;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reaction Game</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-      #gameButton {
-        padding: 10px 20px;
-        font-size: 20px;
-        cursor: pointer;
-        border: none;
-        background-color: #4caf50;
-        color: white;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-        top: 50%;
-        width: 300px;
-        height: 120px;
-        margin: 20% 0% 20% 0;
-      }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 0;
+      padding-top: 50px;
+      height: calc(100vh - 50px);
+      margin: 0;
+      animation: hue-rotate-animation 10s infinite linear;
+      background: black;
+      color: white;
+    }
 
-      #gameButton:hover {
-        background-color: #45a049;
-      }
+    #gameButton {
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      top: 50%;
+      width: 300px;
+      height: 120px;
+      margin: 20% 0% 20% 0;
+    }
 
-      #gameButton:disabled {
-        background-color: #ddd;
-        color: #666;
-        cursor: not-allowed;
-      }
+    #gameButton:hover {
+      background-color: #45a049;
+    }
 
-      .pulse {
-        animation: pulse 1s infinite;
-      }
+    #gameButton:disabled {
+      background-color: #ddd;
+      color: #666;
+      cursor: not-allowed;
+    }
 
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-        100% {
-          transform: scale(1);
-        }
+    .pulse {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
       }
 
-      /* Updated Modal styles */
-      div[id$="Modal"] {
-        color: black;
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        opacity: 0;
-        transition: opacity 0.3s ease;
+      50% {
+        transform: scale(1.05);
       }
 
-      div[id$="Modal"].show {
-        display: block;
-        opacity: 1;
+      100% {
+        transform: scale(1);
       }
+    }
 
-      div[id$="Modal"] > div {
-        margin: 100px auto;
-        padding: 20px;
-        background-color: white;
-        width: 50%;
-        min-width: 350px;
-        text-align: left;
-        border-radius: 10px;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-      }
+    /* Updated Modal styles */
+    div[id$="Modal"] {
+      color: black;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-      div[id$="Modal"] button {
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-      }
+    div[id$="Modal"].show {
+      display: block;
+      opacity: 1;
+    }
 
-      div[id$="Modal"] button:hover {
-        background-color: #45a049;
-      }
+    div[id$="Modal"]>div {
+      margin: 100px auto;
+      padding: 20px;
+      background-color: white;
+      width: 50%;
+      min-width: 350px;
+      text-align: left;
+      border-radius: 10px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
 
-      span {
-        cursor: pointer;
-        padding: 0 10px;
-        font-size: 24px;
-      }
-      /* Bar graph styles */
-      .bar-container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-end;
-        height: 200px;
-        border: 1px solid #ddd;
-        padding: 10px;
-      }
+    div[id$="Modal"] button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
 
-      .bar {
-        width: 20px;
-        height: 100%;
-        margin-right: 5px;
-        background-color: #4caf50;
-      }
+    div[id$="Modal"] button:hover {
+      background-color: #45a049;
+    }
 
-      #iconTray {
-        top: 100px;
-        width: 100%;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        box-sizing: border-box;
-      }
+    span {
+      cursor: pointer;
+      padding: 0 10px;
+      font-size: 24px;
+    }
 
-      #feedback {
-        width: 100%;
-        height: 30px;
-        bottom: 150px;
-        text-align: center;
-        margin: 20% 0 20% 0;
-      }
-      content {
-        width: 400px;
-        margin: auto;
-        display: block;
-      }
-    </style>
-     <script type="text/javascript" src="/mixpanel.js"></script>
-  </head>
+    /* Bar graph styles */
+    .bar-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+      height: 200px;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
 
-  <body>
-    <div id="navbar-container"></div>
-    <content>
-      <div id="iconTray">
-        <!-- Icons to open modals -->
-        <span onclick="openModal('instructionsModal')">
-          <i class="fa-regular fa-circle-question"></i
-        ></span>
-        <!-- Instructions Icon -->
-        <span onclick="openModal('reactionTimesModal')"
-          ><i class="fas fa-chart-column"></i
-        ></span>
-        <!-- Reaction Times Icon -->
+    .bar {
+      width: 20px;
+      height: 100%;
+      margin-right: 5px;
+      background-color: #4caf50;
+    }
+
+    #iconTray {
+      top: 100px;
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    #feedback {
+      width: 100%;
+      height: 30px;
+      bottom: 150px;
+      text-align: center;
+      margin: 20% 0 20% 0;
+    }
+
+    content {
+      width: 400px;
+      margin: auto;
+      display: block;
+    }
+  </style>
+  <script type="text/javascript" src="/mixpanel.js"></script>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+  <content>
+    <div id="iconTray">
+      <!-- Icons to open modals -->
+      <span onclick="openModal('instructionsModal')">
+        <i class="fa-regular fa-circle-question"></i></span>
+      <!-- Instructions Icon -->
+      <span onclick="openModal('reactionTimesModal')"><i class="fas fa-chart-column"></i></span>
+      <!-- Reaction Times Icon -->
+    </div>
+    <div id="feedback"></div>
+    <button id="gameButton">Start Game</button>
+
+    <div id="instructionsModal" class="modal">
+      <div>
+        <h2>📚 Instructions</h2>
+        <p>
+          <strong>Step 1: 🚦 Get Ready</strong><br />
+          Click the "Start Game" button and prepare yourself.
+        </p>
+        <p>
+          <strong>Step 2: ⏱ Wait...</strong><br />
+          The button will say "Wait..." and pulse. Do not click it yet!
+        </p>
+        <p>
+          <strong>Step 3: 🟦 Click!</strong><br />
+          The background will change color. Click the button as fast as you
+          can!
+        </p>
+        <p>
+          <strong>Step 4: 🎉 Celebrate!</strong><br />
+          Your reaction time will be displayed. Aim to improve!
+        </p>
+        <p>
+          <strong>Step 5: 👀 Review!</strong><br />
+          See all your reaction times by clicking the graph logo in the top
+          right 📊!
+        </p>
+        <i>Each day a new random delay will be applied for all users so you
+          can compare reaction times. Play once per day and track your
+          improvements</i>
+        <br />
+        <br />
+        <button onclick="closeModal('instructionsModal')">OK</button>
       </div>
-      <div id="feedback"></div>
-      <button id="gameButton">Start Game</button>
+    </div>
 
-      <div id="instructionsModal" class="modal">
-        <div>
-          <h2>📚 Instructions</h2>
-          <p>
-            <strong>Step 1: 🚦 Get Ready</strong><br />
-            Click the "Start Game" button and prepare yourself.
-          </p>
-          <p>
-            <strong>Step 2: ⏱ Wait...</strong><br />
-            The button will say "Wait..." and pulse. Do not click it yet!
-          </p>
-          <p>
-            <strong>Step 3: 🟦 Click!</strong><br />
-            The background will change color. Click the button as fast as you
-            can!
-          </p>
-          <p>
-            <strong>Step 4: 🎉 Celebrate!</strong><br />
-            Your reaction time will be displayed. Aim to improve!
-          </p>
-          <p>
-            <strong>Step 5: 👀 Review!</strong><br />
-            See all your reaction times by clicking the graph logo in the top
-            right 📊!
-          </p>
-          <i
-            >Each day a new random delay will be applied for all users so you
-            can compare reaction times. Play once per day and track your
-            improvements</i
-          >
-          <br />
-          <br />
-          <button onclick="closeModal('instructionsModal')">OK</button>
+    <div id="reactionTimesModal" class="modal">
+      <div>
+        <h2>Your Reaction Times</h2>
+        <div class="bar-container" id="reactionGraph">
+          <!-- Bars will be dynamically added here -->
         </div>
+        <p id="averageTime">Average Reaction Time: Calculating...</p>
+        <button onclick="closeModal('reactionTimesModal')">Close</button>
       </div>
+    </div>
+  </content>
+  <script>
+    const gameButton = document.getElementById("gameButton");
+    const feedback = document.getElementById("feedback");
 
-      <div id="reactionTimesModal" class="modal">
-        <div>
-          <h2>Your Reaction Times</h2>
-          <div class="bar-container" id="reactionGraph">
-            <!-- Bars will be dynamically added here -->
-          </div>
-          <p id="averageTime">Average Reaction Time: Calculating...</p>
-          <button onclick="closeModal('reactionTimesModal')">Close</button>
-        </div>
-      </div>
-    </content>
-    <script>
-      const gameButton = document.getElementById("gameButton");
-      const feedback = document.getElementById("feedback");
+    function getDayOfYear() {
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff =
+        now -
+        start +
+        (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+      const oneDay = 1000 * 60 * 60 * 24;
+      return Math.floor(diff / oneDay);
+    }
 
-      function getDayOfYear() {
-        const now = new Date();
-        const start = new Date(now.getFullYear(), 0, 0);
-        const diff =
-          now -
-          start +
-          (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
-        const oneDay = 1000 * 60 * 60 * 24;
-        return Math.floor(diff / oneDay);
-      }
+    function getDelayTime(dayOfYear) {
+      const delay = (Math.sin(dayOfYear) * 8.5 + 11.5) * 1000;
+      return delay;
+    }
 
-      function getDelayTime(dayOfYear) {
-        const delay = (Math.sin(dayOfYear) * 8.5 + 11.5) * 1000;
-        return delay;
-      }
+    function getTodayAsString() {
+      const today = new Date();
+      return today.toISOString().split("T")[0]; // Returns date in YYYY-MM-DD format
+    }
 
-      function getTodayAsString() {
-        const today = new Date();
-        return today.toISOString().split("T")[0]; // Returns date in YYYY-MM-DD format
-      }
+    function logReactionTime(reactionTime) {
+      const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
+      const today = getTodayAsString();
+      historicLog.push({
+        date: today,
+        reactionTime: reactionTime,
+      });
+      localStorage.setItem("historicScores", JSON.stringify(historicLog));
+    }
+    function showReactionTimes() {
+      const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
+      const reactionGraph = document.getElementById("reactionGraph");
 
-      function logReactionTime(reactionTime) {
-        const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
-        const today = getTodayAsString();
-        historicLog.push({
-          date: today,
-          reactionTime: reactionTime,
-        });
-        localStorage.setItem("historicScores", JSON.stringify(historicLog));
-      }
-      function showReactionTimes() {
-        const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
-        const reactionGraph = document.getElementById("reactionGraph");
+      // Clear previous bars
+      reactionGraph.innerHTML = "";
 
-        // Clear previous bars
-        reactionGraph.innerHTML = "";
+      let totalReactionTime = 0;
+      let maxReactionTime = 0; // New variable to store the maximum reaction time
 
-        let totalReactionTime = 0;
-        let maxReactionTime = 0; // New variable to store the maximum reaction time
+      const reversedLog = [...historicLog]
 
-        const reversedLog = [...historicLog]
+      reversedLog.forEach((entry) => {
+        totalReactionTime += entry.reactionTime;
 
+        // Check for a new max value
+        if (entry.reactionTime > maxReactionTime) {
+          maxReactionTime = entry.reactionTime;
+        }
+      });
+
+      // Only proceed if there is a max value to avoid division by zero
+      if (maxReactionTime > 0) {
         reversedLog.forEach((entry) => {
-          totalReactionTime += entry.reactionTime;
-
-          // Check for a new max value
-          if (entry.reactionTime > maxReactionTime) {
-            maxReactionTime = entry.reactionTime;
-          }
+          const bar = document.createElement("div");
+          bar.className = "bar";
+          // Scale the height of the bar relative to the max value
+          bar.style.height =
+            (entry.reactionTime / maxReactionTime) * 100 + "%";
+          bar.title = entry.date + ": " + entry.reactionTime + "ms";
+          reactionGraph.appendChild(bar);
         });
-
-        // Only proceed if there is a max value to avoid division by zero
-        if (maxReactionTime > 0) {
-          reversedLog.forEach((entry) => {
-            const bar = document.createElement("div");
-            bar.className = "bar";
-            // Scale the height of the bar relative to the max value
-            bar.style.height =
-              (entry.reactionTime / maxReactionTime) * 100 + "%";
-            bar.title = entry.date + ": " + entry.reactionTime + "ms";
-            reactionGraph.appendChild(bar);
-          });
-        }
-
-        
-
-        const averageTime = document.getElementById("averageTime");
-        averageTime.textContent =
-          "Average Reaction Time: " +
-          (totalReactionTime / historicLog.length / 1000).toFixed(3) +
-          " s";
       }
 
-      function earlyClickHandler() {
-        gameButton.classList.remove("pulse");
 
-        feedback.textContent = "Too soon!";
-        localStorage.setItem("playedToday", "true");
-        localStorage.setItem("reactionTime", 5000); // 5 seconds
-        logReactionTime(5000);
-        gameButton.textContent = "Played Today";
+
+      const averageTime = document.getElementById("averageTime");
+      averageTime.textContent =
+        "Average Reaction Time: " +
+        (totalReactionTime / historicLog.length / 1000).toFixed(3) +
+        " s";
+    }
+
+    function earlyClickHandler() {
+      gameButton.classList.remove("pulse");
+
+      feedback.textContent = "Too soon!";
+      localStorage.setItem("playedToday", "true");
+      localStorage.setItem("reactionTime", 5000); // 5 seconds
+      logReactionTime(5000);
+      gameButton.textContent = "Played Today";
+      gameButton.disabled = true;
+      gameButton.removeEventListener("click", earlyClickHandler);
+      gameButton.classList.remove("pulse");
+    }
+
+    function initializeGame() {
+      const currentDay = getDayOfYear();
+      const storedDay = localStorage.getItem("currentDay");
+      if (storedDay === null || currentDay !== parseInt(storedDay)) {
+        localStorage.removeItem("playedToday");
+        localStorage.setItem("currentDay", currentDay);
+      }
+
+      const playedToday = localStorage.getItem("playedToday");
+      if (playedToday === "true") {
+        const reactionTimeMillis = localStorage.getItem("reactionTime");
+        const reactionTimeSeconds = (reactionTimeMillis / 1000).toFixed(3); // Convert milliseconds to seconds and round to 3 decimal places
+        feedback.textContent =
+          "You've already played today! Your reaction time was " +
+          reactionTimeSeconds +
+          " seconds.";
+
         gameButton.disabled = true;
+      } else {
+        gameButton.addEventListener("click", startGame);
+      }
+    }
+
+    function startGame() {
+      feedback.textContent = "Prepare to click...";
+      gameButton.textContent = "Wait...";
+      gameButton.classList.add("pulse");
+      gameButton.addEventListener("click", earlyClickHandler);
+
+      const startTime = Date.now();
+      const delay = getDelayTime(getDayOfYear());
+
+      setTimeout(() => {
+        gameButton.classList.remove("pulse"); // Remove the pulse class
+        document.body.style.background = "#556677"; // Set the background color
+
+        gameButton.textContent = "Click!";
         gameButton.removeEventListener("click", earlyClickHandler);
-        gameButton.classList.remove("pulse");
-      }
 
-      function initializeGame() {
-        const currentDay = getDayOfYear();
-        const storedDay = localStorage.getItem("currentDay");
-        if (storedDay === null || currentDay !== parseInt(storedDay)) {
-          localStorage.removeItem("playedToday");
-          localStorage.setItem("currentDay", currentDay);
-        }
-
-        const playedToday = localStorage.getItem("playedToday");
-        if (playedToday === "true") {
+        gameButton.addEventListener("click", function reactionHandler() {
+          gameButton.classList.remove("pulse");
+          const endTime = Date.now();
+          const reactionTime = endTime - startTime - delay;
+          localStorage.setItem("playedToday", "true");
+          localStorage.setItem("reactionTime", reactionTime);
           const reactionTimeMillis = localStorage.getItem("reactionTime");
-          const reactionTimeSeconds = (reactionTimeMillis / 1000).toFixed(3); // Convert milliseconds to seconds and round to 3 decimal places
+          const reactionTimeSeconds = (reactionTimeMillis / 1000).toFixed(3);
           feedback.textContent =
-            "You've already played today! Your reaction time was " +
-            reactionTimeSeconds +
-            " seconds.";
-
+            "Your reaction time was " + reactionTimeSeconds + " s.";
+          gameButton.removeEventListener("click", reactionHandler);
+          gameButton.textContent = "Played Today";
           gameButton.disabled = true;
-        } else {
-          gameButton.addEventListener("click", startGame);
-        }
+
+          // Log the reaction time
+          logReactionTime(reactionTime);
+        });
+      }, delay);
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.style.display = "block"; // Add this line
+      modal.classList.add("show");
+      if (modalId === "reactionTimesModal") {
+        showReactionTimes();
       }
+    }
 
-      function startGame() {
-        feedback.textContent = "Prepare to click...";
-        gameButton.textContent = "Wait...";
-        gameButton.classList.add("pulse");
-        gameButton.addEventListener("click", earlyClickHandler);
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove("show");
+      setTimeout(() => {
+        modal.style.display = "none";
+      }, 300);
+    }
 
-        const startTime = Date.now();
-        const delay = getDelayTime(getDayOfYear());
+    // Initialize the game on page load
+    initializeGame();
+  </script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+</body>
 
-        setTimeout(() => {
-          gameButton.classList.remove("pulse"); // Remove the pulse class
-          document.body.style.background = "#556677"; // Set the background color
-
-          gameButton.textContent = "Click!";
-          gameButton.removeEventListener("click", earlyClickHandler);
-
-          gameButton.addEventListener("click", function reactionHandler() {
-            gameButton.classList.remove("pulse");
-            const endTime = Date.now();
-            const reactionTime = endTime - startTime - delay;
-            localStorage.setItem("playedToday", "true");
-            localStorage.setItem("reactionTime", reactionTime);
-            const reactionTimeMillis = localStorage.getItem("reactionTime");
-            const reactionTimeSeconds = (reactionTimeMillis / 1000).toFixed(3);
-            feedback.textContent =
-              "Your reaction time was " + reactionTimeSeconds + " s.";
-            gameButton.removeEventListener("click", reactionHandler);
-            gameButton.textContent = "Played Today";
-            gameButton.disabled = true;
-
-            // Log the reaction time
-            logReactionTime(reactionTime);
-          });
-        }, delay);
-      }
-
-      function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = "block"; // Add this line
-        modal.classList.add("show");
-        if (modalId === "reactionTimesModal") {
-          showReactionTimes();
-        }
-      }
-
-      function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.classList.remove("show");
-        setTimeout(() => {
-          modal.style.display = "none";
-        }, 300);
-      }
-
-      // Initialize the game on page load
-      initializeGame();
-    </script>
-      <script src="../globalNav/globalNav.js" defer></script>
-  </body>
 </html>

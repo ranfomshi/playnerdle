@@ -1,346 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Color Matching Game</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background-color: #f8f8f8;
-        margin: 0;
-        padding: 20px;
-        box-sizing: border-box;
-      }
 
-      #timerBar {
-        height: 6px;
-        width: 100%;
-        background-color: #ff6b6b;
-        margin-bottom: 20px;
-        border-radius: 3px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Matching Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
 
-      #gameArea {
-        width: 90%;
-        max-width: 450px;
-        text-align: center;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-      }
+    #timerBar {
+      height: 6px;
+      width: 100%;
+      background-color: #ff6b6b;
+      margin-bottom: 20px;
+      border-radius: 3px;
+    }
 
-      .colorBox {
-        display: inline-block;
-        width: 70px;
-        height: 70px;
-        margin: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      }
+    #gameArea {
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
 
-      button {
-        padding: 7px 10px;
-        border: none;
-        border-radius: 25px;
-        background-color: #4fbeaa;
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.3s;
-        margin: 3px;
-        display: flex;
-        height: 25px;
-        align-items: center;
-        justify-content: center;
-      }
+    .colorBox {
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+      margin: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
 
-      button:hover {
-        background-color: #3d8f80;
-      }
+    button {
+      padding: 7px 10px;
+      border: none;
+      border-radius: 25px;
+      background-color: #4fbeaa;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 3px;
+      display: flex;
+      height: 25px;
+      align-items: center;
+      justify-content: center;
+    }
 
-      h2 {
-        margin: 0;
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
+    button:hover {
+      background-color: #3d8f80;
+    }
 
-      .adjustRow {
-        display: flex;
-        align-items: center;
-        margin: 10px 0;
-      }
+    h2 {
+      margin: 0;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
 
-      .adjustRow span {
-        margin: 0 10px;
-        font-weight: 600;
-        flex: 1;
-      }
+    .adjustRow {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
 
-      .adjustRow input[type="range"] {
-        flex: 2;
-      }
+    .adjustRow span {
+      margin: 0 10px;
+      font-weight: 600;
+      flex: 1;
+    }
 
-      .buttonGroup{
-        text-align: center;
-        display: flex;
-        justify-content: center;
-      }
+    .adjustRow input[type="range"] {
+      flex: 2;
+    }
 
-      #submitBtn{
-        display: none;
-      }
-    </style>
-     <script type="text/javascript" src="/mixpanel.js"></script>
-  </head>
+    .buttonGroup {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
 
-  <body>
-    <div id="navbar-container"></div>
-    <div id="gameArea">
-      <h2>Tintuition</h2>
-      <p>
-        Adjust the hue, saturation, and brightness sliders to match the target
-        color before the timer runs out!
-      </p>
-      <div id="timerBar"></div>
-      <p>Level: <span id="level">1</span></p>
-      <p>Lives: <span id="lives">3</span></p>
-      <div>
-        <div class="colorBox" id="targetColor"></div>
-        <div class="colorBox" id="yourColor"></div>
-      </div>
-      <div class="adjustRow">
-        <button
-          onmousedown="startAdjust('hue', -1)"
-          onmouseup="stopAdjust()"
-          onmouseleave="stopAdjust()"
-        >
-          -
-        </button>
-        <span>Hue</span>
-        <input type="range" id="hueSlider" min="0" max="360" value="180" />
-        <button
-          onmousedown="startAdjust('hue', 1)"
-          onmouseup="stopAdjust()"
-          onmouseleave="stopAdjust()"
-        >
-          +
-        </button>
-      </div>
-      <div class="adjustRow">
-        <button
-          onmousedown="startAdjust('saturation', -1)"
-          onmouseup="stopAdjust()"
-          onmouseleave="stopAdjust()"
-        >
-          -
-        </button>
-        <span>Saturation</span>
-        <input
-          type="range"
-          id="saturationSlider"
-          min="0"
-          max="100"
-          value="50"
-        />
-        <button
-          onmousedown="startAdjust('saturation', 1)"
-          onmouseup="stopAdjust()"
-          onmouseleave="stopAdjust()"
-        >
-          +
-        </button>
-      </div>
-      <div class="adjustRow">
-        <button
-          onmousedown="startAdjust('brightness', -1)"
-          onmouseup="stopAdjust()"
-          onmouseleave="stopAdjust()"
-        >
-          -
-        </button>
-        <span>Brightness</span>
-        <input
-          type="range"
-          id="brightnessSlider"
-          min="0"
-          max="100"
-          value="50"
-        />
-        <button
-          onmousedown="startAdjust('brightness', 1)"
-          onmouseup="stopAdjust()"
-          onmouseleave="stopAdjust()"
-        >
-          +
-        </button>
-      </div>
-      <p id="message"></p>
-      <div class="buttonGroup">
-        <button id="startBtn" onclick="startGame()">Start Game</button>
-        <button id="submitBtn" onclick="endRound()">Submit</button>
-        <button id="restartBtn" onclick="restartGame()" style="display: none">
-          Restart
-        </button>
-      </div>
+    #submitBtn {
+      display: none;
+    }
+  </style>
+  <script type="text/javascript" src="/mixpanel.js"></script>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+  <div id="gameArea">
+    <h2>Tintuition</h2>
+    <p>
+      Adjust the hue, saturation, and brightness sliders to match the target
+      color before the timer runs out!
+    </p>
+    <div id="timerBar"></div>
+    <p>Level: <span id="level">1</span></p>
+    <p>Lives: <span id="lives">3</span></p>
+    <div>
+      <div class="colorBox" id="targetColor"></div>
+      <div class="colorBox" id="yourColor"></div>
     </div>
-    <script src="../globalNav/globalNav.js" defer></script>
-    <script>
-      const BASE_GAME_DURATION = 60000;
-      const TIME_REDUCTION = 5000;
-      const MIN_GAME_DURATION = 20000;
-      const MAX_DIFFERENCE = 30;
+    <div class="adjustRow">
+      <button onmousedown="startAdjust('hue', -1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
+        -
+      </button>
+      <span>Hue</span>
+      <input type="range" id="hueSlider" min="0" max="360" value="180" />
+      <button onmousedown="startAdjust('hue', 1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
+        +
+      </button>
+    </div>
+    <div class="adjustRow">
+      <button onmousedown="startAdjust('saturation', -1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
+        -
+      </button>
+      <span>Saturation</span>
+      <input type="range" id="saturationSlider" min="0" max="100" value="50" />
+      <button onmousedown="startAdjust('saturation', 1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
+        +
+      </button>
+    </div>
+    <div class="adjustRow">
+      <button onmousedown="startAdjust('brightness', -1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
+        -
+      </button>
+      <span>Brightness</span>
+      <input type="range" id="brightnessSlider" min="0" max="100" value="50" />
+      <button onmousedown="startAdjust('brightness', 1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
+        +
+      </button>
+    </div>
+    <p id="message"></p>
+    <div class="buttonGroup">
+      <button id="startBtn" onclick="startGame()">Start Game</button>
+      <button id="submitBtn" onclick="endRound()">Submit</button>
+      <button id="restartBtn" onclick="restartGame()" style="display: none">
+        Restart
+      </button>
+    </div>
+  </div>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script>
+    const BASE_GAME_DURATION = 60000;
+    const TIME_REDUCTION = 5000;
+    const MIN_GAME_DURATION = 20000;
+    const MAX_DIFFERENCE = 30;
 
-      const targetColorDiv = document.getElementById("targetColor");
-      const yourColorDiv = document.getElementById("yourColor");
-      const hueSlider = document.getElementById("hueSlider");
-      const saturationSlider = document.getElementById("saturationSlider");
-      const brightnessSlider = document.getElementById("brightnessSlider");
-      const message = document.getElementById("message");
-      const timerBar = document.getElementById("timerBar");
-      const startBtn = document.getElementById("startBtn");
-      const restartBtn = document.getElementById("restartBtn");
-      const levelDisplay = document.getElementById("level");
-      const livesDisplay = document.getElementById("lives");
+    const targetColorDiv = document.getElementById("targetColor");
+    const yourColorDiv = document.getElementById("yourColor");
+    const hueSlider = document.getElementById("hueSlider");
+    const saturationSlider = document.getElementById("saturationSlider");
+    const brightnessSlider = document.getElementById("brightnessSlider");
+    const message = document.getElementById("message");
+    const timerBar = document.getElementById("timerBar");
+    const startBtn = document.getElementById("startBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const levelDisplay = document.getElementById("level");
+    const livesDisplay = document.getElementById("lives");
 
-      hueSlider.addEventListener("input", updateYourColor);
-      saturationSlider.addEventListener("input", updateYourColor);
-      brightnessSlider.addEventListener("input", updateYourColor);
+    hueSlider.addEventListener("input", updateYourColor);
+    saturationSlider.addEventListener("input", updateYourColor);
+    brightnessSlider.addEventListener("input", updateYourColor);
 
-      let targetHue, targetSaturation, targetBrightness;
-      let timer;
-      let lives = 3;
-      let level = 1;
+    let targetHue, targetSaturation, targetBrightness;
+    let timer;
+    let lives = 3;
+    let level = 1;
 
-      function startGame() {
-        document.getElementById("submitBtn").style.display = "inline-block"; 
-        document.getElementById("restartBtn").style.display = "none"; 
-        startBtn.style.display = "none";
-        targetHue = Math.floor(Math.random() * 361);
-        targetSaturation = Math.floor(Math.random() * 71) + 30;
-        targetBrightness = Math.floor(Math.random() * 41) + 30;
-        targetColorDiv.style.backgroundColor = `hsl(${targetHue}, ${targetSaturation}%, ${targetBrightness}%)`;
-        hueSlider.value = 180;
-        saturationSlider.value = 50;
-        brightnessSlider.value = 50;
-        updateYourColor();
-        message.textContent = "";
-        startTimer();
+    function startGame() {
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("restartBtn").style.display = "none";
+      startBtn.style.display = "none";
+      targetHue = Math.floor(Math.random() * 361);
+      targetSaturation = Math.floor(Math.random() * 71) + 30;
+      targetBrightness = Math.floor(Math.random() * 41) + 30;
+      targetColorDiv.style.backgroundColor = `hsl(${targetHue}, ${targetSaturation}%, ${targetBrightness}%)`;
+      hueSlider.value = 180;
+      saturationSlider.value = 50;
+      brightnessSlider.value = 50;
+      updateYourColor();
+      message.textContent = "";
+      startTimer();
+    }
+
+    function updateYourColor() {
+      let currentHue = hueSlider.value;
+      let currentSaturation = saturationSlider.value;
+      let currentBrightness = brightnessSlider.value;
+      yourColorDiv.style.backgroundColor = `hsl(${currentHue}, ${currentSaturation}%, ${currentBrightness}%)`;
+    }
+
+    function adjustValue(type, value) {
+      let slider;
+      switch (type) {
+        case "hue":
+          slider = hueSlider;
+          break;
+        case "saturation":
+          slider = saturationSlider;
+          break;
+        case "brightness":
+          slider = brightnessSlider;
+          break;
       }
+      slider.value = parseInt(slider.value) + value;
+      updateYourColor();
+    }
 
-      function updateYourColor() {
-        let currentHue = hueSlider.value;
-        let currentSaturation = saturationSlider.value;
-        let currentBrightness = brightnessSlider.value;
-        yourColorDiv.style.backgroundColor = `hsl(${currentHue}, ${currentSaturation}%, ${currentBrightness}%)`;
-      }
+    function startTimer() {
+      let startTime = Date.now();
+      let reductionTime = (level - 1) * TIME_REDUCTION;
+      let currentGameDuration = BASE_GAME_DURATION - reductionTime;
+      currentGameDuration = Math.max(currentGameDuration, MIN_GAME_DURATION);
 
-      function adjustValue(type, value) {
-        let slider;
-        switch (type) {
-          case "hue":
-            slider = hueSlider;
-            break;
-          case "saturation":
-            slider = saturationSlider;
-            break;
-          case "brightness":
-            slider = brightnessSlider;
-            break;
+      clearInterval(timer);
+
+      timer = setInterval(() => {
+        let elapsedTime = Date.now() - startTime;
+        let remainingWidth = 100 - (elapsedTime / currentGameDuration) * 100;
+        timerBar.style.width = `${remainingWidth}%`;
+
+        if (elapsedTime >= currentGameDuration) {
+          clearInterval(timer);
+          checkColors();
         }
-        slider.value = parseInt(slider.value) + value;
-        updateYourColor();
-      }
+      }, 50);
+    }
 
-      function startTimer() {
-        let startTime = Date.now();
-        let reductionTime = (level - 1) * TIME_REDUCTION;
-        let currentGameDuration = BASE_GAME_DURATION - reductionTime;
-        currentGameDuration = Math.max(currentGameDuration, MIN_GAME_DURATION);
+    function checkColors() {
+      let hueDifference = Math.abs(targetHue - hueSlider.value);
+      let saturationDifference = Math.abs(
+        targetSaturation - saturationSlider.value
+      );
+      let brightnessDifference = Math.abs(
+        targetBrightness - brightnessSlider.value
+      );
+      let totalDifference =
+        hueDifference + saturationDifference + brightnessDifference;
 
-        clearInterval(timer);
-
-        timer = setInterval(() => {
-          let elapsedTime = Date.now() - startTime;
-          let remainingWidth = 100 - (elapsedTime / currentGameDuration) * 100;
-          timerBar.style.width = `${remainingWidth}%`;
-
-          if (elapsedTime >= currentGameDuration) {
-            clearInterval(timer);
-            checkColors();
-          }
-        }, 50);
-      }
-
-      function checkColors() {
-    let hueDifference = Math.abs(targetHue - hueSlider.value);
-    let saturationDifference = Math.abs(
-      targetSaturation - saturationSlider.value
-    );
-    let brightnessDifference = Math.abs(
-      targetBrightness - brightnessSlider.value
-    );
-    let totalDifference =
-      hueDifference + saturationDifference + brightnessDifference;
-
-    if (totalDifference <= MAX_DIFFERENCE) {
-      message.textContent = `Well done!`;
-      level++;
-      levelDisplay.textContent = level;
-      setTimeout(startGame, 2500);
-    } else {
-      lives--;
-      livesDisplay.textContent = lives;
-      if (lives <= 0) {
-        message.textContent = "Game Over!";
-        restartBtn.style.display = "block";
-        document.getElementById("submitBtn").style.display = "none";
-      } else {
-        message.textContent = `Try again! Differences: Hue: ${hueDifference}, Saturation: ${saturationDifference}, Brightness: ${brightnessDifference}`;
-        document.getElementById("submitBtn").style.display = "none"; // Hide the submit button
+      if (totalDifference <= MAX_DIFFERENCE) {
+        message.textContent = `Well done!`;
+        level++;
+        levelDisplay.textContent = level;
         setTimeout(startGame, 2500);
+      } else {
+        lives--;
+        livesDisplay.textContent = lives;
+        if (lives <= 0) {
+          message.textContent = "Game Over!";
+          restartBtn.style.display = "block";
+          document.getElementById("submitBtn").style.display = "none";
+        } else {
+          message.textContent = `Try again! Differences: Hue: ${hueDifference}, Saturation: ${saturationDifference}, Brightness: ${brightnessDifference}`;
+          document.getElementById("submitBtn").style.display = "none"; // Hide the submit button
+          setTimeout(startGame, 2500);
+        }
       }
     }
-}
 
 
-      function restartGame() {
-        lives = 3;
-        level = 1;
-        levelDisplay.textContent = level;
-        livesDisplay.textContent = lives;
-        restartBtn.style.display = "none";
-        startBtn.style.display = "block";
-        message.textContent = "";
-      }
+    function restartGame() {
+      lives = 3;
+      level = 1;
+      levelDisplay.textContent = level;
+      livesDisplay.textContent = lives;
+      restartBtn.style.display = "none";
+      startBtn.style.display = "block";
+      message.textContent = "";
+    }
 
-      let adjustInterval;
+    let adjustInterval;
 
-      function startAdjust(type, value) {
+    function startAdjust(type, value) {
+      adjustValue(type, value);
+      adjustInterval = setInterval(() => {
         adjustValue(type, value);
-        adjustInterval = setInterval(() => {
-          adjustValue(type, value);
-        }, 100);
-      }
+      }, 100);
+    }
 
-      function stopAdjust() {
-        clearInterval(adjustInterval);
-      }
+    function stopAdjust() {
+      clearInterval(adjustInterval);
+    }
 
-      function endRound() {
-        clearInterval(timer);
-        checkColors();
-      }
-    </script>
-  </body>
+    function endRound() {
+      clearInterval(timer);
+      checkColors();
+    }
+  </script>
+</body>
+
 </html>
