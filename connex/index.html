@@ -899,7 +899,6 @@
 
         const selectRandomWordsFromBanks = () => {
             const shuffledBanks = shuffle([...banks]);
-            const usedCombinations = [];
 
             for (let i = 0; i < shuffledBanks.length; i++) {
                 for (let j = i + 1; j < shuffledBanks.length; j++) {
@@ -907,24 +906,41 @@
                         for (let l = k + 1; l < shuffledBanks.length; l++) {
                             const selected = [shuffledBanks[i], shuffledBanks[j], shuffledBanks[k], shuffledBanks[l]];
 
-                            // Flatten all words into one array and count occurrences
-                            const wordCounts = {};
-                            selected.forEach(bank => {
+                            const wordMap = {};
+
+                            selected.forEach((bank, index) => {
                                 bank.words.forEach(word => {
-                                    const w = word.toLowerCase();
-                                    wordCounts[w] = (wordCounts[w] || 0) + 1;
+                                    const lw = word.toLowerCase();
+                                    if (!wordMap[lw]) wordMap[lw] = [];
+                                    wordMap[lw].push(index); // track which bank(s) contain it
                                 });
                             });
 
-                            // Check if at least one word appears in more than one group
-                            const hasCrossover = Object.values(wordCounts).some(count => count > 1);
+                            const crossoverWords = Object.entries(wordMap).filter(([, indices]) => indices.length > 1);
 
-                            if (hasCrossover) {
-                                // Select 4 words from each bank (even with crossover)
-                                const chosenBanks = selected.map(bank => ({
-                                    words: shuffle(bank.words).slice(0, 4),
-                                    connectionReason: bank.connectionReason
-                                }));
+                            if (crossoverWords.length > 0) {
+                                // Choose one crossover word at random
+                                const [sharedWord, involvedBankIndexes] = crossoverWords[Math.floor(Math.random() * crossoverWords.length)];
+
+                                const chosenBanks = selected.map((bank, bankIndex) => {
+                                    const words = [...bank.words];
+                                    shuffle(words);
+
+                                    if (involvedBankIndexes.includes(bankIndex)) {
+                                        // Ensure the shared word is included
+                                        const filtered = words.filter(w => w.toLowerCase() !== sharedWord);
+                                        const finalWords = [sharedWord, ...filtered.slice(0, 3)];
+                                        return {
+                                            words: shuffle(finalWords),
+                                            connectionReason: bank.connectionReason
+                                        };
+                                    } else {
+                                        return {
+                                            words: shuffle(words).slice(0, 4),
+                                            connectionReason: bank.connectionReason
+                                        };
+                                    }
+                                });
 
                                 return chosenBanks;
                             }
@@ -933,9 +949,10 @@
                 }
             }
 
-            console.warn("Couldn't find overlapping banks after exhaustive search.");
+            console.warn("Couldn't find overlapping banks with a usable shared word.");
             return [];
         };
+
 
 
 
