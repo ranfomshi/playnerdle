@@ -898,31 +898,45 @@
         const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
         const selectRandomWordsFromBanks = () => {
-            const shuffledBanks = shuffle(banks);
-            const selectedBanks = [];
-            const usedWords = new Set();
+            const shuffledBanks = shuffle([...banks]);
+            const usedCombinations = [];
 
-            let attempts = 0;
-            while (selectedBanks.length < 4 && attempts < 100) {
-                const candidate = shuffledBanks[selectedBanks.length];
-                if (!candidate) break;
+            for (let i = 0; i < shuffledBanks.length; i++) {
+                for (let j = i + 1; j < shuffledBanks.length; j++) {
+                    for (let k = j + 1; k < shuffledBanks.length; k++) {
+                        for (let l = k + 1; l < shuffledBanks.length; l++) {
+                            const selected = [shuffledBanks[i], shuffledBanks[j], shuffledBanks[k], shuffledBanks[l]];
 
-                const uniqueWords = candidate.words.filter(word => !usedWords.has(word.toLowerCase()));
+                            // Flatten all words into one array and count occurrences
+                            const wordCounts = {};
+                            selected.forEach(bank => {
+                                bank.words.forEach(word => {
+                                    const w = word.toLowerCase();
+                                    wordCounts[w] = (wordCounts[w] || 0) + 1;
+                                });
+                            });
 
-                if (uniqueWords.length >= 4) {
-                    const chosenWords = shuffle(uniqueWords).slice(0, 4);
-                    chosenWords.forEach(word => usedWords.add(word.toLowerCase()));
-                    selectedBanks.push({
-                        words: chosenWords,
-                        connectionReason: candidate.connectionReason
-                    });
+                            // Check if at least one word appears in more than one group
+                            const hasCrossover = Object.values(wordCounts).some(count => count > 1);
+
+                            if (hasCrossover) {
+                                // Select 4 words from each bank (even with crossover)
+                                const chosenBanks = selected.map(bank => ({
+                                    words: shuffle(bank.words).slice(0, 4),
+                                    connectionReason: bank.connectionReason
+                                }));
+
+                                return chosenBanks;
+                            }
+                        }
+                    }
                 }
-
-                attempts++;
             }
 
-            return selectedBanks;
+            console.warn("Couldn't find overlapping banks after exhaustive search.");
+            return [];
         };
+
 
 
         let currentWords = [];
