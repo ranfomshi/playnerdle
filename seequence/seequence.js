@@ -76,14 +76,19 @@ function optionKey(option) {
 function buildOptions(correctSequence, optionCount) {
   const options = [correctSequence];
   const used = new Set([optionKey(correctSequence)]);
+  const sequenceLength = correctSequence.length;
+  let attempts = 0;
+  const maxAttempts = optionCount * 20;
 
-  while (options.length < optionCount) {
-    const candidate = shuffle(correctSequence);
+  while (options.length < optionCount && attempts < maxAttempts) {
+    const candidateSource = options.length < sequenceLength ? correctSequence : palette;
+    const candidate = shuffle(candidateSource).slice(0, sequenceLength);
     const key = optionKey(candidate);
     if (!used.has(key)) {
       used.add(key);
       options.push(candidate);
     }
+    attempts += 1;
   }
 
   return shuffle(options);
