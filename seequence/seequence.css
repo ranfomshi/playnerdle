@@ -1,0 +1,112 @@
+:root {
+  --bg: #111827;
+  --panel: #1f2937;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  background: radial-gradient(circle at top, #1f2937, #111827 60%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.game-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.home-link {
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+.subtitle,
+.status {
+  color: var(--muted);
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.scoreboard > div,
+.sequence-stage,
+.options {
+  background: rgba(31, 41, 55, 0.85);
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.sequence-display {
+  min-height: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sequence-pill {
+  width: 68px;
+  height: 68px;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.15);
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}
+
+.option-btn {
+  width: 100%;
+  border: 1px solid #4b5563;
+  border-radius: 12px;
+  background: #111827;
+  padding: 0.6rem;
+  cursor: pointer;
+}
+
+.option-btn:hover {
+  border-color: #93c5fd;
+}
+
+.option-seq {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.option-swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.controls {
+  margin-top: 1rem;
+}
+
+#start-btn {
+  background: #2563eb;
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
