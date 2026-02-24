@@ -1,3 +1,4 @@
-User-Agent: *
-Disallow:
-Sitemap: https://www.bludle.com
+User-agent: *
+Allow: /
+
+Sitemap: https://www.bludle.com/sitemap.xml
