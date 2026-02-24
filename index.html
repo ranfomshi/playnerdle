@@ -4,107 +4,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Play Bludle (and more)</title>
+  <title>PlayNerdle | Daily Puzzle, Word, Colour and Reaction Games</title>
+  <meta name="description" content="PlayNerdle is a free collection of daily puzzle games including Bludle, Werdle, Codle, Reaction, Guess Hue and more brain-training challenges." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.bludle.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PlayNerdle | Daily Puzzle, Word, Colour and Reaction Games" />
+  <meta property="og:description" content="Play free daily puzzle and brain-training games: word, colour, reaction and logic challenges in one place." />
+  <meta property="og:url" content="https://www.bludle.com/" />
+  <meta property="og:image" content="https://www.bludle.com/images/icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PlayNerdle | Daily Puzzle, Word, Colour and Reaction Games" />
+  <meta name="twitter:description" content="Play free daily puzzle and brain-training games including Bludle, Werdle, Reaction and more." />
+  <meta name="twitter:image" content="https://www.bludle.com/images/icon.png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap">
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
   <script type="module" src="/globalNav/globalNav.js" defer></script>
   <script src="home.js" defer></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "PlayNerdle",
+      "url": "https://www.bludle.com/",
+      "description": "A collection of free daily puzzle games and brain-training challenges.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.bludle.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
 </head>
 
 <body>
   <div id="navbar-container"></div>
 
   <main class="content" id="content">
+    <h1 class="sr-only">PlayNerdle Daily Puzzle Games</h1>
     <div class="tile" id="bludle">
-      <div class="game" style="background-image: url('./images/bludle.jpg')">
+      <a class="game" href="/bludle/" aria-label="Play Bludle" style="background-image: url('./images/bludle.jpg')">
         <div class="gameTitle">Bludle</div>
         <div class="gameInfo">Decode a 5 letter word from shades of blue</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="werdle">
-      <div class="game" style="background-image: url('./images/werdle.png')">
+      <a class="game" href="/werdle/" aria-label="Play Werdle" style="background-image: url('./images/werdle.png')">
         <div class="gameTitle">Werdle</div>
         <div class="gameInfo">Daily word game with challenge mode</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="reaction">
-      <div class="game" style="background-image: url('./images/reaction.jpg')">
+      <a class="game" href="/reaction/" aria-label="Play Reaction" style="background-image: url('./images/reaction.jpg')">
         <div class="gameTitle">Reaction</div>
         <div class="gameInfo">Increase your reaction speed daily</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="shiftyFades">
-      <div class="game" style="background-image: url('./images/shifty.png')">
+      <a class="game" href="/shiftyfades/" aria-label="Play Shifty Fades" style="background-image: url('./images/shifty.png')">
         <div class="gameTitle">Shifty Fades</div>
         <div class="gameInfo">Find the color that matches from the selection</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="colourMatch">
-      <div class="game" style="background-image: url('./images/cm.jpg')">
+      <a class="game" href="/colourmatch/" aria-label="Play Colour Match" style="background-image: url('./images/cm.jpg')">
         <div class="gameTitle">Colo(u)r Match</div>
         <div class="gameInfo">Create a matching color. Just how good is your eyesight?</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="codle">
-      <div class="game" style="background-image: url('./images/codle.jpg')">
+      <a class="game" href="/codle/" aria-label="Play Codle" style="background-image: url('./images/codle.jpg')">
         <div class="gameTitle">Codle</div>
         <div class="gameInfo">Decode 5 letter words from a random offset</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="alternate">
-      <div class="game" style="background-image: url('./images/alternate.jpg')">
+      <a class="game" href="/alternate/" aria-label="Play Alternate" style="background-image: url('./images/alternate.jpg')">
         <div class="gameTitle">Alternate</div>
         <div class="gameInfo">Click when the colour changes. Build your score before your time runs out!</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="tintuition">
-      <div class="game" style="background-image: url('./images/tintuition.png')">
+      <a class="game" href="/tintuition/" aria-label="Play Tintuition" style="background-image: url('./images/tintuition.png')">
         <div class="gameTitle">Tintuition</div>
         <div class="gameInfo">Match the colours in the time given!</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="hunt">
-      <div class="game" style="background-image: url('./images/hunt.png')">
+      <a class="game" href="/hunt/" aria-label="Play XY Marks the Spot" style="background-image: url('./images/hunt.png')">
         <div class="gameTitle">XY Marks the Spot</div>
         <div class="gameInfo">Use algebraic hints to discover the treasure</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="guesshue">
-      <div class="game" style="background-image: url('./images/hue.png')">
+      <a class="game" href="/guesshue/" aria-label="Play Guess Hue" style="background-image: url('./images/hue.png')">
         <div class="gameTitle">Guess Hue</div>
         <div class="gameInfo">Spot the odd one out and go on a streak</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="trak">
-      <div class="game" style="background-image: url('./images/trak.png')">
+      <a class="game" href="/trak/" aria-label="Play Trak" style="background-image: url('./images/trak.png')">
         <div class="gameTitle">Trak</div>
         <div class="gameInfo">Stop the ball in the green zone. What ball?</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="connex">
-      <div class="game" style="background-image: url('./images/connex.png')">
+      <a class="game" href="/connex/" aria-label="Play Connex" style="background-image: url('./images/connex.png')">
         <div class="gameTitle">Connex</div>
         <div class="gameInfo">Find the 3 words from the same connection bank</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="heardle">
-      <div class="game" style="background-image: url('./images/heardle.png')">
+      <a class="game" href="/heardle/" aria-label="Play Heardle" style="background-image: url('./images/heardle.png')">
         <div class="gameTitle">Heardle</div>
         <div class="gameInfo">Listen carefully & play it by ear</div>
-      </div>
+      </a>
     </div>
 
     <div class="tile" id="coffee">
@@ -140,14 +167,14 @@
         <li><a href="/blogs/3" target="_blank">Blog 3</a></li>
         <li><a href="/blogs/4" target="_blank">Blog 4</a></li>
         <li><a href="/privacy" target="_blank">Privacy</a></li>
-        <li><a href="/terms_and-conditions.html" target="_blank">Terms</a></li>
+        <li><a href="/terms-and-conditions.html" target="_blank">Terms</a></li>
       </ul>
     </div>
 
     <div class="footer-section">
       <h4>Games</h4>
       <ul>
-        <li><a href="/nerdle" target="_blank">nerdle</a></li>
+        <li><a href="/game/nerdle.html" target="_blank">nerdle</a></li>
         <li><a href="/reaction" target="_blank">reaction</a></li>
         <li><a href="/colourmatch" target="_blank">colour match</a></li>
         <li><a href="/bludle" target="_blank">bludle</a></li>
