@@ -60,27 +60,6 @@
             flex-direction: column;
             align-items: center;
             padding: 10px;
-            position: relative;
-        }
-
-        #gameAreaMessage {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(46, 204, 64, 0.9);
-            color: #111;
-            font-weight: 700;
-            padding: 10px 14px;
-            border-radius: 8px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s;
-            z-index: 3;
-        }
-
-        #gameAreaMessage.visible {
-            opacity: 1;
         }
 
         /* Large level indicator (hidden by default) */
@@ -341,14 +320,13 @@
             <div>Lives: <span id="livesDisplay">3</span></div>
             <div>Melody Length: <span id="melodyLengthDisplay">3</span></div>
         </div>
+        <div class="control-buttons">
+            <button id="playTargetBtn">Play Target Melody</button>
+        </div>
         <h2>Your Composition</h2>
         <!-- compositionArea holds the temporary level indicator, guess history, and current composition -->
         <div id="compositionArea" title="Click a note to remove it from your composition">
-            <div id="gameAreaMessage"></div>
             <div id="compositionLevel">1</div>
-            <div class="control-buttons">
-                <button id="playTargetBtn">Start / Play Target Melody</button>
-            </div>
             <div id="guessHistory"></div>
             <div id="playerPanel"></div>
         </div>
@@ -365,11 +343,10 @@
         /***************************************
          * Global Configuration & Variables  *
          ***************************************/
-        const startingLives = 3;
         let currentLevel = 1;
         const baseCompositionLength = 3; // starting length for level 1
         let compositionLength = baseCompositionLength; // updates with level progression
-        let lives = startingLives;
+        let lives = 3;
         // Variables for target melody replays.
         const baseReplays = 2;
         let remainingReplays;  // replays left for the current level
@@ -438,15 +415,6 @@
         const noteButtonsDiv = document.getElementById("noteButtons");
         const submitBtn = document.getElementById("submitBtn");
         const playTargetBtn = document.getElementById("playTargetBtn");
-        const gameAreaMessageEl = document.getElementById("gameAreaMessage");
-        const motivationalMessages = [
-            "Level up! Your ears are locked in 🎯",
-            "New round, same main-character energy 😎",
-            "You got this — tiny notes, giant wins!",
-            "Brain warmed up? Let’s make this melody cry.",
-            "No panic, just rhythm. Keep going!"
-        ];
-        let levelMessageTimeout;
 
         // Update primary status (without affecting the large level indicator)
         function updateStatusDisplay() {
@@ -462,20 +430,6 @@
             setTimeout(() => {
                 compositionLevelEl.style.display = "none";
             }, 500);
-        }
-
-        function updateSubmitVisibility() {
-            submitBtn.style.display = playerSequence.length === 0 ? "none" : "inline-block";
-        }
-
-        function showLevelMessage() {
-            const phrase = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-            gameAreaMessageEl.textContent = phrase;
-            gameAreaMessageEl.classList.add("visible");
-            clearTimeout(levelMessageTimeout);
-            levelMessageTimeout = setTimeout(() => {
-                gameAreaMessageEl.classList.remove("visible");
-            }, 1800);
         }
 
         // Update the target melody button text with remaining replays.
@@ -497,7 +451,6 @@
                 });
                 playerPanel.appendChild(span);
             });
-            updateSubmitVisibility();
         }
 
         // Create a ripple effect originating from where the note button is clicked.
@@ -559,12 +512,10 @@
                 targetSequence.push(availableNotes[randomIndex]);
             }
         }
-        function setupLevel(resetLives = false) {
+        function setupLevel() {
             // Reset level parameters.
             compositionLength = baseCompositionLength + currentLevel - 1;
-            if (resetLives) {
-                lives = startingLives;
-            }
+            lives = 3;
             playerSequence = [];
             remainingReplays = baseReplays + (currentLevel - 1);
             // Clear guess history between levels.
@@ -577,7 +528,6 @@
             updateTargetReplayDisplay();
             feedbackEl.textContent = "";
             submitBtn.disabled = false;
-            showLevelMessage();
         }
         function nextLevel() {
             currentLevel++;
@@ -709,7 +659,7 @@
             totalNotesAttempted = 0;
             // Reset level and game state.
             currentLevel = 1;
-            setupLevel(true);
+            setupLevel();
         });
 
         // Event listener for "Play Target Melody" button.
@@ -748,7 +698,7 @@
         /***************************************
          * Initialize the Game                 *
          ***************************************/
-        setupLevel(true);
+        setupLevel();
     </script>
     <link rel="stylesheet" href="/globalNav/globalNav.css">
     <script type="module" src="/globalNav/globalNav.js" defer></script>
