@@ -9,7 +9,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="keywords"
-        content="nerdle, nerdlegame, playnerdle, nerdleword, needle, needel, word-game, play-nerdle, online, app, wordle, word, wordgame, five, 5, lettergame, words, wordsgamr, unlimited, practice, 5letter, nerdle, play, playnerdle, werdle, wordel, nerdel, " />
+        content="nerdle, nerdlegame, bludle, nerdleword, needle, needel, word-game, play-nerdle, online, app, wordle, word, wordgame, five, 5, lettergame, words, wordsgamr, unlimited, practice, 5letter, nerdle, play, bludle, werdle, wordel, nerdel, " />
     <meta name="author" content="Stuart Pecksen" />
     <meta name="description"
         content="Play werdle daily or unlimited - A fun word game for all ages with word origins for an educational twist." />
@@ -27,16 +27,16 @@
     <title>werdle Blog - The story behind the game.</title>
     <meta charset=“UTF-8”>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-3Z3GM1YNZE');
-</script>
-<script type="text/javascript" src="/mixpanel.js"></script>
+        gtag('config', 'G-3Z3GM1YNZE');
+    </script>
+    <script type="text/javascript" src="/mixpanel.js"></script>
 </head>
 
 <body onkeydown="enterSubmit(event)">
@@ -65,7 +65,7 @@
 
     <div id="content" class="content">
         <h1 class="title">Blog</h1>
-       
+
 
         <br>
 
@@ -133,21 +133,33 @@
                 appeals. It should be low maintainance - require 0 network calls and work from good old fashioned HTML,
                 CSS
                 and JS.</p>
-                <br>
+            <br>
             <img src="banner5.jpg" class="blogImg" width="300" />
             <br>
-            <p>What's great about it is that it has lots of different challenges to code - and none of them are original so there's planty of resources online to help.
-                I would often try to recreate something myself, and if it worked - great! I would live with it and maintain it; such as the modals that are used for displaying the
-                instructions and the statistics to the user. I got those working but they also had added complexity because they wouldn't always cover the keyboard and therefore the user could 
-                still type whilst they were on screen (not ideal). So then came the overlay, which is the semi-transparent layer between the modal and the game that protects everything else. 
-                Coding these bits was fine but other bits such as the countdown timer to the next game were tough and so I had to use things like codepen etc. to help. Luckily Javascript is a great language and easy to pick up so nothing was ever too hard. 
+            <p>What's great about it is that it has lots of different challenges to code - and none of them are original
+                so there's planty of resources online to help.
+                I would often try to recreate something myself, and if it worked - great! I would live with it and
+                maintain it; such as the modals that are used for displaying the
+                instructions and the statistics to the user. I got those working but they also had added complexity
+                because they wouldn't always cover the keyboard and therefore the user could
+                still type whilst they were on screen (not ideal). So then came the overlay, which is the
+                semi-transparent layer between the modal and the game that protects everything else.
+                Coding these bits was fine but other bits such as the countdown timer to the next game were tough and so
+                I had to use things like codepen etc. to help. Luckily Javascript is a great language and easy to pick
+                up so nothing was ever too hard.
 
-                Actually that's a lie - the hard bit as mentioned above was updating the logic to show the correct colours on the user's guesses. Blue for a letter in the word but incorrectly placed...fine! Green for a correctly placed letter...also fine! But then you get a load of 
-                double letter scenarios; either they guess a letter twice that only exists once and neither are placed correctly. With the initial logic both appear blue. But this is misleading and 
-                the user thinks there are 2 of that letter in the answer. So there are some loops within loops and variables comparisons that switch context which I gradually worked out but it was tough. 
-                What really helped with this was a logical process flow diagram. It meant I could debug without writing code, testing words against pre determined answers to see how they woudl appear. 
-                Then I just had to code up the final result. Tip: give yourself really clear commenting as you build. This will really help to read complex bits of code and use sensible variable names. 
-                You don't want to trip yourself up for no good reason. 
+                Actually that's a lie - the hard bit as mentioned above was updating the logic to show the correct
+                colours on the user's guesses. Blue for a letter in the word but incorrectly placed...fine! Green for a
+                correctly placed letter...also fine! But then you get a load of
+                double letter scenarios; either they guess a letter twice that only exists once and neither are placed
+                correctly. With the initial logic both appear blue. But this is misleading and
+                the user thinks there are 2 of that letter in the answer. So there are some loops within loops and
+                variables comparisons that switch context which I gradually worked out but it was tough.
+                What really helped with this was a logical process flow diagram. It meant I could debug without writing
+                code, testing words against pre determined answers to see how they woudl appear.
+                Then I just had to code up the final result. Tip: give yourself really clear commenting as you build.
+                This will really help to read complex bits of code and use sensible variable names.
+                You don't want to trip yourself up for no good reason.
             </p>
         </div>
 
