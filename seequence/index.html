@@ -183,11 +183,16 @@
       document.getElementById("lives").textContent = lives;
     }
 
+    function randomChannelValue() {
+      return Math.floor(Math.random() * 256);
+    }
+
     function randomColor() {
+      // Every colour is built from a fresh random R, G and B value.
       return {
-        r: Math.floor(Math.random() * 256),
-        g: Math.floor(Math.random() * 256),
-        b: Math.floor(Math.random() * 256)
+        r: randomChannelValue(),
+        g: randomChannelValue(),
+        b: randomChannelValue()
       };
     }
 
@@ -205,7 +210,14 @@
 
     function generateSequence() {
       const len = Math.min(2 + level, 8);
-      return Array.from({ length: len }, () => randomColor());
+      const generated = [];
+
+      for (let i = 0; i < len; i++) {
+        // Pick from any colour by randomising r, g and b for every position.
+        generated.push(randomColor());
+      }
+
+      return generated;
     }
 
     function mutateSequence(base, edits) {
