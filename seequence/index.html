@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seequence</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #111; color: #fff; text-align: center; }
+    .wrap { max-width: 700px; margin: 0 auto; padding: 24px; }
+    #board { width: 220px; height: 220px; margin: 18px auto; border-radius: 12px; background: #222; border: 2px solid #333; transition: background 120ms; }
+    #answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    button { padding: 10px; border-radius: 8px; border: 1px solid #3f3f3f; background: #232323; color: #fff; cursor: pointer; }
+    button:hover { background: #2f2f2f; }
+    #status { min-height: 24px; margin-top: 10px; }
+    #hud { display: flex; justify-content: space-between; gap: 12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Seequence</h1>
+    <div id="hud">
+      <div>Level: <span id="level">1</span></div>
+      <div>Lives: <span id="lives">3</span></div>
+    </div>
+    <div id="board"></div>
+    <button id="startBtn">Show Sequence</button>
+    <div id="answers"></div>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const palette = ["Red", "Blue", "Green", "Yellow", "Purple", "Orange"];
+    const css = { Red: "#e74c3c", Blue: "#3498db", Green: "#2ecc71", Yellow: "#f1c40f", Purple: "#9b59b6", Orange: "#e67e22" };
+
+    const COLOR_SHOW_MS = 1200; // Doubled from the original 600ms pacing.
+    const GAP_MS = 350;
+
+    let level = 1;
+    let lives = 3;
+    let sequence = [];
+
+    const board = document.getElementById("board");
+    const answers = document.getElementById("answers");
+    const statusEl = document.getElementById("status");
+
+    function setHud() {
+      document.getElementById("level").textContent = level;
+      document.getElementById("lives").textContent = lives;
+    }
+
+    function generateSequence() {
+      const len = Math.min(2 + level, 8);
+      return Array.from({ length: len }, () => palette[Math.floor(Math.random() * palette.length)]);
+    }
+
+    function mutateSequence(base, edits) {
+      const out = [...base];
+      const used = new Set();
+      while (used.size < edits) {
+        used.add(Math.floor(Math.random() * out.length));
+      }
+      [...used].forEach(idx => {
+        const choices = palette.filter(c => c !== out[idx]);
+        out[idx] = choices[Math.floor(Math.random() * choices.length)];
+      });
+      return out;
+    }
+
+    function buildAnswers(correct) {
+      const opts = [correct];
+      const length = correct.length;
+
+      while (opts.length < 4) {
+        // Keep wrong answers close: only 1 edit for short sequences, 1-2 edits for 3+.
+        const edits = length >= 3 ? (Math.random() < 0.6 ? 1 : 2) : 1;
+        const candidate = mutateSequence(correct, edits);
+        const key = candidate.join("-");
+        if (!opts.some(x => x.join("-") === key)) opts.push(candidate);
+      }
+
+      return opts.sort(() => Math.random() - 0.5);
+    }
+
+    async function flashSequence(seq) {
+      answers.innerHTML = "";
+      statusEl.textContent = "Watch carefully...";
+      for (const color of seq) {
+        board.style.background = css[color];
+        await new Promise(r => setTimeout(r, COLOR_SHOW_MS));
+        board.style.background = "#222";
+        await new Promise(r => setTimeout(r, GAP_MS));
+      }
+      statusEl.textContent = "Choose the correct sequence:";
+    }
+
+    function renderAnswers(options) {
+      answers.innerHTML = "";
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option.join(" → ");
+        btn.onclick = () => checkAnswer(option);
+        answers.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const ok = selected.join("|") === sequence.join("|");
+      if (ok) {
+        statusEl.textContent = "✅ Nice! That's correct.";
+        level += 1;
+        setHud();
+      } else {
+        lives -= 1;
+        setHud();
+        statusEl.textContent = `❌ Not quite. Correct was: ${sequence.join(" → ")}`;
+      }
+
+      if (lives <= 0) {
+        statusEl.textContent = "Game over. Restarting at level 1 with 3 lives.";
+        level = 1;
+        lives = 3;
+        setHud();
+      }
+      setTimeout(startRound, 1000);
+    }
+
+    async function startRound() {
+      sequence = generateSequence();
+      const opts = buildAnswers(sequence);
+      await flashSequence(sequence);
+      renderAnswers(opts);
+    }
+
+    document.getElementById("startBtn").addEventListener("click", startRound);
+    setHud();
+  </script>
+</body>
+</html>
