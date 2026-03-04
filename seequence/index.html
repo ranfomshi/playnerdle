@@ -12,7 +12,6 @@
       --ink: #0f172a;
       --muted: #5b6478;
       --border: #d9e1ef;
-      --accent: #3b82f6;
     }
 
     body {
@@ -24,24 +23,26 @@
     }
 
     .wrap {
-      max-width: 740px;
-      margin: 80px auto 24px;
-      padding: 28px;
+      width: min(92vw, 740px);
+      margin: 78px auto 24px;
+      padding: clamp(18px, 3.2vw, 30px);
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 18px;
       box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      box-sizing: border-box;
     }
 
-    h1 {
-      margin: 0 0 8px;
+    .title {
+      margin: 0;
       letter-spacing: 0.2px;
+      font-size: clamp(1.65rem, 4.5vw, 2.05rem);
     }
 
     #subtitle {
-      margin: 0 0 14px;
+      margin: 6px 0 14px;
       color: var(--muted);
-      font-size: 0.98rem;
+      font-size: clamp(0.92rem, 2.7vw, 1rem);
     }
 
     #hud {
@@ -59,12 +60,12 @@
       padding: 6px 12px;
       font-weight: 600;
       color: #253049;
-      min-width: 90px;
+      min-width: 98px;
     }
 
     #board {
-      width: 220px;
-      height: 220px;
+      width: clamp(180px, 56vw, 240px);
+      height: clamp(180px, 56vw, 240px);
       margin: 18px auto;
       border-radius: 16px;
       background: #e6ebf5;
@@ -99,13 +100,14 @@
 
     #answers {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-top: 14px;
     }
 
     .answer-btn {
       padding: 10px;
+      min-height: 52px;
     }
 
     .answer-sequence {
@@ -117,8 +119,8 @@
     }
 
     .swatch {
-      width: 22px;
-      height: 22px;
+      width: clamp(18px, 5.3vw, 22px);
+      height: clamp(18px, 5.3vw, 22px);
       border-radius: 5px;
       border: 1px solid rgba(0, 0, 0, 0.18);
     }
@@ -127,6 +129,7 @@
       min-height: 24px;
       margin-top: 14px;
       font-weight: 600;
+      font-size: clamp(0.92rem, 2.6vw, 1rem);
     }
 
     @media (max-width: 560px) {
@@ -134,9 +137,13 @@
         grid-template-columns: 1fr;
       }
 
-      .wrap {
-        margin-top: 70px;
-        padding: 20px;
+      .chip {
+        min-width: 112px;
+      }
+
+      #startBtn,
+      .answer-btn {
+        width: 100%;
       }
     }
   </style>
@@ -144,7 +151,7 @@
 <body>
   <div id="navbar-container"></div>
   <div class="wrap">
-    <h1>Seequence</h1>
+    <h1 class="title">Seequence</h1>
     <p id="subtitle">Remember the colour order and pick the exact sequence.</p>
 
     <div id="hud">
@@ -176,20 +183,12 @@
       document.getElementById("lives").textContent = lives;
     }
 
-    function randomBaseColor() {
+    function randomColor() {
       return {
-        r: Math.floor(Math.random() * 206) + 50,
-        g: Math.floor(Math.random() * 206) + 50,
-        b: Math.floor(Math.random() * 206) + 50
+        r: Math.floor(Math.random() * 256),
+        g: Math.floor(Math.random() * 256),
+        b: Math.floor(Math.random() * 256)
       };
-    }
-
-    function tweakShade(base, maxOffset = 26) {
-      const tweak = (value) => {
-        const offset = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
-        return Math.min(255, Math.max(0, value + offset));
-      };
-      return { r: tweak(base.r), g: tweak(base.g), b: tweak(base.b) };
     }
 
     function colorToString(color) {
@@ -206,8 +205,7 @@
 
     function generateSequence() {
       const len = Math.min(2 + level, 8);
-      const base = randomBaseColor();
-      return Array.from({ length: len }, () => tweakShade(base));
+      return Array.from({ length: len }, () => randomColor());
     }
 
     function mutateSequence(base, edits) {
@@ -216,9 +214,15 @@
       while (used.size < edits) {
         used.add(Math.floor(Math.random() * out.length));
       }
+
       [...used].forEach(idx => {
-        out[idx] = tweakShade(out[idx], 36);
+        let replacement = randomColor();
+        while (colorKey(replacement) === colorKey(out[idx])) {
+          replacement = randomColor();
+        }
+        out[idx] = replacement;
       });
+
       return out;
     }
 
@@ -238,10 +242,12 @@
     async function flashSequence(seq) {
       answers.innerHTML = "";
       statusEl.textContent = "Watch carefully...";
+
       for (const color of seq) {
         board.style.background = colorToString(color);
         await new Promise(r => setTimeout(r, COLOR_SHOW_MS));
       }
+
       board.style.background = "#e6ebf5";
       statusEl.textContent = "Choose the correct sequence:";
     }
