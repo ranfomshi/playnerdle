@@ -238,14 +238,61 @@
       return out;
     }
 
+    function buildWrongOrderDecoy(correct) {
+      if (correct.length < 2) {
+        return mutateSequence(correct, 1);
+      }
+
+      // Try several reorder attempts before falling back.
+      for (let attempt = 0; attempt < 6; attempt++) {
+        const decoy = correct.map(color => ({ ...color }));
+
+        // As levels rise, make ordering mistakes subtler (mostly adjacent swaps).
+        if (level >= 5) {
+          const i = Math.floor(Math.random() * (decoy.length - 1));
+          [decoy[i], decoy[i + 1]] = [decoy[i + 1], decoy[i]];
+        } else {
+          let j = Math.floor(Math.random() * decoy.length);
+          while (j === 0) {
+            j = Math.floor(Math.random() * decoy.length);
+          }
+          const first = decoy.shift();
+          decoy.splice(j, 0, first);
+        }
+
+        if (sequenceKey(decoy) !== sequenceKey(correct)) {
+          return decoy;
+        }
+      }
+
+      // Fallback when repeated colours make reorder collisions likely.
+      return mutateSequence(correct, 1);
+    }
+
+    function buildOneColorOffDecoy(correct) {
+      return mutateSequence(correct, 1);
+    }
+
+    function addCandidate(opts, candidate) {
+      if (!opts.some(x => sequenceKey(x) === sequenceKey(candidate))) {
+        opts.push(candidate);
+      }
+    }
+
     function buildAnswers(correct) {
       const opts = [correct];
       const length = correct.length;
 
+      // Guarantee at least one wrong-order decoy (same colours, wrong order).
+      addCandidate(opts, buildWrongOrderDecoy(correct));
+
+      // Guarantee at least one one-colour-off decoy.
+      addCandidate(opts, buildOneColorOffDecoy(correct));
+
       while (opts.length < 4) {
-        const edits = length >= 3 ? (Math.random() < 0.6 ? 1 : 2) : 1;
+        const edits = length >= 3 ? (Math.random() < 0.7 ? 1 : 2) : 1;
         const candidate = mutateSequence(correct, edits);
-        if (!opts.some(x => sequenceKey(x) === sequenceKey(candidate))) opts.push(candidate);
+        addCandidate(opts, candidate);
       }
 
       return opts.sort(() => Math.random() - 0.5);
