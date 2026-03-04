@@ -12,5 +12,6 @@ export const navLinks = [
     { name: "alternate", href: "/alternate" },
     { name: "trak", href: "/trak" },
     { name: "tintuition", href: "/tintuition" },
-    { name: "connex", href: "/connex" }
+    { name: "connex", href: "/connex" },
+    { name: "seequence", href: "/seequence" }
 ];

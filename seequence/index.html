@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seequence</title>
+  <script type="text/javascript" src="/mixpanel.js"></script>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #5b6478;
+      --border: #d9e1ef;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: radial-gradient(circle at top, #f9fbff, var(--bg));
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .wrap {
+      width: min(92vw, 740px);
+      margin: 78px auto 24px;
+      padding: clamp(18px, 3.2vw, 30px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      box-sizing: border-box;
+    }
+
+    .title {
+      margin: 0;
+      letter-spacing: 0.2px;
+      font-size: clamp(1.65rem, 4.5vw, 2.05rem);
+    }
+
+    #subtitle {
+      margin: 6px 0 14px;
+      color: var(--muted);
+      font-size: clamp(0.92rem, 2.7vw, 1rem);
+    }
+
+    #hud {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: #f6f9ff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 600;
+      color: #253049;
+      min-width: 98px;
+    }
+
+    #board {
+      width: clamp(180px, 56vw, 240px);
+      height: clamp(180px, 56vw, 240px);
+      margin: 18px auto;
+      border-radius: 16px;
+      background: #e6ebf5;
+      border: 2px solid #d6ddeb;
+      box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.07);
+      transition: background 80ms linear;
+    }
+
+    #startBtn,
+    .answer-btn {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #f8faff;
+      color: #14213b;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    }
+
+    #startBtn {
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    #startBtn:hover,
+    .answer-btn:hover {
+      background: #eef4ff;
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.18);
+      transform: translateY(-1px);
+    }
+
+    #answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .answer-btn {
+      padding: 10px;
+      min-height: 52px;
+    }
+
+    .answer-sequence {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      width: clamp(18px, 5.3vw, 22px);
+      height: clamp(18px, 5.3vw, 22px);
+      border-radius: 5px;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    #status {
+      min-height: 24px;
+      margin-top: 14px;
+      font-weight: 600;
+      font-size: clamp(0.92rem, 2.6vw, 1rem);
+    }
+
+    @media (max-width: 560px) {
+      #answers {
+        grid-template-columns: 1fr;
+      }
+
+      .chip {
+        min-width: 112px;
+      }
+
+      #startBtn,
+      .answer-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <div class="wrap">
+    <h1 class="title">Seequence</h1>
+    <p id="subtitle">Remember the colour order and pick the exact sequence.</p>
+
+    <div id="hud">
+      <div class="chip">Level: <span id="level">1</span></div>
+      <div class="chip">Lives: <span id="lives">3</span></div>
+    </div>
+
+    <div id="board"></div>
+    <button id="startBtn">Show Sequence</button>
+    <div id="answers"></div>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const COLOR_SHOW_MS = 1200; // Doubled from the original 600ms pacing.
+
+    let level = 1;
+    let lives = 3;
+    let sequence = [];
+    let gameStarted = false;
+
+    const board = document.getElementById("board");
+    const answers = document.getElementById("answers");
+    const statusEl = document.getElementById("status");
+    const startBtn = document.getElementById("startBtn");
+
+    function setHud() {
+      document.getElementById("level").textContent = level;
+      document.getElementById("lives").textContent = lives;
+    }
+
+    function randomChannelValue() {
+      return Math.floor(Math.random() * 256);
+    }
+
+    function randomColor() {
+      // Every colour is built from a fresh random R, G and B value.
+      return {
+        r: randomChannelValue(),
+        g: randomChannelValue(),
+        b: randomChannelValue()
+      };
+    }
+
+    function colorToString(color) {
+      return `rgb(${color.r}, ${color.g}, ${color.b})`;
+    }
+
+    function colorKey(color) {
+      return `${color.r},${color.g},${color.b}`;
+    }
+
+    function sequenceKey(seq) {
+      return seq.map(colorKey).join("|");
+    }
+
+    function generateSequence() {
+      const len = Math.min(2 + level, 8);
+      const generated = [];
+
+      for (let i = 0; i < len; i++) {
+        // Pick from any colour by randomising r, g and b for every position.
+        generated.push(randomColor());
+      }
+
+      return generated;
+    }
+
+    function mutateSequence(base, edits) {
+      const out = base.map(color => ({ ...color }));
+      const used = new Set();
+      while (used.size < edits) {
+        used.add(Math.floor(Math.random() * out.length));
+      }
+
+      [...used].forEach(idx => {
+        let replacement = randomColor();
+        while (colorKey(replacement) === colorKey(out[idx])) {
+          replacement = randomColor();
+        }
+        out[idx] = replacement;
+      });
+
+      return out;
+    }
+
+    function buildWrongOrderDecoy(correct) {
+      if (correct.length < 2) {
+        return mutateSequence(correct, 1);
+      }
+
+      // Try several reorder attempts before falling back.
+      for (let attempt = 0; attempt < 6; attempt++) {
+        const decoy = correct.map(color => ({ ...color }));
+
+        // As levels rise, make ordering mistakes subtler (mostly adjacent swaps).
+        if (level >= 5) {
+          const i = Math.floor(Math.random() * (decoy.length - 1));
+          [decoy[i], decoy[i + 1]] = [decoy[i + 1], decoy[i]];
+        } else {
+          let j = Math.floor(Math.random() * decoy.length);
+          while (j === 0) {
+            j = Math.floor(Math.random() * decoy.length);
+          }
+          const first = decoy.shift();
+          decoy.splice(j, 0, first);
+        }
+
+        if (sequenceKey(decoy) !== sequenceKey(correct)) {
+          return decoy;
+        }
+      }
+
+      // Fallback when repeated colours make reorder collisions likely.
+      return mutateSequence(correct, 1);
+    }
+
+    function buildOneColorOffDecoy(correct) {
+      return mutateSequence(correct, 1);
+    }
+
+    function addCandidate(opts, candidate) {
+      if (!opts.some(x => sequenceKey(x) === sequenceKey(candidate))) {
+        opts.push(candidate);
+      }
+    }
+
+    function buildAnswers(correct) {
+      const opts = [correct];
+      const length = correct.length;
+
+      // Guarantee at least one wrong-order decoy (same colours, wrong order).
+      addCandidate(opts, buildWrongOrderDecoy(correct));
+
+      // Guarantee at least one one-colour-off decoy.
+      addCandidate(opts, buildOneColorOffDecoy(correct));
+
+      while (opts.length < 4) {
+        const edits = length >= 3 ? (Math.random() < 0.7 ? 1 : 2) : 1;
+        const candidate = mutateSequence(correct, edits);
+        addCandidate(opts, candidate);
+      }
+
+      return opts.sort(() => Math.random() - 0.5);
+    }
+
+    async function flashSequence(seq) {
+      answers.innerHTML = "";
+      statusEl.textContent = "Watch carefully...";
+
+      for (const color of seq) {
+        board.style.background = colorToString(color);
+        await new Promise(r => setTimeout(r, COLOR_SHOW_MS));
+      }
+
+      board.style.background = "#e6ebf5";
+      statusEl.textContent = "Choose the correct sequence:";
+    }
+
+    function renderAnswers(options) {
+      answers.innerHTML = "";
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        const seqView = document.createElement("div");
+        seqView.className = "answer-sequence";
+
+        option.forEach(color => {
+          const swatch = document.createElement("span");
+          swatch.className = "swatch";
+          swatch.style.backgroundColor = colorToString(color);
+          seqView.appendChild(swatch);
+        });
+
+        btn.appendChild(seqView);
+        btn.onclick = () => checkAnswer(option);
+        answers.appendChild(btn);
+      });
+    }
+
+    function updateStartButtonVisibility() {
+      startBtn.style.display = level === 1 && !gameStarted ? "inline-block" : "none";
+    }
+
+    function resetToLevelOne() {
+      level = 1;
+      lives = 3;
+      gameStarted = false;
+      setHud();
+      board.style.background = "#e6ebf5";
+      answers.innerHTML = "";
+      updateStartButtonVisibility();
+      statusEl.textContent = "Game over. Click Show Sequence to start again.";
+    }
+
+    function checkAnswer(selected) {
+      const ok = sequenceKey(selected) === sequenceKey(sequence);
+      if (ok) {
+        statusEl.textContent = "✅ Nice! That's correct.";
+        level += 1;
+        setHud();
+      } else {
+        lives -= 1;
+        setHud();
+        statusEl.textContent = "❌ Not quite. Keep going!";
+      }
+
+      if (lives <= 0) {
+        resetToLevelOne();
+        return;
+      }
+
+      setTimeout(startRound, 850);
+    }
+
+    async function startRound() {
+      gameStarted = true;
+      updateStartButtonVisibility();
+      sequence = generateSequence();
+      const opts = buildAnswers(sequence);
+      await flashSequence(sequence);
+      renderAnswers(opts);
+    }
+
+    startBtn.addEventListener("click", startRound);
+    setHud();
+    updateStartButtonVisibility();
+  </script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+</body>
+</html>
