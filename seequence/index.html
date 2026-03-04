@@ -4,18 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Seequence</title>
+  <script type="text/javascript" src="/mixpanel.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #111; color: #fff; text-align: center; }
-    .wrap { max-width: 700px; margin: 0 auto; padding: 24px; }
-    #board { width: 220px; height: 220px; margin: 18px auto; border-radius: 12px; background: #222; border: 2px solid #333; transition: background 120ms; }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; color: #111; text-align: center; }
+    .wrap {
+      max-width: 700px;
+      margin: 80px auto 24px;
+      padding: 24px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    #board { width: 220px; height: 220px; margin: 18px auto; border-radius: 12px; background: #e3e3e3; border: 2px solid #ddd; transition: background 120ms; }
     #answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
-    button { padding: 10px; border-radius: 8px; border: 1px solid #3f3f3f; background: #232323; color: #fff; cursor: pointer; }
-    button:hover { background: #2f2f2f; }
+    button { padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: #f9f9f9; color: #111; cursor: pointer; }
+    button:hover { background: #efefef; }
     #status { min-height: 24px; margin-top: 10px; }
     #hud { display: flex; justify-content: space-between; gap: 12px; }
   </style>
 </head>
 <body>
+  <div id="navbar-container"></div>
   <div class="wrap">
     <h1>Seequence</h1>
     <div id="hud">
@@ -87,7 +96,7 @@
       for (const color of seq) {
         board.style.background = css[color];
         await new Promise(r => setTimeout(r, COLOR_SHOW_MS));
-        board.style.background = "#222";
+        board.style.background = "#e3e3e3";
         await new Promise(r => setTimeout(r, GAP_MS));
       }
       statusEl.textContent = "Choose the correct sequence:";
@@ -134,5 +143,7 @@
     document.getElementById("startBtn").addEventListener("click", startRound);
     setHud();
   </script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
 </body>
 </html>
