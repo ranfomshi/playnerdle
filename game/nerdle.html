@@ -28,6 +28,14 @@
 
     <div id="content" class="content">
         <h1>WERDLE</h1>
+        <div class="statsRow">
+            <div class="statBox"><span id="streakCount">0</span><small>streak</small></div>
+            <div class="statBox"><span id="bestStreakCount">0</span><small>best</small></div>
+            <div class="statBox"><span id="attemptsLeft">5</span><small>left</small></div>
+        </div>
+
+        <div id="attemptMeter" class="attemptMeter"></div>
+        <div id="statusText" class="statusText">Warm up round. Type a 5-letter word.</div>
 
         <input type="text" onkeypress="enterSubmit(event)" onsubmit="gameAttempt()" id="userInput" placeholder="guess"
             style="margin-top: 10px; margin-bottom: 10px; height: 16px;"></input>
@@ -54,6 +62,7 @@
             text-align: center; 
             white-space: nowrap;">Incorrect letters will show
             here</div>
+        <div id="effects" class="effects" aria-hidden="true"></div>
 
 </body>
 

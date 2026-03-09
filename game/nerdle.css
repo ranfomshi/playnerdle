@@ -180,3 +180,105 @@ html {
         transform: translateY(0px);
     }
 }
+
+.statsRow {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 8px auto 4px;
+}
+
+.statBox {
+    background: #ffffff12;
+    border: 1px solid #ffffff2f;
+    border-radius: 10px;
+    padding: 6px 10px;
+    min-width: 62px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.statBox span {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.statBox small {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.attemptMeter {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0;
+}
+
+.attemptDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #ffffff24;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.attemptDot.used {
+    background: #85d5ff;
+    transform: scale(1.2);
+}
+
+.statusText {
+    min-height: 20px;
+    margin: 4px 0 10px;
+    font-size: 14px;
+    color: #cde8f6;
+}
+
+.statusText.success {
+    color: #c8ffd6;
+}
+
+.statusText.warning {
+    color: #ffe7a0;
+}
+
+.statusText.danger {
+    color: #ffc2c2;
+}
+
+.inputPulse {
+    animation: pulse 0.22s linear 2;
+}
+
+.effects {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: fall 1.8s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
