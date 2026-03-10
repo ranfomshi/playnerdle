@@ -168,3 +168,30 @@ body {
     font-size: 0.8rem;
   }
 }
+
+
+.seo-content {
+  max-width: 1100px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+  color: var(--text-secondary);
+}
+
+.seo-content h2,
+.seo-content h3 {
+  color: var(--text-primary);
+}
+
+.seo-content a {
+  color: var(--accent-cyan);
+}
+
+.faq-list dt {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.faq-list dd {
+  margin-left: 0;
+}

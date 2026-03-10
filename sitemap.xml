@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.bludle.com/</loc></url>
+  <url><loc>https://www.bludle.com/alex/</loc></url>
   <url><loc>https://www.bludle.com/alternate/</loc></url>
+  <url><loc>https://www.bludle.com/benefits/</loc></url>
   <url><loc>https://www.bludle.com/bludle/</loc></url>
   <url><loc>https://www.bludle.com/codle/</loc></url>
+  <url><loc>https://www.bludle.com/colormatch/</loc></url>
   <url><loc>https://www.bludle.com/colourmatch/</loc></url>
   <url><loc>https://www.bludle.com/connex/</loc></url>
   <url><loc>https://www.bludle.com/guesshue/</loc></url>
   <url><loc>https://www.bludle.com/heardle/</loc></url>
   <url><loc>https://www.bludle.com/hunt/</loc></url>
+  <url><loc>https://www.bludle.com/imageedit/</loc></url>
+  <url><loc>https://www.bludle.com/push/</loc></url>
   <url><loc>https://www.bludle.com/reaction/</loc></url>
+  <url><loc>https://www.bludle.com/seequence/</loc></url>
+  <url><loc>https://www.bludle.com/shapecut/</loc></url>
   <url><loc>https://www.bludle.com/shiftyfades/</loc></url>
   <url><loc>https://www.bludle.com/tintuition/</loc></url>
   <url><loc>https://www.bludle.com/trak/</loc></url>
   <url><loc>https://www.bludle.com/werdle/</loc></url>
+  <url><loc>https://www.bludle.com/game/nerdle.html</loc></url>
   <url><loc>https://www.bludle.com/blogs/about</loc></url>
   <url><loc>https://www.bludle.com/blogs/1</loc></url>
   <url><loc>https://www.bludle.com/blogs/2</loc></url>
@@ -21,6 +29,9 @@
   <url><loc>https://www.bludle.com/blogs/4</loc></url>
   <url><loc>https://www.bludle.com/blogs/5</loc></url>
   <url><loc>https://www.bludle.com/blogs/6</loc></url>
+  <url><loc>https://www.bludle.com/blogs/disclaimer</loc></url>
   <url><loc>https://www.bludle.com/privacy.html</loc></url>
   <url><loc>https://www.bludle.com/terms-and-conditions.html</loc></url>
+  <url><loc>https://www.bludle.com/llms.txt</loc></url>
+  <url><loc>https://www.bludle.com/llms-full.txt</loc></url>
 </urlset>
