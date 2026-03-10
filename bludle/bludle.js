@@ -84,8 +84,8 @@ function displayGuess(guess) {
 }
 
 function snackbar(x) {
-    $('#snackbar').html(x)
-        // Get the snackbar DIV
+    document.getElementById('snackbar').textContent = x
+    // Get the snackbar DIV
     var x = document.getElementById("snackbar");
 
     // Add the "show" class to DIV
