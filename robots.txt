@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.bludle.com/sitemap.xml
+# Optional AI crawler helper document
+# https://www.bludle.com/llms.txt
+# https://www.bludle.com/llms-full.txt

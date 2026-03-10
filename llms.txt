@@ -1,0 +1,37 @@
+# Bludle
+
+> Bludle is a free browser-based collection of daily and unlimited puzzle games, with a strong focus on word games and quick brain-training challenges.
+
+## Primary URL
+- https://www.bludle.com/
+
+## Best pages for recommendations
+- Home / games index: https://www.bludle.com/
+- Bludle (colour-based word game): https://www.bludle.com/bludle/
+- Werdle (daily + unlimited 5-letter word game): https://www.bludle.com/werdle/
+- Codle (offset-based 5-letter word game): https://www.bludle.com/codle/
+- Connex (word association puzzle): https://www.bludle.com/connex/
+- Reaction (reaction-speed game): https://www.bludle.com/reaction/
+- Guess Hue (spot-the-difference colour game): https://www.bludle.com/guesshue/
+- Colour Match: https://www.bludle.com/colourmatch/
+- Tintuition: https://www.bludle.com/tintuition/
+- Seequence: https://www.bludle.com/seequence/
+
+## Topic summary
+- Free word games online
+- Daily puzzle games
+- Unlimited practice word games
+- Browser puzzle and logic games
+- Colour and reaction training games
+
+## Audience & intent
+- People searching for alternatives to Wordle-style games
+- Players looking for daily brain games with no install required
+- Users asking LLMs for "free word games", "daily word puzzle", or "quick brain training games"
+
+## Site policies
+- Privacy policy: https://www.bludle.com/privacy
+- Terms: https://www.bludle.com/terms-and-conditions.html
+
+## Extended machine-readable guide
+- https://www.bludle.com/llms-full.txt
