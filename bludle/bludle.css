@@ -10,6 +10,46 @@ body {
     text-align: center;
 }
 
+html {
+    min-height: 100%;
+    background: linear-gradient(140deg, #f8fbff, #eaf3ff, #e4eaff);
+    background-size: 220% 220%;
+    animation: bludleSkyShift 30s ease-in-out infinite;
+}
+
+body {
+    position: relative;
+    isolation: isolate;
+}
+
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(2px);
+}
+
+body::before {
+    width: 36vmax;
+    height: 36vmax;
+    top: -10vmax;
+    left: -8vmax;
+    background: radial-gradient(circle, rgba(108, 146, 255, 0.2) 0%, rgba(108, 146, 255, 0) 70%);
+    animation: bludleDrift 36s ease-in-out infinite alternate;
+}
+
+body::after {
+    width: 28vmax;
+    height: 28vmax;
+    right: -8vmax;
+    bottom: -10vmax;
+    background: radial-gradient(circle, rgba(120, 216, 255, 0.22) 0%, rgba(120, 216, 255, 0) 68%);
+    animation: bludleDrift 44s ease-in-out infinite alternate-reverse;
+}
+
 .titleArea {
     margin-top: 10px;
 }
@@ -239,7 +279,7 @@ body {
 }
 
 @media only screen and (max-width: 550px) {
-  
+
     #content {
         width: 90vw
     }
@@ -321,5 +361,34 @@ body {
 @media only screen and (max-width: 550px) {
     .resourceGrid {
         grid-template-columns: 1fr;
+    }
+}
+
+@keyframes bludleSkyShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes bludleDrift {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(6vmax, 4vmax, 0) scale(1.12);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html,
+    body::before,
+    body::after {
+        animation: none;
     }
 }
