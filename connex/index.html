@@ -1101,13 +1101,15 @@
         let correctAnswerBanks = [];
         let lives = 5;
         let selectedGroups = [false, false, false, false];
+        let solvedBankIndexes = new Set();
         let completedGroups = 0;
 
         const getWordsForConnection = () => {
             const selectedBanks = selectRandomWordsFromBanks();
             currentWords = shuffle(selectedBanks.flatMap(bank => bank.words));
             correctAnswerBanks = selectedBanks;
-            selectedGroups = [false, false, false];
+            selectedGroups = [false, false, false, false];
+            solvedBankIndexes = new Set();
             completedGroups = 0;
             renderWordList();
             resetSelection();
@@ -1138,11 +1140,26 @@
 
         const checkAnswer = (selectedItems) => {
             const selectedWords = Array.from(selectedItems).map(el => el.textContent);
-            const selectedBanksWords = correctAnswerBanks.map(bank => bank.words);
+            const normalizedSelectedWords = selectedWords.map(word => word.toLowerCase());
 
-            const groupsSelected = correctAnswerBanks.filter(bank =>
-                selectedWords.every(word => bank.words.includes(word))
-            );
+            const unsolvedBankEntries = correctAnswerBanks
+                .map((bank, index) => ({ bank, index }))
+                .filter(({ index }) => !solvedBankIndexes.has(index));
+
+            const matchingGroups = unsolvedBankEntries.filter(({ bank }) => {
+                const normalizedBankWords = bank.words.map(word => word.toLowerCase());
+                return normalizedSelectedWords.every(word => normalizedBankWords.includes(word));
+            });
+
+            let groupsSelected = matchingGroups;
+
+            if (
+                groupsSelected.length === 0 &&
+                document.querySelectorAll('.word-item').length === 4 &&
+                unsolvedBankEntries.length === 1
+            ) {
+                groupsSelected = [unsolvedBankEntries[0]];
+            }
 
             if (groupsSelected.length !== 1) {
                 const feedbackElement = document.getElementById('feedback');
@@ -1165,7 +1182,8 @@
                     }, 500);
                 }
             } else {
-                let groupIndex = correctAnswerBanks.indexOf(groupsSelected[0]);
+                const groupIndex = groupsSelected[0].index;
+                solvedBankIndexes.add(groupIndex);
                 selectedItems.forEach(item => item.classList.add('correct'));
                 const feedbackElement = document.getElementById('feedback');
                 feedbackElement.textContent = `Correct! Connection: ${correctAnswerBanks[groupIndex].connectionReason}`;
