@@ -23,6 +23,55 @@
       grid-gap: 5px;
     }
 
+    .grid-square {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+
+    .grid-square:active {
+      transform: scale(0.97);
+    }
+
+    .grid-square.correct-click {
+      animation: pop-correct 0.18s ease-out;
+    }
+
+    .grid-square.wrong-click {
+      animation: shake-wrong 0.2s ease-in-out;
+    }
+
+    @keyframes pop-correct {
+      0% {
+        transform: scale(0.96);
+      }
+
+      60% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shake-wrong {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      75% {
+        transform: translateX(5px);
+      }
+    }
+
     #timer {
       width: 100%;
       height: 20px;
@@ -267,12 +316,9 @@
 
       for (let i = 0; i < 9; i++) {
         const square = document.createElement("div");
-        square.style.width = "100px";
-        square.style.height = "100px";
-        square.style.display = "inline-block";
-        square.style.cursor = "pointer";
+        square.className = "grid-square";
         square.style.backgroundColor = i === oddPosition ? oddColor : mainColor;
-        square.addEventListener("click", () => checkSquare(i));
+        square.addEventListener("click", () => checkSquare(i, square));
         container.appendChild(square);
       }
       startTime = Date.now();
@@ -309,18 +355,21 @@
 
     document.getElementById("restartButton").addEventListener("click", restartGame);
 
-    const checkSquare = (index) => {
+    const checkSquare = (index, squareElement) => {
       const endTime = Date.now();
       const timeTaken = (endTime - startTime) / 1000;
+      clearInterval(timer);
 
       if (index === oddPosition) {
+        squareElement.classList.add("correct-click");
         roundTimes.push(timeTaken);
         slowestTime = Math.max(slowestTime, timeTaken);
         streak++;
         updateStreakDisplay();
-        initGameBoard();
+        setTimeout(initGameBoard, 120);
       } else {
-        showGameOver();
+        squareElement.classList.add("wrong-click");
+        setTimeout(showGameOver, 140);
       }
     };
 
