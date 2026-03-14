@@ -343,7 +343,6 @@
         square.className = "grid-square";
         square.style.backgroundColor = i === oddPosition ? oddColor : mainColor;
         square.addEventListener("click", (event) => checkSquare(i, square, event));
-        square.addEventListener("click", () => checkSquare(i, square));
         container.appendChild(square);
       }
       startTime = Date.now();
@@ -402,7 +401,6 @@
     };
 
     const checkSquare = (index, squareElement, event) => {
-    const checkSquare = (index, squareElement) => {
       const endTime = Date.now();
       const timeTaken = (endTime - startTime) / 1000;
       clearInterval(timer);
