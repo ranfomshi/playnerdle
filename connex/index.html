@@ -10,11 +10,41 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #121212;
+            background: radial-gradient(circle at 20% 20%, #173026 0%, #111 40%, #090909 100%);
             color: white;
             text-align: center;
             padding: 20px;
             margin-top: 40px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
+            animation: floatGlow 14s ease-in-out infinite;
+        }
+
+        body::before {
+            background: #00b96b;
+            top: 6vh;
+            left: -80px;
+        }
+
+        body::after {
+            background: #3b7cff;
+            right: -100px;
+            bottom: 8vh;
+            animation-delay: -7s;
         }
 
         h1 {
@@ -27,6 +57,7 @@
             gap: 10px;
             margin: 0 auto 20px auto;
             max-width: 600px;
+            perspective: 1000px;
         }
 
         .word-item {
@@ -37,6 +68,10 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             -webkit-tap-highlight-color: transparent;
+            transform: translateY(14px) scale(0.97);
+            opacity: 0;
+            animation: cardIn 0.35s ease forwards;
+            animation-delay: calc(var(--stagger-index, 0) * 40ms);
         }
 
         .word-item.selected {
@@ -46,6 +81,7 @@
         .word-item.correct {
             background-color: #007a3e;
             pointer-events: none;
+            animation: solvedPulse 400ms ease;
         }
 
         .word-item:hover {
@@ -60,6 +96,11 @@
             margin-top: 20px;
             font-size: 24px;
             color: #f00;
+            min-height: 30px;
+        }
+
+        .feedback.error {
+            animation: nudge 320ms ease;
         }
 
         .lives {
@@ -81,6 +122,67 @@
             border-radius: 5px;
             width: 100%;
             text-align: center;
+            animation: cardIn 0.45s ease;
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes solvedPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.06);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes nudge {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-6px);
+            }
+
+            75% {
+                transform: translateX(6px);
+            }
+        }
+
+        @keyframes floatGlow {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(18px, -24px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         .group-items-wrapper {
@@ -1020,6 +1122,7 @@
                 wordItem.classList.add('word-item');
                 wordItem.textContent = word;
                 wordItem.addEventListener('click', () => handleWordClick(wordItem));
+                wordItem.style.setProperty('--stagger-index', currentWords.indexOf(word));
                 wordListDiv.appendChild(wordItem);
             });
         };
@@ -1042,8 +1145,12 @@
             );
 
             if (groupsSelected.length !== 1) {
-                document.getElementById('feedback').textContent = 'Oops! Incorrect guess.';
-                document.getElementById('feedback').style.color = '#f00';
+                const feedbackElement = document.getElementById('feedback');
+                feedbackElement.textContent = 'Oops! Incorrect guess.';
+                feedbackElement.style.color = '#f00';
+                feedbackElement.classList.remove('error');
+                void feedbackElement.offsetWidth;
+                feedbackElement.classList.add('error');
                 lives--;
                 updateLives();
 
@@ -1060,8 +1167,10 @@
             } else {
                 let groupIndex = correctAnswerBanks.indexOf(groupsSelected[0]);
                 selectedItems.forEach(item => item.classList.add('correct'));
-                document.getElementById('feedback').textContent = `Correct! Connection: ${correctAnswerBanks[groupIndex].connectionReason}`;
-                document.getElementById('feedback').style.color = '#00b96b';
+                const feedbackElement = document.getElementById('feedback');
+                feedbackElement.textContent = `Correct! Connection: ${correctAnswerBanks[groupIndex].connectionReason}`;
+                feedbackElement.style.color = '#00b96b';
+                feedbackElement.classList.remove('error');
                 moveToTop(selectedItems);
 
                 const groupDiv = document.createElement('div');
