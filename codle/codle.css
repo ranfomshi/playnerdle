@@ -2,21 +2,53 @@
     font-family: 'Roboto Condensed', sans-serif !important;
     font-weight: normal !important;
     text-decoration: none;
-   
+
 }
 
 html {
     position: relative;
-   
     margin: 0;
     padding: 0;
-    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    min-height: 100%;
+    background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+    background-size: 180% 180%;
+    animation: codleGradientShift 28s ease-in-out infinite;
 }
 
 body {
+    position: relative;
+    isolation: isolate;
     padding: 0;
     margin: 0;
     padding-top: 50px;
+}
+
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    z-index: -1;
+    width: 45vmax;
+    height: 45vmax;
+    border-radius: 50%;
+    opacity: 0.2;
+    filter: blur(6px);
+    pointer-events: none;
+    animation: codleFloat 32s ease-in-out infinite alternate;
+}
+
+body::before {
+    background: radial-gradient(circle, rgba(59, 246, 184, 0.55) 0%, rgba(59, 246, 184, 0) 68%);
+    top: -8vmax;
+    left: -10vmax;
+}
+
+body::after {
+    background: radial-gradient(circle, rgba(0, 154, 255, 0.45) 0%, rgba(0, 154, 255, 0) 65%);
+    right: -12vmax;
+    bottom: -14vmax;
+    animation-duration: 38s;
+    animation-direction: alternate-reverse;
 }
 
 h1 {
@@ -264,4 +296,32 @@ p {
     margin-left: 50%;
     transform: translatex(-50%);
     margin-top: 10px;
+}
+@keyframes codleGradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes codleFloat {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(7vmax, 5vmax, 0) scale(1.18);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html,
+    body::before,
+    body::after {
+        animation: none;
+    }
 }
