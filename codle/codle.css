@@ -51,6 +51,64 @@ body::after {
     animation-direction: alternate-reverse;
 }
 
+
+.bgAnimation {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bgOrb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.35;
+    mix-blend-mode: screen;
+}
+
+.orbOne {
+    width: 32vmax;
+    height: 32vmax;
+    top: 12%;
+    left: -8vmax;
+    background: radial-gradient(circle at 30% 30%, rgba(111, 255, 216, 0.85), rgba(111, 255, 216, 0));
+    animation: codleOrbDriftOne 20s ease-in-out infinite alternate;
+}
+
+.orbTwo {
+    width: 24vmax;
+    height: 24vmax;
+    right: 4vmax;
+    top: -3vmax;
+    background: radial-gradient(circle at 35% 35%, rgba(139, 177, 255, 0.75), rgba(139, 177, 255, 0));
+    animation: codleOrbDriftTwo 24s ease-in-out infinite alternate-reverse;
+}
+
+.orbThree {
+    width: 38vmax;
+    height: 38vmax;
+    right: -14vmax;
+    bottom: -14vmax;
+    background: radial-gradient(circle at 50% 50%, rgba(31, 255, 193, 0.6), rgba(31, 255, 193, 0));
+    animation: codleOrbDriftThree 26s ease-in-out infinite alternate;
+}
+
+.bgScanline {
+    position: absolute;
+    inset: 0;
+    opacity: 0.08;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.25) 0px,
+        rgba(255, 255, 255, 0.25) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    animation: codleScanlineShift 8s linear infinite;
+}
+
 h1 {
     font-family: 'Roboto Condensed', sans-serif !important;
     font-weight: normal !important;
@@ -321,7 +379,46 @@ p {
 @media (prefers-reduced-motion: reduce) {
     html,
     body::before,
-    body::after {
+    body::after,
+    .bgOrb,
+    .bgScanline {
         animation: none;
+    }
+}
+
+
+@keyframes codleOrbDriftOne {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(18vmax, 8vmax, 0) scale(1.25);
+    }
+}
+
+@keyframes codleOrbDriftTwo {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(-16vmax, 12vmax, 0) scale(1.2);
+    }
+}
+
+@keyframes codleOrbDriftThree {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(-12vmax, -14vmax, 0) scale(1.15);
+    }
+}
+
+@keyframes codleScanlineShift {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(4px);
     }
 }
