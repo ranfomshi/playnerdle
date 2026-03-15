@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Mash | Daily Overlap Word Puzzle</title>
+  <meta name="description"
+    content="Play Word Mash: solve two clues and combine both answers into one overlap mash word. A fresh daily puzzle with streak tracking and share results." />
+  <meta name="keywords"
+    content="word mash, daily word game, overlap word puzzle, word blend game, wordle alternative, bludle" />
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script type="text/javascript" src="/mixpanel.js"></script>
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">New Daily Game</p>
+      <h1>Word Mash</h1>
+      <p class="subtitle">Answer two clues. Then mash the words together so the end of answer one overlaps with the
+        start of answer two.</p>
+      <div class="badge-row">
+        <span class="badge" id="puzzle-date">Daily puzzle</span>
+        <span class="badge" id="streak-badge">Streak: 0</span>
+      </div>
+    </section>
+
+    <section class="game-shell" aria-live="polite">
+      <div class="clues">
+        <article class="clue-card">
+          <p class="clue-label">Clue 1</p>
+          <p class="clue-text" id="clue-one"></p>
+        </article>
+        <article class="clue-card">
+          <p class="clue-label">Clue 2</p>
+          <p class="clue-text" id="clue-two"></p>
+        </article>
+      </div>
+
+      <form id="guess-form" class="guess-form" autocomplete="off">
+        <label for="guess-input">Your mash word</label>
+        <div class="input-wrap">
+          <input id="guess-input" name="guess" type="text" maxlength="24" placeholder="e.g. dog + gown → dogown"
+            required />
+          <button type="submit" id="submit-btn">Check</button>
+        </div>
+      </form>
+
+      <div class="feedback" id="feedback">You get 6 guesses per day. Good luck!</div>
+
+      <section>
+        <h2>Attempts</h2>
+        <ol id="attempts" class="attempts"></ol>
+      </section>
+
+      <section class="result" id="result" hidden>
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+        <div class="result-actions">
+          <button id="share-btn" type="button">Copy result</button>
+          <button id="next-day-btn" type="button" disabled>Next puzzle tomorrow</button>
+        </div>
+      </section>
+    </section>
+
+    <aside class="ad-slot top-ad" aria-label="Advertisement placeholder">
+      <p>Ad placement area</p>
+      <small>Reserved for Google Ads top banner (responsive)</small>
+    </aside>
+
+    <section class="rules">
+      <h2>How to play</h2>
+      <ul>
+        <li>Solve both clues.</li>
+        <li>Merge the answers into one word where they overlap.</li>
+        <li>Example: <strong>star</strong> + <strong>artist</strong> = <strong>startist</strong>.</li>
+        <li>One puzzle per day. Your progress is saved in your browser.</li>
+      </ul>
+    </section>
+
+    <aside class="ad-slot bottom-ad" aria-label="Advertisement placeholder">
+      <p>Ad placement area</p>
+      <small>Reserved for Google Ads in-content rectangle</small>
+    </aside>
+  </main>
+</body>
+
+</html>
