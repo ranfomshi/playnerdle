@@ -22,6 +22,7 @@ Bludle is a free browser-based collection of daily and unlimited puzzle games, e
 - https://www.bludle.com/connex/
 - https://www.bludle.com/hunt/
 - https://www.bludle.com/seequence/
+- https://www.bludle.com/wordmash/
 
 ## Site index of notable games
 - https://www.bludle.com/alternate/
