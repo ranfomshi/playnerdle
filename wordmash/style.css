@@ -5,10 +5,7 @@
   --border: rgba(174, 198, 255, 0.28);
   --text: #eff3ff;
   --muted: #b9c3e5;
-  --accent: #7c8dff;
   --accent-2: #42e7f5;
-  --success: #40d39a;
-  --danger: #ff7684;
   --shadow: 0 24px 44px rgba(0, 0, 0, 0.35);
 }
 
@@ -36,8 +33,7 @@ body {
 
 .hero,
 .game-shell,
-.rules,
-.ad-slot {
+.modal {
   border: 1px solid var(--border);
   background: var(--card);
   border-radius: 18px;
@@ -46,8 +42,8 @@ body {
 }
 
 .hero,
-.rules,
-.ad-slot {
+.game-shell,
+.modal {
   padding: clamp(16px, 2.5vw, 24px);
 }
 
@@ -85,6 +81,10 @@ body {
   font-size: 0.85rem;
   color: #dbe5ff;
   background: rgba(124, 141, 255, 0.16);
+}
+
+.button-badge {
+  cursor: pointer;
 }
 
 .game-shell {
@@ -202,34 +202,28 @@ h2 {
   padding-top: 12px;
 }
 
-.result-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.72);
+  display: grid;
+  place-items: center;
+  z-index: 90;
+  padding: 16px;
 }
 
-.result-actions button[disabled] {
-  opacity: 0.45;
-  cursor: not-allowed;
+.modal {
+  width: min(560px, 96vw);
 }
 
-.rules ul {
-  margin: 10px 0 0;
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal ul {
+  margin: 0 0 16px;
   padding-left: 20px;
   color: var(--muted);
-}
-
-.ad-slot {
-  text-align: center;
-  min-height: 102px;
-  display: grid;
-  place-content: center;
-  color: var(--muted);
-  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, rgba(255, 255, 255, 0.02) 12px, rgba(255, 255, 255, 0.02) 24px);
-}
-
-.ad-slot p {
-  margin: 0;
 }
 
 @media (max-width: 720px) {

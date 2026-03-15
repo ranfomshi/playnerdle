@@ -19,6 +19,19 @@
 <body>
   <div id="navbar-container"></div>
 
+  <div id="howto-overlay" class="modal-overlay" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="howto-title">
+      <h2 id="howto-title">How to play Word Mash</h2>
+      <ul>
+        <li>You get <strong>2 clues</strong> and up to <strong>6 guesses</strong>.</li>
+        <li>Work out both answers, then combine them into one word with overlap.</li>
+        <li>Example: <strong>star</strong> + <strong>artist</strong> = <strong>startist</strong>.</li>
+        <li>There is one puzzle per day and progress is saved in your browser.</li>
+      </ul>
+      <button type="button" id="dismiss-howto">Got it</button>
+    </section>
+  </div>
+
   <main class="page">
     <section class="hero">
       <p class="eyebrow">New Daily Game</p>
@@ -28,6 +41,7 @@
       <div class="badge-row">
         <span class="badge" id="puzzle-date">Daily puzzle</span>
         <span class="badge" id="streak-badge">Streak: 0</span>
+        <button class="badge button-badge" id="open-howto" type="button">How to play</button>
       </div>
     </section>
 
@@ -63,31 +77,10 @@
         <h2 id="result-title"></h2>
         <p id="result-message"></p>
         <div class="result-actions">
-          <button id="share-btn" type="button">Copy result</button>
-          <button id="next-day-btn" type="button" disabled>Next puzzle tomorrow</button>
+          <button id="share-btn" type="button">Share result</button>
         </div>
       </section>
     </section>
-
-    <aside class="ad-slot top-ad" aria-label="Advertisement placeholder">
-      <p>Ad placement area</p>
-      <small>Reserved for Google Ads top banner (responsive)</small>
-    </aside>
-
-    <section class="rules">
-      <h2>How to play</h2>
-      <ul>
-        <li>Solve both clues.</li>
-        <li>Merge the answers into one word where they overlap.</li>
-        <li>Example: <strong>star</strong> + <strong>artist</strong> = <strong>startist</strong>.</li>
-        <li>One puzzle per day. Your progress is saved in your browser.</li>
-      </ul>
-    </section>
-
-    <aside class="ad-slot bottom-ad" aria-label="Advertisement placeholder">
-      <p>Ad placement area</p>
-      <small>Reserved for Google Ads in-content rectangle</small>
-    </aside>
   </main>
 </body>
 

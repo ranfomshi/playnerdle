@@ -1,6 +1,7 @@
 const MAX_ATTEMPTS = 6;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const EPOCH_UTC = Date.UTC(2024, 0, 1);
+const HOWTO_DISMISSED_KEY = "wordmash-howto-dismissed";
 
 const PUZZLES = [
   {
@@ -147,14 +148,41 @@ function updateStreak(dayKey, solved) {
 function createShareText(dayKey, attempts, solved) {
   const rows = attempts.map(attempt => (attempt.correct ? "🟩" : "⬜")).join("");
   const score = solved ? attempts.length : "X";
-  return `Word Mash ${dayKey} ${score}/${MAX_ATTEMPTS}\n${rows}\nhttps://www.bludle.com/wordmash/`;
+  return `Word Mash ${dayKey} ${score}/${MAX_ATTEMPTS}\n${rows}\nNo spoilers. Can you beat me?\nhttps://www.bludle.com/wordmash/`;
+}
+
+function initialiseHowToModal() {
+  const overlay = document.getElementById("howto-overlay");
+  const dismissBtn = document.getElementById("dismiss-howto");
+  const openBtn = document.getElementById("open-howto");
+
+  const openModal = () => {
+    overlay.hidden = false;
+  };
+
+  const closeModal = () => {
+    overlay.hidden = true;
+    localStorage.setItem(HOWTO_DISMISSED_KEY, "true");
+  };
+
+  if (localStorage.getItem(HOWTO_DISMISSED_KEY) !== "true") {
+    openModal();
+  }
+
+  dismissBtn.addEventListener("click", closeModal);
+  openBtn.addEventListener("click", openModal);
+
+  overlay.addEventListener("click", event => {
+    if (event.target === overlay) {
+      closeModal();
+    }
+  });
 }
 
 function initialise() {
   const dayKey = todayUtcKey();
   const puzzle = PUZZLES[puzzleIndexForToday()];
   const expected = mashWord(puzzle.answer1, puzzle.answer2);
-
   const state = loadState(dayKey);
 
   const clueOne = document.getElementById("clue-one");
@@ -198,12 +226,12 @@ function initialise() {
       const streak = updateStreak(dayKey, true);
       streakBadge.textContent = `Streak: ${streak}`;
       resultTitle.textContent = "You nailed it!";
-      resultMessage.textContent = `Today's mash was ${expected.toUpperCase()} (${puzzle.answer1.toUpperCase()} + ${puzzle.answer2.toUpperCase()}).`;
+      resultMessage.textContent = "Nice work. Share your result without spoilers and challenge a friend.";
       feedback.textContent = "Great solve. Come back tomorrow for a fresh mash.";
     } else {
       streakBadge.textContent = `Streak: ${getStreak()}`;
       resultTitle.textContent = "Out of guesses";
-      resultMessage.textContent = `Today's mash was ${expected.toUpperCase()} (${puzzle.answer1.toUpperCase()} + ${puzzle.answer2.toUpperCase()}).`;
+      resultMessage.textContent = "No worries. Share your run and challenge a friend to beat it.";
       feedback.textContent = "Good attempt. A new puzzle unlocks tomorrow.";
     }
   }
@@ -256,16 +284,27 @@ function initialise() {
 
   shareBtn.addEventListener("click", async () => {
     const text = createShareText(dayKey, state.attempts, state.solved);
+
     try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Word Mash",
+          text
+        });
+        feedback.textContent = "Shared successfully.";
+        return;
+      }
+
       await navigator.clipboard.writeText(text);
-      feedback.textContent = "Result copied to clipboard.";
+      feedback.textContent = "Share text copied to clipboard.";
     } catch {
-      feedback.textContent = "Could not copy automatically. Share this manually:";
+      feedback.textContent = "Could not auto-share. Copy this result manually:";
       prompt("Copy your result", text);
     }
   });
 
   submitBtn.disabled = state.solved || state.attempts.length >= MAX_ATTEMPTS;
+  initialiseHowToModal();
 }
 
 window.addEventListener("DOMContentLoaded", initialise);
