@@ -33,6 +33,10 @@ body {
 
 .hero,
 .game-shell,
+
+.modal-overlay[hidden] {
+  display: none !important;
+}
 .modal {
   border: 1px solid var(--border);
   background: var(--card);
@@ -43,6 +47,10 @@ body {
 
 .hero,
 .game-shell,
+
+.modal-overlay[hidden] {
+  display: none !important;
+}
 .modal {
   padding: clamp(16px, 2.5vw, 24px);
 }
@@ -212,6 +220,10 @@ h2 {
   padding: 16px;
 }
 
+
+.modal-overlay[hidden] {
+  display: none !important;
+}
 .modal {
   width: min(560px, 96vw);
 }
