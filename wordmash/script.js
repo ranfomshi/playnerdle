@@ -157,11 +157,13 @@ function initialiseHowToModal() {
   const openBtn = document.getElementById("open-howto");
 
   const openModal = () => {
-    overlay.hidden = false;
+    overlay.classList.add("is-open");
+    overlay.setAttribute("aria-hidden", "false");
   };
 
   const closeModal = () => {
-    overlay.hidden = true;
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
     localStorage.setItem(HOWTO_DISMISSED_KEY, "true");
   };
 
