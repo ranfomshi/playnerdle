@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1408" height="768" viewBox="0 0 1408 768" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1408" y2="768" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#222831"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(704 384) rotate(90) scale(300)">
+      <stop stop-color="#A78BFA" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="0" y="0" width="1408" height="768" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+  <rect width="1408" height="768" fill="url(#bg)"/>
+  <g opacity="0.35" filter="url(#blur)">
+    <circle cx="130" cy="140" r="3" fill="#9CA3AF"/>
+    <circle cx="280" cy="520" r="2" fill="#94A3B8"/>
+    <circle cx="1240" cy="180" r="2.5" fill="#93C5FD"/>
+    <circle cx="1160" cy="620" r="3" fill="#A78BFA"/>
+    <circle cx="980" cy="90" r="2" fill="#BFDBFE"/>
+    <circle cx="430" cy="90" r="2" fill="#A5B4FC"/>
+  </g>
+  <ellipse cx="704" cy="384" rx="250" ry="200" fill="url(#glow)"/>
+  <circle cx="578" cy="384" r="155" fill="#3B95CF"/>
+  <rect x="687" y="229" width="304" height="310" rx="12" fill="#E13C53"/>
+  <path d="M704 256C744 291 759 336 759 384C759 432 744 477 704 512C664 477 649 432 649 384C649 336 664 291 704 256Z" fill="#7A5ADB"/>
+  <g opacity="0.8">
+    <circle cx="704" cy="256" r="8" fill="#A78BFA"/>
+    <circle cx="704" cy="512" r="8" fill="#A78BFA"/>
+  </g>
+  <g>
+    <rect x="744" y="205" width="26" height="26" transform="rotate(22 744 205)" fill="#EF4444"/>
+    <rect x="770" y="555" width="28" height="28" transform="rotate(-6 770 555)" fill="#F43F5E"/>
+    <rect x="661" y="208" width="12" height="12" transform="rotate(-10 661 208)" fill="#38BDF8"/>
+    <rect x="626" y="552" width="14" height="14" transform="rotate(20 626 552)" fill="#38BDF8"/>
+    <circle cx="628" cy="170" r="10" fill="#3B95CF"/>
+    <circle cx="654" cy="532" r="10" fill="#3B95CF"/>
+    <path d="M787 255L800 269L775 273L787 255Z" fill="#F43F5E"/>
+    <path d="M675 205L691 229L663 224L675 205Z" fill="#38BDF8"/>
+  </g>
+</svg>
