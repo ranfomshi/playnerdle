@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Mash | Daily Overlap Word Puzzle</title>
+  <meta name="description"
+    content="Play Word Mash: solve two clues and combine both answers into one overlap mash word. A fresh daily puzzle with streak tracking and share results." />
+  <meta name="keywords"
+    content="word mash, daily word game, overlap word puzzle, word blend game, wordle alternative, bludle" />
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script type="text/javascript" src="/mixpanel.js"></script>
+  <script src="./puzzles.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <div id="howto-overlay" class="modal-overlay" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="howto-title">
+      <h2 id="howto-title">How to play Word Mash</h2>
+      <ul>
+        <li>You get <strong>2 clues</strong> and up to <strong>6 guesses</strong>.</li>
+        <li>Work out both answers, then combine them into one word with overlap.</li>
+        <li>Example: <strong>star</strong> + <strong>artist</strong> = <strong>startist</strong>.</li>
+        <li>There is one puzzle per day and progress is saved in your browser.</li>
+      </ul>
+      <button type="button" id="dismiss-howto">Got it</button>
+    </section>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">New Daily Game</p>
+      <h1>Word Mash</h1>
+      <p class="subtitle">Answer two clues. Then mash the words together so the end of answer one overlaps with the
+        start of answer two.</p>
+      <div class="badge-row">
+        <span class="badge" id="puzzle-date">Daily puzzle</span>
+        <span class="badge" id="streak-badge">Streak: 0</span>
+        <button class="badge button-badge" id="open-howto" type="button">How to play</button>
+      </div>
+    </section>
+
+    <section class="game-shell" aria-live="polite">
+      <div class="clues">
+        <article class="clue-card">
+          <p class="clue-label">Clue 1</p>
+          <p class="clue-text" id="clue-one"></p>
+        </article>
+        <article class="clue-card">
+          <p class="clue-label">Clue 2</p>
+          <p class="clue-text" id="clue-two"></p>
+        </article>
+      </div>
+
+      <form id="guess-form" class="guess-form" autocomplete="off">
+        <label for="guess-input">Your mash word</label>
+        <div class="input-wrap">
+          <input id="guess-input" name="guess" type="text" maxlength="24" placeholder="e.g. dog + gown → dogown"
+            required />
+          <button type="submit" id="submit-btn">Check</button>
+        </div>
+      </form>
+
+      <div class="feedback" id="feedback">You get 6 guesses per day. Good luck!</div>
+
+      <section>
+        <h2>Attempts</h2>
+        <ol id="attempts" class="attempts"></ol>
+      </section>
+
+      <section class="result" id="result" hidden>
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+        <div class="result-actions">
+          <button id="share-btn" type="button">Share result</button>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+
+</html>

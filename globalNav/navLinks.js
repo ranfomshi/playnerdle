@@ -13,5 +13,6 @@ export const navLinks = [
     { name: "trak", href: "/trak" },
     { name: "tintuition", href: "/tintuition" },
     { name: "connex", href: "/connex" },
-    { name: "seequence", href: "/seequence" }
+    { name: "seequence", href: "/seequence" },
+    { name: "word mash", href: "/wordmash" }
 ];
