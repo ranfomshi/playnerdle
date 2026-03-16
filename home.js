@@ -22,6 +22,7 @@ const tileHandlers = {
     alternate: () => trackClick('alternate'),
     connex: () => trackClick('connex'),
     heardle: () => trackClick('heardle'),
+    wordmash: () => trackClick('wordmash'),
 };
 
 window.addEventListener("DOMContentLoaded", () => {
