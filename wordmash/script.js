@@ -49,8 +49,110 @@ const PUZZLES = [
   {
     clue1: "Loud sound during a storm",
     answer1: "thunder",
-    clue2: "A plant used in cooking or medicine",
-    answer2: "herb"
+    clue2: "Skin layer beneath the epidermis",
+    answer2: "dermis"
+  },
+  {
+    clue1: "A body of land surrounded by water",
+    answer1: "island",
+    clue2: "The area where an event takes place",
+    answer2: "landscape"
+  },
+  {
+    clue1: "Frozen water",
+    answer1: "ice",
+    clue2: "A cool room used for storage",
+    answer2: "cellar"
+  },
+  {
+    clue1: "A strong, tall tree",
+    answer1: "oaken",
+    clue2: "A person who designs and builds systems",
+    answer2: "engineer"
+  },
+  {
+    clue1: "A high card in many games",
+    answer1: "ace",
+    clue2: "An object with many faces",
+    answer2: "ceramic"
+  },
+  {
+    clue1: "A hand-held source of light",
+    answer1: "torch",
+    clue2: "Used to hold things together",
+    answer2: "chain"
+  },
+  {
+    clue1: "A huge ocean wave",
+    answer1: "tsunami",
+    clue2: "Imitating or copying someone",
+    answer2: "mimic"
+  },
+  {
+    clue1: "A place to watch films",
+    answer1: "cinema",
+    clue2: "An old-fashioned machine for writing",
+    answer2: "machine"
+  },
+  {
+    clue1: "A stage performance with songs",
+    answer1: "musical",
+    clue2: "A tool to do math",
+    answer2: "calculator"
+  },
+  {
+    clue1: "A 90s indie band",
+    answer1: "oasis",
+    clue2: "A female sibling",
+    answer2: "sister"
+  },
+  {
+    clue1: "A single lower limb",
+    answer1: "leg",
+    clue2: "A brunch dish made with poached eggs and hollandaise sauce",
+    answer2: "eggsbenedict"
+  },
+  {
+    clue1: "The hunchback of Notre Dame",
+    answer1: "quasimodo",
+    clue2: "A rounded roof structure often found on large buildings",
+    answer2: "dome"
+  },
+  {
+    clue1: "A synonym of precise",
+    answer1: "exact",
+    clue2: "A word meaning to start or trigger something",
+    answer2: "activate"
+  },
+  {
+    clue1: "A type of fruit",
+    answer1: "plum",
+    clue2: "A device used to protect from rain",
+    answer2: "umbrella"
+  },
+  {
+    clue1: "The process of joining metal",
+    answer1: "weld",
+    clue2: "An older or respected person",
+    answer2: "elder"
+  },
+  {
+    clue1: "A brand of instant mashed potato",
+    answer1: "smash",
+    clue2: "A dish used for cigarette ash",
+    answer2: "ashtray"
+  },
+  {
+    clue1: "A tool or action meaning to swing wildly",
+    answer1: "flail",
+    clue2: "A minor illness",
+    answer2: "ailment"
+  },
+  {
+    clue1: "A Spanish-speaking country in North America",
+    answer1: "mexico",
+    clue2: "A chocolate-flavoured breakfast cereal",
+    answer2: "cocoapops"
   }
 ];
 
