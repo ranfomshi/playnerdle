@@ -49,8 +49,56 @@ const PUZZLES = [
   {
     clue1: "Loud sound during a storm",
     answer1: "thunder",
-    clue2: "A plant used in cooking or medicine",
-    answer2: "herb"
+    clue2: "Skin layer beneath the epidermis",
+    answer2: "dermis"
+  },
+  {
+    clue1: "A body of land surrounded by water",
+    answer1: "island",
+    clue2: "The area where an event takes place",
+    answer2: "landscape"
+  },
+  {
+    clue1: "Frozen water",
+    answer1: "ice",
+    clue2: "A cool room used for storage",
+    answer2: "cellar"
+  },
+  {
+    clue1: "A strong, tall tree",
+    answer1: "oaken",
+    clue2: "A person who designs and builds systems",
+    answer2: "engineer"
+  },
+  {
+    clue1: "A high card in many games",
+    answer1: "ace",
+    clue2: "An object with many faces",
+    answer2: "ceramic"
+  },
+  {
+    clue1: "A hand-held source of light",
+    answer1: "torch",
+    clue2: "Used to hold things together",
+    answer2: "chain"
+  },
+  {
+    clue1: "A huge ocean wave",
+    answer1: "tsunami",
+    clue2: "Imitating or copying someone",
+    answer2: "mimic"
+  },
+  {
+    clue1: "A place to watch films",
+    answer1: "cinema",
+    clue2: "An old-fashioned machine for writing",
+    answer2: "machine"
+  },
+  {
+    clue1: "A stage performance with songs",
+    answer1: "musical",
+    clue2: "A tool to do math",
+    answer2: "calculator"
   }
 ];
 
