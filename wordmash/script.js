@@ -121,6 +121,16 @@ function mashWord(first, second) {
   return first + second.slice(overlap);
 }
 
+function scoreAnswerParts(guess, first, second) {
+  const overlap = overlapLength(first, second);
+  const secondSuffix = second.slice(overlap);
+
+  return {
+    firstCorrect: guess.startsWith(first),
+    secondCorrect: guess.endsWith(secondSuffix)
+  };
+}
+
 function todayUtcKey() {
   const now = new Date();
   const yyyy = now.getUTCFullYear();
@@ -305,6 +315,7 @@ function initialise() {
     }
 
     const correct = value === expected;
+    const partScore = scoreAnswerParts(value, puzzle.answer1, puzzle.answer2);
     state.attempts.push({ value, correct });
     if (correct) {
       state.solved = true;
@@ -320,9 +331,17 @@ function initialise() {
     }
 
     const remaining = MAX_ATTEMPTS - state.attempts.length;
-    feedback.textContent = remaining > 0
-      ? `Not quite. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`
-      : "No guesses left.";
+    if (remaining > 0) {
+      if (partScore.firstCorrect && partScore.secondCorrect) {
+        feedback.textContent = `So close — both clue answers are there. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`;
+      } else if (partScore.firstCorrect || partScore.secondCorrect) {
+        feedback.textContent = `Nice — you've got one clue answer right. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`;
+      } else {
+        feedback.textContent = `Not quite. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`;
+      }
+    } else {
+      feedback.textContent = "No guesses left.";
+    }
 
     if (state.attempts.length >= MAX_ATTEMPTS) {
       setLockedResult();
