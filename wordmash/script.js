@@ -121,6 +121,28 @@ function mashWord(first, second) {
   return first + second.slice(overlap);
 }
 
+function scoreAnswerParts(guess, first, second) {
+  const overlap = overlapLength(first, second);
+  const secondSuffix = second.slice(overlap);
+
+  return {
+    firstCorrect: guess.startsWith(first),
+    secondCorrect: guess.endsWith(secondSuffix)
+  };
+}
+
+function attemptFeedbackText(partScore) {
+  if (partScore.firstCorrect && partScore.secondCorrect) {
+    return "Both clue answers are there";
+  }
+
+  if (partScore.firstCorrect || partScore.secondCorrect) {
+    return "One clue answer right";
+  }
+
+  return "Try again";
+}
+
 function todayUtcKey() {
   const now = new Date();
   const yyyy = now.getUTCFullYear();
@@ -258,7 +280,7 @@ function initialise() {
     state.attempts.forEach((attempt, index) => {
       const li = document.createElement("li");
       li.className = attempt.correct ? "good" : "bad";
-      li.innerHTML = `<span>${index + 1}. ${attempt.value}</span><span>${attempt.correct ? "Correct" : "Try again"}</span>`;
+      li.innerHTML = `<span>${index + 1}. ${attempt.value}</span><span>${attempt.correct ? "Correct" : (attempt.feedback || "Try again")}</span>`;
       attemptsEl.appendChild(li);
     });
   }
@@ -305,7 +327,9 @@ function initialise() {
     }
 
     const correct = value === expected;
-    state.attempts.push({ value, correct });
+    const partScore = scoreAnswerParts(value, puzzle.answer1, puzzle.answer2);
+    const attemptFeedback = attemptFeedbackText(partScore);
+    state.attempts.push({ value, correct, feedback: correct ? "Correct" : attemptFeedback });
     if (correct) {
       state.solved = true;
     }
@@ -320,9 +344,17 @@ function initialise() {
     }
 
     const remaining = MAX_ATTEMPTS - state.attempts.length;
-    feedback.textContent = remaining > 0
-      ? `Not quite. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`
-      : "No guesses left.";
+    if (remaining > 0) {
+      if (partScore.firstCorrect && partScore.secondCorrect) {
+        feedback.textContent = `So close — ${attemptFeedback.toLowerCase()}. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`;
+      } else if (partScore.firstCorrect || partScore.secondCorrect) {
+        feedback.textContent = `Nice — you've got ${attemptFeedback.toLowerCase()}. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`;
+      } else {
+        feedback.textContent = `Not quite. ${remaining} ${remaining === 1 ? "guess" : "guesses"} left.`;
+      }
+    } else {
+      feedback.textContent = "No guesses left.";
+    }
 
     if (state.attempts.length >= MAX_ATTEMPTS) {
       setLockedResult();
