@@ -65,21 +65,15 @@ const PUZZLES = [
     answer2: "cellar"
   },
   {
-    clue1: "A strong, tall tree",
-    answer1: "oaken",
-    clue2: "A person who designs and builds systems",
-    answer2: "engineer"
-  },
-  {
     clue1: "A high card in many games",
     answer1: "ace",
-    clue2: "An object with many faces",
+    clue2: "Pottery",
     answer2: "ceramic"
   },
   {
     clue1: "A hand-held source of light",
     answer1: "torch",
-    clue2: "Used to hold things together",
+    clue2: "Length of connected links",
     answer2: "chain"
   },
   {
@@ -91,15 +85,95 @@ const PUZZLES = [
   {
     clue1: "A place to watch films",
     answer1: "cinema",
-    clue2: "An old-fashioned machine for writing",
+    clue2: "A mechacanical device",
     answer2: "machine"
   },
   {
     clue1: "A stage performance with songs",
     answer1: "musical",
-    clue2: "A tool to do math",
+    clue2: "A tool to do math/s",
     answer2: "calculator"
-  }
+  },
+  {
+    clue1: "Chinese grain dish",
+    answer1: "egg fried rice",
+    clue2: "a frozen treat on a stick",
+    answer2: "ice lolly"
+  },
+  {
+    clue1: "A panda's snack",
+    answer1: "bamboo",
+    clue2: "Aussie throwing returning stick",
+    answer2: "boomerang"
+  },
+  {
+    clue1: "Traditional Australian Instrument",
+    answer1: "didgeridoo",
+    clue2: "Prphesised end of the world",
+    answer2: "doomsday"
+  },
+  {
+    clue1: "poultry",
+    answer1: "chicken",
+    clue2: "state of USA",
+    answer2: "Kentucky"
+  },
+  {
+    clue1: "demon from the Queen song",
+    answer1: "beelzebub",
+    clue2: "frothy relaxing soak",
+    answer2: "bubble bath",
+  },
+  {
+    clue1: "jumping marsupial",
+    answer1: "kangaroo",
+    clue2: "autonomous vacuum cleaner",
+    answer2: "roomba",
+  },
+  {
+    clue1: "1000 years",
+    answer1: "millennium",
+    clue2: "keeps Rhianna dry",
+    answer2: "umbrella",
+  },
+  {
+    clue1: "animated sitcom starring Peter Griffin",
+    answer1: "family guy",
+    clue2: "Madonna's film director ex-partner",
+    answer2: "guy richie",
+  }, {
+    clue1: "a great ape",
+    answer1: "gorilla",
+    clue2: "milky coffee",
+    answer2: "latte",
+  }, {
+    clue1: "windy reptile",
+    answer1: "snake",
+    clue2: "used for electronic typing",
+    answer2: "keyboard",
+  }, {
+    clue1: "make believe",
+    answer1: "pretend",
+    clue2: "camera down the throat",
+    answer2: "endoscopy",
+  }, {
+    clue1: "japanese card game",
+    answer1: "pokemon",
+    clue2: "family board game",
+    answer2: "monopoly",
+  },
+  {
+    clue1: "arctic bird",
+    answer1: "puffin",
+    clue2: "builds igloos",
+    answer2: "inuit",
+  }, {
+    clue1: "make believe",
+    answer1: "pretend",
+    clue2: "camera down the throat",
+    answer2: "endoscopy",
+  },
+
 ];
 
 function sanitize(input) {
