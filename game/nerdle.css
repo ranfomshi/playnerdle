@@ -30,6 +30,20 @@ html {
     white-space: normal;
 }
 
+.statusAlert {
+    min-height: 20px;
+    margin: 6px auto 0;
+    color: #ffd7d7;
+    font-size: 0.9rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.statusAlert.visible {
+    opacity: 1;
+}
+
 .letter {
     border-radius: 2px;
     margin-right: 2px;
