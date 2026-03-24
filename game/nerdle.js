@@ -13,6 +13,15 @@ secret = (wordlist[Math.floor(Math.random() * wordlist.length)].toLowerCase());
 guess = "";
 guessNumber = 0;
 var def;
+var alertTimeout;
+
+function showStatusAlert(message) {
+    clearTimeout(alertTimeout);
+    $('#statusAlert').text(message).addClass('visible');
+    alertTimeout = setTimeout(function () {
+        $('#statusAlert').removeClass('visible').text('');
+    }, 1800);
+}
 
 function reset() {
     secret = (wordlist[Math.floor(Math.random() * wordlist.length)].toLowerCase())
@@ -124,7 +133,7 @@ function gameAttempt() {
             })
 
         } else {
-            alert("Invalid guess length. Try again.")
+            showStatusAlert("Invalid guess length. Try again.")
         }
         $('#gameText').append('</br>')
         $('#gameText').append('</div>')
@@ -154,7 +163,7 @@ function addKey(e) {
         $('#gameText').innerHTML = ""
     }
     if ($('#userInput').val().length == 5) {
-        alert("max length reached - 5 letter words only")
+        showStatusAlert("Max length reached — 5-letter words only.")
     }
     else {
         current = $('#userInput').val()
