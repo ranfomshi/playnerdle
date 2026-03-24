@@ -10,12 +10,7 @@ const PUZZLES = [
     clue2: "Someone who creates paintings or music",
     answer2: "artist"
   },
-  {
-    clue1: "Earth's natural satellite",
-    answer1: "moon",
-    clue2: "The beginning of something",
-    answer2: "onset"
-  },
+
   {
     clue1: "Material used to write on",
     answer1: "paper",
