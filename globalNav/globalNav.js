@@ -47,16 +47,31 @@ function createNavbarHTML() {
   return nav;
 }
 
+function syncNavMetrics(nav) {
+  if (!nav) {
+    return;
+  }
+
+  const root = document.documentElement;
+  const navHeight = Math.ceil(nav.getBoundingClientRect().height);
+  root.style.setProperty("--global-nav-height", `${navHeight}px`);
+  root.style.setProperty("--global-toast-top", `calc(${navHeight}px + var(--global-ui-gap))`);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("navbar-container");
   if (container) {
-    container.appendChild(createNavbarHTML());
+    const nav = createNavbarHTML();
+    container.appendChild(nav);
 
     const toggle = document.getElementById("dropdown-toggle");
     const dropdown = document.querySelector(".dropdown-menu");
 
+    syncNavMetrics(nav);
+
     toggle.addEventListener("click", () => {
       dropdown.classList.toggle("active");
+      syncNavMetrics(nav);
     });
 
     // Optional: close dropdown when clicking outside
@@ -65,5 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dropdown.classList.remove("active");
       }
     });
+
+    window.addEventListener("resize", () => syncNavMetrics(nav));
   }
 });
