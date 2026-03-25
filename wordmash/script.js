@@ -168,6 +168,18 @@ const PUZZLES = [
     clue2: "camera down the throat",
     answer2: "endoscopy",
   },
+  {
+    clue1: "arachnid superhero",
+    answer1: "spiderman",
+    clue2: "aardvark",
+    answer2: "anteater",
+  },
+  {
+    clue1: "accompanies lightning",
+    answer1: "thunder",
+    clue2: "prepares burials",
+    answer2: "undertaker",
+  }
 
 ];
 
