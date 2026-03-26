@@ -260,7 +260,7 @@ const PUZZLES = [
     answer2: "away in a manger",
   },
   {
-    clue1: "Officiate a sporting event",
+    clue1: "Officiates a sporting event",
     answer1: "referee",
     clue2: "blond lawyer",
     answer2: "reece witherspoon",
