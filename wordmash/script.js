@@ -182,7 +182,7 @@ const PUZZLES = [
     answer2: "undertaker",
   },
   {
-    clue1: "Put out fires",
+    clue1: "Puts out fires",
     answer1: "extinguisher",
     clue2: "it's elementary",
     answer2: "Sherlock",
