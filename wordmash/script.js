@@ -284,11 +284,18 @@ const PUZZLES = [
     answer2: "Burt Reynolds",
   },
   {
-    clue1: "",
-    answer1: "",
-    clue2: "",
-    answer2: "",
+    clue1: "auditory creepy crawly",
+    answer1: "earwig",
+    clue2: "Saturday night",
+    answer2: "wigfield",
   },
+  {
+    clue1: "large flat fish",
+    answer1: "stingray",
+    clue2: "gangster actor",
+    answer2: "ray winston",
+  },
+
 
 ];
 
