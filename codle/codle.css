@@ -189,12 +189,9 @@ ul {
     /* Padding */
     position: fixed;
     /* Sit on top of the screen */
-    z-index: 1;
-    /* Add a z-index if needed */
+    z-index: var(--global-toast-z, 100110);
     left: 50%;
-    /* Center the snackbar */
-    top: 30px;
-    /* 30px from the bottom */
+    top: var(--global-toast-top, 30px);
     box-shadow: 0 0 10px #00000033;
 }
 
@@ -215,44 +212,44 @@ ul {
 
 @-webkit-keyframes fadein {
     from {
-        top: 0;
+        top: calc(var(--global-toast-top, 30px) - 30px);
         opacity: 0;
     }
     to {
-        top: 30px;
+        top: var(--global-toast-top, 30px);
         opacity: 1;
     }
 }
 
 @keyframes fadein {
     from {
-        top: 0;
+        top: calc(var(--global-toast-top, 30px) - 30px);
         opacity: 0;
     }
     to {
-        top: 30px;
+        top: var(--global-toast-top, 30px);
         opacity: 1;
     }
 }
 
 @-webkit-keyframes fadeout {
     from {
-        top: 30px;
+        top: var(--global-toast-top, 30px);
         opacity: 1;
     }
     to {
-        top: 0;
+        top: calc(var(--global-toast-top, 30px) - 30px);
         opacity: 0;
     }
 }
 
 @keyframes fadeout {
     from {
-        top: 30px;
+        top: var(--global-toast-top, 30px);
         opacity: 1;
     }
     to {
-        top: 0;
+        top: calc(var(--global-toast-top, 30px) - 30px);
         opacity: 0;
     }
 }

@@ -1,3 +1,13 @@
+:root {
+    --global-nav-height: 52px;
+    --global-ui-gap: 16px;
+    --global-toast-top: calc(var(--global-nav-height) + var(--global-ui-gap));
+    --global-nav-z: 1000;
+    --global-dropdown-z: 99999;
+    --global-overlay-z: 100100;
+    --global-toast-z: 100110;
+}
+
 /* Base Styles */
 .globalNav {
     display: flex;
@@ -11,7 +21,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: var(--global-nav-z);
     box-sizing: border-box;
 }
 
@@ -47,7 +57,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    z-index: 99999;
+    z-index: var(--global-dropdown-z);
 }
 
 /* Dropdown styles */
@@ -62,7 +72,7 @@
     list-style: none;
     padding: 0.5rem 0;
     min-width: 180px;
-    z-index: 99999;
+    z-index: var(--global-dropdown-z);
 }
 
 .dropdown-menu.active {

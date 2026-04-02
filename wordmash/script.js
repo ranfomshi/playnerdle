@@ -4,43 +4,43 @@ const EPOCH_UTC = Date.UTC(2024, 0, 1);
 const HOWTO_DISMISSED_KEY = "wordmash-howto-dismissed";
 
 const PUZZLES = [
-  {
-    clue1: "A glowing object in the night sky",
-    answer1: "star",
-    clue2: "Someone who creates paintings or music",
-    answer2: "artist"
-  },
+  // {
+  //   clue1: "A glowing object in the night sky",
+  //   answer1: "star",
+  //   clue2: "Someone who creates paintings or music",
+  //   answer2: "artist"
+  // },
 
-  {
-    clue1: "Material used to write on",
-    answer1: "paper",
-    clue2: "A human being",
-    answer2: "person"
-  },
-  {
-    clue1: "A mythical fire-breathing creature",
-    answer1: "dragon",
-    clue2: "Still happening",
-    answer2: "ongoing"
-  },
-  {
-    clue1: "A shiny precious metal",
-    answer1: "silver",
-    clue2: "A jury's decision",
-    answer2: "verdict"
-  },
-  {
-    clue1: "The coldest season",
-    answer1: "winter",
-    clue2: "A station where trains arrive",
-    answer2: "terminal"
-  },
-  {
-    clue1: "The blooming part of a plant",
-    answer1: "flower",
-    clue2: "Rubber used to remove pencil marks",
-    answer2: "eraser"
-  },
+  // {
+  //   clue1: "Material used to write on",
+  //   answer1: "paper",
+  //   clue2: "A human being",
+  //   answer2: "person"
+  // },
+  // {
+  //   clue1: "A mythical fire-breathing creature",
+  //   answer1: "dragon",
+  //   clue2: "Still happening",
+  //   answer2: "ongoing"
+  // },
+  // {
+  //   clue1: "A shiny precious metal",
+  //   answer1: "silver",
+  //   clue2: "A jury's decision",
+  //   answer2: "verdict"
+  // },
+  // {
+  //   clue1: "The coldest season",
+  //   answer1: "winter",
+  //   clue2: "A station where trains arrive",
+  //   answer2: "terminal"
+  // },
+  // {
+  //   clue1: "The blooming part of a plant",
+  //   answer1: "flower",
+  //   clue2: "Rubber used to remove pencil marks",
+  //   answer2: "eraser"
+  // },
   {
     clue1: "Loud sound during a storm",
     answer1: "thunder",
@@ -104,7 +104,7 @@ const PUZZLES = [
   {
     clue1: "Traditional Australian Instrument",
     answer1: "didgeridoo",
-    clue2: "Prphesised end of the world",
+    clue2: "Prophesised end of the world",
     answer2: "doomsday"
   },
   {
@@ -162,12 +162,140 @@ const PUZZLES = [
     answer1: "puffin",
     clue2: "builds igloos",
     answer2: "inuit",
-  }, {
+  },
+  {
     clue1: "make believe",
     answer1: "pretend",
     clue2: "camera down the throat",
     answer2: "endoscopy",
   },
+  {
+    clue1: "arachnid superhero",
+    answer1: "spiderman",
+    clue2: "aardvark",
+    answer2: "anteater",
+  },
+  {
+    clue1: "accompanies lightning",
+    answer1: "thunder",
+    clue2: "prepares burials",
+    answer2: "undertaker",
+  },
+  {
+    clue1: "Puts out fires",
+    answer1: "extinguisher",
+    clue2: "it's elementary",
+    answer2: "Sherlock",
+  },
+  {
+    clue1: "golden retriever",
+    answer1: "labrador",
+    clue2: "communal sleeping room",
+    answer2: "dormitory",
+  },
+  {
+    clue1: "mobile home",
+    answer1: "caravan",
+    clue2: "destroying property",
+    answer2: "vandalism",
+  },
+  {
+    clue1: "Spanish lager",
+    answer1: "san miguel",
+    clue2: "trunked animal",
+    answer2: "elephant",
+  },
+  {
+    clue1: "folable computer",
+    answer1: "laptop",
+    clue2: "game of one-upmanship",
+    answer2: "top trumps",
+  },
+  {
+    clue1: "of the cat family",
+    answer1: "feline",
+    clue2: "american dancing",
+    answer2: "line dancing",
+  },
+  {
+    clue1: "American lift",
+    answer1: "elevator",
+    clue2: "blue UK politics",
+    answer2: "tories",
+  },
+  {
+    clue1: "popular Amazon home assistant",
+    answer1: "Alexa",
+    clue2: "formal proficiency tests",
+    answer2: "exams",
+  },
+  {
+    clue1: "upholds the law",
+    answer1: "police officer",
+    clue2: "mythical greek dog",
+    answer2: "cerberus",
+  },
+  {
+    clue1: "South African prisoner",
+    answer1: "Nelson Mandela",
+    clue2: "to give further detail",
+    answer2: "elaborate",
+  },
+  {
+    clue1: "2nd on the moon",
+    answer1: "Buzz Aldrin",
+    clue2: "A film within a film",
+    answer2: "inception",
+  },
+  {
+    clue1: "South African Monster Actress",
+    answer1: "Charlize Theron",
+    clue2: "R9",
+    answer2: "Ronaldo",
+  },
+  {
+    clue1: "Shakespeare's wife",
+    answer1: "Anne Hathaway",
+    clue2: "Christmas Hymn/carol",
+    answer2: "away in a manger",
+  },
+  {
+    clue1: "Officiates a sporting event",
+    answer1: "referee",
+    clue2: "blond lawyer",
+    answer2: "reece witherspoon",
+  },
+  {
+    clue1: "Ulrika's ex",
+    answer1: "stan collymore",
+    clue2: "there or there abouts",
+    answer2: "more or less",
+  },
+  {
+    clue1: "Capital of Hungary",
+    answer1: "Budapest",
+    clue2: "destroys insects",
+    answer2: "pesticide",
+  },
+  {
+    clue1: "legendary sword",
+    answer1: "excallibur",
+    clue2: "Dolly's crush",
+    answer2: "Burt Reynolds",
+  },
+  {
+    clue1: "auditory creepy crawly",
+    answer1: "earwig",
+    clue2: "Saturday night",
+    answer2: "wigfield",
+  },
+  {
+    clue1: "large flat fish",
+    answer1: "stingray",
+    clue2: "gangster actor",
+    answer2: "ray winston",
+  },
+
 
 ];
 
