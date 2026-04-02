@@ -14,5 +14,6 @@ export const navLinks = [
     { name: "tintuition", href: "/tintuition" },
     { name: "connex", href: "/connex" },
     { name: "seequence", href: "/seequence" },
-    { name: "word mash", href: "/wordmash" }
+    { name: "word mash", href: "/wordmash" },
+    { name: "snoules", href: "/snoules" }
 ];
