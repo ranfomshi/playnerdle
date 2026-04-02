@@ -30,6 +30,32 @@ html {
     white-space: normal;
 }
 
+.statusAlert {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    z-index: 9999;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #f3a2a2;
+    background: #2f1e1e;
+    box-shadow: 0 8px 20px #0000004d;
+    color: #ffd7d7;
+    font-size: 0.9rem;
+    font-weight: bold;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.statusAlert.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 .letter {
     border-radius: 2px;
     margin-right: 2px;
