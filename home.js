@@ -23,6 +23,7 @@ const tileHandlers = {
     connex: () => trackClick('connex'),
     heardle: () => trackClick('heardle'),
     wordmash: () => trackClick('wordmash'),
+    snoules: () => trackClick('snoules'),
 };
 
 window.addEventListener("DOMContentLoaded", () => {
