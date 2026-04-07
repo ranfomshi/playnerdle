@@ -423,6 +423,49 @@
 
     initGameBoard();
   </script>
+
+<script data-explainer-injected="v1">
+(function () {
+  const storageKey = "explainerSeen_guesshue_v1";
+  const modal = document.createElement("div");
+  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
+  modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
+      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Guess Hue</h2>
+      <p style="line-height:1.45;margin:0 0 16px 0;">Tap the one square with a slightly different color. Correct picks level you up; mistakes cost lives.</p>
+      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
+    </div>`;
+
+  const helpBtn = document.createElement("button");
+  helpBtn.type = "button";
+  helpBtn.setAttribute("aria-label", "Open game explainer");
+  helpBtn.textContent = "?";
+  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
+
+  function openExplainer() {
+    modal.style.display = "flex";
+  }
+
+  function closeExplainer(markSeen) {
+    modal.style.display = "none";
+    if (markSeen) localStorage.setItem(storageKey, "true");
+  }
+
+  document.body.appendChild(helpBtn);
+  document.body.appendChild(modal);
+  helpBtn.addEventListener("click", openExplainer);
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) closeExplainer(true);
+  });
+  modal.querySelector("#explainerCloseBtn").addEventListener("click", function () {
+    closeExplainer(true);
+  });
+
+  if (localStorage.getItem(storageKey) !== "true") {
+    openExplainer();
+  }
+})();
+</script>
+
 </body>
 
 </html>
