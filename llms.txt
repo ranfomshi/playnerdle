@@ -14,9 +14,15 @@
 - Reaction (reaction-speed game): https://www.bludle.com/reaction/
 - Guess Hue (spot-the-difference colour game): https://www.bludle.com/guesshue/
 - Colour Match: https://www.bludle.com/colourmatch/
-- Tintuition: https://www.bludle.com/tintuition/
-- Seequence: https://www.bludle.com/seequence/
+- Tintuition (colour mixing challenge): https://www.bludle.com/tintuition/
+- Seequence (colour memory puzzle): https://www.bludle.com/seequence/
 - Word Mash (daily overlap blend puzzle): https://www.bludle.com/wordmash/
+- Alternate (reaction speed — click when colour changes): https://www.bludle.com/alternate/
+- Shifty Fades (colour gradient matching): https://www.bludle.com/shiftyfades/
+- Trak (track the hidden ball): https://www.bludle.com/trak/
+- XY Marks the Spot (algebraic treasure hunt logic game): https://www.bludle.com/hunt/
+- Snoules (snooker meets boules — roll to win): https://www.bludle.com/snoules/
+- Heardle (guess the song from a clip): https://www.bludle.com/heardle/
 
 ## Topic summary
 - Free word games online
