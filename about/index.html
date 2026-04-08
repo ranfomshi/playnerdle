@@ -69,10 +69,36 @@
       <p>The collection is still growing. If you have an idea for a game, I'd genuinely like to hear it.</p>
     </section>
 
-    <section>
+    <section id="contact-form">
       <h2>Get in touch</h2>
-      <p>For feedback, bug reports, or game ideas, email <a href="mailto:hello@bludle.com">hello@bludle.com</a>.</p>
-      <p>If you enjoy the games and want to support the site, you can <a href="https://www.buymeacoffee.com/stuart1510K" target="_blank" rel="noopener">buy me a coffee</a> — it genuinely helps keep things running.</p>
+      <p>For feedback, bug reports, or game ideas, use the form below. If you enjoy the games and want to support the site, you can also <a href="https://www.buymeacoffee.com/stuart1510K" target="_blank" rel="noopener">buy me a coffee</a> — it genuinely helps keep things running.</p>
+      <form name="bludle-contact" method="POST" netlify data-netlify="true" action="/about/?success=true" style="max-width:520px;margin-top:1rem;">
+        <input type="hidden" name="form-name" value="bludle-contact" />
+        <p>
+          <label for="contact-name">Name</label><br>
+          <input type="text" id="contact-name" name="name" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        </p>
+        <p>
+          <label for="contact-email">Email</label><br>
+          <input type="email" id="contact-email" name="email" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        </p>
+        <p>
+          <label for="contact-message">Message</label><br>
+          <textarea id="contact-message" name="message" rows="5" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;"></textarea>
+        </p>
+        <p>
+          <button type="submit" style="padding:10px 24px;background:#111;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:1rem;">Send message</button>
+        </p>
+      </form>
+      <div id="contact-success" style="display:none;padding:12px;background:#e6f4ea;border-radius:6px;color:#1e7e34;margin-top:8px;">
+        Thanks — message received! I'll get back to you soon.
+      </div>
+      <script>
+        if (window.location.search.includes('success=true')) {
+          document.getElementById('contact-success').style.display = 'block';
+          document.querySelector('form[name="bludle-contact"]').style.display = 'none';
+        }
+      </script>
     </section>
 
     <section>
