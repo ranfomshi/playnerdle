@@ -1,0 +1,149 @@
+/* =============================================
+   Bludle Blog — shared stylesheet
+   ============================================= */
+
+:root {
+  --blog-accent:    #4fc3f7;
+  --blog-accent-dk: #0288d1;
+  --blog-header-bg: #1f2933;
+  --blog-text:      #1a1a2e;
+  --blog-muted:     #6b7280;
+  --blog-border:    #e5e7eb;
+  --blog-surface:   #f8fafc;
+  --blog-max-width: 740px;
+}
+
+/* Reset / base */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--blog-text);
+  background: #fff;
+}
+
+/* ---- Header ---- */
+header {
+  background: var(--blog-header-bg);
+  color: #fff;
+  padding: 48px 24px 36px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 auto 12px;
+  max-width: var(--blog-max-width);
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.published-date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--blog-accent);
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.03em;
+}
+
+/* ---- Main content ---- */
+main {
+  max-width: var(--blog-max-width);
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+/* ---- Sections ---- */
+section {
+  margin-bottom: 48px;
+}
+
+section + section {
+  padding-top: 8px;
+  border-top: 1px solid var(--blog-border);
+}
+
+/* ---- Headings ---- */
+h1, h2, h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--blog-text);
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 1.35rem;
+  margin: 0 0 16px;
+  color: #111827;
+}
+
+/* ---- Body text ---- */
+p {
+  margin: 0 0 20px;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Links ---- */
+a {
+  color: var(--blog-accent-dk);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--blog-accent);
+}
+
+/* ---- CTA block ---- */
+.blog-cta {
+  margin-top: 48px;
+  padding: 24px 28px;
+  background: var(--blog-surface);
+  border: 1px solid var(--blog-border);
+  border-left: 4px solid var(--blog-accent);
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+.blog-cta p {
+  margin: 0 0 8px;
+}
+
+.blog-cta p:last-child {
+  margin: 0;
+}
+
+.blog-cta strong {
+  color: #111827;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 600px) {
+  header {
+    padding: 32px 16px 24px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  body {
+    font-size: 17px;
+  }
+
+  main {
+    padding: 28px 16px 48px;
+  }
+}
