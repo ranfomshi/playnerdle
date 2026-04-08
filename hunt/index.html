@@ -376,8 +376,11 @@
     <button id="newGameButton" onclick="newGame()">New Game</button>
     <div id="grid"></div>
     <div id="hint" style="display: none">
-      <span id="hintPart1">Your hints </span> |
-      <span id="hintPart2">will appear here</span>
+      <div style="font-size:13px;color:#666;margin-bottom:6px;font-weight:normal;">Distance to treasure:</div>
+      <span id="hintPart1">Across + Down = ?</span>
+      &nbsp;|&nbsp;
+      <span id="hintPart2">Across &minus; Down = ?</span>
+      <div id="hintExplain" style="font-size:15px;color:#555;font-weight:normal;margin-top:8px;line-height:1.5;"></div>
     </div>
     <div id="turns">
       <span id="turnsText">Turns left: 3</span><span id="wrongTurn" class="wrong-turn"></span>
@@ -391,43 +394,34 @@
   <div id="rulesModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">&times;</span>
-      <h2 style="text-align: center">Game Rules</h2>
-      <p>
-        Welcome to <strong>XY Marks the Spot</strong>, a treasure hunt game
-        with a twist!
-      </p>
+      <h2 style="text-align: center">How to Play</h2>
+      <p>Find the hidden treasure on the grid before you run out of turns.</p>
+      <ul>
+        <li><strong>Click any cell</strong> to move your player (blue square) there.</li>
+        <li>You have <strong>3 turns</strong> — choose your moves carefully!</li>
+        <li>After each move you get two distance hints. Use them together to work out exactly where the treasure is.</li>
+      </ul>
+
+      <p style="margin-top:16px;"><strong>Understanding the hints:</strong></p>
       <ul>
         <li>
-          <strong>Objective:</strong> Your goal is to find the hidden treasure
-          on the grid.
+          <strong>Across + Down</strong> — the total number of columns and rows between you and the treasure added together.
         </li>
         <li>
-          <strong>Starting a Game:</strong> Choose a difficulty level to
-          start. The grid size will change based on the difficulty.
+          <strong>Across &minus; Down</strong> — the difference between those two distances (always positive).
         </li>
-        <li>
-          <strong>Moving:</strong> Click on a cell in the grid to move your
-          player to that location.
-        </li>
-        <li>
-          <strong>Turns:</strong> You have a limited number of turns to find
-          the treasure. Use them wisely!
-        </li>
-        <li>
-          <strong>Hints:</strong> Before each move, you'll receive a
-          mathematical hint to help you deduce the treasure's location.
-
-        <li><Strong>X+Y</Strong> Tells you the total number of squares you need to travel. </li>
-
-        <li><Strong>|X - Y|</Strong> Tells you the difference between the Y axis distance and the X axis distance to the
-          treasure.</li>
-        </li>
-        <li>
-          <strong>Game Over:</strong> The game is over when you run out of
-          turns or find the treasure.
-        </li>
-        <li style="text-align: center">Good luck and happy hunting!</li>
       </ul>
+
+      <p style="margin-top:16px;"><strong>Worked example:</strong></p>
+      <p style="background:#f0f4f8;padding:12px;border-radius:8px;font-size:16px;line-height:1.7;">
+        You are at column&nbsp;2, row&nbsp;2. The hint shows:<br>
+        <strong>Across + Down = 7</strong> &nbsp;&nbsp; <strong>Across &minus; Down = 3</strong><br><br>
+        Add them: 7&nbsp;+&nbsp;3&nbsp;=&nbsp;10, divide by 2 &rarr; <strong>5 columns across</strong><br>
+        Subtract them: 7&nbsp;&minus;&nbsp;3&nbsp;=&nbsp;4, divide by 2 &rarr; <strong>2 rows down</strong><br><br>
+        So the treasure is 5 columns and 2 rows from you &mdash; or 2 columns and 5 rows.<br>
+        Try both spots. One will be the treasure!
+      </p>
+      <p style="text-align:center;margin-top:16px;">Good luck and happy hunting! 🗺️</p>
 
     </div>
   </div>
@@ -632,13 +626,27 @@
 
 
     function generateHint() {
-      const xDistance = Math.abs(playerPos.x - treasurePos.x);
-      const yDistance = Math.abs(playerPos.y - treasurePos.y);
-      const sum = xDistance + yDistance;
-      document.getElementById("hintPart1").innerText = `x+y = ${sum}`;
-      document.getElementById("hintPart2").innerText = `|x - y| = ${Math.abs(
-        xDistance - yDistance
-      )}`;
+      const across = Math.abs(playerPos.x - treasurePos.x);
+      const down   = Math.abs(playerPos.y - treasurePos.y);
+      const sum  = across + down;
+      const diff = Math.abs(across - down);
+
+      document.getElementById("hintPart1").innerText = `Across + Down = ${sum}`;
+      document.getElementById("hintPart2").innerText = `Across \u2212 Down = ${diff}`;
+
+      // Derive the two distances: a = (sum+diff)/2, b = (sum-diff)/2
+      const a = (sum + diff) / 2;
+      const b = (sum - diff) / 2;
+
+      let explain = "";
+      if (sum === 0) {
+        explain = "You\u2019re standing on the treasure \u2014 click this cell!";
+      } else if (a === b) {
+        explain = `The treasure is exactly ${a} column${a!==1?"s":""} across AND ${b} row${b!==1?"s":""} down from you.`;
+      } else {
+        explain = `The treasure is either&nbsp; <strong>${a} across &amp; ${b} down</strong> &nbsp;or&nbsp; <strong>${b} across &amp; ${a} down</strong> from your position.`;
+      }
+      document.getElementById("hintExplain").innerHTML = explain;
     }
   </script>
 
@@ -648,9 +656,14 @@
   const modal = document.createElement("div");
   modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
   modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
-      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Hunt</h2>
-      <p style="line-height:1.45;margin:0 0 16px 0;">Find the hidden treasure on the grid in limited turns. Use the X+Y and |X-Y| hints after each move to narrow the location.</p>
-      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
+      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play XY Marks the Spot</h2>
+      <p style="line-height:1.5;margin:0 0 10px 0;">Find the hidden treasure on the grid in just <strong>3 moves</strong>. After each move you get two hints:</p>
+      <ul style="margin:0 0 12px 0;padding-left:20px;line-height:1.7;font-size:15px;">
+        <li><strong>Across + Down</strong> — total columns + rows between you and the treasure.</li>
+        <li><strong>Across &minus; Down</strong> — the difference between those two distances.</li>
+      </ul>
+      <p style="line-height:1.5;margin:0 0 4px 0;font-size:15px;"><strong>Quick tip:</strong> Add the two numbers together and halve it to get the column distance. Subtract and halve to get the row distance. The game also shows you the answer directly below the hints!</p>
+      <button id="explainerCloseBtn" style="margin-top:14px;padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it, let's play!</button>
     </div>`;
 
   const helpBtn = document.createElement("button");
