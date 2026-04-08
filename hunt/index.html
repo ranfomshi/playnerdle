@@ -280,6 +280,19 @@
       color: red;
     }
 
+    .hint-info {
+      font-size: 16px;
+      color: #3498db;
+      cursor: pointer;
+      vertical-align: super;
+      margin-left: 3px;
+      user-select: none;
+    }
+
+    .hint-info:hover {
+      color: #2980b9;
+    }
+
     .row-number,
     .col-number {
       font-size: large;
@@ -376,11 +389,11 @@
     <button id="newGameButton" onclick="newGame()">New Game</button>
     <div id="grid"></div>
     <div id="hint" style="display: none">
-      <div style="font-size:13px;color:#666;margin-bottom:6px;font-weight:normal;">Distance to treasure:</div>
-      <span id="hintPart1">Across + Down = ?</span>
+      <span id="hintPart1">?</span>
+      <span class="hint-info" onclick="openHintModal('sum')" title="What does this mean?">&#9432;</span>
       &nbsp;|&nbsp;
-      <span id="hintPart2">Across &minus; Down = ?</span>
-      <div id="hintExplain" style="font-size:15px;color:#555;font-weight:normal;margin-top:8px;line-height:1.5;"></div>
+      <span id="hintPart2">?</span>
+      <span class="hint-info" onclick="openHintModal('diff')" title="What does this mean?">&#9432;</span>
     </div>
     <div id="turns">
       <span id="turnsText">Turns left: 3</span><span id="wrongTurn" class="wrong-turn"></span>
@@ -628,25 +641,35 @@
     function generateHint() {
       const across = Math.abs(playerPos.x - treasurePos.x);
       const down   = Math.abs(playerPos.y - treasurePos.y);
-      const sum  = across + down;
-      const diff = Math.abs(across - down);
+      document.getElementById("hintPart1").innerText = `x+y = ${across + down}`;
+      document.getElementById("hintPart2").innerText = `|x\u2212y| = ${Math.abs(across - down)}`;
+    }
+  </script>
 
-      document.getElementById("hintPart1").innerText = `Across + Down = ${sum}`;
-      document.getElementById("hintPart2").innerText = `Across \u2212 Down = ${diff}`;
+  <!-- Hint explanation modal -->
+  <div id="hintModal" class="modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="modal-content">
+      <span class="close-btn" onclick="document.getElementById('hintModal').style.display='none'">&times;</span>
+      <div id="hintModalBody"></div>
+    </div>
+  </div>
 
-      // Derive the two distances: a = (sum+diff)/2, b = (sum-diff)/2
-      const a = (sum + diff) / 2;
-      const b = (sum - diff) / 2;
-
-      let explain = "";
-      if (sum === 0) {
-        explain = "You\u2019re standing on the treasure \u2014 click this cell!";
-      } else if (a === b) {
-        explain = `The treasure is exactly ${a} column${a!==1?"s":""} across AND ${b} row${b!==1?"s":""} down from you.`;
-      } else {
-        explain = `The treasure is either&nbsp; <strong>${a} across &amp; ${b} down</strong> &nbsp;or&nbsp; <strong>${b} across &amp; ${a} down</strong> from your position.`;
+  <script>
+    var HINT_CONTENT = {
+      sum: {
+        title: "What does x+y mean?",
+        body: "<p><strong>x</strong> is the number of columns between you and the treasure.<br><strong>y</strong> is the number of rows between you and the treasure.</p><p><strong>x+y</strong> is those two distances added together — the total number of steps it would take to reach the treasure moving only horizontally and vertically.</p><p style='background:#f0f4f8;padding:10px;border-radius:8px;'>Example: if the treasure is <strong>3 columns</strong> to the right and <strong>2 rows</strong> down, then x+y = 5.</p>"
+      },
+      diff: {
+        title: "What does |x\u2212y| mean?",
+        body: "<p>This is the <strong>difference</strong> between the column distance and the row distance — always shown as a positive number regardless of which is larger.</p><p>Together with x+y, it lets you work out the exact distances:<br>Column distance = (x+y + |x\u2212y|) &divide; 2<br>Row distance &nbsp;&nbsp;&nbsp;= (x+y \u2212 |x\u2212y|) &divide; 2</p><p style='background:#f0f4f8;padding:10px;border-radius:8px;'>Example: x+y = 5 and |x\u2212y| = 1<br>Column distance = (5+1) &divide; 2 = <strong>3</strong><br>Row distance &nbsp;&nbsp;&nbsp;= (5\u22121) &divide; 2 = <strong>2</strong><br>So the treasure is 3 across and 2 down (or 2 across and 3 down).</p>"
       }
-      document.getElementById("hintExplain").innerHTML = explain;
+    };
+
+    function openHintModal(type) {
+      var content = HINT_CONTENT[type];
+      document.getElementById("hintModalBody").innerHTML = "<h2>" + content.title + "</h2>" + content.body;
+      document.getElementById("hintModal").style.display = "block";
     }
   </script>
 
