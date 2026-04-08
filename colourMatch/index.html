@@ -3,27 +3,27 @@
 
 <head>
     <title>Colour Match</title>
-    <meta charset=“UTF-8”>
+    <meta charset="“UTF-8”">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A colour matching game">
     <meta name="keywords" content="reaction game">
+    <style>@font-face{font-family:FontAwesome;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0');src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:400;font-style:normal}*{font-family:'Roboto Condensed',sans-serif!important;font-weight:400!important}.fa{font:14px/1 FontAwesome!important}body{margin:0;height:100vh}.background{width:100vw;height:100vh;background:#23e962;top:0;position:absolute;z-index:0}.central{background-color:#fff;border:2px solid #000;width:200px;min-width:200px;border-radius:5px;margin:auto;margin-top:150px;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:column}.guessRepresentation{flex-grow:1;min-height:175px;border:2px solid #000;border-radius:5px;font-size:small;margin-top:10px}.inputHolder{flex-grow:1;display:flex;justify-content:space-between}#guessValue1{color:red}#guessValue2{color:green}#guessValue3{color:#00f}.guessInput{border:2px solid #000;flex-grow:1;padding:0;text-align:center}.submitBtn{background-color:#fff;border:2px solid #000;min-width:112px;border-radius:5px;margin:auto;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:row;margin-top:10px;z-index:2}.dismissInstructionBtn{background-color:#fff;border:2px solid #000;width:200px;min-width:200px;border-radius:5px;margin:auto;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:row}.fullScreenDiv{position:fixed;flex-direction:row;width:100%;height:100%;left:0;top:0;background:rgb(255 255 255 / 94%);z-index:var(--global-overlay-z,100100);display:none;justify-content:space-evenly;align-items:center;flex-wrap:wrap;overflow:auto;padding-bottom:100px}.instructionText{max-width:400px;margin:auto;margin-top:100px;position:relative;height:80%;white-space:normal;padding:20px}.statsBtn{position:absolute;left:10px;top:60px;max-width:50px}.instructionsBtn{position:absolute;right:10px;top:60px;max-width:50px}.historicAll{max-height:100px;overflow-y:scroll}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{box-shadow:inset 0 0 5px grey;border-radius:10px}::-webkit-scrollbar-thumb{background:gray;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#000}#snackbar{visibility:hidden;min-width:250px;transform:translatex(-50%);display:flex;flex-wrap:wrap;flex-direction:row;border:1px solid #000;background:#fff;justify-content:center;border-radius:5px;max-width:380px;padding:10px;position:fixed;z-index:var(--global-toast-z,100110);left:50%;top:var(--global-toast-top,30px);box-shadow:0 0 10px #00000033;font-size:large}.individualInputHolder{flex-grow:1;padding:0;text-align:center;width:30%;height:75px;display:flex;flex-direction:column}.adjusterUp{border:2px solid #000;border-radius:5px 5px 0 0}.adjusterDown{border:2px solid #000;border-radius:0 0 5px 5px}.adjusterIcon{margin:auto;top:50%;position:relative;transform:translateY(-50%);font-weight:700!important}.fa{display:inline-block;font:14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.fa-info-circle:before{content:"\f05a"}.fa-bar-chart:before{content:"\f080"}.fa-angle-up:before{content:"\f106"}.fa-angle-down:before{content:"\f107"}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
     <link rel="stylesheet" href="colourMatch.css">
     <script src="colourMatch.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441"
-        crossorigin="anonymous"></script>
+    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=roboto:wght@800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=roboto:wght@800&amp;display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&amp;display=swap" rel="stylesheet">
 
 
 
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -33,7 +33,7 @@
     </script>
 
     <!-- log rocket -->
-    <script src='https://cdn.lr-in-prod.com/LogRocket.min.js'></script>
+    <script src="https://cdn.lr-in-prod.com/LogRocket.min.js"></script>
     <script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
     <script type="text/javascript" src="/mixpanel.js"></script>
 </head>
@@ -118,6 +118,18 @@
     <!-- global elements -->
     <link rel="stylesheet" href="/globalNav/globalNav.css">
     <script type="module" src="/globalNav/globalNav.js" defer></script>
+
+
+
+
+
+<noscript><link href="https://fonts.googleapis.com/css2?family=roboto:wght@800&amp;display=swap" rel="stylesheet"></noscript>
+
+
+<noscript><link href="https://fonts.googleapis.com/css2?family=Lobster&amp;display=swap" rel="stylesheet"></noscript>
+
+
+
 </body>
 
 </html>
