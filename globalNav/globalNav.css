@@ -1,116 +1,122 @@
 :root {
-    --global-nav-height: 52px;
-    --global-ui-gap: 16px;
-    --global-toast-top: calc(var(--global-nav-height) + var(--global-ui-gap));
-    --global-nav-z: 1000;
-    --global-dropdown-z: 99999;
-    --global-overlay-z: 100100;
-    --global-toast-z: 100110;
+  --global-nav-height: 52px;
+  --global-ui-gap: 16px;
+  --global-toast-top: calc(var(--global-nav-height) + var(--global-ui-gap));
+  --global-nav-z: 1000;
+  --global-dropdown-z: 99999;
+  --global-overlay-z: 100100;
+  --global-toast-z: 100110;
 }
 
-/* Base Styles */
 .globalNav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(180deg, #263648, #1f2a38);
-    color: white;
-    padding: 0.5rem 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: var(--global-nav-z);
-    box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(4, 10, 24, 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(135, 170, 255, 0.3);
+  color: white;
+  padding: 0.55rem 1rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--global-nav-z);
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.brand a {
-    color: white;
-    text-decoration: none;
-    margin-right: 10px;
+.brand-link {
+  color: white;
+  text-decoration: none;
+  font-family: 'Space Grotesk', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
-.brand a:hover {
-    color: #4fc3f7;
+.brand-link:hover {
+  color: #7dd7ff;
 }
 
 .brand img {
-    height: 28px;
-    width: 28px;
-    border-radius: 5px;
+  height: 30px;
+  width: 30px;
+  border-radius: 8px;
 }
 
-/* Dropdown Menu Toggle */
 .menu-toggle {
-    background: #4fc3f7;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: var(--global-dropdown-z);
+  background: linear-gradient(120deg, #4090ff, #7566ff);
+  color: #fff;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: var(--global-dropdown-z);
 }
 
-/* Dropdown styles */
+.menu-toggle:hover {
+  filter: brightness(1.12);
+}
+
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 1rem;
-    background: #1f2a38;
-    border: 1px solid #3f4a56;
-    border-radius: 8px;
-    list-style: none;
-    padding: 0.5rem 0;
-    min-width: 180px;
-    z-index: var(--global-dropdown-z);
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 1rem;
+  background: rgba(8, 17, 39, 0.98);
+  border: 1px solid rgba(135, 170, 255, 0.35);
+  border-radius: 12px;
+  list-style: none;
+  padding: 0.4rem;
+  min-width: 220px;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+  z-index: var(--global-dropdown-z);
 }
 
 .dropdown-menu.active {
-    display: block;
-}
-
-.dropdown-menu li {
-    text-align: left;
+  display: block;
 }
 
 .dropdown-menu li a {
-    display: block;
-    padding: 0.5rem 1rem;
-    color: white;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
+  display: block;
+  padding: 0.52rem 0.68rem;
+  border-radius: 9px;
+  color: #dce8ff;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .dropdown-menu li a:hover,
 .dropdown-menu li a.active {
-    background-color: #4fc3f7;
-    color: #1f2a38;
+  background-color: rgba(89, 200, 255, 0.22);
+  color: #fff;
 }
 
 .menu-toggle:focus-visible,
-.dropdown-menu li a:focus-visible {
-    outline: 2px solid #4fc3f7;
-    outline-offset: 2px;
+.dropdown-menu li a:focus-visible,
+.brand-link:focus-visible {
+  outline: 2px solid #7dd7ff;
+  outline-offset: 2px;
 }
 
-/* Keep navbar appearance stable regardless of page-level element styles. */
 #navbar-container .globalNav,
 #navbar-container .globalNav * {
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Keep the explainer help button below the fixed global nav. */
 button[aria-label="Open game explainer"] {
-    top: calc(var(--global-nav-height) + 12px) !important;
+  top: calc(var(--global-nav-height) + 12px) !important;
 }
