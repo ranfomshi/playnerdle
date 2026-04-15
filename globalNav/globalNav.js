@@ -7,37 +7,50 @@ function sendEvent(eventName, params) {
 }
 
 function createNavbarHTML() {
-  const nav = document.createElement("nav");
-  nav.className = "globalNav";
+  const nav = document.createElement('nav');
+  nav.className = 'globalNav';
 
-  // Brand section
-  const brand = document.createElement("div");
-  brand.className = "brand";
-  brand.innerHTML = `
-    <a href="/" onclick="sendEvent('navSelection', { interaction_type: 'click', item_name: 'home' })">Bludle</a>
-    <img src="https://www.bludle.com/images/icon.png" style="margin-left:10px; height:28px; width:28px; border-radius:5px;" />
-  `;
+  const brand = document.createElement('div');
+  brand.className = 'brand';
+
+  const brandLink = document.createElement('a');
+  brandLink.className = 'brand-link';
+  brandLink.href = '/';
+  brandLink.textContent = 'Bludle';
+  brandLink.addEventListener('click', () => {
+    sendEvent('navSelection', { interaction_type: 'click', item_name: 'home' });
+  });
+
+  const brandLogo = document.createElement('img');
+  brandLogo.src = '/images/icon.png';
+  brandLogo.alt = 'Bludle logo';
+
+  brand.appendChild(brandLink);
+  brand.appendChild(brandLogo);
   nav.appendChild(brand);
 
-  // Dropdown button
-  const dropdownToggle = document.createElement("button");
-  dropdownToggle.className = "menu-toggle";
-  dropdownToggle.id = "dropdown-toggle";
-  dropdownToggle.innerHTML = `Menu &#x2630;`; // ☰
+  const dropdownToggle = document.createElement('button');
+  dropdownToggle.className = 'menu-toggle';
+  dropdownToggle.id = 'dropdown-toggle';
+  dropdownToggle.type = 'button';
+  dropdownToggle.setAttribute('aria-expanded', 'false');
+  dropdownToggle.setAttribute('aria-controls', 'dropdown-menu');
+  dropdownToggle.textContent = 'Menu ☰';
   nav.appendChild(dropdownToggle);
 
-  // Dropdown menu
-  const dropdownMenu = document.createElement("ul");
-  dropdownMenu.className = "dropdown-menu";
+  const dropdownMenu = document.createElement('ul');
+  dropdownMenu.className = 'dropdown-menu';
+  dropdownMenu.id = 'dropdown-menu';
 
-  navLinks.forEach(link => {
-    const li = document.createElement("li");
-    const a = document.createElement("a");
+  navLinks.forEach((link) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
     a.href = link.href;
     a.textContent = link.name;
-    a.addEventListener("click", () => {
+    a.addEventListener('click', () => {
       sendEvent('navSelection', { interaction_type: 'click', item_name: link.name });
-      dropdownMenu.classList.remove("active");
+      dropdownMenu.classList.remove('active');
+      dropdownToggle.setAttribute('aria-expanded', 'false');
     });
     li.appendChild(a);
     dropdownMenu.appendChild(li);
@@ -54,33 +67,77 @@ function syncNavMetrics(nav) {
 
   const root = document.documentElement;
   const navHeight = Math.ceil(nav.getBoundingClientRect().height);
-  root.style.setProperty("--global-nav-height", `${navHeight}px`);
-  root.style.setProperty("--global-toast-top", `calc(${navHeight}px + var(--global-ui-gap))`);
+  root.style.setProperty('--global-nav-height', `${navHeight}px`);
+  root.style.setProperty('--global-toast-top', `calc(${navHeight}px + var(--global-ui-gap))`);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("navbar-container");
-  if (container) {
-    const nav = createNavbarHTML();
-    container.appendChild(nav);
-
-    const toggle = document.getElementById("dropdown-toggle");
-    const dropdown = document.querySelector(".dropdown-menu");
-
-    syncNavMetrics(nav);
-
-    toggle.addEventListener("click", () => {
-      dropdown.classList.toggle("active");
-      syncNavMetrics(nav);
-    });
-
-    // Optional: close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.remove("active");
-      }
-    });
-
-    window.addEventListener("resize", () => syncNavMetrics(nav));
+function getExplainerStorageKey() {
+  const pathSegments = window.location.pathname.split('/').filter(Boolean);
+  if (!pathSegments.length) {
+    return null;
   }
+
+  const pageSlug = pathSegments[pathSegments.length - 1].replace(/\.html$/i, '').toLowerCase();
+  if (!pageSlug) {
+    return null;
+  }
+
+  return `explainerSeen_${pageSlug}_v1`;
+}
+
+function restoreExplainerBehaviour() {
+  const explainerBtn = document.querySelector('button[aria-label="Open game explainer"]');
+  if (!explainerBtn || explainerBtn.dataset.explainerRestored === 'true') {
+    return;
+  }
+
+  explainerBtn.dataset.explainerRestored = 'true';
+  explainerBtn.style.zIndex = '100120';
+
+  const storageKey = getExplainerStorageKey();
+  if (!storageKey || window.localStorage.getItem(storageKey) === 'true') {
+    return;
+  }
+
+  window.setTimeout(() => {
+    explainerBtn.click();
+  }, 0);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('navbar-container');
+  if (!container) {
+    return;
+  }
+
+  const nav = createNavbarHTML();
+  container.appendChild(nav);
+
+  const toggle = document.getElementById('dropdown-toggle');
+  const dropdown = document.getElementById('dropdown-menu');
+
+  syncNavMetrics(nav);
+
+  toggle.addEventListener('click', () => {
+    const isOpen = dropdown.classList.toggle('active');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    syncNavMetrics(nav);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  window.addEventListener('resize', () => syncNavMetrics(nav));
+
+  restoreExplainerBehaviour();
+
+  const observer = new MutationObserver(() => {
+    restoreExplainerBehaviour();
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 });

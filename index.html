@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <style>@font-face{font-family:'Roboto Condensed';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/robotocondensed/v31/ieVo2ZhZI2eCN5jzbjEETS9weq8-_d6T_POl0fRJeyWyovBJ.ttf) format('truetype')}:root{--surface-dark:#1f2933;--surface-darker:#101820;--surface-mid:#2c3e50;--text-primary:#f5f7fa;--text-secondary:#d3dae3;--accent-cyan:#4fc3f7;--accent-blue:rgba(0, 146, 255, 0.85);--accent-pink:rgba(255, 0, 184, 0.85);--radius-md:12px;--radius-lg:16px;--shadow-soft:0 8px 16px rgba(0, 0, 0, 0.3);--shadow-strong:0 12px 24px rgba(0, 0, 0, 0.4)}body{margin:0;padding:0;margin-top:60px;background:linear-gradient(145deg,var(--surface-mid),#34495e 42%,#2b3a4d);font-family:'Roboto Condensed',sans-serif;color:var(--text-primary);line-height:1.4}.content{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;padding:2rem}.tile{display:flex;justify-content:center}.game{height:300px;width:100%;max-width:400px;border-radius:var(--radius-lg);overflow:hidden;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;box-shadow:var(--shadow-soft);text-decoration:none;color:inherit}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.gameTitle{background:var(--accent-blue);color:#fff;padding:.6rem;font-size:1.2rem;font-weight:700}.gameInfo{background:var(--accent-pink);color:#fff;min-height:50px;padding:.4rem .75rem;display:flex;justify-content:center;align-items:center;font-size:.95rem;font-weight:500}@media (max-width:600px){.game{height:240px}.gameInfo{font-size:.85rem}}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
     <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +21,9 @@
   <meta name="twitter:title" content="Bludle | Daily Puzzle, Word, Colour and Reaction Games">
   <meta name="twitter:description" content="Play free daily puzzle and brain-training games including Bludle, Werdle, Reaction and more.">
   <meta name="twitter:image" content="https://www.bludle.com/images/background.jpg">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&amp;display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap">
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
   <script type="module" src="/globalNav/globalNav.js" defer=""></script>
@@ -116,8 +117,20 @@
 <body>
   <div id="navbar-container"></div>
 
+  <header class="home-hero" aria-labelledby="home-title">
+    <p class="hero-kicker">Playful puzzles. Premium feel.</p>
+    <h1 id="home-title">A modern arcade for word, colour and logic games.</h1>
+    <p class="hero-subtitle">Discover daily challenges, unlimited practice modes, and fast games designed to be fun in under 5 minutes.</p>
+    <div class="hero-chips" aria-label="Game categories">
+      <span>Daily Word</span>
+      <span>Colour + Vision</span>
+      <span>Logic + Memory</span>
+      <span>Speed + Reaction</span>
+    </div>
+  </header>
+
   <main class="content" id="content">
-    <h1 class="sr-only">bludle Daily Puzzle Games</h1>
+    <h2 class="sr-only">bludle Daily Puzzle Games</h2>
     <div class="tile" id="bludle">
       <a class="game" href="/bludle/" aria-label="Play Bludle" style="background-image: url('./images/bludle.jpg')">
         <div class="gameTitle">Bludle</div>
@@ -241,7 +254,7 @@
     <div class="tile" id="coffee">
       <a class="game" href="https://www.buymeacoffee.com/stuart1510K" target="_blank">
         <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
-          style="height: 60px; width: 217px; margin: auto; transform: translateY(-85%);" />
+          class="coffee-button" />
         <div class="gameTitle">Buy me a coffee (beer) :)</div>
         <div class="gameInfo">Donate some beer tokens if you enjoy the games</div>
       </a>
@@ -283,17 +296,17 @@
       <p>These games may help maintain or improve brain function.</p>
     </div>
 
-    <div class=”footer-section”>
+    <div class="footer-section">
       <h4>Support &amp; Contact</h4>
-      <p>Use the “Buy me a coffee” link above to help maintain and grow the site. Thank you!</p>
-      <p>Questions or feedback? <a href=”/about/#contact-form”>Get in touch</a></p>
-      <p><a href=”https://www.facebook.com/profile.php?id=61552171184790” target=”_blank” rel=”noopener”>Follow us on Facebook</a></p>
+      <p>Use the "Buy me a coffee" link above to help maintain and grow the site. Thank you!</p>
+      <p>Questions or feedback? <a href="/about/#contact-form">Get in touch</a></p>
+      <p><a href="https://www.facebook.com/profile.php?id=61552171184790" target="_blank" rel="noopener">Follow us on Facebook</a></p>
     </div>
 
-    <div class=”footer-section”>
+    <div class="footer-section">
       <h4>Quick Links</h4>
       <ul>
-        <li><a href=”/about/” target=”_blank”>About</a></li>
+        <li><a href="/about/" target="_blank">About</a></li>
         <li><a href="/blogs/1" target="_blank">The Wonderful World of Word Games</a></li>
         <li><a href="/blogs/2" target="_blank">The Rise of Handheld Electronic Word Games</a></li>
         <li><a href="/blogs/3" target="_blank">The Rise of Indie Video Games</a></li>
