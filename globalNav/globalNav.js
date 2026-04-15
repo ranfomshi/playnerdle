@@ -71,39 +71,6 @@ function syncNavMetrics(nav) {
   root.style.setProperty('--global-toast-top', `calc(${navHeight}px + var(--global-ui-gap))`);
 }
 
-function getExplainerStorageKey() {
-  const pathSegments = window.location.pathname.split('/').filter(Boolean);
-  if (!pathSegments.length) {
-    return null;
-  }
-
-  const pageSlug = pathSegments[pathSegments.length - 1].replace(/\.html$/i, '').toLowerCase();
-  if (!pageSlug) {
-    return null;
-  }
-
-  return `explainerSeen_${pageSlug}_v1`;
-}
-
-function restoreExplainerBehaviour() {
-  const explainerBtn = document.querySelector('button[aria-label="Open game explainer"]');
-  if (!explainerBtn || explainerBtn.dataset.explainerRestored === 'true') {
-    return;
-  }
-
-  explainerBtn.dataset.explainerRestored = 'true';
-  explainerBtn.style.zIndex = '100120';
-
-  const storageKey = getExplainerStorageKey();
-  if (!storageKey || window.localStorage.getItem(storageKey) === 'true') {
-    return;
-  }
-
-  window.setTimeout(() => {
-    explainerBtn.click();
-  }, 0);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('navbar-container');
   if (!container) {
@@ -132,12 +99,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('resize', () => syncNavMetrics(nav));
-
-  restoreExplainerBehaviour();
-
-  const observer = new MutationObserver(() => {
-    restoreExplainerBehaviour();
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
 });
