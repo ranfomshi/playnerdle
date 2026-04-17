@@ -129,23 +129,35 @@
     </div>
   </header>
 
+  <section class="game-discovery" aria-label="Find a game">
+    <label for="gameSearch" class="search-label">Find your next game</label>
+    <input id="gameSearch" type="search" placeholder="Search by game name or type (word, colour, reaction, logic)" autocomplete="off">
+    <div class="filter-chips" role="group" aria-label="Filter games by category">
+      <button class="filter-chip active" data-filter="all" type="button">All</button>
+      <button class="filter-chip" data-filter="word" type="button">Word</button>
+      <button class="filter-chip" data-filter="colour" type="button">Colour</button>
+      <button class="filter-chip" data-filter="logic" type="button">Logic</button>
+      <button class="filter-chip" data-filter="speed" type="button">Speed</button>
+    </div>
+  </section>
+
   <main class="content" id="content">
     <h2 class="sr-only">bludle Daily Puzzle Games</h2>
-    <div class="tile" id="bludle">
+    <div class="tile" id="bludle" data-category="word colour">
       <a class="game" href="/bludle/" aria-label="Play Bludle" style="background-image: url('./images/bludle.jpg')">
         <div class="gameTitle">Bludle</div>
         <div class="gameInfo">Decode a 5 letter word from shades of blue</div>
       </a>
     </div>
 
-    <div class="tile" id="werdle">
+    <div class="tile" id="werdle" data-category="word">
       <a class="game" href="/werdle/" aria-label="Play Werdle" style="background-image: url('./images/werdle.png')">
         <div class="gameTitle">Werdle</div>
         <div class="gameInfo">Daily word game with challenge mode</div>
       </a>
     </div>
 
-    <div class="tile" id="reaction">
+    <div class="tile" id="reaction" data-category="speed">
       <a class="game" href="/reaction/" aria-label="Play Reaction"
         style="background-image: url('./images/reaction.jpg')">
         <div class="gameTitle">Reaction</div>
@@ -153,7 +165,7 @@
       </a>
     </div>
 
-    <div class="tile" id="shiftyFades">
+    <div class="tile" id="shiftyFades" data-category="colour">
       <a class="game" href="/shiftyfades/" aria-label="Play Shifty Fades"
         style="background-image: url('./images/shifty.png')">
         <div class="gameTitle">Shifty Fades</div>
@@ -161,7 +173,7 @@
       </a>
     </div>
 
-    <div class="tile" id="colourMatch">
+    <div class="tile" id="colourMatch" data-category="colour">
       <a class="game" href="/colourmatch/" aria-label="Play Colour Match"
         style="background-image: url('./images/cm.jpg')">
         <div class="gameTitle">Colo(u)r Match</div>
@@ -169,14 +181,14 @@
       </a>
     </div>
 
-    <div class="tile" id="codle">
+    <div class="tile" id="codle" data-category="word logic">
       <a class="game" href="/codle/" aria-label="Play Codle" style="background-image: url('./images/codle.jpg')">
         <div class="gameTitle">Codle</div>
         <div class="gameInfo">Decode 5 letter words from a random offset</div>
       </a>
     </div>
 
-    <div class="tile" id="alternate">
+    <div class="tile" id="alternate" data-category="speed colour">
       <a class="game" href="/alternate/" aria-label="Play Alternate"
         style="background-image: url('./images/alternate.jpg')">
         <div class="gameTitle">Alternate</div>
@@ -184,7 +196,7 @@
       </a>
     </div>
 
-    <div class="tile" id="tintuition">
+    <div class="tile" id="tintuition" data-category="colour">
       <a class="game" href="/tintuition/" aria-label="Play Tintuition"
         style="background-image: url('./images/tintuition.png')">
         <div class="gameTitle">Tintuition</div>
@@ -192,7 +204,7 @@
       </a>
     </div>
 
-    <div class="tile" id="hunt">
+    <div class="tile" id="hunt" data-category="logic">
       <a class="game" href="/hunt/" aria-label="Play XY Marks the Spot"
         style="background-image: url('./images/hunt.png')">
         <div class="gameTitle">XY Marks the Spot</div>
@@ -200,28 +212,28 @@
       </a>
     </div>
 
-    <div class="tile" id="guesshue">
+    <div class="tile" id="guesshue" data-category="colour speed">
       <a class="game" href="/guesshue/" aria-label="Play Guess Hue" style="background-image: url('./images/hue.png')">
         <div class="gameTitle">Guess Hue</div>
         <div class="gameInfo">Spot the odd one out and go on a streak</div>
       </a>
     </div>
 
-    <div class="tile" id="trak">
+    <div class="tile" id="trak" data-category="speed logic">
       <a class="game" href="/trak/" aria-label="Play Trak" style="background-image: url('./images/trak.png')">
         <div class="gameTitle">Trak</div>
         <div class="gameInfo">Stop the ball in the green zone. What ball?</div>
       </a>
     </div>
 
-    <div class="tile" id="connex">
+    <div class="tile" id="connex" data-category="word logic">
       <a class="game" href="/connex/" aria-label="Play Connex" style="background-image: url('./images/connex.png')">
         <div class="gameTitle">Connex</div>
         <div class="gameInfo">Find the 3 words from the same connection bank</div>
       </a>
     </div>
 
-    <div class="tile" id="wordmash">
+    <div class="tile" id="wordmash" data-category="word logic">
       <a class="game" href="/wordmash/" aria-label="Play Word Mash"
         style="background-image: url('./images/wordmash.svg')">
         <div class="gameTitle">Word Mash</div>
@@ -229,21 +241,21 @@
       </a>
     </div>
 
-    <div class="tile" id="snoules">
+    <div class="tile" id="snoules" data-category="logic speed">
       <a class="game" href="/snoules/" aria-label="Play Snoules" style="background-image: url('./images/snoules.jpg')">
         <div class="gameTitle">Snoules</div>
         <div class="gameInfo">Roll the white ball. Land closest to win. Snooker meets boules.</div>
       </a>
     </div>
 
-    <div class="tile" id="heardle">
+    <div class="tile" id="heardle" data-category="logic">
       <a class="game" href="/heardle/" aria-label="Play Heardle" style="background-image: url('./images/heardle.png')">
         <div class="gameTitle">Heardle</div>
         <div class="gameInfo">Listen carefully & play it by ear</div>
       </a>
     </div>
 
-    <div class="tile" id="seequence">
+    <div class="tile" id="seequence" data-category="colour logic">
       <a class="game" href="/seequence/" aria-label="Play Seequence"
         style="background-image: url('./images/seequence.jpg')">
         <div class="gameTitle">Seequence</div>
@@ -251,7 +263,7 @@
       </a>
     </div>
 
-    <div class="tile" id="coffee">
+    <div class="tile" id="coffee" data-category="support">
       <a class="game" href="https://www.buymeacoffee.com/stuart1510K" target="_blank">
         <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
           class="coffee-button" />
@@ -260,6 +272,7 @@
       </a>
     </div>
   </main>
+  <p id="filterEmptyState" class="filter-empty" hidden>No games matched your search. Try a broader term.</p>
 
   <section class="seo-content" aria-labelledby="about-bludle">
     <h2 id="about-bludle">Free daily and unlimited word games in one place</h2>
@@ -325,20 +338,20 @@
       <h4>Games</h4>
       <ul>
         <li><a href="/game/nerdle.html" target="_blank">nerdle</a></li>
-        <li><a href="/reaction" target="_blank">reaction</a></li>
-        <li><a href="/colourmatch" target="_blank">colour match</a></li>
-        <li><a href="/bludle" target="_blank">bludle</a></li>
-        <li><a href="/codle" target="_blank">codle</a></li>
-        <li><a href="/alternate" target="_blank">alternate</a></li>
-        <li><a href="/hunt" target="_blank">XY</a></li>
-        <li><a href="/guesshue" target="_blank">guess hue</a></li>
-        <li><a href="/trak" target="_blank">trak</a></li>
-        <li><a href="/tintuition" target="_blank">tintuition</a></li>
-        <li><a href="/heardle" target="_blank">heardle</a></li>
-        <li><a href="/connex" target="_blank">connex</a></li>
-        <li><a href="/seequence" target="_blank">seequence</a></li>
-        <li><a href="/wordmash" target="_blank">word mash</a></li>
-        <li><a href="/snoules" target="_blank">snoules</a></li>
+        <li><a href="/reaction/" target="_blank">reaction</a></li>
+        <li><a href="/colourmatch/" target="_blank">colour match</a></li>
+        <li><a href="/bludle/" target="_blank">bludle</a></li>
+        <li><a href="/codle/" target="_blank">codle</a></li>
+        <li><a href="/alternate/" target="_blank">alternate</a></li>
+        <li><a href="/hunt/" target="_blank">XY</a></li>
+        <li><a href="/guesshue/" target="_blank">guess hue</a></li>
+        <li><a href="/trak/" target="_blank">trak</a></li>
+        <li><a href="/tintuition/" target="_blank">tintuition</a></li>
+        <li><a href="/heardle/" target="_blank">heardle</a></li>
+        <li><a href="/connex/" target="_blank">connex</a></li>
+        <li><a href="/seequence/" target="_blank">seequence</a></li>
+        <li><a href="/wordmash/" target="_blank">word mash</a></li>
+        <li><a href="/snoules/" target="_blank">snoules</a></li>
       </ul>
     </div>
   </footer>
