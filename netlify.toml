@@ -1,2 +1,88 @@
 [build.processing]
   skip_processing = true
+
+[[redirects]]
+  from = "/colourMatch/*"
+  to = "/colourmatch/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/bludle"
+  to = "/bludle/"
+  status = 301
+
+[[redirects]]
+  from = "/werdle"
+  to = "/werdle/"
+  status = 301
+
+[[redirects]]
+  from = "/codle"
+  to = "/codle/"
+  status = 301
+
+[[redirects]]
+  from = "/connex"
+  to = "/connex/"
+  status = 301
+
+[[redirects]]
+  from = "/guesshue"
+  to = "/guesshue/"
+  status = 301
+
+[[redirects]]
+  from = "/reaction"
+  to = "/reaction/"
+  status = 301
+
+[[redirects]]
+  from = "/colourmatch"
+  to = "/colourmatch/"
+  status = 301
+
+[[redirects]]
+  from = "/alternate"
+  to = "/alternate/"
+  status = 301
+
+[[redirects]]
+  from = "/tintuition"
+  to = "/tintuition/"
+  status = 301
+
+[[redirects]]
+  from = "/hunt"
+  to = "/hunt/"
+  status = 301
+
+[[redirects]]
+  from = "/trak"
+  to = "/trak/"
+  status = 301
+
+[[redirects]]
+  from = "/heardle"
+  to = "/heardle/"
+  status = 301
+
+[[redirects]]
+  from = "/seequence"
+  to = "/seequence/"
+  status = 301
+
+[[redirects]]
+  from = "/wordmash"
+  to = "/wordmash/"
+  status = 301
+
+[[redirects]]
+  from = "/snoules"
+  to = "/snoules/"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Link = "</sitemap.xml>; rel=\"sitemap\""
