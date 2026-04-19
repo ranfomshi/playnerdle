@@ -8,6 +8,23 @@ function sendEvent(eventName, params) {
   }
 }
 
+function getDeviceType() {
+  return window.matchMedia('(max-width: 700px)').matches ? 'mobile' : 'desktop';
+}
+
+function trackSessionStart() {
+  const key = 'bludle_session_started';
+  if (sessionStorage.getItem(key)) {
+    return;
+  }
+
+  sessionStorage.setItem(key, '1');
+  sendEvent('session_start', {
+    source_page: 'home',
+    device_type: getDeviceType(),
+  });
+}
+
 function trackClick(gameName) {
   sendEvent('homeSelection', {
     interaction_type: 'click',
@@ -94,7 +111,23 @@ function setupGameFiltering() {
   applyFilter();
 }
 
+function initializeAdUnits() {
+  const adUnits = document.querySelectorAll('.adsbygoogle');
+  adUnits.forEach(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      sendEvent('ad_eligible_view', {
+        placement: 'home_grid',
+      });
+    } catch (error) {
+      // no-op: avoid breaking UX if ad blocker/script timing prevents ad requests
+    }
+  });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+  trackSessionStart();
+
   Object.entries(tileHandlers).forEach(([id, handler]) => {
     const el = document.getElementById(id);
     if (el) {
@@ -103,4 +136,5 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   setupGameFiltering();
+  initializeAdUnits();
 });

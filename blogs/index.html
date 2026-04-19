@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://www.bludle.com/blogs/">
   <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
   <script type="text/javascript" src="/mixpanel.js"></script>
-  <script src="../globalNav/globalNav.js" defer=""></script>
+  <script type="module" src="../globalNav/globalNav.js" defer=""></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -83,6 +83,41 @@
       color: #555;
       font-size: 0.95em;
     }
+    .blog-monetization,
+    .blog-support {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .ad-label {
+      margin: 0 0 10px;
+      color: #666;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+    }
+    .blog-support h2 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+    .blog-support p {
+      margin: 0 0 10px;
+      color: #444;
+    }
+    .support-link {
+      display: inline-block;
+      background: #fde047;
+      color: #111827;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.92rem;
+    }
     footer {
       text-align: center;
       padding: 24px;
@@ -98,6 +133,11 @@
     <p>Tips, guides, and puzzle game insights</p>
   </header>
   <main>
+    <section class="blog-monetization" aria-label="Sponsored">
+      <p class="ad-label">Sponsored</p>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5140172230633441"
+        data-ad-slot="4572198603" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </section>
     <ul class="post-list">
       <li class="post-item">
         <h2><a href="/blogs/10">Daily Word Puzzle Strategy: How to Solve Faster Without Guessing Blind</a></h2>
@@ -150,9 +190,44 @@
         <p>Explore the rich history and variety of word games, from classic crosswords to daily browser puzzles.</p>
       </li>
     </ul>
+    <section class="blog-support" aria-label="Support Bludle">
+      <h2>Enjoying these puzzle guides?</h2>
+      <p>Support Bludle to help keep new games and guides coming.</p>
+      <a class="support-link" href="https://www.buymeacoffee.com/stuart1510K" target="_blank" rel="noopener">Support Bludle</a>
+    </section>
   </main>
   <footer>
     <a href="https://www.bludle.com">Play free daily puzzle games at Bludle.com</a>
   </footer>
+  <script>
+    function sendEvent(eventName, params) {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, params);
+      }
+
+      if (window.mixpanel && typeof window.mixpanel.track === 'function') {
+        window.mixpanel.track(eventName, params);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.adsbygoogle').forEach(function () {
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          sendEvent('ad_eligible_view', { placement: 'blog_index' });
+        } catch (error) {
+          // no-op
+        }
+      });
+
+      const supportLink = document.querySelector('.support-link');
+      if (supportLink) {
+        sendEvent('support_cta_view', { placement: 'blog_index_footer' });
+        supportLink.addEventListener('click', function () {
+          sendEvent('support_cta_click', { placement: 'blog_index_footer' });
+        });
+      }
+    });
+  </script>
 </body>
 </html>

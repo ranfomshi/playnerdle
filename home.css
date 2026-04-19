@@ -140,6 +140,10 @@ body {
   display: flex;
 }
 
+.ad-tile {
+  align-items: stretch;
+}
+
 .game {
   cursor: pointer;
   min-height: 248px;
@@ -207,6 +211,24 @@ body {
   height: 56px;
   width: 200px;
   margin: 0 auto 0.55rem;
+}
+
+.ad-card {
+  width: 100%;
+  min-height: 248px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(6, 13, 28, 0.82);
+  box-shadow: var(--shadow-soft);
+  padding: 1rem;
+}
+
+.ad-label {
+  margin: 0 0 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .sr-only {
