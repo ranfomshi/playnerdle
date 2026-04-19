@@ -138,6 +138,11 @@ body {
 
 .tile {
   display: flex;
+  min-width: 0;
+}
+
+.ad-tile {
+  align-items: stretch;
 }
 
 .game {
@@ -154,13 +159,14 @@ body {
   text-decoration: none;
   color: inherit;
 
-  border: 1px solid blue;
+  border: 1px solid var(--border);
 
 
   box-shadow: var(--shadow-soft);
   position: relative;
   isolation: isolate;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  max-width: 100%;
 }
 
 .game::before {
@@ -207,6 +213,24 @@ body {
   height: 56px;
   width: 200px;
   margin: 0 auto 0.55rem;
+}
+
+.ad-card {
+  width: 100%;
+  min-height: 248px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(6, 13, 28, 0.82);
+  box-shadow: var(--shadow-soft);
+  padding: 1rem;
+}
+
+.ad-label {
+  margin: 0 0 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .sr-only {
@@ -277,6 +301,11 @@ body {
 }
 
 @media (max-width: 700px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     padding-top: calc(var(--global-nav-height) + 1rem);
   }
