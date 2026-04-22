@@ -14,6 +14,7 @@ const state = {
 };
 
 const gravity = 98;
+const POWER_SCALE = 2.7;
 
 const scoreEl = document.getElementById("score");
 const levelEl = document.getElementById("level");
@@ -29,6 +30,7 @@ const nextBtn = document.getElementById("nextBtn");
 const restartBtn = document.getElementById("restartBtn");
 const messageEl = document.getElementById("message");
 const formulaReadout = document.getElementById("formulaReadout");
+const trajectoryReadout = document.getElementById("trajectoryReadout");
 const canvas = document.getElementById("arena");
 const ctx = canvas.getContext("2d");
 
@@ -58,11 +60,17 @@ function setReadout() {
   const angle = Number(angleInput.value);
   const power = Number(powerInput.value);
   const rad = degToRad(angle);
-  const vx = (power * Math.cos(rad)).toFixed(1);
-  const vy = (power * Math.sin(rad)).toFixed(1);
+  const scaledPower = power * POWER_SCALE;
+  const vx = (scaledPower * Math.cos(rad)).toFixed(1);
+  const vy = (scaledPower * Math.sin(rad)).toFixed(1);
+  const flightTime = (2 * scaledPower * Math.sin(rad)) / gravity;
+  const range = Math.max(0, scaledPower * Math.cos(rad) * flightTime);
+  const peakHeight = ((scaledPower * Math.sin(rad)) ** 2) / (2 * gravity);
+
   angleValue.textContent = `${angle}°`;
   powerValue.textContent = `${power}`;
   formulaReadout.textContent = `vx=${vx} (power·cosθ), vy=${vy} (power·sinθ)`;
+  trajectoryReadout.textContent = `Predicted range: ${range.toFixed(0)} px | Peak height: ${peakHeight.toFixed(0)} px`;
 }
 
 function resetLevel(fullReset = false) {
@@ -100,7 +108,9 @@ function resetLevel(fullReset = false) {
     });
   }
 
-  messageEl.textContent = `Level ${state.level}: Hit the target in ${state.shotsLeft} shots.`;
+  const targetDx = state.target.x - 70;
+  const targetDy = 330 - state.target.y;
+  messageEl.textContent = `Level ${state.level}: target is ~${targetDx.toFixed(0)}px away and ${targetDy.toFixed(0)}px high. ${state.shotsLeft} shots.`;
   updateHud();
 }
 
@@ -125,8 +135,8 @@ function launch() {
     x: 70,
     y: 330,
     r: 8,
-    vx: power * Math.cos(rad),
-    vy: power * Math.sin(rad),
+    vx: power * POWER_SCALE * Math.cos(rad),
+    vy: power * POWER_SCALE * Math.sin(rad),
     t: 0,
     active: true,
   };

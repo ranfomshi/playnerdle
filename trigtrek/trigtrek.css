@@ -96,6 +96,7 @@ button:hover { filter: brightness(1.08); }
 .feedback p { margin: 0; }
 #message { font-weight: 700; margin-bottom: 6px; }
 #formulaReadout { color: #c2dcff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#trajectoryReadout { color: #ffee93; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: 6px; }
 
 @media (max-width: 680px) {
   .app { padding-top: 72px; }

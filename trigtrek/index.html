@@ -53,8 +53,8 @@
         <input id="angleInput" type="range" min="15" max="80" value="45">
       </div>
       <div class="control-group">
-        <label for="powerInput">Power: <span id="powerValue">60</span></label>
-        <input id="powerInput" type="range" min="30" max="120" value="60">
+        <label for="powerInput">Power: <span id="powerValue">90</span></label>
+        <input id="powerInput" type="range" min="40" max="220" value="90">
       </div>
       <div class="button-row">
         <button id="fireBtn" class="primary" type="button">Fire</button>
@@ -66,6 +66,7 @@
     <section class="feedback" aria-live="polite">
       <p id="message">Line up your shot and fire. You have 5 shots this level.</p>
       <p id="formulaReadout">vx = power × cos(θ), vy = power × sin(θ)</p>
+      <p id="trajectoryReadout">Predicted range: -- px | Peak height: -- px</p>
     </section>
   </main>
 
