@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Trig Trek | Bludle</title>
+  <meta name="description" content="Trig Trek is a fast trigonometry challenge: match sine, cosine, and tangent targets to build streaks, climb levels, and set a high score.">
+  <meta property="og:title" content="Trig Trek | Bludle">
+  <meta property="og:description" content="Aim your angle, match trig targets, and push your high score in this gamified trigonometry challenge.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.bludle.com/trigtrek/">
+  <link rel="canonical" href="https://www.bludle.com/trigtrek/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="./trigtrek.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script type="text/javascript" src="/mixpanel.js" defer></script>
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="app" aria-live="polite">
+    <header class="hero">
+      <p class="kicker">NEW GAME</p>
+      <h1>Trig Trek</h1>
+      <p>Match the target value by rotating the angle on the unit circle. Chain perfect answers for huge multipliers.</p>
+    </header>
+
+    <section class="hud" aria-label="Game stats">
+      <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+      <div class="stat"><span>Level</span><strong id="level">1</strong></div>
+      <div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
+      <div class="stat"><span>Best</span><strong id="bestScore">0</strong></div>
+      <div class="stat"><span>Lives</span><strong id="lives">3</strong></div>
+    </section>
+
+    <section class="challenge" aria-label="Current trigonometry challenge">
+      <div class="prompt-wrap">
+        <div id="roundType" class="round-type">Round 1</div>
+        <h2 id="prompt">Match sin(θ) = 0.000</h2>
+        <p id="tolerance">Tolerance: ±0.150</p>
+      </div>
+      <div class="timer-wrap">
+        <label for="timerBar">Time</label>
+        <progress id="timerBar" max="100" value="100"></progress>
+      </div>
+    </section>
+
+    <section class="playfield">
+      <canvas id="circleCanvas" width="420" height="420" aria-label="Unit circle angle visualiser"></canvas>
+      <div class="controls">
+        <label for="angleInput">Angle: <span id="angleValue">0°</span></label>
+        <input id="angleInput" type="range" min="0" max="359" step="1" value="0">
+        <div class="button-row">
+          <button id="nudgeLeft" type="button">-5°</button>
+          <button id="submitGuess" class="primary" type="button">Lock In</button>
+          <button id="nudgeRight" type="button">+5°</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="feedback" aria-live="polite">
+      <p id="resultText">Use the slider or arrow keys to rotate your angle, then lock in your answer.</p>
+    </section>
+
+    <section class="actions">
+      <button id="startBtn" class="primary" type="button">Start Run</button>
+      <button id="restartBtn" type="button" hidden>Play Again</button>
+    </section>
+  </main>
+
+  <script src="./trigtrek.js" defer></script>
+</body>
+</html>
