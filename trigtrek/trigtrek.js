@@ -1,302 +1,286 @@
+const HIGH_SCORE_KEY = "bludle_trigtrek_high_score";
+
 const state = {
   score: 0,
   level: 1,
   streak: 0,
-  lives: 3,
-  round: 1,
-  running: false,
-  timerId: null,
-  roundSeconds: 16,
-  challenge: null,
+  shotsLeft: 5,
+  canFire: true,
+  wonLevel: false,
+  projectile: null,
+  target: null,
+  obstacles: [],
+  lastTime: 0,
 };
 
-const HIGH_SCORE_KEY = "bludle_trigtrek_high_score";
+const gravity = 98;
 
 const scoreEl = document.getElementById("score");
 const levelEl = document.getElementById("level");
 const streakEl = document.getElementById("streak");
-const livesEl = document.getElementById("lives");
 const bestScoreEl = document.getElementById("bestScore");
-const roundTypeEl = document.getElementById("roundType");
-const promptEl = document.getElementById("prompt");
-const problemLineEl = document.getElementById("problemLine");
-const toleranceEl = document.getElementById("tolerance");
-const formulaHintEl = document.getElementById("formulaHint");
-const timerBar = document.getElementById("timerBar");
-const answerInput = document.getElementById("answerInput");
-const resultText = document.getElementById("resultText");
-const startBtn = document.getElementById("startBtn");
+const shotsEl = document.getElementById("shots");
+const angleInput = document.getElementById("angleInput");
+const powerInput = document.getElementById("powerInput");
+const angleValue = document.getElementById("angleValue");
+const powerValue = document.getElementById("powerValue");
+const fireBtn = document.getElementById("fireBtn");
+const nextBtn = document.getElementById("nextBtn");
 const restartBtn = document.getElementById("restartBtn");
-const submitGuessBtn = document.getElementById("submitGuess");
-const hintBtn = document.getElementById("hintBtn");
-const skipBtn = document.getElementById("skipBtn");
-const canvas = document.getElementById("triangleCanvas");
+const messageEl = document.getElementById("message");
+const formulaReadout = document.getElementById("formulaReadout");
+const canvas = document.getElementById("arena");
 const ctx = canvas.getContext("2d");
 
-function getHighScore() {
+function highScore() {
   return Number(localStorage.getItem(HIGH_SCORE_KEY) || 0);
 }
 
-function setHighScore(score) {
-  localStorage.setItem(HIGH_SCORE_KEY, String(score));
-}
-
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function toRadians(deg) {
-  return (deg * Math.PI) / 180;
-}
-
-function randomBetween(min, max) {
-  return min + Math.random() * (max - min);
-}
-
-function precisionPercent() {
-  return clamp(9 - state.level * 0.6, 3, 9);
-}
-
-function buildChallenge() {
-  const theta = Math.round(randomBetween(20, 70));
-  const thetaRad = toRadians(theta);
-  const side = Number(randomBetween(4, 16).toFixed(1));
-
-  const easySet = [
-    { id: "sin-opp", formula: "sin", known: "hypotenuse", find: "opposite" },
-    { id: "cos-adj", formula: "cos", known: "hypotenuse", find: "adjacent" },
-    { id: "tan-opp", formula: "tan", known: "adjacent", find: "opposite" },
-  ];
-
-  const hardSet = [
-    { id: "sin-hyp", formula: "sin", known: "opposite", find: "hypotenuse" },
-    { id: "cos-hyp", formula: "cos", known: "adjacent", find: "hypotenuse" },
-    { id: "tan-adj", formula: "tan", known: "opposite", find: "adjacent" },
-  ];
-
-  const pool = state.level <= 2 ? easySet.slice(0, 2) : state.level <= 4 ? easySet : easySet.concat(hardSet);
-  const template = pool[Math.floor(Math.random() * pool.length)];
-
-  let answer;
-
-  if (template.id === "sin-opp") answer = side * Math.sin(thetaRad);
-  if (template.id === "cos-adj") answer = side * Math.cos(thetaRad);
-  if (template.id === "tan-opp") answer = side * Math.tan(thetaRad);
-  if (template.id === "sin-hyp") answer = side / Math.sin(thetaRad);
-  if (template.id === "cos-hyp") answer = side / Math.cos(thetaRad);
-  if (template.id === "tan-adj") answer = side / Math.tan(thetaRad);
-
-  return {
-    theta,
-    knownLabel: template.known,
-    knownValue: side,
-    findLabel: template.find,
-    formula: template.formula,
-    answer,
-  };
+function saveHighScore() {
+  if (state.score > highScore()) {
+    localStorage.setItem(HIGH_SCORE_KEY, String(state.score));
+  }
 }
 
 function updateHud() {
   scoreEl.textContent = state.score;
   levelEl.textContent = state.level;
   streakEl.textContent = state.streak;
-  livesEl.textContent = state.lives;
-  bestScoreEl.textContent = getHighScore();
+  shotsEl.textContent = state.shotsLeft;
+  bestScoreEl.textContent = highScore();
 }
 
-function drawTriangle(challenge) {
-  const { theta, knownLabel, knownValue, findLabel } = challenge;
+function degToRad(deg) {
+  return (deg * Math.PI) / 180;
+}
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+function setReadout() {
+  const angle = Number(angleInput.value);
+  const power = Number(powerInput.value);
+  const rad = degToRad(angle);
+  const vx = (power * Math.cos(rad)).toFixed(1);
+  const vy = (power * Math.sin(rad)).toFixed(1);
+  angleValue.textContent = `${angle}°`;
+  powerValue.textContent = `${power}`;
+  formulaReadout.textContent = `vx=${vx} (power·cosθ), vy=${vy} (power·sinθ)`;
+}
 
-  const pA = { x: 90, y: 250 }; // angle theta
-  const pB = { x: 390, y: 250 };
-  const pC = { x: 390, y: 90 };
+function resetLevel(fullReset = false) {
+  if (fullReset) {
+    state.score = 0;
+    state.level = 1;
+    state.streak = 0;
+  }
 
-  ctx.strokeStyle = "#d6e4f4";
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(pA.x, pA.y);
-  ctx.lineTo(pB.x, pB.y);
-  ctx.lineTo(pC.x, pC.y);
-  ctx.closePath();
-  ctx.stroke();
+  state.shotsLeft = 5;
+  state.canFire = true;
+  state.wonLevel = false;
+  state.projectile = null;
+  nextBtn.hidden = true;
+  fireBtn.hidden = false;
+  restartBtn.hidden = true;
 
-  ctx.strokeStyle = "#6fa8dc";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(pB.x - 26, pB.y - 26, 24, 24);
-
-  ctx.fillStyle = "#b4d2ff";
-  ctx.font = "18px sans-serif";
-  ctx.fillText(`θ = ${theta}°`, pA.x + 10, pA.y - 10);
-
-  const labels = {
-    adjacent: { text: "adjacent", x: 220, y: 275 },
-    opposite: { text: "opposite", x: 403, y: 170 },
-    hypotenuse: { text: "hypotenuse", x: 230, y: 155 },
+  const targetRadius = Math.max(13, 20 - state.level * 1.2);
+  state.target = {
+    x: 670 + Math.random() * 220,
+    y: 220 - Math.random() * 120,
+    r: targetRadius,
+    dir: Math.random() > 0.5 ? 1 : -1,
+    speed: 32 + state.level * 5,
   };
 
-  for (const sideName of Object.keys(labels)) {
-    const label = labels[sideName];
-    const isKnown = sideName === knownLabel;
-    const isTarget = sideName === findLabel;
-
-    ctx.fillStyle = isKnown ? "#80ed99" : isTarget ? "#f7b267" : "#d6e4f4";
-
-    let suffix = "";
-    if (isKnown) suffix = ` = ${knownValue}`;
-    if (isTarget) suffix = " = ?";
-
-    ctx.fillText(`${label.text}${suffix}`, label.x, label.y);
+  state.obstacles = [];
+  const obstacleCount = Math.min(1 + Math.floor(state.level / 2), 3);
+  for (let i = 0; i < obstacleCount; i += 1) {
+    state.obstacles.push({
+      x: 360 + i * 130 + Math.random() * 40,
+      y: 250 - Math.random() * 110,
+      w: 26,
+      h: 110 + Math.random() * 70,
+    });
   }
+
+  messageEl.textContent = `Level ${state.level}: Hit the target in ${state.shotsLeft} shots.`;
+  updateHud();
 }
 
-function hintText(formula) {
-  if (formula === "sin") return "Use sin(θ) = opposite / hypotenuse";
-  if (formula === "cos") return "Use cos(θ) = adjacent / hypotenuse";
-  return "Use tan(θ) = opposite / adjacent";
+function circleRectCollision(circle, rect) {
+  const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
+  const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
+  const dx = circle.x - closestX;
+  const dy = circle.y - closestY;
+  return (dx * dx + dy * dy) < (circle.r * circle.r);
 }
 
-function nextRound() {
-  state.challenge = buildChallenge();
-  roundTypeEl.textContent = `Round ${state.round}`;
-  promptEl.textContent = `Find the ${state.challenge.findLabel} side.`;
-  problemLineEl.textContent = `Given θ = ${state.challenge.theta}° and ${state.challenge.knownLabel} = ${state.challenge.knownValue}, find ${state.challenge.findLabel}.`;
-  toleranceEl.textContent = `Target precision: ±${precisionPercent().toFixed(1)}%`;
-  formulaHintEl.textContent = `Hint: ${hintText(state.challenge.formula)}`;
-  answerInput.value = "";
-  answerInput.focus();
-  resultText.textContent = "";
-  drawTriangle(state.challenge);
-  startTimer();
+function launch() {
+  if (!state.canFire || state.shotsLeft <= 0) return;
+
+  const angle = Number(angleInput.value);
+  const power = Number(powerInput.value);
+  const rad = degToRad(angle);
+
+  state.projectile = {
+    x0: 70,
+    y0: 330,
+    x: 70,
+    y: 330,
+    r: 8,
+    vx: power * Math.cos(rad),
+    vy: power * Math.sin(rad),
+    t: 0,
+    active: true,
+  };
+
+  state.canFire = false;
+  state.shotsLeft -= 1;
+  updateHud();
 }
 
-function registerMiss(message) {
-  state.streak = 0;
-  state.lives -= 1;
-  resultText.textContent = message;
-}
-
-function finishRound({ timedOut = false, skipped = false } = {}) {
-  clearInterval(state.timerId);
-
-  if (timedOut) {
-    registerMiss("⏱️ Time ran out. You lost a life.");
-  } else if (skipped) {
-    registerMiss("⏭️ Skipped. You lost a life.");
+function onMiss(reason) {
+  state.projectile = null;
+  if (state.shotsLeft > 0) {
+    state.canFire = true;
+    messageEl.textContent = `${reason} Shots left: ${state.shotsLeft}.`;
   } else {
-    const userValue = Number(answerInput.value);
-
-    if (!Number.isFinite(userValue) || userValue <= 0) {
-      registerMiss("⚠️ Enter a positive number to submit.");
-    } else {
-      const correct = state.challenge.answer;
-      const relError = Math.abs(userValue - correct) / correct;
-      const tolerance = precisionPercent() / 100;
-
-      if (relError <= tolerance) {
-        const accuracyBonus = Math.round((tolerance - relError) * 1300);
-        const basePoints = 120 + state.level * 14;
-        const streakBonus = state.streak * 12;
-        const earned = basePoints + Math.max(0, accuracyBonus) + streakBonus;
-
-        state.score += earned;
-        state.streak += 1;
-        resultText.textContent = `✅ Correct! Answer ≈ ${correct.toFixed(2)}. +${earned} points.`;
-      } else {
-        registerMiss(`❌ Close, but outside tolerance. Correct answer ≈ ${correct.toFixed(2)}.`);
-      }
-    }
+    state.streak = 0;
+    messageEl.textContent = `Out of shots! Run over. Final score ${state.score}.`;
+    restartBtn.hidden = false;
+    fireBtn.hidden = true;
   }
+  updateHud();
+}
 
-  if (state.score > getHighScore()) {
-    setHighScore(state.score);
-  }
+function onHit() {
+  state.wonLevel = true;
+  state.canFire = false;
+  state.projectile = null;
+  fireBtn.hidden = true;
+  nextBtn.hidden = false;
 
+  const points = 200 + state.level * 60 + state.shotsLeft * 35 + state.streak * 25;
+  state.score += points;
+  state.streak += 1;
+  saveHighScore();
   updateHud();
 
-  if (state.lives <= 0) {
-    endGame();
+  messageEl.textContent = `🎯 Bullseye! +${points} points. Click Next Level.`;
+}
+
+function update(dt) {
+  if (!state.wonLevel) {
+    state.target.x += state.target.dir * state.target.speed * dt;
+    if (state.target.x > canvas.width - state.target.r - 20) state.target.dir = -1;
+    if (state.target.x < 540) state.target.dir = 1;
+  }
+
+  if (!state.projectile || !state.projectile.active) return;
+
+  state.projectile.t += dt;
+  const t = state.projectile.t;
+  state.projectile.x = state.projectile.x0 + state.projectile.vx * t;
+  state.projectile.y = state.projectile.y0 - (state.projectile.vy * t - 0.5 * gravity * t * t);
+
+  if (
+    state.projectile.x < -20 ||
+    state.projectile.x > canvas.width + 20 ||
+    state.projectile.y > 360 ||
+    state.projectile.y < -20
+  ) {
+    onMiss("Missed target.");
     return;
   }
 
-  state.round += 1;
-
-  if (state.round % 4 === 0) {
-    state.level += 1;
-    state.roundSeconds = clamp(state.roundSeconds - 0.8, 8, 16);
-    resultText.textContent += ` Level up! Level ${state.level}.`;
+  const dx = state.projectile.x - state.target.x;
+  const dy = state.projectile.y - state.target.y;
+  if (Math.sqrt(dx * dx + dy * dy) <= state.projectile.r + state.target.r) {
+    onHit();
+    return;
   }
 
-  setTimeout(nextRound, 1000);
-}
-
-function startTimer() {
-  clearInterval(state.timerId);
-  let remaining = state.roundSeconds;
-  timerBar.value = 100;
-
-  state.timerId = setInterval(() => {
-    remaining -= 0.1;
-    timerBar.value = (remaining / state.roundSeconds) * 100;
-
-    if (remaining <= 0) {
-      timerBar.value = 0;
-      finishRound({ timedOut: true });
+  for (const obstacle of state.obstacles) {
+    if (circleRectCollision(state.projectile, obstacle)) {
+      onMiss("Blocked by wall.");
+      return;
     }
-  }, 100);
+  }
 }
 
-function startGame() {
-  state.score = 0;
-  state.level = 1;
-  state.streak = 0;
-  state.lives = 3;
-  state.round = 1;
-  state.roundSeconds = 16;
-  state.running = true;
-  startBtn.hidden = true;
-  restartBtn.hidden = true;
-  resultText.textContent = "Solve quickly and keep your streak alive.";
-  updateHud();
-  nextRound();
+function drawLauncher() {
+  const angle = degToRad(Number(angleInput.value));
+  const length = 46;
+  const baseX = 70;
+  const baseY = 330;
+
+  ctx.fillStyle = "#2b2d42";
+  ctx.fillRect(baseX - 14, baseY - 10, 28, 20);
+
+  ctx.strokeStyle = "#ffd166";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(baseX, baseY);
+  ctx.lineTo(baseX + Math.cos(angle) * length, baseY - Math.sin(angle) * length);
+  ctx.stroke();
 }
 
-function endGame() {
-  state.running = false;
-  clearInterval(state.timerId);
-  promptEl.textContent = "Run complete!";
-  problemLineEl.textContent = "Great effort — keep sharpening your trig skills.";
-  toleranceEl.textContent = `Final score: ${state.score}`;
-  resultText.textContent = `🏁 Game over. You reached level ${state.level}. Best score: ${getHighScore()}.`;
-  restartBtn.hidden = false;
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "rgba(255,255,255,0.1)";
+  for (const obstacle of state.obstacles) {
+    ctx.fillRect(obstacle.x, obstacle.y, obstacle.w, obstacle.h);
+  }
+
+  ctx.fillStyle = "#ff595e";
+  ctx.beginPath();
+  ctx.arc(state.target.x, state.target.y, state.target.r, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = "#fff";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(state.target.x, state.target.y, state.target.r * 0.55, 0, Math.PI * 2);
+  ctx.stroke();
+
+  drawLauncher();
+
+  if (state.projectile) {
+    ctx.fillStyle = "#90e0ef";
+    ctx.beginPath();
+    ctx.arc(state.projectile.x, state.projectile.y, state.projectile.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
-submitGuessBtn.addEventListener("click", () => {
-  if (!state.running) return;
-  finishRound();
+function tick(ts) {
+  if (!state.lastTime) state.lastTime = ts;
+  const dt = Math.min((ts - state.lastTime) / 1000, 0.033);
+  state.lastTime = ts;
+
+  update(dt);
+  draw();
+  requestAnimationFrame(tick);
+}
+
+fireBtn.addEventListener("click", launch);
+nextBtn.addEventListener("click", () => {
+  state.level += 1;
+  resetLevel(false);
+});
+restartBtn.addEventListener("click", () => {
+  resetLevel(true);
 });
 
-skipBtn.addEventListener("click", () => {
-  if (!state.running) return;
-  finishRound({ skipped: true });
-});
+angleInput.addEventListener("input", setReadout);
+powerInput.addEventListener("input", setReadout);
 
-hintBtn.addEventListener("click", () => {
-  if (!state.challenge) return;
-  resultText.textContent = `💡 ${hintText(state.challenge.formula)}`;
-});
-
-startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", startGame);
-
-answerInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" && state.running) {
-    finishRound();
+document.addEventListener("keydown", (event) => {
+  if (event.key === " ") {
+    event.preventDefault();
+    launch();
   }
 });
 
+setReadout();
 updateHud();
-ctx.fillStyle = "#d6e4f4";
-ctx.font = "20px sans-serif";
-ctx.fillText("Press Start Run to begin", 130, 165);
+resetLevel(true);
+requestAnimationFrame(tick);
