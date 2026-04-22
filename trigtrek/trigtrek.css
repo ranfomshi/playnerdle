@@ -73,6 +73,25 @@ body {
 .control-group label { display: block; margin-bottom: 4px; font-weight: 700; }
 .control-group input { width: 100%; }
 
+
+.formula-gate {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+}
+#formulaChallenge { margin: 0 0 8px; color: #ffee93; font-weight: 700; }
+.formula-row { display: flex; gap: 8px; flex-wrap: wrap; }
+#formulaInput {
+  flex: 1;
+  min-width: 170px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: #10243b;
+  color: #f8fafc;
+  border-radius: 8px;
+  padding: 9px;
+}
+
 .button-row {
   display: flex;
   gap: 10px;

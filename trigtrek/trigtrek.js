@@ -11,6 +11,8 @@ const state = {
   target: null,
   obstacles: [],
   lastTime: 0,
+  fireUnlocked: false,
+  challenge: null,
 };
 
 const gravity = 98;
@@ -31,6 +33,9 @@ const restartBtn = document.getElementById("restartBtn");
 const messageEl = document.getElementById("message");
 const formulaReadout = document.getElementById("formulaReadout");
 const trajectoryReadout = document.getElementById("trajectoryReadout");
+const formulaChallengeEl = document.getElementById("formulaChallenge");
+const formulaInput = document.getElementById("formulaInput");
+const unlockBtn = document.getElementById("unlockBtn");
 const canvas = document.getElementById("arena");
 const ctx = canvas.getContext("2d");
 
@@ -41,6 +46,58 @@ function highScore() {
 function saveHighScore() {
   if (state.score > highScore()) {
     localStorage.setItem(HIGH_SCORE_KEY, String(state.score));
+  }
+}
+
+
+
+function currentShotPhysics() {
+  const angle = Number(angleInput.value);
+  const power = Number(powerInput.value);
+  const rad = degToRad(angle);
+  const scaledPower = power * POWER_SCALE;
+  const vx = scaledPower * Math.cos(rad);
+  const vy = scaledPower * Math.sin(rad);
+  return { angle, power, rad, scaledPower, vx, vy };
+}
+
+function createFormulaChallenge() {
+  const { angle, power, vx, vy } = currentShotPhysics();
+  const types = [
+    {
+      key: "vx",
+      prompt: `Unlock Fire: with θ=${angle}° and power=${power}, calculate vx = (power×${POWER_SCALE.toFixed(1)})×cos(θ).`,
+      expected: vx,
+    },
+    {
+      key: "vy",
+      prompt: `Unlock Fire: with θ=${angle}° and power=${power}, calculate vy = (power×${POWER_SCALE.toFixed(1)})×sin(θ).`,
+      expected: vy,
+    },
+  ];
+
+  state.challenge = types[Math.floor(Math.random() * types.length)];
+  state.fireUnlocked = false;
+  formulaChallengeEl.textContent = state.challenge.prompt;
+  formulaInput.value = "";
+}
+
+function unlockFireIfCorrect() {
+  if (!state.canFire || state.wonLevel || state.shotsLeft <= 0) return;
+
+  const userValue = Number(formulaInput.value);
+  if (!Number.isFinite(userValue)) {
+    messageEl.textContent = "Enter a number to unlock fire.";
+    return;
+  }
+
+  const tolerance = Math.max(1, Math.abs(state.challenge.expected) * 0.03);
+  if (Math.abs(userValue - state.challenge.expected) <= tolerance) {
+    state.fireUnlocked = true;
+    messageEl.textContent = "✅ Formula solved. Fire unlocked for this shot.";
+  } else {
+    state.fireUnlocked = false;
+    messageEl.textContent = `❌ Not quite. Try again (within ±${tolerance.toFixed(1)}).`;
   }
 }
 
@@ -57,20 +114,19 @@ function degToRad(deg) {
 }
 
 function setReadout() {
-  const angle = Number(angleInput.value);
-  const power = Number(powerInput.value);
-  const rad = degToRad(angle);
-  const scaledPower = power * POWER_SCALE;
-  const vx = (scaledPower * Math.cos(rad)).toFixed(1);
-  const vy = (scaledPower * Math.sin(rad)).toFixed(1);
-  const flightTime = (2 * scaledPower * Math.sin(rad)) / gravity;
-  const range = Math.max(0, scaledPower * Math.cos(rad) * flightTime);
-  const peakHeight = ((scaledPower * Math.sin(rad)) ** 2) / (2 * gravity);
+  const { angle, power, scaledPower, vx, vy } = currentShotPhysics();
+  const flightTime = (2 * vy) / gravity;
+  const range = Math.max(0, vx * flightTime);
+  const peakHeight = (vy ** 2) / (2 * gravity);
 
   angleValue.textContent = `${angle}°`;
   powerValue.textContent = `${power}`;
-  formulaReadout.textContent = `vx=${vx} (power·cosθ), vy=${vy} (power·sinθ)`;
+  formulaReadout.textContent = `vx=${vx.toFixed(1)} (power·cosθ), vy=${vy.toFixed(1)} (power·sinθ)`;
   trajectoryReadout.textContent = `Predicted range: ${range.toFixed(0)} px | Peak height: ${peakHeight.toFixed(0)} px`;
+
+  if (state.canFire && !state.wonLevel && !state.projectile) {
+    createFormulaChallenge();
+  }
 }
 
 function resetLevel(fullReset = false) {
@@ -111,6 +167,7 @@ function resetLevel(fullReset = false) {
   const targetDx = state.target.x - 70;
   const targetDy = 330 - state.target.y;
   messageEl.textContent = `Level ${state.level}: target is ~${targetDx.toFixed(0)}px away and ${targetDy.toFixed(0)}px high. ${state.shotsLeft} shots.`;
+  createFormulaChallenge();
   updateHud();
 }
 
@@ -124,6 +181,10 @@ function circleRectCollision(circle, rect) {
 
 function launch() {
   if (!state.canFire || state.shotsLeft <= 0) return;
+  if (!state.fireUnlocked) {
+    messageEl.textContent = "Solve the formula challenge before firing.";
+    return;
+  }
 
   const angle = Number(angleInput.value);
   const power = Number(powerInput.value);
@@ -142,6 +203,7 @@ function launch() {
   };
 
   state.canFire = false;
+  state.fireUnlocked = false;
   state.shotsLeft -= 1;
   updateHud();
 }
@@ -150,7 +212,8 @@ function onMiss(reason) {
   state.projectile = null;
   if (state.shotsLeft > 0) {
     state.canFire = true;
-    messageEl.textContent = `${reason} Shots left: ${state.shotsLeft}.`;
+    createFormulaChallenge();
+    messageEl.textContent = `${reason} Shots left: ${state.shotsLeft}. Solve formula to fire again.`;
   } else {
     state.streak = 0;
     messageEl.textContent = `Out of shots! Run over. Final score ${state.score}.`;
@@ -174,6 +237,7 @@ function onHit() {
   updateHud();
 
   messageEl.textContent = `🎯 Bullseye! +${points} points. Click Next Level.`;
+  formulaChallengeEl.textContent = "Level cleared!";
 }
 
 function update(dt) {
@@ -272,6 +336,7 @@ function tick(ts) {
 }
 
 fireBtn.addEventListener("click", launch);
+unlockBtn.addEventListener("click", unlockFireIfCorrect);
 nextBtn.addEventListener("click", () => {
   state.level += 1;
   resetLevel(false);
@@ -282,6 +347,12 @@ restartBtn.addEventListener("click", () => {
 
 angleInput.addEventListener("input", setReadout);
 powerInput.addEventListener("input", setReadout);
+formulaInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    unlockFireIfCorrect();
+  }
+});
 
 document.addEventListener("keydown", (event) => {
   if (event.key === " ") {
