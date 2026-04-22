@@ -1,7 +1,6 @@
 :root {
   color-scheme: dark;
   --bg: #0d1321;
-  --card: #1d2d44;
   --accent: #4cc9f0;
   --accent-2: #80ed99;
   --text: #f1f5f9;
@@ -18,7 +17,7 @@ body {
 }
 
 .app {
-  max-width: 920px;
+  max-width: 940px;
   margin: 0 auto;
   padding: 80px 16px 24px;
 }
@@ -28,22 +27,12 @@ body {
 .hero h1 { margin: 8px 0; font-size: clamp(2rem, 5vw, 3rem); }
 .hero p { margin-top: 0; opacity: .9; }
 
-.hud {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
-}
-.stat {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 10px;
-  padding: 10px;
-}
-.stat span { display:block; font-size: .8rem; opacity: .7; }
-.stat strong { font-size: 1.25rem; }
-
-.challenge, .playfield, .feedback, .actions {
+.how-to,
+.hud,
+.challenge,
+.playfield,
+.feedback,
+.actions {
   margin-top: 14px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
@@ -51,8 +40,30 @@ body {
   padding: 14px;
 }
 
+.how-to h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.how-to ol { margin: 0 0 10px 18px; padding: 0; }
+.how-to li { margin-bottom: 5px; }
+#formulaHint { margin: 0; color: #cfe8ff; }
+
+.hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.stat {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.stat span { display:block; font-size: .8rem; opacity: .7; }
+.stat strong { font-size: 1.25rem; }
+
 .round-type { color: var(--accent); font-weight: 700; }
 #prompt { margin: 8px 0 4px; }
+#problemLine { margin: 0 0 4px; }
 #tolerance { margin: 0; opacity: .85; }
 #timerBar { width: 100%; height: 14px; }
 
@@ -63,17 +74,25 @@ body {
   justify-items: center;
 }
 
-#circleCanvas {
-  width: min(100%, 420px);
+#triangleCanvas {
+  width: min(100%, 480px);
   height: auto;
   background: #0b1a2a;
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 12px;
 }
 
-.controls { width: min(100%, 420px); }
-.controls input[type="range"] { width: 100%; }
-#angleValue { color: var(--accent-2); font-weight: 700; }
+.controls { width: min(100%, 480px); }
+.controls input {
+  width: 100%;
+  margin-top: 8px;
+  background: #0d2237;
+  border: 1px solid #355a79;
+  color: #f8fafc;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 1rem;
+}
 
 .button-row {
   display: grid;
@@ -91,14 +110,16 @@ button {
   background: #385170;
   color: #f8fafc;
 }
+
 button.primary {
   background: linear-gradient(135deg, var(--accent), #4361ee);
 }
-button:hover { filter: brightness(1.08); }
 
+button:hover { filter: brightness(1.08); }
 .feedback p { margin: 0; font-weight: 600; min-height: 24px; }
 .actions { display: flex; gap: 10px; justify-content: center; }
 
-@media (max-width: 620px) {
+@media (max-width: 680px) {
   .app { padding-top: 72px; }
+  .button-row { grid-template-columns: 1fr; }
 }

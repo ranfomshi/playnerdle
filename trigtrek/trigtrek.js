@@ -4,11 +4,10 @@ const state = {
   streak: 0,
   lives: 3,
   round: 1,
-  angle: 0,
   running: false,
   timerId: null,
-  roundSeconds: 14,
-  target: null,
+  roundSeconds: 16,
+  challenge: null,
 };
 
 const HIGH_SCORE_KEY = "bludle_trigtrek_high_score";
@@ -20,17 +19,18 @@ const livesEl = document.getElementById("lives");
 const bestScoreEl = document.getElementById("bestScore");
 const roundTypeEl = document.getElementById("roundType");
 const promptEl = document.getElementById("prompt");
+const problemLineEl = document.getElementById("problemLine");
 const toleranceEl = document.getElementById("tolerance");
+const formulaHintEl = document.getElementById("formulaHint");
 const timerBar = document.getElementById("timerBar");
-const angleInput = document.getElementById("angleInput");
-const angleValue = document.getElementById("angleValue");
+const answerInput = document.getElementById("answerInput");
 const resultText = document.getElementById("resultText");
 const startBtn = document.getElementById("startBtn");
 const restartBtn = document.getElementById("restartBtn");
 const submitGuessBtn = document.getElementById("submitGuess");
-const nudgeLeftBtn = document.getElementById("nudgeLeft");
-const nudgeRightBtn = document.getElementById("nudgeRight");
-const canvas = document.getElementById("circleCanvas");
+const hintBtn = document.getElementById("hintBtn");
+const skipBtn = document.getElementById("skipBtn");
+const canvas = document.getElementById("triangleCanvas");
 const ctx = canvas.getContext("2d");
 
 function getHighScore() {
@@ -41,41 +41,59 @@ function setHighScore(score) {
   localStorage.setItem(HIGH_SCORE_KEY, String(score));
 }
 
-function toRadians(deg) {
-  return (deg * Math.PI) / 180;
-}
-
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
-function currentTolerance() {
-  return clamp(0.18 - (state.level - 1) * 0.01, 0.05, 0.18);
+function toRadians(deg) {
+  return (deg * Math.PI) / 180;
 }
 
-function functionPool() {
-  if (state.level <= 3) return ["sin", "cos"];
-  return ["sin", "cos", "tan"];
+function randomBetween(min, max) {
+  return min + Math.random() * (max - min);
 }
 
-function randomTarget() {
-  const funcs = functionPool();
-  const fn = funcs[Math.floor(Math.random() * funcs.length)];
-
-  if (fn === "tan") {
-    const raw = (Math.random() * 3.4 - 1.7);
-    return { fn, value: Number(raw.toFixed(3)) };
-  }
-
-  const raw = (Math.random() * 2 - 1);
-  return { fn, value: Number(raw.toFixed(3)) };
+function precisionPercent() {
+  return clamp(9 - state.level * 0.6, 3, 9);
 }
 
-function evaluate(angleDeg, fn) {
-  const r = toRadians(angleDeg);
-  if (fn === "sin") return Math.sin(r);
-  if (fn === "cos") return Math.cos(r);
-  return Math.tan(r);
+function buildChallenge() {
+  const theta = Math.round(randomBetween(20, 70));
+  const thetaRad = toRadians(theta);
+  const side = Number(randomBetween(4, 16).toFixed(1));
+
+  const easySet = [
+    { id: "sin-opp", formula: "sin", known: "hypotenuse", find: "opposite" },
+    { id: "cos-adj", formula: "cos", known: "hypotenuse", find: "adjacent" },
+    { id: "tan-opp", formula: "tan", known: "adjacent", find: "opposite" },
+  ];
+
+  const hardSet = [
+    { id: "sin-hyp", formula: "sin", known: "opposite", find: "hypotenuse" },
+    { id: "cos-hyp", formula: "cos", known: "adjacent", find: "hypotenuse" },
+    { id: "tan-adj", formula: "tan", known: "opposite", find: "adjacent" },
+  ];
+
+  const pool = state.level <= 2 ? easySet.slice(0, 2) : state.level <= 4 ? easySet : easySet.concat(hardSet);
+  const template = pool[Math.floor(Math.random() * pool.length)];
+
+  let answer;
+
+  if (template.id === "sin-opp") answer = side * Math.sin(thetaRad);
+  if (template.id === "cos-adj") answer = side * Math.cos(thetaRad);
+  if (template.id === "tan-opp") answer = side * Math.tan(thetaRad);
+  if (template.id === "sin-hyp") answer = side / Math.sin(thetaRad);
+  if (template.id === "cos-hyp") answer = side / Math.cos(thetaRad);
+  if (template.id === "tan-adj") answer = side / Math.tan(thetaRad);
+
+  return {
+    theta,
+    knownLabel: template.known,
+    knownValue: side,
+    findLabel: template.find,
+    formula: template.formula,
+    answer,
+  };
 }
 
 function updateHud() {
@@ -86,100 +104,109 @@ function updateHud() {
   bestScoreEl.textContent = getHighScore();
 }
 
-function drawCircle() {
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  const radius = 150;
-  const rad = toRadians(state.angle);
-  const x = centerX + radius * Math.cos(rad);
-  const y = centerY - radius * Math.sin(rad);
+function drawTriangle(challenge) {
+  const { theta, knownLabel, knownValue, findLabel } = challenge;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.strokeStyle = "rgba(255,255,255,0.2)";
+  const pA = { x: 90, y: 250 }; // angle theta
+  const pB = { x: 390, y: 250 };
+  const pC = { x: 390, y: 90 };
+
+  ctx.strokeStyle = "#d6e4f4";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(pA.x, pA.y);
+  ctx.lineTo(pB.x, pB.y);
+  ctx.lineTo(pC.x, pC.y);
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.strokeStyle = "#6fa8dc";
   ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-  ctx.stroke();
+  ctx.strokeRect(pB.x - 26, pB.y - 26, 24, 24);
 
-  ctx.beginPath();
-  ctx.moveTo(centerX - radius - 18, centerY);
-  ctx.lineTo(centerX + radius + 18, centerY);
-  ctx.moveTo(centerX, centerY - radius - 18);
-  ctx.lineTo(centerX, centerY + radius + 18);
-  ctx.stroke();
+  ctx.fillStyle = "#b4d2ff";
+  ctx.font = "18px sans-serif";
+  ctx.fillText(`θ = ${theta}°`, pA.x + 10, pA.y - 10);
 
-  ctx.strokeStyle = "#4cc9f0";
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY);
-  ctx.lineTo(x, y);
-  ctx.stroke();
+  const labels = {
+    adjacent: { text: "adjacent", x: 220, y: 275 },
+    opposite: { text: "opposite", x: 403, y: 170 },
+    hypotenuse: { text: "hypotenuse", x: 230, y: 155 },
+  };
 
-  ctx.fillStyle = "#80ed99";
-  ctx.beginPath();
-  ctx.arc(x, y, 7, 0, Math.PI * 2);
-  ctx.fill();
+  for (const sideName of Object.keys(labels)) {
+    const label = labels[sideName];
+    const isKnown = sideName === knownLabel;
+    const isTarget = sideName === findLabel;
 
-  ctx.fillStyle = "#e2e8f0";
-  ctx.font = "16px sans-serif";
-  ctx.fillText(`θ = ${state.angle}°`, 20, 30);
-  ctx.fillText(`sinθ ${Math.sin(rad).toFixed(3)}`, 20, 52);
-  ctx.fillText(`cosθ ${Math.cos(rad).toFixed(3)}`, 20, 74);
-  ctx.fillText(`tanθ ${Math.tan(rad).toFixed(3)}`, 20, 96);
+    ctx.fillStyle = isKnown ? "#80ed99" : isTarget ? "#f7b267" : "#d6e4f4";
+
+    let suffix = "";
+    if (isKnown) suffix = ` = ${knownValue}`;
+    if (isTarget) suffix = " = ?";
+
+    ctx.fillText(`${label.text}${suffix}`, label.x, label.y);
+  }
+}
+
+function hintText(formula) {
+  if (formula === "sin") return "Use sin(θ) = opposite / hypotenuse";
+  if (formula === "cos") return "Use cos(θ) = adjacent / hypotenuse";
+  return "Use tan(θ) = opposite / adjacent";
 }
 
 function nextRound() {
-  state.target = randomTarget();
-  const tolerance = currentTolerance();
+  state.challenge = buildChallenge();
   roundTypeEl.textContent = `Round ${state.round}`;
-  promptEl.textContent = `Match ${state.target.fn}(θ) = ${state.target.value.toFixed(3)}`;
-  toleranceEl.textContent = `Tolerance: ±${tolerance.toFixed(3)}`;
+  promptEl.textContent = `Find the ${state.challenge.findLabel} side.`;
+  problemLineEl.textContent = `Given θ = ${state.challenge.theta}° and ${state.challenge.knownLabel} = ${state.challenge.knownValue}, find ${state.challenge.findLabel}.`;
+  toleranceEl.textContent = `Target precision: ±${precisionPercent().toFixed(1)}%`;
+  formulaHintEl.textContent = `Hint: ${hintText(state.challenge.formula)}`;
+  answerInput.value = "";
+  answerInput.focus();
   resultText.textContent = "";
-
+  drawTriangle(state.challenge);
   startTimer();
 }
 
-function scoreGuess(distance, timedOut = false) {
-  const tolerance = currentTolerance();
-
-  if (timedOut) {
-    state.streak = 0;
-    state.lives -= 1;
-    resultText.textContent = "⏱️ Time ran out! You lost a life.";
-    return;
-  }
-
-  if (distance <= tolerance) {
-    const accuracyBonus = Math.round((tolerance - distance) * 1200);
-    const streakBonus = state.streak * 10;
-    const basePoints = 100 + state.level * 12;
-    state.score += basePoints + Math.max(0, accuracyBonus) + streakBonus;
-    state.streak += 1;
-    resultText.textContent = `✅ Great shot! Off by ${distance.toFixed(3)}. +${basePoints + Math.max(0, accuracyBonus) + streakBonus} points.`;
-  } else {
-    state.streak = 0;
-    state.lives -= 1;
-    resultText.textContent = `❌ Off by ${distance.toFixed(3)}. That's outside tolerance.`;
-  }
+function registerMiss(message) {
+  state.streak = 0;
+  state.lives -= 1;
+  resultText.textContent = message;
 }
 
-function maybeLevelUp() {
-  if (state.round % 4 === 0) {
-    state.level += 1;
-    state.roundSeconds = clamp(state.roundSeconds - 0.6, 7, 14);
-    resultText.textContent += ` Level up! Level ${state.level}.`;
-  }
-}
-
-function finishRound(timedOut = false) {
+function finishRound({ timedOut = false, skipped = false } = {}) {
   clearInterval(state.timerId);
-  const guess = evaluate(state.angle, state.target.fn);
-  const distance = Math.abs(guess - state.target.value);
+
   if (timedOut) {
-    scoreGuess(distance, true);
+    registerMiss("⏱️ Time ran out. You lost a life.");
+  } else if (skipped) {
+    registerMiss("⏭️ Skipped. You lost a life.");
   } else {
-    scoreGuess(distance, false);
+    const userValue = Number(answerInput.value);
+
+    if (!Number.isFinite(userValue) || userValue <= 0) {
+      registerMiss("⚠️ Enter a positive number to submit.");
+    } else {
+      const correct = state.challenge.answer;
+      const relError = Math.abs(userValue - correct) / correct;
+      const tolerance = precisionPercent() / 100;
+
+      if (relError <= tolerance) {
+        const accuracyBonus = Math.round((tolerance - relError) * 1300);
+        const basePoints = 120 + state.level * 14;
+        const streakBonus = state.streak * 12;
+        const earned = basePoints + Math.max(0, accuracyBonus) + streakBonus;
+
+        state.score += earned;
+        state.streak += 1;
+        resultText.textContent = `✅ Correct! Answer ≈ ${correct.toFixed(2)}. +${earned} points.`;
+      } else {
+        registerMiss(`❌ Close, but outside tolerance. Correct answer ≈ ${correct.toFixed(2)}.`);
+      }
+    }
   }
 
   if (state.score > getHighScore()) {
@@ -194,8 +221,14 @@ function finishRound(timedOut = false) {
   }
 
   state.round += 1;
-  maybeLevelUp();
-  setTimeout(nextRound, 900);
+
+  if (state.round % 4 === 0) {
+    state.level += 1;
+    state.roundSeconds = clamp(state.roundSeconds - 0.8, 8, 16);
+    resultText.textContent += ` Level up! Level ${state.level}.`;
+  }
+
+  setTimeout(nextRound, 1000);
 }
 
 function startTimer() {
@@ -209,7 +242,7 @@ function startTimer() {
 
     if (remaining <= 0) {
       timerBar.value = 0;
-      finishRound(true);
+      finishRound({ timedOut: true });
     }
   }, 100);
 }
@@ -220,11 +253,11 @@ function startGame() {
   state.streak = 0;
   state.lives = 3;
   state.round = 1;
-  state.roundSeconds = 14;
+  state.roundSeconds = 16;
   state.running = true;
   startBtn.hidden = true;
   restartBtn.hidden = true;
-  resultText.textContent = "Find the best angle and lock it in.";
+  resultText.textContent = "Solve quickly and keep your streak alive.";
   updateHud();
   nextRound();
 }
@@ -233,39 +266,37 @@ function endGame() {
   state.running = false;
   clearInterval(state.timerId);
   promptEl.textContent = "Run complete!";
+  problemLineEl.textContent = "Great effort — keep sharpening your trig skills.";
   toleranceEl.textContent = `Final score: ${state.score}`;
-  resultText.textContent = `🏁 Game over. You reached level ${state.level} with a best score of ${getHighScore()}.`;
+  resultText.textContent = `🏁 Game over. You reached level ${state.level}. Best score: ${getHighScore()}.`;
   restartBtn.hidden = false;
 }
 
-function updateAngle(newAngle) {
-  state.angle = ((newAngle % 360) + 360) % 360;
-  angleInput.value = state.angle;
-  angleValue.textContent = `${state.angle}°`;
-  drawCircle();
-}
-
-angleInput.addEventListener("input", (event) => {
-  updateAngle(Number(event.target.value));
-});
-
 submitGuessBtn.addEventListener("click", () => {
   if (!state.running) return;
-  finishRound(false);
+  finishRound();
 });
 
-nudgeLeftBtn.addEventListener("click", () => updateAngle(state.angle - 5));
-nudgeRightBtn.addEventListener("click", () => updateAngle(state.angle + 5));
+skipBtn.addEventListener("click", () => {
+  if (!state.running) return;
+  finishRound({ skipped: true });
+});
+
+hintBtn.addEventListener("click", () => {
+  if (!state.challenge) return;
+  resultText.textContent = `💡 ${hintText(state.challenge.formula)}`;
+});
 
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", startGame);
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "ArrowLeft") updateAngle(state.angle - 1);
-  if (event.key === "ArrowRight") updateAngle(state.angle + 1);
-  if (event.key === "Enter" && state.running) finishRound(false);
+answerInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && state.running) {
+    finishRound();
+  }
 });
 
 updateHud();
-updateAngle(0);
-resultText.textContent = "Beat the timer, protect your 3 lives, and build a streak for combo bonuses.";
+ctx.fillStyle = "#d6e4f4";
+ctx.font = "20px sans-serif";
+ctx.fillText("Press Start Run to begin", 130, 165);
