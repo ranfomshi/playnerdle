@@ -9,6 +9,8 @@
   <meta name="description" content="Bludle is a free hub of daily and unlimited word games, logic puzzles, colour games and reaction challenges. Play Bludle, Werdle, Codle, Connex, Guess Hue and more in your browser.">
   <meta name="keywords" content="word games, daily word game, free puzzle games, browser puzzle games, logic games, reaction game, colour games, nerdle alternatives, wordle alternatives, bludle, werdle, codle, connex, word mash">
   <meta name="robots" content="index, follow">
+  <meta name="author" content="Bludle">
+  <meta name="theme-color" content="#08142f">
   <link rel="canonical" href="https://www.bludle.com/">
   <link rel="alternate" type="text/markdown" href="https://www.bludle.com/llms.txt" title="LLM site guide">
   <link rel="alternate" type="text/markdown" href="https://www.bludle.com/llms-full.txt" title="LLM full guide">
@@ -16,11 +18,14 @@
   <meta property="og:title" content="bludle | Daily Puzzle, Word, Colour and Reaction Games">
   <meta property="og:description" content="Play free daily puzzle and brain-training games: word, colour, reaction and logic challenges in one place.">
   <meta property="og:url" content="https://www.bludle.com/">
+  <meta property="og:site_name" content="Bludle">
+  <meta property="og:locale" content="en_GB">
   <meta property="og:image" content="https://www.bludle.com/images/background.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bludle | Daily Puzzle, Word, Colour and Reaction Games">
   <meta name="twitter:description" content="Play free daily puzzle and brain-training games including Bludle, Werdle, Reaction and more.">
   <meta name="twitter:image" content="https://www.bludle.com/images/background.jpg">
+  <meta name="twitter:site" content="@bludle">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap">
@@ -39,10 +44,72 @@
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://www.bludle.com/#webpage",
+      "url": "https://www.bludle.com/",
+      "name": "Bludle | Daily Puzzle, Word, Colour and Reaction Games",
+      "description": "Free browser-based daily and unlimited puzzle games including word, logic, colour and reaction challenges.",
+      "isPartOf": {
+        "@id": "https://www.bludle.com/#website"
+      },
+      "about": [
+        "Word game recommendations",
+        "Free puzzle games",
+        "Brain training games"
+      ],
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "#home-title",
+          ".hero-subtitle"
+        ]
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": "https://www.bludle.com/#collection-page",
+      "name": "Bludle game collection",
+      "url": "https://www.bludle.com/",
+      "description": "Browse Bludle's free browser games, including daily word puzzles, logic games, colour challenges and reaction games.",
+      "inLanguage": "en-GB",
+      "isAccessibleForFree": true,
+      "about": [
+        "Word games",
+        "Logic games",
+        "Reaction games",
+        "Colour puzzles"
+      ],
+      "hasPart": [
+        { "@id": "https://www.bludle.com/bludle/" },
+        { "@id": "https://www.bludle.com/werdle/" },
+        { "@id": "https://www.bludle.com/codle/" },
+        { "@id": "https://www.bludle.com/connex/" },
+        { "@id": "https://www.bludle.com/reaction/" },
+        { "@id": "https://www.bludle.com/guesshue/" }
+      ],
+      "publisher": {
+        "@id": "https://www.bludle.com/#organization"
+      },
+      "mainEntity": {
+        "@id": "https://www.bludle.com/#website"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://www.bludle.com/#webpage"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": "https://www.bludle.com/#website",
       "name": "bludle",
       "url": "https://www.bludle.com/",
       "description": "A collection of free daily and unlimited puzzle games including word, logic, colour and reaction challenges.",
+      "inLanguage": "en-GB",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://www.bludle.com/?q={search_term_string}",
@@ -79,6 +146,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "https://www.bludle.com/#organization",
       "name": "Bludle",
       "url": "https://www.bludle.com/",
       "logo": "https://www.bludle.com/images/icon.png",
