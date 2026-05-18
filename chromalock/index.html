@@ -166,7 +166,7 @@
 
     #movingSwatch {
       cursor: pointer;
-      transition: transform 120ms ease;
+      transition: background-color 180ms linear, transform 120ms ease;
     }
 
     #movingSwatch:active {
@@ -418,16 +418,16 @@
       return Math.max(5, 26 - (level * 2));
     }
 
-    function speedForLevel(level) {
-      return 0.026 + Math.min(level, 16) * 0.004;
+    function cycleDurationForLevel(level) {
+      return Math.max(7000, 12000 - Math.min(level, 12) * 350);
     }
 
     function cycleArcForLevel(level) {
-      return Math.max(54, 190 - level * 7);
+      return Math.max(60, 170 - level * 5);
     }
 
     function hslString(colour) {
-      return `hsl(${Math.round(colour.h)} ${Math.round(colour.s)}% ${Math.round(colour.l)}%)`;
+      return `hsl(${colour.h.toFixed(1)} ${colour.s.toFixed(1)}% ${colour.l.toFixed(1)}%)`;
     }
 
     function hslToHex({ h, s, l }) {
@@ -462,8 +462,8 @@
     }
 
     function setSwatches() {
-      els.targetSwatch.style.background = hslString(state.target);
-      els.movingSwatch.style.background = hslString(state.current);
+      els.targetSwatch.style.backgroundColor = hslString(state.target);
+      els.movingSwatch.style.backgroundColor = hslString(state.current);
       els.targetHex.textContent = hslToHex(state.target);
       els.movingHex.textContent = hslToHex(state.current);
     }
@@ -490,12 +490,14 @@
 
       const elapsed = timestamp - state.roundStart;
       const arc = cycleArcForLevel(state.level);
-      const sweep = Math.sin(elapsed * speedForLevel(state.level));
-      const shimmer = Math.sin(elapsed * 0.006);
+      const duration = cycleDurationForLevel(state.level);
+      const phase = (elapsed % duration) / duration;
+      const easedSweep = Math.sin(phase * Math.PI * 2);
+      const shimmer = Math.sin(phase * Math.PI * 2 + Math.PI / 3);
       state.current = {
-        h: (state.target.h + sweep * arc + 360) % 360,
-        s: Math.min(92, Math.max(50, state.target.s + shimmer * 5)),
-        l: Math.min(70, Math.max(34, state.target.l + Math.cos(elapsed * 0.005) * 4)),
+        h: (state.target.h + easedSweep * arc + 360) % 360,
+        s: Math.min(92, Math.max(50, state.target.s + shimmer * 2.5)),
+        l: Math.min(70, Math.max(34, state.target.l + Math.cos(phase * Math.PI * 2) * 2)),
       };
 
       setSwatches();
