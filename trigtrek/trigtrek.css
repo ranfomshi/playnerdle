@@ -1,0 +1,122 @@
+:root {
+  --bg: #0d1321;
+  --card: #1d2d44;
+  --text: #f8fafc;
+  --accent: #4cc9f0;
+  --accent2: #80ed99;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Manrope", system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, #1d2d44 0%, #0d1321 55%);
+}
+
+.app {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 80px 16px 24px;
+}
+
+.hero,
+.how-to,
+.hud,
+.arena-wrap,
+.controls,
+.feedback {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 14px;
+}
+
+.hero { text-align: center; }
+.kicker { margin: 0; color: var(--accent2); letter-spacing: .08em; font-weight: 800; }
+.hero h1 { margin: 8px 0; }
+.hero p { margin: 0; opacity: 0.9; }
+
+.how-to h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.how-to ol { margin: 0 0 8px 18px; }
+.how-to p { margin: 0; color: #d8e8ff; }
+.how-to code { color: #ffee93; }
+
+.hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+.stat {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px;
+}
+.stat span { display: block; font-size: 0.8rem; opacity: 0.8; }
+.stat strong { font-size: 1.25rem; }
+
+#arena {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: linear-gradient(#0b2b40 0%, #123f5a 72%, #22543d 72%, #22543d 100%);
+}
+
+.controls {
+  display: grid;
+  gap: 10px;
+}
+.control-group label { display: block; margin-bottom: 4px; font-weight: 700; }
+.control-group input { width: 100%; }
+
+
+.formula-gate {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+}
+#formulaChallenge { margin: 0 0 8px; color: #ffee93; font-weight: 700; }
+.formula-row { display: flex; gap: 8px; flex-wrap: wrap; }
+#formulaInput {
+  flex: 1;
+  min-width: 170px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: #10243b;
+  color: #f8fafc;
+  border-radius: 8px;
+  padding: 9px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 800;
+  color: #f8fafc;
+  background: #39587a;
+  cursor: pointer;
+}
+button.primary {
+  background: linear-gradient(135deg, var(--accent), #4361ee);
+}
+button:hover { filter: brightness(1.08); }
+
+.feedback p { margin: 0; }
+#message { font-weight: 700; margin-bottom: 6px; }
+#formulaReadout { color: #c2dcff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#trajectoryReadout { color: #ffee93; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: 6px; }
+
+@media (max-width: 680px) {
+  .app { padding-top: 72px; }
+}
