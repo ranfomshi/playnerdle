@@ -128,20 +128,21 @@
     .arena {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(14px, 3vw, 24px);
+      gap: 0;
       align-items: stretch;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel-strong);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 35px rgba(0, 0, 0, 0.25);
     }
 
     .colour-card {
       min-height: clamp(230px, 38vw, 340px);
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--panel-strong);
+      padding: 18px 0 0;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .card-label {
@@ -149,6 +150,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+      padding: 0 18px;
       color: var(--muted);
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -159,12 +161,16 @@
     .swatch {
       flex: 1;
       min-height: 180px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14), 0 18px 35px rgba(0, 0, 0, 0.25);
+      border: 0;
+      box-shadow: none;
+    }
+
+    #targetSwatch {
+      border-radius: 0 0 0 24px;
     }
 
     #movingSwatch {
+      border-radius: 0 0 24px 0;
       cursor: pointer;
       transition: background-color 180ms linear, transform 120ms ease;
     }
@@ -298,6 +304,15 @@
         min-height: 220px;
       }
 
+      #targetSwatch,
+      #movingSwatch {
+        border-radius: 0;
+      }
+
+      #movingSwatch {
+        border-radius: 0 0 24px 24px;
+      }
+
       button {
         width: 100%;
       }
@@ -419,7 +434,7 @@
     }
 
     function cycleDurationForLevel(level) {
-      return Math.max(7000, 12000 - Math.min(level, 12) * 350);
+      return Math.max(10000, 16000 - Math.min(level, 12) * 450);
     }
 
     function cycleArcForLevel(level) {
