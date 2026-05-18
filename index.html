@@ -196,20 +196,34 @@
   <div id="navbar-container"></div>
 
   <header class="home-hero" aria-labelledby="home-title">
-    <p class="hero-kicker">Playful puzzles. Premium feel.</p>
-    <h1 id="home-title">A modern arcade for word, colour and logic games.</h1>
-    <p class="hero-subtitle">Discover daily challenges, unlimited practice modes, and fast games designed to be fun in under 5 minutes.</p>
-    <div class="hero-chips" aria-label="Game categories">
-      <span>Daily Word</span>
-      <span>Colour + Vision</span>
-      <span>Logic + Memory</span>
-      <span>Speed + Reaction</span>
+    <div class="hero-copy">
+      <p class="hero-kicker">Playful puzzles. Premium feel.</p>
+      <h1 id="home-title">A cleaner arcade for quick brain games.</h1>
+      <p class="hero-subtitle">Discover daily challenges, unlimited practice modes, and fast games designed to feel good on mobile, tablet, and desktop.</p>
+      <div class="hero-chips" aria-label="Game categories">
+        <span>Daily Word</span>
+        <span>Colour + Vision</span>
+        <span>Logic + Memory</span>
+        <span>Speed + Reaction</span>
+      </div>
     </div>
+    <aside class="hero-panel" aria-label="Bludle highlights">
+      <p class="hero-panel-label">What to play today</p>
+      <h2 class="hero-panel-title">Start with a featured puzzle, then jump into shorter rounds.</h2>
+      <p class="hero-panel-copy">The home screen now gives favourites more room while keeping every game card aligned and easy to scan.</p>
+      <div class="hero-stats" aria-label="Game library stats">
+        <div class="hero-stat"><strong>17</strong><span>games</span></div>
+        <div class="hero-stat"><strong>4</strong><span>categories</span></div>
+        <div class="hero-stat"><strong>5m</strong><span>quick plays</span></div>
+      </div>
+    </aside>
   </header>
 
   <section class="game-discovery" aria-label="Find a game">
-    <label for="gameSearch" class="search-label">Find your next game</label>
-    <input id="gameSearch" type="search" placeholder="Search by game name or type (word, colour, reaction, logic)" autocomplete="off">
+    <div class="search-field">
+      <label for="gameSearch" class="search-label">Find your next game</label>
+      <input id="gameSearch" type="search" placeholder="Search by game name or type (word, colour, reaction, logic)" autocomplete="off">
+    </div>
     <div class="filter-chips" role="group" aria-label="Filter games by category">
       <button class="filter-chip active" data-filter="all" type="button">All</button>
       <button class="filter-chip" data-filter="word" type="button">Word</button>
@@ -220,22 +234,25 @@
   </section>
 
   <main class="content" id="content">
-    <h2 class="sr-only">bludle Daily Puzzle Games</h2>
-    <div class="tile" id="bludle" data-category="word colour">
+    <div class="grid-heading">
+      <h2>Choose a game</h2>
+      <p>Featured cards span the first row; the rest settle into a consistent responsive grid.</p>
+    </div>
+    <div class="tile featured" id="bludle" data-category="word colour">
       <a class="game" href="/bludle/" aria-label="Play Bludle" style="background-image: url('./images/bludle.jpg')">
         <div class="gameTitle">Bludle</div>
         <div class="gameInfo">Decode a 5 letter word from shades of blue</div>
       </a>
     </div>
 
-    <div class="tile" id="werdle" data-category="word">
+    <div class="tile featured" id="werdle" data-category="word">
       <a class="game" href="/werdle/" aria-label="Play Werdle" style="background-image: url('./images/werdle.png')">
         <div class="gameTitle">Werdle</div>
         <div class="gameInfo">Daily word game with challenge mode</div>
       </a>
     </div>
 
-    <div class="tile" id="reaction" data-category="speed">
+    <div class="tile wide" id="reaction" data-category="speed">
       <a class="game" href="/reaction/" aria-label="Play Reaction"
         style="background-image: url('./images/reaction.jpg')">
         <div class="gameTitle">Reaction</div>
@@ -243,7 +260,7 @@
       </a>
     </div>
 
-    <div class="tile" id="shiftyFades" data-category="colour">
+    <div class="tile wide" id="shiftyFades" data-category="colour">
       <a class="game" href="/shiftyfades/" aria-label="Play Shifty Fades"
         style="background-image: url('./images/shifty.png')">
         <div class="gameTitle">Shifty Fades</div>
@@ -251,7 +268,7 @@
       </a>
     </div>
 
-    <div class="tile" id="colourMatch" data-category="colour">
+    <div class="tile wide" id="colourMatch" data-category="colour">
       <a class="game" href="/colourmatch/" aria-label="Play Colour Match"
         style="background-image: url('./images/cm.jpg')">
         <div class="gameTitle">Colo(u)r Match</div>
@@ -259,7 +276,7 @@
       </a>
     </div>
 
-    <div class="tile" id="chromaLock" data-category="colour speed">
+    <div class="tile wide" id="chromaLock" data-category="colour speed">
       <a class="game" href="/chromalock/" aria-label="Play Chroma Lock"
         style="background-image: linear-gradient(135deg, rgba(20, 184, 166, 0.88), rgba(124, 58, 237, 0.82), rgba(244, 63, 94, 0.84))">
         <div class="gameTitle">Chroma Lock</div>
@@ -267,7 +284,7 @@
       </a>
     </div>
 
-    <div class="tile" id="codle" data-category="word logic">
+    <div class="tile wide" id="codle" data-category="word logic">
       <a class="game" href="/codle/" aria-label="Play Codle" style="background-image: url('./images/codle.jpg')">
         <div class="gameTitle">Codle</div>
         <div class="gameInfo">Decode 5 letter words from a random offset</div>
@@ -282,7 +299,7 @@
       </div>
     </div>
 
-    <div class="tile" id="alternate" data-category="speed colour">
+    <div class="tile wide" id="alternate" data-category="speed colour">
       <a class="game" href="/alternate/" aria-label="Play Alternate"
         style="background-image: url('./images/alternate.jpg')">
         <div class="gameTitle">Alternate</div>
@@ -290,7 +307,7 @@
       </a>
     </div>
 
-    <div class="tile" id="tintuition" data-category="colour">
+    <div class="tile wide" id="tintuition" data-category="colour">
       <a class="game" href="/tintuition/" aria-label="Play Tintuition"
         style="background-image: url('./images/tintuition.png')">
         <div class="gameTitle">Tintuition</div>
@@ -298,7 +315,7 @@
       </a>
     </div>
 
-    <div class="tile" id="hunt" data-category="logic">
+    <div class="tile wide" id="hunt" data-category="logic">
       <a class="game" href="/hunt/" aria-label="Play XY Marks the Spot"
         style="background-image: url('./images/hunt.png')">
         <div class="gameTitle">XY Marks the Spot</div>
@@ -306,28 +323,28 @@
       </a>
     </div>
 
-    <div class="tile" id="guesshue" data-category="colour speed">
+    <div class="tile wide" id="guesshue" data-category="colour speed">
       <a class="game" href="/guesshue/" aria-label="Play Guess Hue" style="background-image: url('./images/hue.png')">
         <div class="gameTitle">Guess Hue</div>
         <div class="gameInfo">Spot the odd one out and go on a streak</div>
       </a>
     </div>
 
-    <div class="tile" id="trak" data-category="speed logic">
+    <div class="tile wide" id="trak" data-category="speed logic">
       <a class="game" href="/trak/" aria-label="Play Trak" style="background-image: url('./images/trak.png')">
         <div class="gameTitle">Trak</div>
         <div class="gameInfo">Stop the ball in the green zone. What ball?</div>
       </a>
     </div>
 
-    <div class="tile" id="connex" data-category="word logic">
+    <div class="tile wide" id="connex" data-category="word logic">
       <a class="game" href="/connex/" aria-label="Play Connex" style="background-image: url('./images/connex.png')">
         <div class="gameTitle">Connex</div>
         <div class="gameInfo">Find the 3 words from the same connection bank</div>
       </a>
     </div>
 
-    <div class="tile" id="wordmash" data-category="word logic">
+    <div class="tile wide" id="wordmash" data-category="word logic">
       <a class="game" href="/wordmash/" aria-label="Play Word Mash"
         style="background-image: url('./images/wordmash.svg')">
         <div class="gameTitle">Word Mash</div>
@@ -335,21 +352,21 @@
       </a>
     </div>
 
-    <div class="tile" id="snoules" data-category="logic speed">
+    <div class="tile wide" id="snoules" data-category="logic speed">
       <a class="game" href="/snoules/" aria-label="Play Snoules" style="background-image: url('./images/snoules.jpg')">
         <div class="gameTitle">Snoules</div>
         <div class="gameInfo">Roll the white ball. Land closest to win. Snooker meets boules.</div>
       </a>
     </div>
 
-    <div class="tile" id="heardle" data-category="logic">
+    <div class="tile wide" id="heardle" data-category="logic">
       <a class="game" href="/heardle/" aria-label="Play Heardle" style="background-image: url('./images/heardle.png')">
         <div class="gameTitle">Heardle</div>
         <div class="gameInfo">Listen carefully & play it by ear</div>
       </a>
     </div>
 
-    <div class="tile" id="seequence" data-category="colour logic">
+    <div class="tile wide" id="seequence" data-category="colour logic">
       <a class="game" href="/seequence/" aria-label="Play Seequence"
         style="background-image: url('./images/seequence.jpg')">
         <div class="gameTitle">Seequence</div>
@@ -357,7 +374,7 @@
       </a>
     </div>
 
-    <div class="tile" id="coffee" data-category="support">
+    <div class="tile wide" id="coffee" data-category="support">
       <a class="game" href="https://www.buymeacoffee.com/stuart1510K" target="_blank">
         <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
           class="coffee-button" />
