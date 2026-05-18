@@ -14,6 +14,7 @@
 - Reaction (reaction-speed game): https://www.bludle.com/reaction/
 - Guess Hue (spot-the-difference colour game): https://www.bludle.com/guesshue/
 - Colour Match: https://www.bludle.com/colourmatch/
+- Chroma Lock (stop the cycling colour on the target): https://www.bludle.com/chromalock/
 - Tintuition (colour mixing challenge): https://www.bludle.com/tintuition/
 - Seequence (colour memory puzzle): https://www.bludle.com/seequence/
 - Word Mash (daily overlap blend puzzle): https://www.bludle.com/wordmash/

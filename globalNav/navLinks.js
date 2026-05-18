@@ -4,6 +4,7 @@ export const navLinks = [
     { name: "reaction", href: "/reaction" },
     { name: "shifty fades", href: "/shiftyfades" },
     { name: "colour match", href: "/colourmatch" },
+    { name: "chroma lock", href: "/chromalock" },
     { name: "bludle", href: "/bludle" },
     { name: "heardle", href: "/heardle" },
     { name: "codle", href: "/codle" },
