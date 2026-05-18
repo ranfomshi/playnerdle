@@ -39,6 +39,7 @@ const tileHandlers = {
   reaction: () => trackClick('reaction'),
   shiftyFades: () => trackClick('shiftyfades'),
   colourMatch: () => trackClick('colourmatch'),
+  chromaLock: () => trackClick('chromalock'),
   codle: () => trackClick('codle'),
   alternate: () => trackClick('alternate'),
   tintuition: () => trackClick('tintuition'),
