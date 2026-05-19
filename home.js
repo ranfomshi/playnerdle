@@ -51,6 +51,8 @@ const tileHandlers = {
   snoules: () => trackClick('snoules'),
   heardle: () => trackClick('heardle'),
   seequence: () => trackClick('seequence'),
+  push: () => trackClick('push'),
+  shapecut: () => trackClick('shapecut'),
   coffee: () => trackClick('coffee'),
 };
 
