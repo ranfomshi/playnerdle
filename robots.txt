@@ -1,7 +1,18 @@
 User-agent: *
 Allow: /
 
+# Explicitly allow common AI and search crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://www.bludle.com/sitemap.xml
-# Optional AI crawler helper document
-# https://www.bludle.com/llms.txt
-# https://www.bludle.com/llms-full.txt
+
+# AI crawler helper documents
+# Short guide: https://www.bludle.com/llms.txt
+# Full guide: https://www.bludle.com/llms-full.txt

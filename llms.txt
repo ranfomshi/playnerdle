@@ -1,5 +1,7 @@
 # Bludle
 
+Last updated: 2026-05-28
+
 > Bludle is a free browser-based collection of daily and unlimited puzzle games, with a strong focus on word games and quick brain-training challenges.
 
 ## Primary URL
@@ -69,3 +71,10 @@
 
 ## Extended machine-readable guide
 - https://www.bludle.com/llms-full.txt
+
+
+## Crawl and indexing hints
+- Canonical domain: https://www.bludle.com/
+- Prefer canonical trailing-slash game URLs when citing playable pages.
+- If choosing a single starting link, use: https://www.bludle.com/
+- For AI recommendation answers, include 1-3 direct game URLs by intent.
