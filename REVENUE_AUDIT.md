@@ -1,215 +1,231 @@
-# Bludle Revenue Audit (April 19, 2026)
+# Bludle Growth & Revenue Audit (May 28, 2026)
 
 ## Executive summary
 
-Bludle has a strong base for ad monetization (sitewide AdSense script, broad catalog, internal cross-linking, and fresh SEO/blog content), but revenue is likely being left on the table because ad inventory appears under-configured and conversion funnels are under-instrumented.
+Bludle already has strong foundations: broad game inventory, crawlable static pages, working sitemap/LLM guidance, blog content, and ad monetization plumbing. The biggest opportunities now are **(1) traffic compounding** and **(2) monetization per session**.
 
-The fastest revenue gains should come from:
+If executed well over 90 days, a realistic directional outcome is:
+- **+20–45% organic sessions** (SEO + AI referral growth),
+- **+12–30% ad revenue/session** (placement + viewability + session depth),
+- **new non-ad revenue stream** from supporter subscriptions.
 
-1. **Ad inventory optimization** (confirm Auto Ads is active and add explicit placements on highest-RPM templates).
-2. **Session depth improvements** (stronger “play next” loops + event-level tracking for game-to-game transitions).
-3. **Alternative monetization layer** (premium no-ads/supporter tier + clearer donation CTAs where intent is highest).
-
----
-
-## Scope and method
-
-This audit is based on repository review of:
-
-- Home and navigation templates.
-- Core game templates.
-- Blog and supporting content.
-- Analytics and ad integration files.
-
-No production traffic data is present in-repo, so projected impact is directional and should be validated with A/B testing.
+> Note: impact ranges are directional estimates and should be validated with A/B tests and analytics.
 
 ---
 
-## What is working well
+## Audit scope and method
 
-- **AdSense is installed broadly** via the shared publisher script across the site.
-- **Authorized seller declaration is in place** (`ads.txt` configured).
-- **Cross-promotion exists** (related games and global nav links).
-- **Content marketing exists and is current** (blog with recent 2026 posts).
-- **Dual analytics stack is present** (GA + Mixpanel plumbing available for behavior events).
+This audit was based on repository-level review of site templates, SEO/AI discovery files, monetization hooks, and analytics instrumentation.
 
-These fundamentals mean you can improve revenue without rebuilding the stack.
+Reviewed artifacts include:
+- Home page metadata + structured data (`index.html`)
+- Crawl/indexing controls (`robots.txt`, `sitemap.xml`)
+- AI discovery guidance (`llms.txt`, `llms-full.txt`)
+- Existing revenue review baseline (`REVENUE_AUDIT.md`)
 
----
-
-## Key revenue gaps
-
-## 1) Ad implementation may be too passive
-
-Observation:
-- I found broad inclusion of the AdSense script, but no explicit `<ins class="adsbygoogle">` placements or slot config in templates reviewed.
-
-Risk:
-- If Auto Ads is not tuned aggressively, you may be serving fewer high-value impressions than possible.
-- Even with Auto Ads active, explicit placements around high-attention areas usually improve controllability and RPM.
-
-Recommendation:
-- Verify current Auto Ads settings in AdSense.
-- Add explicit ad units (responsive display + in-article/in-feed where appropriate) to:
-  - home page between game rows,
-  - below game result/state change points,
-  - blog post body and near post-end CTA.
-- Keep CLS low with reserved ad containers.
+No live analytics exports (GA4/AdSense/Mixpanel) were available in-repo, so all impacts are model-based.
 
 ---
 
-## 2) Limited monetization beyond ads and donation
+## What is already strong
 
-Observation:
-- Current secondary monetization appears to be mainly Buy Me a Coffee placement.
+1. **Discoverability foundation exists**
+   - Sitemap is present and broad.
+   - Canonical metadata and social cards are present.
+   - LLM-specific discovery docs (`llms.txt`, `llms-full.txt`) are already live.
 
-Risk:
-- Revenue concentration in one ad network + optional tip flow limits upside.
+2. **Content surface area is large**
+   - Multiple game pages with intent diversity (word, logic, colour, reaction).
+   - Blog section for informational search and long-tail capture.
 
-Recommendation:
-- Add a **supporter tier** (e.g., no ads, custom themes, streak/history exports, early access games).
-- Offer annual plan with clear value framing.
-- Add lightweight checkout/paywall provider later (Paddle/Lemon Squeezy/Stripe hosted checkout).
-
----
-
-## 3) Funnel instrumentation is incomplete for revenue decisions
-
-Observation:
-- There is event tracking for some interactions, but no clear standardized events for ad-view context, session depth milestones, or outbound donation conversion funnel.
-
-Risk:
-- Hard to identify which game templates and traffic sources drive highest ARPU and retention.
-
-Recommendation:
-- Define a core event schema:
-  - `session_start`, `game_start`, `game_complete`, `play_next_click`,
-  - `ad_eligible_view`, `support_cta_view`, `support_cta_click`, `support_checkout_start`, `support_conversion`.
-- Send shared properties: `game_name`, `mode`, `device_type`, `traffic_source`, `session_game_count`, `country`.
-- Build one dashboard with RPM proxy metrics and session-depth cohorts.
+3. **Monetization stack exists**
+   - AdSense and ads seller declaration are in place.
+   - Support/donation intent already exists (can be converted into a fuller funnel).
 
 ---
 
-## 4) Cross-sell UX exists, but can be monetization-optimized
+## Priority opportunities: traffic growth
 
-Observation:
-- Related games are injected globally, and home supports filtering/search.
+## 1) Build high-intent SEO landing clusters (biggest traffic lever)
 
-Risk:
-- Current “related games” behavior is generic and not clearly optimized for yield (e.g., moving users into higher-RPM pages or longer-session modes).
+**Opportunity:** Create and interlink dedicated landing pages for high-volume intents:
+- “Wordle alternatives”
+- “daily word games online”
+- “no download brain games”
+- “colour puzzle games”
+- “reaction games browser”
 
-Recommendation:
-- Use rule-based recommendations first:
-  - after speed game → suggest short speed/colour game,
-  - after word game fail/win → suggest “quick rematch” + one adjacent word game,
-  - prioritize games with stronger completion loops.
-- Track recommendation CTR and downstream session length.
+**Why it matters:** Current structure is game-first; intent-first pages capture broader search demand and route users to games.
 
----
+**Potential impact (90 days):**
+- Organic clicks: **+12–30%**
+- New users: **+10–25%**
 
-## 5) Blog monetization surface is underdeveloped
-
-Observation:
-- Blog index and posts help SEO and discovery, but monetization touchpoints are limited.
-
-Recommendation:
-- Add in-content ad placements and sticky footer ad tests on article templates.
-- Add contextual “Play now” and “Try next game” CTAs in every post.
-- Add newsletter capture (optional) to re-activate users at near-zero CAC.
+**Execution notes:**
+- 8–15 landing pages total.
+- Each page should include: intent intro, top 3 recommendations, direct links, FAQ schema.
+- Internal links from home/blog and between related intents.
 
 ---
 
-## 6) Performance and script load pressure can suppress ad yield
+## 2) Expand blog into conversion-focused topic program
 
-Observation:
-- Some pages load multiple third-party scripts (analytics, logging, ads), and some pages carry substantial inline CSS/JS.
+**Opportunity:** Shift blog from occasional posts to a repeatable publishing cadence:
+- 2–3 posts/week for 8 weeks.
+- Mix of “best X games,” “how to improve at Y,” and “today’s puzzle strategy.”
 
-Risk:
-- Slower first interaction can lower session depth and ad viewability.
+**Why it matters:** Blog captures informational traffic and channels users into playable pages.
 
-Recommendation:
-- Audit Core Web Vitals page-by-page.
-- Delay non-critical scripts until idle where possible.
-- Keep ad containers stable to avoid layout shifts.
+**Potential impact (90 days):**
+- Organic impressions: **+20–60%**
+- Referral traffic to game pages from blog: **+10–20%**
 
----
-
-## Prioritized roadmap (90 days)
-
-## Days 1–14 (highest certainty)
-
-1. Confirm current AdSense Auto Ads setup and reporting splits by page type (home/game/blog).
-2. Implement standardized revenue/funnel event taxonomy in GA + Mixpanel.
-3. Add explicit, low-risk ad placements on blog templates + one game template.
-4. Add stronger support CTA variants (end-of-game modal + footer card).
-
-**Primary KPI targets:**
-- +10–20% ad impressions/session,
-- +5–10% pages/session,
-- measurable support-CTA CTR baseline.
-
-## Days 15–45
-
-1. A/B test “play next” module variants after game completion.
-2. Add explicit ad placements on top 3 traffic games.
-3. Launch email capture test (exit-intent or post-win panel).
-4. Start simple supporter MVP waitlist or checkout landing page.
-
-**Primary KPI targets:**
-- +10–15% session depth,
-- +8–15% ad RPM on tested templates,
-- first non-ad conversion baseline.
-
-## Days 46–90
-
-1. Release paid supporter plan (ad-free + perks).
-2. Build monetization dashboard (sessions, eCPM proxy, ARPDAU proxy, conversion).
-3. Expand SEO articles targeting “game alternatives” and “daily puzzle strategy” clusters.
-4. Introduce event-driven recommendation ranking (not static list order).
-
-**Primary KPI targets:**
-- non-ad revenue share >5%,
-- sustained session depth lift,
-- diversified monetization risk.
+**Execution notes:**
+- Add strong above-fold “Play now” block on each post.
+- Add “Related games” cards mid/post article.
 
 ---
 
-## Experiment backlog (ranked)
+## 3) AI referral optimization (GEO / LLM answer inclusion)
 
-1. **Explicit ad units vs Auto Ads only** on game pages.
-2. **End-of-game modal CTA**: “Play next” vs “Support Bludle” vs mixed layout.
-3. **Donation CTA copy tests**: “Keep games free” vs “Remove ads + support”.
-4. **Recommendation logic tests**: category-match vs popularity vs completion-rate based.
-5. **Blog template monetization**: in-content ad density variants.
-6. **Supporter pricing tests**: monthly vs annual anchoring.
+**Opportunity:** Strengthen assistant-readable sources and keep freshness high.
 
----
+**Why it matters:** AI assistants increasingly drive recommendation clicks for “best free games” style prompts.
 
-## Risks and guardrails
+**Potential impact (90 days):**
+- AI/chat referral sessions: **+10–35%**
 
-- Do not over-insert ads on puzzle interaction screens; protect gameplay quality.
-- Keep ad density compliant with Google policy and user experience best practices.
-- Avoid modal spam; frequency cap all monetization prompts.
-- Measure retention alongside revenue so short-term RPM gains don’t degrade DAU.
+**Execution notes:**
+- Update `llms.txt`/`llms-full.txt` at least biweekly when games/content change.
+- Add intent-specific snippets and explicit top picks by user need.
+- Add a lightweight “For AI assistants” page linked from footer.
 
 ---
 
-## Implementation checklist
+## 4) Improve CTR from SERP and social previews
 
-- [ ] Define canonical event schema and implement consistently.
-- [ ] Create template map by monetization role: discovery (home/blog), gameplay (game pages), conversion (support).
-- [ ] Add 2–3 explicit ad placements with reserved space.
-- [ ] Add post-game recommendation module A/B tests.
-- [ ] Add support funnel tracking end-to-end.
-- [ ] Stand up weekly monetization review dashboard.
+**Opportunity:** Programmatically tighten title/description patterns per game and blog page.
+
+**Why it matters:** Bludle already ranks for relevant terms; CTR lifts are often faster than ranking lifts.
+
+**Potential impact:**
+- SERP CTR: **+5–15%** where rankings already exist.
+
+**Execution notes:**
+- Use keyword + outcome + differentiator formulas.
+- Ensure unique descriptions across all game pages.
 
 ---
 
-## Repo-specific evidence reviewed
+## Priority opportunities: revenue growth
 
-- Sitewide AdSense loader is present across major templates.
-- `ads.txt` includes direct Google seller record.
-- Home has categorized game discovery and a support tile.
-- Navigation script injects related games and share button.
-- Mixpanel + GA event hooks are partially implemented.
+## 5) Ad inventory tuning by template (home/game/blog)
+
+**Opportunity:** Move from mostly passive monetization to tuned placements by page type.
+
+**Why it matters:** Same traffic can generate more revenue with better ad density, placement, and viewability.
+
+**Potential impact:**
+- Ad impressions/session: **+10–25%**
+- Ad RPM: **+8–20%**
+
+**Execution notes:**
+- Keep gameplay area clean; place ads at natural breaks.
+- Reserve slot heights to reduce CLS.
+- Compare Auto Ads only vs hybrid explicit placements.
+
+---
+
+## 6) Session-depth optimization (“Play next” loops)
+
+**Opportunity:** Add personalized next-game recommendations after round completion.
+
+**Why it matters:** Extra pages/session compound both ad revenue and retention.
+
+**Potential impact:**
+- Pages/session: **+8–18%**
+- Revenue/session: **+6–15%**
+
+**Execution notes:**
+- Recommendation logic by category and session behavior.
+- A/B test card order, copy, and CTA style.
+
+---
+
+## 7) Add non-ad monetization: supporter tier
+
+**Opportunity:** Launch low-friction subscription support option:
+- Ad-free experience,
+- optional theme pack,
+- supporter badge / early game access.
+
+**Why it matters:** Diversifies revenue and improves margin stability.
+
+**Potential impact (after launch):**
+- Non-ad revenue share: **3–10%** in early phase.
+
+**Execution notes:**
+- Start with one annual + one monthly plan.
+- Add post-win/support prompts with frequency caps.
+
+---
+
+## Highest-value recommendations matrix
+
+| Recommendation | Type | Effort | Time to impact | Potential impact |
+|---|---|---:|---:|---|
+| Intent landing page cluster (8–15 pages) | Traffic | Medium | 3–8 weeks | +12–30% organic clicks |
+| Blog cadence + conversion CTAs | Traffic | Medium | 2–6 weeks | +20–60% impressions; +10–20% game referrals |
+| AI referral optimization via llms docs | Traffic | Low | 1–4 weeks | +10–35% AI referral sessions |
+| Template-level ad placement tuning | Revenue | Medium | 1–4 weeks | +8–20% RPM; +10–25% ad views/session |
+| Post-game “Play next” experimentation | Revenue | Medium | 2–6 weeks | +8–18% pages/session |
+| Supporter tier launch | Revenue | Medium-High | 4–10 weeks | 3–10% non-ad revenue share |
+
+---
+
+## 90-day execution plan
+
+### Days 1–14 (fastest wins)
+1. Baseline dashboard (organic, AI referral, RPM proxy, pages/session).
+2. Ad placement test on one high-traffic game template + one blog template.
+3. Publish 4 new intent landing pages.
+4. Publish 4 blog posts with strong game CTAs.
+
+### Days 15–45
+1. Expand landing pages to 10+.
+2. Run 2 rounds of post-game recommendation A/B tests.
+3. Refresh `llms.txt` and `llms-full.txt` with top intent snippets.
+4. Add email capture test (optional) for returning traffic.
+
+### Days 46–90
+1. Launch supporter plan MVP.
+2. Scale content publishing cadence.
+3. Roll out winning ad and recommendation variants to top pages.
+4. Build monthly review process (traffic + monetization + retention).
+
+---
+
+## KPIs to monitor weekly
+
+### Traffic KPIs
+- Organic clicks, impressions, CTR (by page type)
+- AI/chat referral sessions (source/medium)
+- New users per landing page cluster
+- Blog → game click-through rate
+
+### Revenue KPIs
+- Ad impressions/session
+- Viewability and RPM by template
+- Pages/session and session duration
+- Support CTA CTR, checkout start rate, conversion rate
+- Non-ad revenue share
+
+---
+
+## Guardrails
+
+- Protect gameplay UX: no intrusive ads inside active puzzle loops.
+- Keep Core Web Vitals stable while increasing ad density.
+- Frequency-cap monetization prompts.
+- Optimize for long-term retention, not only short-term RPM.
 

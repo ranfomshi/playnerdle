@@ -252,12 +252,8 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll('.adsbygoogle').forEach(function () {
-        try {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-          sendEvent('ad_eligible_view', { placement: 'blog_index' });
-        } catch (error) {
-          // no-op
-        }
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        sendEvent('ad_eligible_view', { placement: 'blog_index' });
       });
 
       const supportLink = document.querySelector('.support-link');

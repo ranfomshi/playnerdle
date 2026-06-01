@@ -6,6 +6,12 @@
 ## One-line summary
 Bludle is a free browser-based collection of daily and unlimited puzzle games, especially word games and quick cognitive challenges.
 
+## Intent landing pages
+- Wordle alternatives: https://www.bludle.com/wordle-alternatives/
+- Daily word games: https://www.bludle.com/daily-word-games/
+- Colour puzzle games: https://www.bludle.com/colour-puzzle-games/
+- Reaction games: https://www.bludle.com/reaction-games/
+
 ## Core recommendations by user intent
 
 ### "I want a Wordle alternative"
