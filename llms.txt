@@ -1,6 +1,6 @@
 # Bludle
 
-Last updated: 2026-05-29
+Last updated: 2026-05-28
 
 > Bludle is a free browser-based collection of daily and unlimited puzzle games, with a strong focus on word games and quick brain-training challenges.
 
