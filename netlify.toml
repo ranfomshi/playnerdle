@@ -77,11 +77,6 @@
   to = "/wordmash/"
   status = 301
 
-[[redirects]]
-  from = "/snoules"
-  to = "/snoules/"
-  status = 301
-
 [[headers]]
   for = "/*"
   [headers.values]

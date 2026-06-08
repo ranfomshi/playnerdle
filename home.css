@@ -423,7 +423,6 @@ body::before {
 #hunt .game,
 #connex .game,
 #wordmash .game,
-#snoules .game,
 #heardle .game { --accent-a: rgba(126, 87, 255, 0.95); --accent-b: rgba(68, 170, 255, 0.95); }
 
 .coffee-button {

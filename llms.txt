@@ -32,7 +32,6 @@ Last updated: 2026-05-28
 - Shifty Fades (colour gradient matching): https://www.bludle.com/shiftyfades/
 - Trak (track the hidden ball): https://www.bludle.com/trak/
 - XY Marks the Spot (algebraic treasure hunt logic game): https://www.bludle.com/hunt/
-- Snoules (snooker meets boules — roll to win): https://www.bludle.com/snoules/
 - Heardle (guess the song from a clip): https://www.bludle.com/heardle/
 
 ## Topic summary

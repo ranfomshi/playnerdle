@@ -48,7 +48,6 @@ const tileHandlers = {
   trak: () => trackClick('trak'),
   connex: () => trackClick('connex'),
   wordmash: () => trackClick('wordmash'),
-  snoules: () => trackClick('snoules'),
   heardle: () => trackClick('heardle'),
   seequence: () => trackClick('seequence'),
   coffee: () => trackClick('coffee'),
