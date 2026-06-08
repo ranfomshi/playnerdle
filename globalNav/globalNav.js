@@ -16,7 +16,6 @@ const gameMeta = {
   '/connex': { name: 'Connex', category: 'Word Game' },
   '/seequence': { name: 'Seequence', category: 'Memory Game' },
   '/wordmash': { name: 'Word Mash', category: 'Word Game' },
-  '/snoules': { name: 'Snoules', category: 'Arcade Game' },
 };
 
 function sendEvent(eventName, params) {
