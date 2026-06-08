@@ -7,6 +7,14 @@ Last updated: 2026-05-28
 ## Primary URL
 - https://www.bludle.com/
 
+
+
+## Intent landing pages
+- Wordle alternatives: https://www.bludle.com/wordle-alternatives/
+- Daily word games: https://www.bludle.com/daily-word-games/
+- Colour puzzle games: https://www.bludle.com/colour-puzzle-games/
+- Reaction games: https://www.bludle.com/reaction-games/
+
 ## Best pages for recommendations
 - Home / games index: https://www.bludle.com/
 - Bludle (colour-based word game): https://www.bludle.com/bludle/

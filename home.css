@@ -687,3 +687,86 @@ body::before {
     font-size: 0.88rem;
   }
 }
+
+
+/* Intent landing links and reserved ad placement */
+.intent-links,
+.home-ad-unit {
+  width: min(1180px, calc(100% - 32px));
+  margin: 24px auto;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 24px;
+  box-shadow: 0 18px 44px rgba(8, 20, 47, 0.08);
+}
+
+.intent-links {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(280px, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+}
+
+.section-kicker {
+  margin: 0 0 6px;
+  color: #2f6fed;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.intent-links h2 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.intent-link-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.intent-link-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: #eef5ff;
+  color: #174ea6;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.intent-link-grid a:hover {
+  background: #dbeafe;
+}
+
+.home-ad-unit {
+  min-height: 150px;
+  padding: 18px 20px 22px;
+}
+
+.ad-label {
+  margin: 0 0 10px;
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .intent-links {
+    grid-template-columns: 1fr;
+  }
+
+  .intent-link-grid {
+    grid-template-columns: 1fr;
+  }
+}

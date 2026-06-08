@@ -114,15 +114,11 @@ function setupGameFiltering() {
 
 function initializeAdUnits() {
   const adUnits = document.querySelectorAll('.adsbygoogle');
-  adUnits.forEach(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      sendEvent('ad_eligible_view', {
-        placement: 'home_grid',
-      });
-    } catch (error) {
-      // no-op: avoid breaking UX if ad blocker/script timing prevents ad requests
-    }
+  adUnits.forEach((adUnit) => {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    sendEvent('ad_eligible_view', {
+      placement: adUnit.dataset.adPlacement || 'home_grid',
+    });
   });
 }
 
