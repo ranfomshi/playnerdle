@@ -147,3 +147,71 @@ a:hover {
     padding: 28px 16px 48px;
   }
 }
+
+
+/* Blog conversion and monetization blocks */
+.blog-play-now,
+.blog-ad-unit,
+.blog-related-games {
+  margin: 28px 0;
+  padding: 22px 24px;
+  border: 1px solid var(--blog-border);
+  border-radius: 12px;
+  background: var(--blog-surface);
+}
+
+.blog-play-now {
+  border-left: 5px solid var(--blog-accent);
+}
+
+.blog-play-now h2,
+.blog-related-games h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.blog-play-now p,
+.blog-related-games p {
+  margin: 0 0 14px;
+  color: #4b5563;
+}
+
+.blog-button-row,
+.related-game-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.blog-button,
+.related-game-grid a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--blog-accent-dk);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.blog-button.secondary,
+.related-game-grid a {
+  background: #eef5ff;
+  color: var(--blog-accent-dk);
+}
+
+.blog-ad-unit {
+  min-height: 150px;
+}
+
+.blog-ad-unit .ad-label {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
