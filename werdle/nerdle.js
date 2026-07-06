@@ -64,6 +64,10 @@ if (typeof window.$ === "undefined") {
           } else {
             element._jqueryShimValue = value;
           }
+          return elements[0] ? elements[0].value : undefined;
+        }
+        elements.forEach((element) => {
+          element.value = value;
         });
         return api;
       },
