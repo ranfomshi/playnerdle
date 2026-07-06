@@ -73,16 +73,15 @@ a:hover{
 }
 
 .bottomPortion {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 20px;
+    position: relative;
+    margin: 20px auto 0;
     display: block;
     white-space: nowrap;
     width: 100%;
+    max-width: 640px;
     background: rgba(0, 0, 0, 0.24);
     padding: 5px;
+    border-radius: 6px;
     text-align: center !important;
 }
 
@@ -121,8 +120,11 @@ a:hover{
 
 .content {
     padding: 20px;
-    min-height: 200vh;
-    margin: 10px;
+    /* Reserve safe space so overlay ad formats (e.g. Auto Ads anchor ads)
+       dock below the game controls instead of on top of them. */
+    padding-bottom: 100px;
+    margin: 10px auto;
+    max-width: 640px;
 }
 
 .timerWrapper {
@@ -148,12 +150,9 @@ a:hover{
 }
 
 .incorrectArea {
-    position: fixed;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    margin: 12px auto 0;
     font-size: small;
-    margin-top: 20px;
     display: block;
     text-align: center;
     white-space: nowrap;
@@ -234,7 +233,9 @@ a:hover{
     }
 
     .content {
-        padding: 15px 4px 0px 4px;
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 15px;
     }
 }
 
@@ -351,24 +352,54 @@ a:hover{
     box-shadow: #232d53 1px 1px 2px;
 }
 
-.helpBtn {
-    position: fixed;
-    top: 55px;
-    left: 0;
-    padding: 10px;
-    cursor: pointer;
-    font-size: x-large;
-    z-index: 0;
+.gameHeaderRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    max-width: 640px;
+    margin: 0 auto;
 }
 
+.gameHeaderRow .title {
+    flex: 1;
+    margin: 0;
+}
+
+.helpBtn,
 .userBtn {
-    position: fixed;
-    top: 55px;
-    right: 0;
+    position: relative;
     padding: 10px;
     cursor: pointer;
     font-size: x-large;
-    z-index: 0;
+    flex-shrink: 0;
+}
+
+@media only screen and (max-width: 380px) {
+    .gameHeaderRow .title {
+        font-size: 1.4rem;
+    }
+}
+
+.ad-slot {
+    max-width: 640px;
+    margin: 20px auto;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.ad-slot-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    margin-bottom: 4px;
 }
 
 .winning {
