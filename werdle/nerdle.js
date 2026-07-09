@@ -13590,9 +13590,9 @@ function addKey(e) {
       }
       if ($("#userInput").prop("disabled") == true) {
       } else {
-        if ($("#userInput").val().length == 5) {
+        current = $("#userInput").val() || "";
+        if (current.length == 5) {
         } else {
-          current = $("#userInput").val();
           $("#userInput").val(current + e.toLowerCase());
           $("#userInput").append(
             '<div class="letter black" style="color:black;">' +
@@ -13608,15 +13608,17 @@ function addKey(e) {
 
 function backSpace() {
   //handle backspace
-  x = $("#userInput").val();
+  x = $("#userInput").val() || "";
   x = x.toString().slice(0, -1);
   $("#userInput").val(x);
   sendEvent("userClick", "keyboard", "backspace");
   //remove the letter from the on screen display
   var select = document.getElementById("userInput");
-  select.removeChild(select.lastChild);
+  if (select.lastChild) {
+    select.removeChild(select.lastChild);
+  }
 
-  if ($("#userInput").val().length == 0) {
+  if (($("#userInput").val() || "").length == 0) {
     snackbar("Begin typing");
   }
 }
