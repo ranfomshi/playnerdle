@@ -1,198 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Werdle | Free Daily Wordle-Style Word Game</title>
-    <meta name="description" content="Play Werdle, a free daily Wordle-style five-letter word game with unlimited practice. Browser-based word puzzles with no app download required.">
-    <link rel="canonical" href="https://www.bludle.com/werdle/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10141f">
+  <title>Werdle | The Daily Five-Letter Word Game</title>
+  <meta name="description" content="Play Werdle, the free five-letter word game with a fresh daily puzzle and unlimited practice. No account or download needed.">
+  <link rel="canonical" href="https://www.bludle.com/werdle/">
   <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Werdle | Free Daily Wordle-Style Word Game">
-    <meta property="og:description" content="Play Werdle, a free daily Wordle-style five-letter word game with unlimited practice. Browser-based word puzzles with no app download required.">
-    <meta property="og:url" content="https://www.bludle.com/werdle/">
-    <meta property="og:image" content="https://www.bludle.com/images/werdle.png">
-    <meta property="og:site_name" content="Bludle">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Werdle | Free Daily Wordle-Style Word Game">
-    <meta name="twitter:description" content="Play Werdle, a free daily Wordle-style five-letter word game with unlimited practice. Browser-based word puzzles with no app download required.">
-    <meta name="twitter:image" content="https://www.bludle.com/images/werdle.png">
-        <style>@font-face{font-family:FontAwesome;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0');src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:400;font-style:normal}.fa{display:inline-block;font:14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.fa-question-circle:before{content:"\f059"}.fa-toggle-off:before{content:"\f204"}.fa-toggle-on:before{content:"\f205"}.fa-user-circle-o:before{content:"\f2be"}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-    <meta name="author" content="Stuart Pecksen">
-    <link rel="stylesheet" type="text/css" href="nerdle.css">
-    <script src="nerdle.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&amp;display=swap" rel="stylesheet" media="print" onload="this.media='print'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-
-
-
-    <!-- Google tag (gtag.js) -->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-3Z3GM1YNZE');
-    </script>
-
-    <!-- log rocket -->
-    <script>
-      window.requestIdleCallback
-        ? window.requestIdleCallback(() => {
-            const lr = document.createElement('script');
-            lr.src = 'https://cdn.lr-in-prod.com/LogRocket.min.js';
-            lr.onload = () => window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');
-            document.head.appendChild(lr);
-          })
-        : setTimeout(() => {
-            const lr = document.createElement('script');
-            lr.src = 'https://cdn.lr-in-prod.com/LogRocket.min.js';
-            lr.onload = () => window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');
-            document.head.appendChild(lr);
-          }, 2500);
-    </script>
-    <script type="text/javascript" src="/mixpanel.js"></script>
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Werdle",
-  "description": "A free unlimited word guessing game with daily challenges and word origins.",
-  "url": "https://www.bludle.com/werdle/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
-  }
-}
-  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Werdle | The Daily Five-Letter Word Game">
+  <meta property="og:description" content="Find the hidden word in five tries, then keep playing in unlimited practice mode.">
+  <meta property="og:url" content="https://www.bludle.com/werdle/">
+  <meta property="og:image" content="https://www.bludle.com/images/werdle.png">
+  <meta property="og:site_name" content="Bludle">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nerdle.css">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-3Z3GM1YNZE');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Werdle","description":"A free five-letter word game with daily and unlimited modes.","url":"https://www.bludle.com/werdle/","gamePlatform":"Web browser","numberOfPlayers":"1","offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"},"publisher":{"@type":"Organization","name":"Bludle"}}</script>
 </head>
-
-<body onkeydown="enterSubmit(event)">
-    <div id="navbar-container"></div>
-
-    <div id="snackbar">Some text some message..</div>
-    <div id="overlay" class="overlay" onclick="closeModals()"></div>
-    <div id="welcome" class="welcomeModal"> <small>You get 5 attempts to guess a 5-letter word
-            correctly.</small><br><br> If you guess a letter in the correct position, it will show as green.
-        <div class="letter green">n</div><br><br> <small>If you guess a letter but in an incorrect position, it will
-            show as blue.</small>
-        <div class="letter blue">n</div>
-        <br><br>
-        <small><b>Daily challenge mode</b> gives all players the same new word each day.</small><br><br>
-        <small><b>Practice mode</b> gives you unlimited plays with a randomly selected answer each
-            time.</small><br><br>
-        <small>Key Difference: You can guess made up words - any letters in any order!</small><br><br>
-        <kbd class="key menuBtn" onclick="closeWelcome()">OK - Let's Begin</kbd>
-        <br>
-
-
-        <div class="boringButtonsGroup"> <a href="https://www.bludle.com/privacy" target="_blank"
-                class="secondaryCTA"><small>Privacy
-                    Policy</small></a> <small><a href="/blogs/" target="_blank" class="secondaryCTA">Continue
-                    Reading</a></small> <small><a href="/benefits/" target="_blank"
-                    class="secondaryCTA">Benefits</a></small>
+<body>
+  <div id="navbar-container"></div>
+  <main class="page-shell">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div class="brand-lockup">
+          <span class="eyebrow">BLUDLE ORIGINAL</span>
+          <h1 id="game-title">WERDLE<span aria-hidden="true">.</span></h1>
         </div>
+        <div class="header-actions">
+          <button class="icon-button" id="help-button" type="button" aria-label="How to play">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.7 1.8c-.9.7-1.5 1.1-1.5 2.2M12 17h.01"/></svg>
+          </button>
+          <button class="icon-button" id="stats-button" type="button" aria-label="View statistics">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="mode-switch" role="group" aria-label="Game mode">
+        <button type="button" data-mode="daily" aria-pressed="true"><span>Daily</span><small>One shared word</small></button>
+        <button type="button" data-mode="practice" aria-pressed="false"><span>Practice</span><small>Play without limits</small></button>
+      </div>
+
+      <div class="game-meta" aria-live="polite">
+        <span id="puzzle-label">Daily puzzle</span>
+        <span class="meta-dot" aria-hidden="true"></span>
+        <span id="attempt-label">5 tries left</span>
+      </div>
+
+      <div id="board" class="board" role="grid" aria-label="Werdle guesses"></div>
+      <p id="message" class="message" role="status" aria-live="polite">Type any five letters to begin</p>
+      <div id="keyboard" class="keyboard" aria-label="On-screen keyboard"></div>
+
+      <div class="game-footnote">
+        <span class="legend-dot exact"></span> Exact
+        <span class="legend-dot present"></span> Elsewhere
+        <span class="legend-dot absent"></span> Not in word
+      </div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement">
+      <span>Advertisement</span>
+      <ins class="adsbygoogle" style="display:block;width:100%;height:90px" data-ad-client="ca-pub-5140172230633441" data-ad-slot="3900592841" data-ad-format="horizontal" data-full-width-responsive="false"></ins>
+    </aside>
+
+    <section class="about-card" aria-labelledby="about-title">
+      <div><span class="eyebrow">FIVE LETTERS. FIVE TRIES.</span><h2 id="about-title">A tiny daily ritual.</h2></div>
+      <p>Find the hidden word using colour clues. Unlike most word games, every five-letter combination is allowed—so experiment freely. Come back tomorrow for a shared puzzle, or switch to Practice and keep your streak of clever ideas going.</p>
+    </section>
+  </main>
+
+  <dialog id="help-dialog" class="dialog">
+    <button class="dialog-close" type="button" aria-label="Close">×</button>
+    <span class="eyebrow">HOW TO PLAY</span>
+    <h2>Find the word in five tries.</h2>
+    <p>Enter any five letters. You do not need to make a real word.</p>
+    <div class="example"><div class="mini-row"><span class="exact">S</span><span>L</span><span>A</span><span>T</span><span>E</span></div><p><strong>S</strong> is in the word and in the right spot.</p></div>
+    <div class="example"><div class="mini-row"><span>C</span><span class="present">R</span><span>A</span><span>N</span><span>E</span></div><p><strong>R</strong> is in the word but somewhere else.</p></div>
+    <div class="example"><div class="mini-row"><span>C</span><span>H</span><span class="absent">I</span><span>R</span><span>P</span></div><p><strong>I</strong> is not in the word.</p></div>
+    <button class="primary-button" type="button" data-close>Start playing</button>
+  </dialog>
+
+  <dialog id="stats-dialog" class="dialog">
+    <button class="dialog-close" type="button" aria-label="Close">×</button>
+    <span class="eyebrow">YOUR PROGRESS</span>
+    <h2>Werdle stats</h2>
+    <div class="stats-grid">
+      <div><strong id="stat-played">0</strong><span>Played</span></div><div><strong id="stat-win-rate">0%</strong><span>Win rate</span></div><div><strong id="stat-streak">0</strong><span>Streak</span></div><div><strong id="stat-best">0</strong><span>Best</span></div>
     </div>
-    <div id="userModal" class="userModal">Your Statistics<br><br>
-        <div id='finalImg'></div><br>
-        <div class="stats">
-            Games started
-            <div class="letter black" id="gamesStarted">0</div> <br> Current streak
-            <div class="letter green" id="streak">0</div> <br> Total wins
-            <div class="letter blue" id="wTotal">0</div><br> Total losses
-            <div class="letter red" id="lTotal">0</div><br>
-        </div>
-
-        <br><br>
-        <kbd class="key menuBtn" onclick="userModal()">Done</kbd><br><br>
-        <a class="key menuBtn" href="/colourmatch/"><kbd>Colour Match Game</kbd></a>
-        <a class="key menuBtn" href="/reaction/"><kbd>Reaction Game</kbd></a>
-        <a class="key menuBtn" href="/hunt/"><kbd>XY Marks the Spot</kbd></a>
+    <div id="result-actions" class="result-actions" hidden>
+      <button id="share-button" class="primary-button" type="button">Share result</button>
+      <button id="next-button" class="secondary-button" type="button">Play another</button>
     </div>
+  </dialog>
 
-
-    <div id="content" class="content">
-
-        <div class="gameHeaderRow">
-            <div onclick="closeWelcome()" class="helpBtn" role="button" tabindex="0" aria-label="How to play"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
-            <h1 class="title">WERDLE</h1>
-            <div onclick="userModal()" class="userBtn" role="button" tabindex="0" aria-label="Your stats"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
-        </div>
-
-        <div class="toggle">
-            <div style="font-size: xx-small; width: min-content; white-space: nowrap;">Practice Mode</div>
-            <div onclick="gameToggle()">
-                <i class="fa fa-toggle-on" id="turnOn" aria-hidden="true"
-                    style="margin: 5px; display: flex; transform: translatey(-13px);"></i>
-            </div>
-            <div onclick="gameToggle()">
-                <i class="fa fa-toggle-off" id="turnOff" class="off" aria-hidden="true"
-                    style="margin: 5px; display: none;transform: translateY(-13px);"></i>
-
-            </div>
-            <div style="font-size: xx-small; width: min-content; white-space: nowrap;">Daily Challenge</div>
-        </div>
-
-        <div class="ad-slot" aria-label="Advertisement">
-            <span class="ad-slot-label">Advertisement</span>
-            <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-client="ca-pub-5140172230633441" data-ad-slot="3900592841" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        </div>
-
-        <div id="gameText" class="gameText"></div>
-        <div id="initialPrompt">Start by typing your 1st guess</div>
-        <div id="userInput" readonly="readonly"></div>
-        <div id="bottomPortion" class="bottomPortion">
-            <div id="definition" class="definition"></div>
-            <div id="possibleArea"></div>
-        </div>
-        <div id="incorrectArea" class="incorrectArea">Incorrect letters will show here
-        </div>
-
-        <div class="ad-slot" aria-label="Advertisement">
-            <span class="ad-slot-label">Advertisement</span>
-            <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-client="ca-pub-5140172230633441" data-ad-slot="1932905051" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        </div>
-
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-
-        <link rel="stylesheet" href="/globalNav/globalNav.css">
-        <script type="module" src="/globalNav/globalNav.js" defer></script>
-    </div>
-
-  <aside style="max-width:600px;margin:32px auto;padding:16px 20px;background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;font-family:Arial,sans-serif;font-size:16px;">
-    <p style="margin:0 0 10px;font-weight:bold;color:#333;">Related reading:</p>
-    <ul style="margin:0;padding-left:20px;">
-      <li><a href="https://www.bludle.com/blogs/6" style="color:#1a73e8;">Quick Tips for Improving Your Word Game Skills</a></li>
-      <li><a href="https://www.bludle.com/blogs/1" style="color:#1a73e8;">The Wonderful World of Word Games</a></li>
-    </ul>
-  </aside>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Lobster&amp;display=swap" rel="stylesheet"></noscript>
-<noscript><link rel="stylesheet" type="text/css" href="nerdle.css"></noscript>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Lobster&amp;display=swap" rel="stylesheet"></noscript>
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-<noscript><link rel="stylesheet" type="text/css" href="nerdle.css" media="print" onload="this.media='all'"></noscript>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Lobster&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"></noscript>
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script>window.addEventListener('load',()=>{try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}})</script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
-
 </html>
