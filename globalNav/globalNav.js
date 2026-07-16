@@ -41,12 +41,19 @@
   }
 
   function ensureStyles() {
-    if (document.querySelector('link[href*="globalNav.css"]')) return;
-    const stylesheet = document.createElement('link');
-    stylesheet.rel = 'stylesheet';
-    stylesheet.href = '/globalNav/globalNav.css';
-    stylesheet.dataset.pnNavStyles = '';
-    document.head.append(stylesheet);
+    ['/globalNav/globalNav.css', '/globalNav/globalNav.layout.css'].forEach(href => {
+      const filename = href.split('/').pop();
+      const existing = document.querySelector(`link[href*="${filename}"]`);
+      if (existing) {
+        existing.media = 'all';
+        return;
+      }
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = href;
+      stylesheet.dataset.pnNavStyles = '';
+      document.head.append(stylesheet);
+    });
   }
 
   function icon(name) {
@@ -168,6 +175,30 @@
     else window.addEventListener('resize', update, { passive: true });
   }
 
+  function protectPageContent(container, nav) {
+    const body = document.body;
+    const bodyStyle = getComputedStyle(body);
+    if (bodyStyle.display.includes('flex') && bodyStyle.justifyContent === 'center') {
+      body.classList.add('pn-nav-flow-layout');
+    }
+    const basePadding = Number.parseFloat(getComputedStyle(body).paddingTop) || 0;
+    const update = () => {
+      body.style.paddingTop = `${basePadding}px`;
+      const navBottom = nav.querySelector('.pn-nav__bar').getBoundingClientRect().bottom;
+      const firstContent = [...document.body.children]
+        .filter(element => element !== container && !['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(element.tagName))
+        .filter(element => !['fixed', 'absolute'].includes(getComputedStyle(element).position))
+        .filter(element => element.getBoundingClientRect().height > 0)
+        .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
+      if (!firstContent) return;
+      const overlap = Math.ceil(navBottom + 12 - firstContent.getBoundingClientRect().top);
+      if (overlap > 0) body.style.paddingTop = `${basePadding + overlap}px`;
+    };
+    window.requestAnimationFrame(update);
+    window.addEventListener('load', update, { once: true });
+    window.addEventListener('resize', update, { passive: true });
+  }
+
   function addBreadcrumbSchema() {
     const game = games.find(item => normalizePath(item.href) === currentPath());
     if (!game || document.querySelector('script[data-pn-breadcrumb]')) return;
@@ -191,6 +222,7 @@
     enhanceMainLandmark();
     setupInteractions(nav);
     syncMetrics(nav);
+    protectPageContent(container, nav);
     addBreadcrumbSchema();
     if (!sessionStorage.getItem('bludle_session_started')) {
       sessionStorage.setItem('bludle_session_started', '1');

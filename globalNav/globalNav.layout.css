@@ -1,0 +1,25 @@
+/* Keep the fixed navigation in the document's layout on every page shell. */
+html {
+  scroll-padding-top: calc(var(--global-nav-height) + 12px);
+}
+
+#navbar-container[data-pn-ready="true"] {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--global-nav-z);
+  width: 100%;
+  height: 0;
+  min-height: 0;
+}
+
+body.pn-nav-flow-layout {
+  justify-content: flex-start !important;
+  height: auto !important;
+  min-height: 100vh;
+}
+
+@media print {
+  #navbar-container {
+    display: none !important;
+  }
+}
