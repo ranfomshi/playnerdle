@@ -20,6 +20,14 @@ let finished;
 
 const shadeFor = letter => `rgba(0, 0, 255, ${(letter.charCodeAt(0) - 96) / 26})`;
 
+function addShade(tile, letter) {
+  const shade = document.createElement('span');
+  shade.className = 'shade-fill';
+  shade.style.backgroundColor = shadeFor(letter);
+  tile.classList.add('has-shade');
+  tile.append(shade);
+}
+
 function chooseWord(previous) {
   let next;
   do next = ANSWERS[Math.floor(Math.random() * ANSWERS.length)]; while (next === previous && ANSWERS.length > 1);
@@ -43,7 +51,7 @@ function render() {
   elements.cipher.replaceChildren(...[...secret].map((letter, index) => {
     const tile = document.createElement('div');
     tile.className = 'cipher-tile';
-    tile.style.backgroundColor = shadeFor(letter);
+    addShade(tile, letter);
     tile.setAttribute('aria-label', `Hidden shade ${index + 1}`);
     return tile;
   }));
@@ -57,8 +65,11 @@ function render() {
       tile.className = 'guess-tile';
       const letter = guesses[rowIndex]?.[column];
       if (letter) {
-        tile.textContent = letter.toUpperCase();
-        tile.style.backgroundColor = shadeFor(letter);
+        addShade(tile, letter);
+        const label = document.createElement('span');
+        label.className = 'tile-letter';
+        label.textContent = letter.toUpperCase();
+        tile.append(label);
         if (letter === secret[column]) {
           const check = document.createElement('span');
           check.className = 'exact';
