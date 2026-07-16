@@ -1,353 +1,95 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <style>:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title>Trak — Track the Hidden Ball | Bludle</title>
-  <meta name="description" content="Watch the ball disappear, track it in your mind, and click when it reaches the green zone. A free focus and tracking game — play Trak on Bludle.">
-  <meta property="og:title" content="Trak — Track the Hidden Ball | Bludle">
-  <meta property="og:description" content="Watch the ball disappear, track it in your mind, and click when it reaches the green zone. A free focus and tracking game — play Trak on Bludle.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.bludle.com/trak/">
-  <meta property="og:site_name" content="Bludle">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1018">
+  <title>Trak | Test Your Focus and Timing</title>
+  <meta name="description" content="Follow the moving signal after it disappears and stop it inside the target. Play Trak, the free visual focus game from Bludle.">
   <link rel="canonical" href="https://www.bludle.com/trak/">
   <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
-  <style>
-    /* ... [unchanged styles] ... */
-
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      max-height: 80%;
-      padding-top: 10%;
-      background-color: #252a34;
-      color: white;
-      cursor: pointer;
-    }
-
-    #gameZone {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 54px;
-      height: 400px;
-      max-height: 400px;
-      border: 1px solid #000;
-      background: #485265;
-      overflow: hidden;
-      margin-bottom: 20px;
-      border-radius: 30px;
-      border: 3px solid rgb(97, 174, 97);
-    }
-
-    #ball {
-      position: absolute;
-      left: 0;
-      width: 50px;
-      height: 50px;
-      background-color: red;
-      border-radius: 50%;
-      margin-left: 2px;
-      margin-right: 2px;
-    }
-
-    #targetZone {
-      position: absolute;
-      width: 50px;
-      height: 100px;
-      background-color: #00ff0040;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 5px;
-      margin-left: 2px;
-      margin-right: 2px;
-    }
-
-    #restartButton {
-      display: none;
-      background-color: #4caf50;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: "Roboto", sans-serif;
-      font-size: 16px;
-      color: white;
-      transition: background-color 0.3s;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    #restartButton:hover {
-      background-color: #45a049;
-    }
-
-    #message {
-      font-size: 24px;
-      margin-top: 20px;
-      position: absolute;
-      bottom: 60px;
-    }
-
-    #level,
-    #lives {
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
-    }
-
-    #info {
-      position: fixed;
-      left: 10px;
-      top: 50%;
-      width: 100px;
-      transform: translateY(-50%);
-      border: 2px solid #45a049;
-      padding: 5px;
-      border-radius: 5px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      height: 90px;
-    }
-
-    #title {
-      position: absolute;
-      top: 40px;
-    }
-
-    #clickArea {
-      position: absolute;
-      top: 50px;
-      left: 0;
-      background-color: transparent;
-      width: 100vw;
-      height: calc(100vh - 50px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #instruction {
-      position: absolute;
-      bottom: 20px;
-      text-align: center;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  </style>
-  <script type="text/javascript" src="/mixpanel.js"></script>
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Trak",
-  "description": "A free focus game \u2014 track the hidden ball and click at the right moment.",
-  "url": "https://www.bludle.com/trak/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
-  }
-}
-  </script>
-</head>
-
-<body>
-  <div id="instruction">When the ball disappears, keep track of it and click when it's in the green zone</div>
-  <div id="navbar-container"></div>
-  <h4 id="title">Trak</h4>
-  <div id="info">
-    <div id="level">Level: 1</div>
-    <div id="lives">Lives: 3</div>
-  </div>
-  <div id="clickArea">
-    <div id="gameZone">
-      <div id="targetZone"></div>
-      <div id="ball"></div>
-    </div>
-  </div>
-
-  <div id="message"></div>
-  <button id="restartButton" onclick="restartGame()">Restart Game</button>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Trak | Test Your Focus and Timing">
+  <meta property="og:description" content="Keep following the hidden signal. Stop it when it reaches the target.">
+  <meta property="og:url" content="https://www.bludle.com/trak/">
+  <meta property="og:site_name" content="Bludle">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="trak.css">
+  <link rel="stylesheet" href="routes.css">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
-  <script>
-    let ball = document.getElementById("ball");
-    let gameZone = document.getElementById("gameZone");
-    let messageDiv = document.getElementById("message");
-    let levelDiv = document.getElementById("level");
-    let direction = 1; // 1 means down, -1 means up
-    let speed = 2;
-    let level = 1;
-    let interval;
-    let transparentInterval;
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-3Z3GM1YNZE');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Trak","description":"A free visual focus game. Track a hidden moving signal and stop it inside the target.","url":"https://www.bludle.com/trak/","gamePlatform":"Web browser","numberOfPlayers":"1","offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"},"publisher":{"@type":"Organization","name":"Bludle"}}</script>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main class="page-shell">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div class="brand-lockup"><span class="eyebrow">BLUDLE FOCUS LAB</span><h1 id="game-title">TRAK<span>.</span></h1></div>
+        <div class="header-actions">
+          <button class="icon-button" id="sound-button" type="button" aria-label="Mute sounds" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l4 3V7l-4 3H5Z"/><path class="sound-wave" d="M16 9c1.3 1.6 1.3 4.4 0 6m3-9c3.1 3.2 3.1 8.8 0 12"/></svg>
+          </button>
+          <button class="icon-button" id="help-button" type="button" aria-label="How to play">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.7 1.8c-.9.7-1.5 1.1-1.5 2.2M12 17h.01"/></svg>
+          </button>
+        </div>
+      </header>
 
-    let lives = 3;
-    let livesDiv = document.getElementById("lives");
+      <div class="stats-bar" aria-label="Current game statistics">
+        <div><span>LEVEL</span><strong id="level-value">1</strong></div>
+        <div><span>BEST</span><strong id="best-value">1</strong></div>
+        <div><span>ROUTE</span><strong id="route-value">Line</strong></div>
+        <div><span>LIVES</span><strong id="lives-value" class="lives" aria-label="3 lives">● ● ●</strong></div>
+      </div>
 
-    let totalDistanceTraveled = 0;
+      <div class="play-field">
+        <div class="phase-pill"><span id="phase-dot"></span><strong id="phase-label">Ready</strong></div>
+        <button id="track" class="track" type="button" aria-label="Tracking lane. Press when the hidden signal is inside the target." disabled>
+          <svg class="route-map" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path id="route-path" d="M50 6 L50 94"/></svg>
+          <span id="target" class="target" aria-hidden="true"><span>TARGET</span></span>
+          <span id="signal" class="signal" aria-hidden="true"><i></i></span>
+          <span id="result-marker" class="result-marker" aria-hidden="true"></span>
+        </button>
+        <div class="round-copy">
+          <h2 id="round-title">Trust your focus.</h2>
+          <p id="round-message" role="status" aria-live="polite">Watch the signal, keep following it when it fades, then stop it inside the target.</p>
+        </div>
+        <button id="start-button" class="primary-button" type="button">Start tracking <span aria-hidden="true">→</span></button>
+        <p class="key-hint"><kbd>SPACE</kbd> or tap the lane to stop</p>
+      </div>
+    </section>
 
-    function computeTransparencyDistance() {
-      // Calculate the number of brackets of 5 levels
-      let brackets = Math.floor((level - 1) / 5);
-      return (
-        410 + Math.random() * 10 + 400 * brackets - ball.offsetHeight / 2
-      );
-    }
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span><ins class="adsbygoogle" style="display:block;width:100%;height:90px" data-ad-client="ca-pub-5140172230633441" data-ad-slot="3900592841" data-ad-format="horizontal" data-full-width-responsive="false"></ins></aside>
 
-    const moveBall = () => {
-      let ballPosition = ball.offsetTop;
-      if (ballPosition <= 0) {
-        direction = 1; // Move down
-      } else if (ballPosition >= gameZone.offsetHeight - ball.offsetHeight) {
-        direction = -1; // Move up
-      }
+    <section class="about-card" aria-labelledby="about-title">
+      <div><span class="eyebrow">EYES ON. MIND ON.</span><h2 id="about-title">Can you follow what you can’t see?</h2></div>
+      <p>Trak tests visual attention and mental timing. The signal never changes course when it disappears—you simply have to keep its rhythm alive in your head. Each level moves faster, and every five levels asks you to observe for longer before committing.</p>
+    </section>
+  </main>
 
-      // Calculate the new position
-      let newPosition = ballPosition + direction * speed;
-      ball.style.top = newPosition + "px";
+  <dialog id="help-dialog" class="dialog">
+    <button class="dialog-close" type="button" aria-label="Close">×</button>
+    <span class="eyebrow">HOW TO PLAY</span><h2>Follow it—even when it’s gone.</h2>
+    <ol class="steps"><li><span>01</span><div><strong>Watch</strong><p>Lock onto the signal as it bounces along the lane.</p></div></li><li><span>02</span><div><strong>Track</strong><p>It will fade away. Keep following its speed and direction in your mind.</p></div></li><li><span>03</span><div><strong>Stop</strong><p>Tap the lane or press Space when you think its centre is inside the target.</p></div></li></ol>
+    <p class="dialog-note">You have three lives. Every hit raises the speed.</p>
+    <button class="primary-button" type="button" data-close>Got it</button>
+  </dialog>
 
-      // Update the total distance traveled
-      totalDistanceTraveled += Math.abs(newPosition - ballPosition);
+  <dialog id="gameover-dialog" class="dialog gameover-dialog">
+    <button class="dialog-close" type="button" aria-label="Close">×</button>
+    <span class="eyebrow">SESSION COMPLETE</span><h2>Focus run finished.</h2>
+    <div class="summary-grid"><div><strong id="summary-level">1</strong><span>Level reached</span></div><div><strong id="summary-hits">0</strong><span>Signals caught</span></div></div>
+    <button id="restart-button" class="primary-button" type="button">Try again</button>
+  </dialog>
 
-      // Check if the ball should be made transparent
-      if (
-        totalDistanceTraveled >= computeTransparencyDistance() &&
-        ball.style.opacity != "0"
-      ) {
-        ball.style.opacity = "0";
-        enableClicks();
-      }
-    };
-
-    const enableClicks = () => {
-      document.getElementById('clickArea').style.pointerEvents = "auto";
-    };
-
-    const checkWin = () => {
-      ball.style.opacity = 0.5;
-      let ballCenterPosition = ball.offsetTop + ball.offsetHeight / 2;
-      let targetPosition = gameZone.offsetHeight / 2 - 50;
-
-      if (
-        ballCenterPosition >= targetPosition &&
-        ballCenterPosition <= targetPosition + 100
-      ) {
-        messageDiv.innerHTML = `
-  <div style="width: 50px; height: 50px; background-color: green; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-    <span style="color: white; font-size: 24px;">✓</span>
-  </div>`;
-
-        level++;
-        speed += 0.5;
-      } else {
-        messageDiv.innerHTML = `
-  <div style="width: 50px; height: 50px; background-color: red; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-    <span style="color: white; font-size: 24px;">X</span>
-  </div>`;
-        lives--;
-        livesDiv.textContent = "Lives: " + lives;
-
-        if (lives <= 0) {
-          messageDiv.textContent = "Game Over!";
-          clearInterval(interval);
-          document.body.removeEventListener("click", checkWin);
-          document.getElementById("restartButton").style.display = "block";
-          return;
-        }
-      }
-      levelDiv.textContent = "Level: " + level;
-      clearInterval(interval);
-      setTimeout(startGame, 2000);
-    };
-
-    const restartGame = () => {
-      lives = 3;
-      level = 1;
-      speed = 2;
-      livesDiv.textContent = "Lives: " + lives;
-      levelDiv.textContent = "Level: " + level;
-      document.getElementById("restartButton").style.display = "none";
-      ball.style.opacity = "1";
-      startGame();
-    };
-
-    const startGame = () => {
-      totalDistanceTraveled = 0; // Reset the distance traveled when the game restarts
-      clearInterval(interval);
-
-      ball.style.top = "0px";
-      ball.style.opacity = "1";
-      document.getElementById('clickArea').style.pointerEvents = "none";
-      messageDiv.textContent = "";
-      interval = setInterval(moveBall, 50);
-
-      document.body.addEventListener("click", checkWin);
-    };
-
-    startGame();
-  </script>
-
-<script data-explainer-injected="v1">
-(function () {
-  const storageKey = "explainerSeen_trak_v1";
-  const modal = document.createElement("div");
-  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
-  modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
-      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Trak</h2>
-      <p style="line-height:1.45;margin:0 0 16px 0;">Track the hidden moving ball and click when you think it is inside the green target zone.</p>
-      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
-    </div>`;
-
-  const helpBtn = document.createElement("button");
-  helpBtn.type = "button";
-  helpBtn.setAttribute("aria-label", "Open game explainer");
-  helpBtn.textContent = "?";
-  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
-
-  function openExplainer() {
-    modal.style.display = "flex";
-  }
-
-  function closeExplainer(markSeen) {
-    modal.style.display = "none";
-    if (markSeen) localStorage.setItem(storageKey, "true");
-  }
-
-  document.body.appendChild(helpBtn);
-  document.body.appendChild(modal);
-  helpBtn.addEventListener("click", openExplainer);
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) closeExplainer(true);
-  });
-  modal.querySelector("#explainerCloseBtn").addEventListener("click", function () {
-    closeExplainer(true);
-  });
-
-  if (localStorage.getItem(storageKey) !== "true") {
-    openExplainer();
-  }
-})();
-</script>
-
-
-
+  <script>window.addEventListener('load',()=>{try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}})</script>
+  <script type="module" src="trak.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
-
 </html>
