@@ -33,6 +33,9 @@ if (typeof window.$ === "undefined") {
         }
         elements.forEach((element) => {
           element.innerHTML = value;
+          if (!("value" in element)) {
+            element._jqueryShimValue = value === "" ? "" : element.textContent;
+          }
         });
         return api;
       },
@@ -47,6 +50,20 @@ if (typeof window.$ === "undefined") {
       },
       val(value) {
         if (value === undefined) {
+          if (!elements[0]) {
+            return undefined;
+          }
+          if ("value" in elements[0]) {
+            return elements[0].value;
+          }
+          return elements[0]._jqueryShimValue ?? elements[0].textContent ?? "";
+        }
+        elements.forEach((element) => {
+          if ("value" in element) {
+            element.value = value;
+          } else {
+            element._jqueryShimValue = value;
+          }
           return elements[0] ? elements[0].value : undefined;
         }
         elements.forEach((element) => {
