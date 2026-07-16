@@ -1,0 +1,12 @@
+.legend .unchecked { background: #303a49; }
+.tutorial-dialog > p { color: var(--muted); line-height: 1.5; }
+.tutorial-clue { min-height: 50px; padding: 12px; margin: 12px 0; border: 1px solid var(--line); border-radius: 11px; background: #111925; color: var(--teal); font-weight: 700; text-align: center; }
+.tutorial-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: min(100%, 300px); margin: auto; }
+.tutorial-grid button { aspect-ratio: 1; border: 1px solid #3b4960; border-radius: 8px; background: #151e2a; color: #7f8da2; cursor: default; }
+.tutorial-grid button.next { border-color: var(--sand); color: var(--sand); box-shadow: 0 0 0 3px rgba(255,217,120,.08); cursor: pointer; animation: tutorial-pulse 1.3s infinite; }
+.tutorial-grid button.demo-possible { border-color: var(--teal); background: rgba(87,223,194,.16); color: #c8f5ec; }
+.tutorial-grid button.demo-scanned { background: #344259; color: white; }
+.tutorial-grid button.demo-treasure { border-color: var(--sand); background: var(--sand); color: #332706; font-size: 1.5rem; }
+.tutorial-note { font-size: .7rem; text-align: center; }
+.tutorial-dialog #tutorial-done { width: 100%; }
+@keyframes tutorial-pulse { 50% { box-shadow: 0 0 0 7px rgba(255,217,120,.03); } }
