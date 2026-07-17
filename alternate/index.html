@@ -1,436 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <style>:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alternate | Free Colour Reaction Game Online</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080a10">
+  <title>Alternate — Five seconds of pure reaction</title>
+  <meta name="description" content="Wait for the colour switch, react fast, and stretch a five-second reaction budget as far as you can in Alternate.">
   <link rel="canonical" href="https://www.bludle.com/alternate/">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Alternate | Free Colour Reaction Game Online">
-  <meta property="og:description" content="Play Alternate, a free colour reaction game where you click when the colour changes. Quick browser reflex training with no download.">
+  <meta property="og:title" content="Alternate — Five seconds of pure reaction">
+  <meta property="og:description" content="Hold. Watch. Hit the switch. How many reactions fit inside five seconds?">
   <meta property="og:url" content="https://www.bludle.com/alternate/">
   <meta property="og:image" content="https://www.bludle.com/images/alternate.jpg">
-  <meta property="og:site_name" content="Bludle">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Alternate | Free Colour Reaction Game Online">
-  <meta name="twitter:description" content="Play Alternate, a free colour reaction game where you click when the colour changes. Quick browser reflex training with no download.">
-  <meta name="twitter:image" content="https://www.bludle.com/images/alternate.jpg">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Alternate",
-    "description": "A free reaction speed game — click when the colour changes and build your score before the round timer ends.",
-    "url": "https://www.bludle.com/alternate/",
-    "applicationCategory": "GameApplication",
-    "operatingSystem": "Web browser",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
-    "author": { "@type": "Organization", "name": "Bludle", "url": "https://www.bludle.com" }
-  }
-  </script>
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
-
-    body {
-      font-family: "Montserrat", sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background: linear-gradient(#f4f4f4, #ddd);
-    }
-
-    #title {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    #gameArea {
-      width: 300px;
-      height: 300px;
-      text-align: center;
-      background-color: yellow;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: black;
-      font-size: 24px;
-      border-radius: 15px;
-      padding: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-      cursor: pointer;
-    }
-
-    #gameArea:hover {
-      transform: scale(1.05);
-    }
-
-    #score,
-    #reactionTime {
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    #score {
-      margin-top: 20px;
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    #reactionTime {
-      margin-top: 10px;
-      font-size: 20px;
-    }
-
-    #restart {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      font-weight: 700;
-    }
-
-    .btn {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      font-weight: 700;
-    }
-
-    #restart:hover {
-      background-color: #555;
-      transform: scale(1.05);
-    }
-
-    #restart:focus {
-      outline: none;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .close-btn {
-      position: relative;
-      width: 100%;
-      text-align: right;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-      background: none;
-      border: none;
-      outline: none;
-      color: #180d0d;
-    }
-
-    .close-btn:hover {
-      color: #555;
-    }
-  </style>
-  <meta name="description" content="Play Alternate, a free colour reaction game where you click when the colour changes. Quick browser reflex training with no download.">
-  <script type="text/javascript" src="/mixpanel.js"></script>
-
-</head>
-
-<body>
-  <div id="navbar-container"></div>
-  <!-- submit score modal -->
-  <div id="scoreModal" class="modal">
-    <div class="modal-content">
-      <div class="close-btn" onclick="closeModal()">&times;</div>
-      <h2>Game Over!</h2>
-      <p>Your Score: <span id="finalScore"></span></p>
-      <p>You can submit to the global leaderboard</p>
-
-
-      <form id="scoreForm" style="margin-bottom: 20px;">
-        <input type="text" id="screenName" placeholder="Screen Name" required />*
-        <input style="margin-left:10px" type="email" id="email" placeholder="Email" />
-        <button class="btn" type="submit">Submit Score</button>
-
-      </form> <small>Submit your email to be contacted if you win a prize</small>
-    </div>
-  </div>
-
-  <p style="display: none">
-    Welcome to Alternate, a reflex-based game where you test your reaction
-    speed. Click when prompted and try to achieve the highest score possible.
-    Can you beat the challenge?
-  </p>
-  <div id="title">Alternate</div>
-  <div id="gameArea" onclick="userClicked()">Click to Start!</div>
-  <div id="score">Score: 0</div>
-  <div id="reactionTime">Time: 0s / 5s</div>
-  <button id="restart" onclick="restartGame()">Restart</button>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="alternate.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
   <script type="module" src="/globalNav/globalNav.js" defer></script>
-  <script>
-    let gameArea = document.getElementById("gameArea");
-    let scoreDisplay = document.getElementById("score");
-    let reactionTimeDisplay = document.getElementById("reactionTime");
-    let restartButton = document.getElementById("restart");
-    let isBlack = false;
-    let isGameStarted = false;
-    let isWaitingForClick = false;
-    let startTime;
-    let totalReactionTime = 0;
-    let score = 0;
-    let timeoutId;
-    let timeInterval;
-    let isGameOver = false;
-    let scoreModal = document.getElementById("scoreModal");
-    let finalScoreElem = document.getElementById("finalScore");
-    let scoreForm = document.getElementById("scoreForm");
+  <script type="module" src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#arena">Skip to game</a>
+  <div id="navbar-container"></div>
 
-    const titleElement = document.getElementById("title");
-    const originalText = titleElement.textContent;
+  <main class="page-shell" id="main-content">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div>
+          <span class="eyebrow">REACTION // 05.00</span>
+          <h1 id="game-title">ALTER<span>NATE</span></h1>
+        </div>
+        <div class="header-actions">
+          <button class="icon-button" id="sound-button" type="button" aria-label="Turn sound on" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l4 3V7l-4 3H5Z"/><path d="M16 9.5c1.2 1.3 1.2 3.7 0 5"/></svg>
+          </button>
+          <button class="icon-button" id="help-button" type="button" aria-label="How to play">?</button>
+          <button class="icon-button" id="stats-button" type="button" aria-label="View records">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+          </button>
+        </div>
+      </header>
 
-    let coloredText = "";
-    let isYellow = true;
+      <div class="score-strip" aria-label="Current run">
+        <div><span>HITS</span><strong id="score">0</strong></div>
+        <div><span>LAST</span><strong id="last-reaction">—</strong></div>
+        <div><span>AVERAGE</span><strong id="average-reaction">—</strong></div>
+        <div><span>BEST</span><strong id="high-score">0</strong></div>
+      </div>
 
-    for (let char of originalText) {
-      if (char !== " ") {
-        // Check if the character is not a space
-        coloredText += `<span style="color:${isYellow ? "yellow" : "black"
-          }">${char}</span>`;
-        isYellow = !isYellow; // Toggle the color for the next character
-      } else {
-        coloredText += char; // Preserve the space without any color change
-      }
-    }
+      <button class="arena idle" id="arena" type="button" aria-describedby="arena-instruction">
+        <span class="arena-grid" aria-hidden="true"></span>
+        <span class="state-chip" id="state-chip">READY</span>
+        <strong id="arena-title">Start the run</strong>
+        <span id="arena-copy">Tap here or press Space</span>
+        <span class="pulse-rings" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <p class="sr-only" id="arena-instruction">Start the game, wait while the arena says hold, then react when it says tap now.</p>
 
-    titleElement.innerHTML = coloredText;
+      <section class="budget" aria-labelledby="budget-title">
+        <div class="budget-head">
+          <div><span>REACTION BUDGET</span><h2 id="budget-title">Make five seconds last.</h2></div>
+          <strong id="budget-time">0.00 / 5.00s</strong>
+        </div>
+        <div class="budget-track" role="progressbar" aria-label="Reaction time used" aria-valuemin="0" aria-valuemax="5000" aria-valuenow="0"><i id="budget-fill"></i></div>
+        <div class="budget-labels"><span>QUICK</span><span>RUN OVER</span></div>
+      </section>
 
-    // Get the high score from local storage
-    let highScore = localStorage.getItem("alternatehighScore") || 0;
+      <div class="tip-row">
+        <span class="tip-icon" aria-hidden="true">!</span>
+        <p id="run-message"><strong>How it works:</strong> waiting is free. Only your reaction times use the five-second budget.</p>
+      </div>
+    </section>
 
-    function displayHighScore() {
-      let currentScore = parseInt(scoreDisplay.textContent.split(": ")[1]);
-      if (currentScore > highScore) {
-        highScore = currentScore;
-        localStorage.setItem("alternatehighScore", highScore);
-        gameArea.textContent += "\nNew Record!";
-      }
-      scoreDisplay.textContent += `\nHigh Score: ${highScore}`;
-    }
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
 
-    // This function sets the text color based on the background color
-    function setTextColorBasedOnBackground() {
-      if (gameArea.style.backgroundColor === "black") {
-        gameArea.style.color = "yellow";
-      } else {
-        gameArea.style.color = "black";
-      }
-    }
+    <section class="about-card" aria-labelledby="about-title">
+      <div><span class="eyebrow">WAIT. SWITCH. REACT.</span><h2 id="about-title">Patience first. Speed second.</h2></div>
+      <p>Each correct hit adds only your reaction time to the five-second budget. The random wait between signals does not count—but one early click ends the run. Alternate between restraint and speed to set a personal best.</p>
+    </section>
+  </main>
 
-    function changeColor() {
-      if (!isGameOver) {
-        gameArea.textContent = ""; // Clear the "Click" text during the wait period
-        let randomTime = (Math.random() * 1.5 + 0.5) * 1000;
-        timeoutId = setTimeout(() => {
-          isBlack = !isBlack;
-          gameArea.style.backgroundColor = isBlack ? "black" : "yellow";
-          setTextColorBasedOnBackground(); // Set the text color based on the background color
-          gameArea.textContent = "Click";
-          startTime = new Date().getTime();
-          isWaitingForClick = true;
-          timeInterval = setInterval(updateTimeDisplay, 50);
-        }, randomTime);
-      }
-    }
+  <dialog class="dialog help-dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">HOW TO PLAY</span>
+    <h2>Five seconds. Spend them wisely.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Start, then hold</strong><p>The arena pauses for a random moment. Clicking now is a false start.</p></div></li>
+      <li><span>02</span><div><strong>React to the switch</strong><p>When the colour flips and TAP NOW appears, click or press Space.</p></div></li>
+      <li><span>03</span><div><strong>Protect the budget</strong><p>Only reaction time counts toward five seconds. Faster hits mean a longer run.</p></div></li>
+      <li><span>04</span><div><strong>Chase your record</strong><p>The run ends at five seconds or on a false start. Records stay on this device.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Ready to react <span>→</span></button>
+  </dialog>
 
-    function getColorByPercentage(percentage) {
-      if (percentage <= 50) {
-        // Use #ddd until 50%
-        return `linear-gradient(#f4f4f4 ${100 - percentage
-          }%, #ddd ${percentage}%)`;
-      } else {
-        // Switch to #aaa after 50%
-        return `linear-gradient(#f4f4f4 ${100 - percentage
-          }%, #aaa ${percentage}%)`;
-      }
-    }
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">⚡</div>
+    <span class="eyebrow" id="result-kicker">RUN COMPLETE</span>
+    <h2 id="result-title">Sharp reactions.</h2>
+    <p id="result-copy"></p>
+    <div class="result-score"><span>HITS LANDED</span><strong id="final-score">0</strong><em id="new-record" hidden>NEW PERSONAL BEST</em></div>
+    <div class="result-grid">
+      <div><strong id="final-average">—</strong><span>AVERAGE</span></div>
+      <div><strong id="final-fastest">—</strong><span>FASTEST</span></div>
+      <div><strong id="final-rank">—</strong><span>RANK</span></div>
+    </div>
+    <button class="primary-button" id="retry-button" type="button">Run it again <span>→</span></button>
+    <p class="privacy-note">No account. No score submission. Your records stay in this browser.</p>
+  </dialog>
 
-    function updateTimeDisplay() {
-      let elapsed = new Date().getTime() - startTime;
-      let totalTime = elapsed + totalReactionTime;
-      let percentage = (totalTime / 5000) * 100;
-      document.body.style.background = `linear-gradient(to top, #ddd ${percentage}%, #f4f4f4 ${percentage}%)`;
-      reactionTimeDisplay.textContent = `Time: ${(totalTime / 1000).toFixed(
-        2
-      )}s / 5s`;
-      if (totalTime >= 5000) {
-        gameOver();
-      }
-    }
-
-    function gameOver(reason) {
-      mixpanel.track("Alternate score", {
-        "alternate score": score,
-      });
-      isGameOver = true;
-      clearInterval(timeInterval);
-      clearTimeout(timeoutId);
-
-      gameArea.textContent = reason || "Game Over!";
-      if (reason === "Clicked too soon!") {
-        setTextColorBasedOnBackground(); // Ensuring the text color is set correctly for this message
-      }
-
-      isGameStarted = false;
-      restartButton.style.display = "block";
-      totalReactionTime = 5000;
-      reactionTimeDisplay.textContent = `Time: 5s / 5s`;
-      displayHighScore();
-      scoreModal.style.display = "block";
-      finalScoreElem.textContent = score;
-    }
-
-    function userClicked() {
-      if (isGameOver) return;
-      if (!isGameStarted) {
-        isGameStarted = true;
-        gameArea.textContent = "";
-        changeColor();
-        return;
-      }
-      if (!isWaitingForClick) {
-        totalReactionTime = 5000;
-        reactionTimeDisplay.textContent = `Time: 5s / 5s`;
-        gameOver("Clicked too soon!");
-        return;
-      }
-      clearInterval(timeInterval);
-      let reactionTime = new Date().getTime() - startTime;
-      totalReactionTime += reactionTime;
-      reactionTimeDisplay.textContent = `Time: ${(
-        totalReactionTime / 1000
-      ).toFixed(2)}s / 5s`;
-      if (totalReactionTime >= 5000) {
-        gameOver();
-      } else {
-        score++;
-        scoreDisplay.textContent = "Score: " + score;
-        isWaitingForClick = false;
-        changeColor();
-      }
-    }
-
-    function restartGame() {
-      isGameOver = false;
-      clearInterval(timeInterval);
-      isBlack = false;
-      totalReactionTime = 0;
-      score = 0;
-      scoreDisplay.textContent = "Score: 0";
-      reactionTimeDisplay.textContent = "Time: 0s / 5s";
-      restartButton.style.display = "none";
-      gameArea.textContent = "Click to Start!"; // This line ensures the "Click to Start!" message is displayed.
-      gameArea.style.backgroundColor = "yellow";
-      gameArea.style.background = "black"
-      isGameStarted = false;
-      isWaitingForClick = false;
-      clearTimeout(timeoutId);
-    }
-    // Close the modal and restart the game
-    function closeModal() {
-      scoreModal.style.display = "none";
-      restartGame();
-    }
-
-    // Listen to the form submission
-    scoreForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      let screenName = document.getElementById("screenName").value;
-      let email = document.getElementById("email").value;
-      mixpanel.track("User Score Submission", {
-        "screen name": screenName,
-        email: email,
-        score: score,
-      });
-      closeModal();
-    });
-  </script>
-
-<script data-explainer-injected="v1">
-(function () {
-  const storageKey = "explainerSeen_alternate_v1";
-  const modal = document.createElement("div");
-  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
-  modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
-      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Alternate</h2>
-      <p style="line-height:1.45;margin:0 0 16px 0;">Click to start, then click as fast as you can when prompted. Keep reacting correctly to build score before the round timer ends.</p>
-      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
-    </div>`;
-
-  const helpBtn = document.createElement("button");
-  helpBtn.type = "button";
-  helpBtn.setAttribute("aria-label", "Open game explainer");
-  helpBtn.textContent = "?";
-  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
-
-  function openExplainer() {
-    modal.style.display = "flex";
-  }
-
-  function closeExplainer(markSeen) {
-    modal.style.display = "none";
-    if (markSeen) localStorage.setItem(storageKey, "true");
-  }
-
-  document.body.appendChild(helpBtn);
-  document.body.appendChild(modal);
-  helpBtn.addEventListener("click", openExplainer);
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) closeExplainer(true);
-  });
-  modal.querySelector("#explainerCloseBtn").addEventListener("click", function () {
-    closeExplainer(true);
-  });
-
-  if (localStorage.getItem(storageKey) !== "true") {
-    openExplainer();
-  }
-})();
-</script>
-
-
-
+  <dialog class="dialog stats-dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">PERSONAL RECORDS</span>
+    <h2>Your reaction file.</h2>
+    <div class="record-grid">
+      <div><strong id="runs-played">0</strong><span>RUNS</span></div>
+      <div><strong id="record-score">0</strong><span>BEST SCORE</span></div>
+      <div><strong id="record-fastest">—</strong><span>FASTEST HIT</span></div>
+      <div><strong id="record-average">—</strong><span>BEST AVERAGE</span></div>
+    </div>
+  </dialog>
 </body>
-
 </html>
