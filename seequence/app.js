@@ -48,7 +48,7 @@ function colourTone(colour, duration = .08) {
 
 async function playSequence(sequence) {
   const token = ++playbackToken;
-  $('#answers').hidden = true; $('#start-button').hidden = true;
+  $('#answers').hidden = true; $('#answers').style.display = 'none'; $('#start-button').hidden = true;
   setStatus('Watch carefully.', `${sequence.length} colours—order matters.`); renderProgress(sequence.length);
   for (let index = 0; index < sequence.length; index += 1) {
     if (token !== playbackToken) return;
@@ -59,7 +59,7 @@ async function playSequence(sequence) {
   }
   if (token !== playbackToken) return;
   const orb = $('#memory-orb'); orb.style.background = ''; $('#orb-number').textContent = '?'; $('#orb-label').textContent = 'CHOOSE';
-  setStatus('Which sequence did you see?', 'Find the exact colours in the exact order.'); renderAnswers(run.options); $('#answers').hidden = false;
+  setStatus('Which sequence did you see?', 'Find the exact colours in the exact order.'); renderAnswers(run.options); $('#answers').hidden = false; $('#answers').style.removeProperty('display');
 }
 
 function swatches(sequence, className = 'answer-swatch') {
