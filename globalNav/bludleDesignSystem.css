@@ -148,7 +148,7 @@ html body :where(input, textarea)::placeholder { color: var(--slate-400); }
 
 /* Shared page surfaces */
 html body :where(.page-shell, .main) { color: var(--slate-600); }
-html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card, .seo-content, .game-discovery, .intent-links, .blog-play-now, .blog-ad-unit, .blog-related-games) {
+html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card, .seo-content, .game-discovery, .blog-play-now, .blog-ad-unit, .blog-related-games) {
   border: 1px solid var(--slate-100);
   border-radius: var(--radius-md);
   background: var(--slate-0);
@@ -314,8 +314,8 @@ html body .game::before { background: linear-gradient(to top, rgba(20,25,40,.9),
 html body .game::after { display: none; }
 html body .gameTitle { background: transparent; color: var(--slate-0); font-size: 22px; line-height: 30px; text-shadow: 0 1px 2px rgba(22,41,95,.24); }
 html body .gameInfo { background: transparent; color: rgba(255,255,255,.9); font-size: 14px; font-weight: 500; text-shadow: 0 1px 2px rgba(22,41,95,.24); }
-html body :where(.intent-links, .home-ad-unit) { border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
-html body .intent-link-grid a, html body .related-game-grid a { border-radius: var(--radius-sm); background: var(--cobalt-50); color: var(--cobalt-700); font-weight: 600; }
+html body .home-ad-unit { border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+html body .related-game-grid a { border-radius: var(--radius-sm); background: var(--cobalt-50); color: var(--cobalt-700); font-weight: 600; }
 html body .footer, html body footer { border-top: 1px solid rgba(255,255,255,.12); background: var(--slate-900); color: var(--slate-300); }
 html body :where(.footer, footer) h4 { color: var(--slate-0); }
 html body :where(.footer, footer) a { color: var(--cobalt-300); }
