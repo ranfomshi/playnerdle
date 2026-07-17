@@ -1,677 +1,148 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-    <style>.button-85:before{animation:20s linear infinite glowing-button-85}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guess Hue | Free Colour Difference Puzzle Game</title>
-  <meta name="description" content="Play Guess Hue, a free colour puzzle game where you spot the odd hue and build a streak. Quick browser play with no app install.">
-  <meta property="og:title" content="Guess Hue | Free Colour Difference Puzzle Game">
-  <meta property="og:description" content="Play Guess Hue, a free colour puzzle game where you spot the odd hue and build a streak. Quick browser play with no app install.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Guess Hue | Free Colour Perception Game</title>
+  <meta name="description" content="Spot the one different hue before the four-second timer runs out. Build a streak as the colour differences become increasingly subtle.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Stuart Pecksen">
+  <link rel="canonical" href="https://www.bludle.com/guesshue/">
+  <meta property="og:title" content="Guess Hue | Free Colour Perception Game">
+  <meta property="og:description" content="Spot the one different hue and build a streak as each round gets harder.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.bludle.com/guesshue/">
   <meta property="og:site_name" content="Bludle">
-  <link rel="canonical" href="https://www.bludle.com/guesshue/">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
-  <style>
-    body {
-      background:
-        radial-gradient(circle at top left, rgba(255, 112, 186, 0.22), transparent 28rem),
-        radial-gradient(circle at top right, rgba(85, 214, 255, 0.22), transparent 26rem),
-        #f4f4f4;
-      font-family: "Roboto", sans-serif;
-      text-align: center;
-      margin: 0;
-      min-height: 100vh;
-    }
-
-    .intro-screen {
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      padding: 76px 18px 28px;
-      width: 100%;
-    }
-
-    .intro-card {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(17, 17, 17, 0.08);
-      border-radius: 28px;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.14);
-      box-sizing: border-box;
-      max-width: 680px;
-      overflow: hidden;
-      padding: 28px;
-      position: relative;
-      width: 100%;
-    }
-
-    .intro-card::before {
-      background: linear-gradient(90deg, #ff5f7e, #ffb84d, #4ddc84, #4dc7ff, #a56bff);
-      content: "";
-      height: 8px;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-
-    .intro-kicker {
-      color: #666;
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      margin: 8px 0 10px;
-      text-transform: uppercase;
-    }
-
-    .intro-card h1 {
-      color: #111;
-      font-size: clamp(2.4rem, 9vw, 4.6rem);
-      line-height: 0.95;
-      margin: 0;
-    }
-
-    .intro-lede {
-      color: #333;
-      font-size: clamp(1.05rem, 3vw, 1.3rem);
-      line-height: 1.5;
-      margin: 18px auto 0;
-      max-width: 520px;
-    }
-
-    .intro-preview {
-      display: grid;
-      gap: 8px;
-      grid-template-columns: repeat(3, 1fr);
-      margin: 26px auto;
-      max-width: 228px;
-    }
-
-    .intro-swatch {
-      aspect-ratio: 1;
-      background: #6cc8ff;
-      border-radius: 16px;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.38);
-    }
-
-    .intro-swatch--odd {
-      background: #80d4ff;
-      position: relative;
-    }
-
-    .intro-swatch--odd::after {
-      background: #111;
-      border-radius: 999px;
-      color: #fff;
-      content: "Tap";
-      font-size: 0.75rem;
-      font-weight: 800;
-      left: 50%;
-      padding: 4px 8px;
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(-8deg);
-    }
-
-    .intro-rules {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(3, 1fr);
-      margin: 0 auto 26px;
-      max-width: 620px;
-    }
-
-    .intro-rule {
-      background: #f7f7f7;
-      border-radius: 16px;
-      color: #222;
-      font-size: 0.95rem;
-      line-height: 1.35;
-      padding: 14px;
-    }
-
-    .intro-rule strong {
-      display: block;
-      font-size: 1.45rem;
-      margin-bottom: 4px;
-    }
-
-    .intro-actions {
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .intro-high-score {
-      color: #555;
-      font-size: 0.95rem;
-      margin: 0;
-    }
-
-    .game-shell {
-      display: none;
-      padding-top: 1px;
-    }
-
-    .game-shell.is-active {
-      display: block;
-    }
-
-    .container {
-      margin: auto;
-      max-width: 315px;
-      /* 100px * 3 squares + 5px * 2 gaps */
-      font-size: 0;
-      margin-top: 100px;
-      display: grid;
-      grid-template-columns: repeat(3, 100px);
-      grid-gap: 5px;
-    }
-
-    .grid-square {
-      width: 100px;
-      height: 100px;
-      display: inline-block;
-      cursor: pointer;
-      transition: transform 0.12s ease;
-    }
-
-    .grid-square:active {
-      transform: scale(0.97);
-    }
-
-    .grid-square.correct-click {
-      animation: pop-correct 0.18s ease-out;
-    }
-
-    .grid-square.wrong-click {
-      animation: shake-wrong 0.2s ease-in-out;
-    }
-
-    @keyframes pop-correct {
-      0% {
-        transform: scale(0.96);
-      }
-
-      60% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes shake-wrong {
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-5px);
-      }
-
-      75% {
-        transform: translateX(5px);
-      }
-    }
-
-
-    .spark {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      animation: spark-burst 420ms ease-out forwards;
-      z-index: 1000;
-    }
-
-    @keyframes spark-burst {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-      }
-
-      100% {
-        opacity: 0;
-        transform: translate(calc(-50% + var(--spark-x)), calc(-50% + var(--spark-y))) scale(0.35);
-      }
-    }
-
-    #timer {
-      width: 100%;
-      height: 20px;
-      margin-top: 100px;
-      background: rgb(0, 0, 0);
-    }
-
-    #gameOverScreen {
-      display: none;
-      position: absolute;
-      padding-top: 20px;
-      top: 40px;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      text-align: center;
-      font-size: 32px;
-    }
-
-    /* CSS */
-    .button-85 {
-      padding: 0.6em 2em;
-      margin-top: 40px;
-      border: none;
-      outline: none;
-      color: rgb(255, 255, 255);
-      background: #111;
-      cursor: pointer;
-      position: relative;
-      z-index: 0;
-      border-radius: 10px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-    }
-
-    .button-85:before {
-      content: "";
-      background: linear-gradient(45deg,
-          #ff0000,
-          #ff7300,
-          #fffb00,
-          #48ff00,
-          #00ffd5,
-          #002bff,
-          #7a00ff,
-          #ff00c8,
-          #ff0000);
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      background-size: 400%;
-      z-index: -1;
-      filter: blur(5px);
-      -webkit-filter: blur(5px);
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      animation: glowing-button-85 20s linear infinite;
-      transition: opacity 0.3s ease-in-out;
-      border-radius: 10px;
-    }
-
-    @keyframes glowing-button-85 {
-      0% {
-        background-position: 0 0;
-      }
-
-      50% {
-        background-position: 400% 0;
-      }
-
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    .button-85:after {
-      z-index: -1;
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #222;
-      left: 0;
-      top: 0;
-      border-radius: 10px;
-    }
-
-    .statContainer {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .stat {
-      background-color: white;
-      color: black;
-      padding: 10px;
-      margin: 10px;
-      border-radius: 5px;
-      display: inline-block;
-      width: 20%;
-      flex-grow: 1;
-    }
-
-    .stat>h6 {
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-
-    @media only screen and (max-width: 500px) {
-      .stat {
-        font-size: 1.2rem;
-      }
-
-      p {
-        font-size: 1.2rem;
-      }
-
-      .intro-screen {
-        padding-top: 68px;
-      }
-
-      .intro-card {
-        border-radius: 22px;
-        padding: 24px 18px;
-      }
-
-      .intro-rules {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    #welcome {
-      font-size: 2rem;
-      width: 300px;
-      margin: auto;
-      margin-top: 10px;
-    }
-
-    #highScoreStat {
-      background-color: black;
-      color: white;
-    }
-  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
   <script type="text/javascript" src="/mixpanel.js"></script>
   <script type="application/ld+json">
   {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Guess Hue",
-  "description": "A free colour perception game \u2014 spot the odd shade out.",
-  "url": "https://www.bludle.com/guesshue/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Guess Hue",
+    "description": "A free colour perception game where players spot the one different hue.",
+    "url": "https://www.bludle.com/guesshue/",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web browser",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
+    "author": { "@type": "Organization", "name": "Bludle", "url": "https://www.bludle.com" }
   }
-}
   </script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
-  <link rel="stylesheet" href="/globalNav/gameThemes.css">
+  <link rel="stylesheet" href="guesshue.css">
 </head>
-
 <body data-game="guesshue">
   <div id="navbar-container"></div>
-  <section id="introScreen" class="intro-screen" aria-labelledby="introTitle">
-    <div class="intro-card">
-      <p class="intro-kicker">Colour perception sprint</p>
-      <h1 id="introTitle">Guess Hue</h1>
-      <p class="intro-lede">Find the one square that is just a little different. The clock starts when you press play, so take a breath and get your eyes ready.</p>
-      <div class="intro-preview" aria-hidden="true">
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch intro-swatch--odd"></span>
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch"></span>
-        <span class="intro-swatch"></span>
+
+  <main class="hue-page" id="main-content">
+    <header class="hue-heading">
+      <div>
+        <span class="eyebrow">Four-second colour sprint</span>
+        <h1>Guess Hue</h1>
+        <p>Find the tile with a different hue. Each correct choice makes the next difference more subtle.</p>
       </div>
-      <div class="intro-rules" aria-label="How to play">
-        <div class="intro-rule"><strong>1</strong>Spot the odd shade in the 3 by 3 grid.</div>
-        <div class="intro-rule"><strong>2</strong>You get 4 seconds for each round.</div>
-        <div class="intro-rule"><strong>3</strong>Keep choosing correctly to build your streak.</div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Guess Hue statistics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+        </button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Guess Hue">?</button>
       </div>
-      <div class="intro-actions">
-        <button id="startButton" class="button-85">Start playing</button>
-        <p class="intro-high-score">Best streak: <span id="introHighScore">0</span></p>
+    </header>
+
+    <section class="hue-card" aria-labelledby="round-title">
+      <div class="score-strip" aria-label="Current game statistics">
+        <div><span>Streak</span><strong id="streak-value">0</strong></div>
+        <div><span>Lens</span><strong id="level-value">Warm-up</strong></div>
+        <div><span>Best</span><strong id="best-value">0</strong></div>
       </div>
-    </div>
-  </section>
-  <main id="gameShell" class="game-shell" aria-live="polite">
-    <div id="streakCounter">Streak: <span id="streak">0</span></div>
-    <div id="timer"></div>
-    <div class="container"></div>
+
+      <div class="play-stage">
+        <div class="start-panel" id="start-panel">
+          <div class="preview-grid" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i class="odd"></i><i></i><i></i><i></i><i></i>
+          </div>
+          <span class="eyebrow">Train your colour vision</span>
+          <h2 id="round-title">One tile is different.</h2>
+          <p>You have four seconds to find it. The hue gap closes as your streak grows.</p>
+          <button class="primary-button" id="start-button" type="button">Start the sprint <span>→</span></button>
+          <small>Best streak: <strong id="intro-best">0</strong></small>
+        </div>
+
+        <div class="round-panel" id="round-panel" hidden>
+          <div class="round-copy">
+            <div><span class="eyebrow" id="round-kicker">Round 1 · Warm-up lens</span><h2>Which hue breaks the pattern?</h2></div>
+            <span class="timer-number" id="timer-number" aria-hidden="true">4.0</span>
+          </div>
+          <div class="timer-track" aria-hidden="true"><i id="timer-fill"></i></div>
+          <div class="hue-grid" id="hue-grid" role="group" aria-label="Choose the tile with a different hue"></div>
+          <p class="round-status" id="round-status" role="status" aria-live="polite">Choose one tile before time runs out.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="about-title">
+      <div><span class="eyebrow">Same saturation. Same brightness.</span><h2 id="about-title">Only the hue moves.</h2></div>
+      <p>Guess Hue changes only the colour family of one tile. Warm-up rounds use a generous gap; longer streaks demand finer colour perception.</p>
+    </section>
+
+    <aside class="related-card" aria-labelledby="related-title">
+      <span class="eyebrow">Keep exploring colour</span>
+      <h2 id="related-title">More colour challenges</h2>
+      <a href="/tintuition/">Tintuition <span>→</span></a>
+      <a href="/colourmatch/">Colour Match <span>→</span></a>
+      <a href="/blogs/7">Colour games guide <span>→</span></a>
+    </aside>
   </main>
-  <div id="gameOverScreen">
-    Game Over!<br />
-    <div class="statContainer">
-      <div class="stat">
-        <h6>Final Streak:</h6>
-        <span id="finalStreak">0</span>
-      </div>
-      <div class="stat">
-        <h6>Average Time:</h6>
-        <span id="averageTime">0</span>s
-      </div>
-      <div class="stat">
-        <h6>Slowest Time:</h6>
-        <span id="slowestTime">0</span>s
-      </div>
-      <div class="stat" id="highScoreStat">
-        <h6>High Score:</h6>
-        <span id="highScore">0</span>
-      </div>
+
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Trust the first difference you see.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Scan all nine tiles</strong><p>Eight share one hue. One is shifted around the colour wheel.</p></div></li>
+      <li><span>02</span><div><strong>Choose within four seconds</strong><p>A wrong tile or an empty timer ends the run.</p></div></li>
+      <li><span>03</span><div><strong>Adjust your lens</strong><p>The gap narrows at streaks 4, 8, 12 and 18.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Back to the colours</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">0</div>
+    <span class="eyebrow" id="result-kicker">Run complete</span>
+    <h2 id="result-title">Your colour streak ended.</h2>
+    <p class="result-note" id="result-note">The timer reached zero.</p>
+    <div class="reveal-swatches" aria-label="Last round colour comparison">
+      <div><i id="field-swatch"></i><span>Field hue</span></div>
+      <strong id="hue-gap">Δ 18°</strong>
+      <div><i id="odd-swatch"></i><span>Odd hue</span></div>
     </div>
-    <div class='statContainer'>
-      <div id="newRecord" class="stat" style="display: none;">New Record!</div>
+    <div class="result-grid">
+      <div><strong id="result-streak">0</strong><span>Streak</span></div>
+      <div><strong id="result-average">—</strong><span>Avg. response</span></div>
+      <div><strong id="result-best">0</strong><span>Best</span></div>
     </div>
-    <br />
-    <button id="restartButton" class="button-85">Restart</button>
-    <div id="welcome">
-      <h6>If you're new here:</h6>
-      <p><small>You have 4 seconds per coloured grid to choose the odd one out and keep your streak going. It's as
-          simple as that!</small></p>
+    <button class="primary-button" id="restart-button" type="button">Play again <span>→</span></button>
+    <button class="text-button" id="share-button" type="button">Share result</button>
+  </dialog>
+
+  <dialog class="dialog stats-dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">Your colour record</span>
+    <h2>Guess Hue statistics</h2>
+    <div class="record-grid">
+      <div><strong id="stat-best">0</strong><span>Best streak</span></div>
+      <div><strong id="stat-plays">0</strong><span>Runs played</span></div>
+      <div><strong id="stat-correct">0</strong><span>Hues found</span></div>
+      <div><strong id="stat-average">0</strong><span>Average streak</span></div>
     </div>
-  </div>
-  <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
-  <script>
-    let streak = 0;
-    let oddPosition;
-    let timer;
-    let startTime;
-    let roundTimes = [];
-    let slowestTime = 0;
+    <div class="recent-runs" id="recent-runs" aria-label="Recent streaks"></div>
+  </dialog>
 
-    // Load high score from local storage
-    const loadHighScore = () => {
-      const highScore = localStorage.getItem('highScore') || 0;
-      document.getElementById('highScore').textContent = highScore;
-      return highScore;
-    };
-
-    let highScore = loadHighScore();
-    document.getElementById('introHighScore').textContent = highScore;
-
-    const updateStreakDisplay = () => {
-      document.getElementById("streak").textContent = streak;
-    };
-
-    const generateColor = () => {
-      const r = Math.floor(Math.random() * 256);
-      const g = Math.floor(Math.random() * 256);
-      const b = Math.floor(Math.random() * 256);
-      return `rgb(${r}, ${g}, ${b})`;
-    };
-
-    const generateSlightlyDifferentColor = (color) => {
-      const [r, g, b] = color.match(/\d+/g).map(Number);
-      const newR = Math.min(255, r + 10);
-      const newG = Math.min(255, g + 10);
-      const newB = Math.min(255, b + 10);
-      return `rgb(${newR}, ${newG}, ${newB})`;
-    };
-
-    const startTimer = () => {
-      const timerElement = document.getElementById("timer");
-      let width = 100;
-      timerElement.style.width = `${width}%`;
-
-      clearInterval(timer);
-      timer = setInterval(() => {
-        width -= 1;
-        timerElement.style.width = `${width}%`;
-        if (width <= 0) {
-          clearInterval(timer);
-          showGameOver();
-        }
-      }, 40);
-    };
-
-    const calculateAverageTime = () => {
-      if (roundTimes.length === 0) return 0;
-      const total = roundTimes.reduce((acc, val) => acc + val, 0);
-      return (total / roundTimes.length).toFixed(2);
-    };
-
-    const initGameBoard = () => {
-      const container = document.querySelector(".container");
-      container.innerHTML = "";
-      const mainColor = generateColor();
-      const oddColor = generateSlightlyDifferentColor(mainColor);
-      oddPosition = Math.floor(Math.random() * 9);
-
-      for (let i = 0; i < 9; i++) {
-        const square = document.createElement("div");
-        square.className = "grid-square";
-        square.style.backgroundColor = i === oddPosition ? oddColor : mainColor;
-        square.addEventListener("click", (event) => checkSquare(i, square, event));
-        container.appendChild(square);
-      }
-      startTime = Date.now();
-      startTimer();
-    };
-
-    const showGameOver = () => {
-      clearInterval(timer);
-      document.getElementById("finalStreak").textContent = streak;
-      document.getElementById("averageTime").textContent = calculateAverageTime();
-      document.getElementById("slowestTime").textContent = slowestTime.toFixed(2);
-      document.getElementById("gameOverScreen").style.display = "block";
-
-      if (streak > highScore) {
-        highScore = streak;
-        localStorage.setItem('highScore', highScore);
-        document.getElementById('highScore').textContent = highScore;
-        document.getElementById('introHighScore').textContent = highScore;
-        document.getElementById('newRecord').style.display = 'block';
-      }
-    };
-
-    const startGame = () => {
-      document.getElementById("introScreen").style.display = "none";
-      document.getElementById("gameShell").classList.add("is-active");
-      restartGame();
-    };
-
-    const restartGame = () => {
-      streak = 0;
-      oddPosition = null;
-      timer = null;
-      startTime = null;
-      roundTimes = [];
-      slowestTime = 0;
-      updateStreakDisplay();
-      initGameBoard();
-      document.getElementById("gameOverScreen").style.display = "none";
-      document.getElementById('newRecord').style.display = 'none';
-    };
-
-    document.getElementById("startButton").addEventListener("click", startGame);
-    document.getElementById("restartButton").addEventListener("click", restartGame);
-
-
-    const createCartoonySparks = (event, color) => {
-      const sparkCount = 6;
-
-      for (let i = 0; i < sparkCount; i++) {
-        const spark = document.createElement("span");
-        spark.className = "spark";
-        spark.style.backgroundColor = color;
-
-        const angle = (Math.PI * 2 * i) / sparkCount + (Math.random() * 0.35);
-        const distance = 12 + Math.random() * 18;
-        spark.style.setProperty("--spark-x", `${Math.cos(angle) * distance}px`);
-        spark.style.setProperty("--spark-y", `${Math.sin(angle) * distance}px`);
-        spark.style.left = `${event.clientX}px`;
-        spark.style.top = `${event.clientY}px`;
-
-        document.body.appendChild(spark);
-        spark.addEventListener("animationend", () => spark.remove(), { once: true });
-      }
-    };
-
-    const checkSquare = (index, squareElement, event) => {
-      const endTime = Date.now();
-      const timeTaken = (endTime - startTime) / 1000;
-      clearInterval(timer);
-
-      if (index === oddPosition) {
-        squareElement.classList.add("correct-click");
-        createCartoonySparks(event, "#fff275");
-        roundTimes.push(timeTaken);
-        slowestTime = Math.max(slowestTime, timeTaken);
-        streak++;
-        updateStreakDisplay();
-        setTimeout(initGameBoard, 120);
-      } else {
-        squareElement.classList.add("wrong-click");
-        createCartoonySparks(event, "#ff7a7a");
-        setTimeout(showGameOver, 140);
-      }
-    };
-
-  </script>
-
-<script data-explainer-injected="v2">
-(function () {
-  const helpBtn = document.createElement("button");
-  helpBtn.className = "legacy-help-button";
-  helpBtn.type = "button";
-  helpBtn.setAttribute("aria-label", "Show Guess Hue instructions");
-  helpBtn.textContent = "?";
-  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
-
-  helpBtn.addEventListener("click", function () {
-    clearInterval(timer);
-    document.getElementById("gameShell").classList.remove("is-active");
-    document.getElementById("gameOverScreen").style.display = "none";
-    document.getElementById("introScreen").style.display = "flex";
-  });
-
-  document.body.appendChild(helpBtn);
-})();
-</script>
-
-  <aside style="max-width:600px;margin:32px auto;padding:16px 20px;background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;font-family:Arial,sans-serif;font-size:16px;">
-    <p style="margin:0 0 10px;font-weight:bold;color:#333;">Related reading:</p>
-    <ul style="margin:0;padding-left:20px;">
-      <li><a href="https://www.bludle.com/blogs/7" style="color:#1a73e8;">Top 10 Word Games for Colour Lovers</a></li>
-    </ul>
-  </aside>
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script src="guesshue.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
-
 </html>
