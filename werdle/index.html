@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="nerdle.css">
+  <link rel="stylesheet" href="adSlots.css">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
@@ -66,14 +67,20 @@
       </div>
     </section>
 
-    <aside class="ad-card" aria-label="Advertisement">
-      <span>Advertisement</span>
-      <ins class="adsbygoogle" style="display:block;width:100%;height:90px" data-ad-client="ca-pub-5140172230633441" data-ad-slot="3900592841" data-ad-format="horizontal" data-full-width-responsive="false"></ins>
-    </aside>
-
     <section class="about-card" aria-labelledby="about-title">
       <div><span class="eyebrow">FIVE LETTERS. FIVE TRIES.</span><h2 id="about-title">A tiny daily ritual.</h2></div>
       <p>Find the hidden word using colour clues. Unlike most word games, every five-letter combination is allowed—so experiment freely. Come back tomorrow for a shared puzzle, or switch to Practice and keep your streak of clever ideas going.</p>
+    </section>
+
+    <section class="ad-stack" aria-label="Advertisements">
+      <aside class="ad-card" aria-label="Advertisement">
+        <span>Advertisement</span>
+        <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-5140172230633441" data-ad-slot="3900592841" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </aside>
+      <aside class="ad-card" aria-label="Advertisement">
+        <span>Advertisement</span>
+        <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-5140172230633441" data-ad-slot="1932905051" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </aside>
     </section>
   </main>
 
@@ -102,7 +109,17 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script>window.addEventListener('load',()=>{try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}})</script>
+  <script>
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.adsbygoogle').forEach((unit) => {
+        if (unit.dataset.adsbygoogleStatus) return;
+        try {
+          window.adsbygoogle = window.adsbygoogle || [];
+          window.adsbygoogle.push({});
+        } catch (error) { /* Ad blockers may prevent loading. */ }
+      });
+    });
+  </script>
   <script type="module" src="app.js"></script>
   <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
