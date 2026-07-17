@@ -1,467 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <style>.title{font-size:clamp(1.65rem,4.5vw,2.05rem)}#subtitle{font-size:clamp(.92rem,2.7vw,1rem)}#status{font-size:clamp(.92rem,2.6vw,1rem)}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Seequence — Colour Memory Puzzle | Bludle</title>
-  <meta name="description" content="Watch the colour sequence, then repeat it exactly. A free memory and pattern game that gets trickier every round — play Seequence on Bludle.">
-  <meta property="og:title" content="Seequence — Colour Memory Puzzle | Bludle">
-  <meta property="og:description" content="Watch the colour sequence, then repeat it exactly. A free memory and pattern game that gets trickier every round — play Seequence on Bludle.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b16">
+  <title>Seequence — Colour memory challenge</title>
+  <meta name="description" content="Watch a colour sequence, hold it in memory and identify the exact pattern. Build streaks and set a new high score.">
+  <meta property="og:title" content="Seequence — Colour memory challenge">
+  <meta property="og:description" content="Watch the colours. Hold the order. Find the exact sequence.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.bludle.com/seequence/">
-  <meta property="og:site_name" content="Bludle">
   <link rel="canonical" href="https://www.bludle.com/seequence/">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
-  <script type="text/javascript" src="/mixpanel.js"></script>
-  <style>
-    :root {
-      --bg: #f3f6fb;
-      --card: #ffffff;
-      --ink: #0f172a;
-      --muted: #5b6478;
-      --border: #d9e1ef;
-    }
-
-    body {
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      margin: 0;
-      background: radial-gradient(circle at top, #f9fbff, var(--bg));
-      color: var(--ink);
-      text-align: center;
-    }
-
-    .wrap {
-      width: min(92vw, 740px);
-      margin: 78px auto 24px;
-      padding: clamp(18px, 3.2vw, 30px);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
-      box-sizing: border-box;
-    }
-
-    .title {
-      margin: 0;
-      letter-spacing: 0.2px;
-      font-size: clamp(1.65rem, 4.5vw, 2.05rem);
-    }
-
-    #subtitle {
-      margin: 6px 0 14px;
-      color: var(--muted);
-      font-size: clamp(0.92rem, 2.7vw, 1rem);
-    }
-
-    #hud {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      background: #f6f9ff;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-weight: 600;
-      color: #253049;
-      min-width: 98px;
-    }
-
-    #board {
-      width: clamp(180px, 56vw, 240px);
-      height: clamp(180px, 56vw, 240px);
-      margin: 18px auto;
-      border-radius: 16px;
-      background: #e6ebf5;
-      border: 2px solid #d6ddeb;
-      box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.07);
-      transition: background 80ms linear;
-    }
-
-    #startBtn,
-    .answer-btn {
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #f8faff;
-      color: #14213b;
-      cursor: pointer;
-      transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-    }
-
-    #startBtn {
-      padding: 10px 18px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    #startBtn:hover,
-    .answer-btn:hover {
-      background: #eef4ff;
-      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.18);
-      transform: translateY(-1px);
-    }
-
-    #answers {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .answer-btn {
-      padding: 10px;
-      min-height: 52px;
-    }
-
-    .answer-sequence {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .swatch {
-      width: clamp(18px, 5.3vw, 22px);
-      height: clamp(18px, 5.3vw, 22px);
-      border-radius: 5px;
-      border: 1px solid rgba(0, 0, 0, 0.18);
-    }
-
-    #status {
-      min-height: 24px;
-      margin-top: 14px;
-      font-weight: 600;
-      font-size: clamp(0.92rem, 2.6vw, 1rem);
-    }
-
-    @media (max-width: 560px) {
-      #answers {
-        grid-template-columns: 1fr;
-      }
-
-      .chip {
-        min-width: 112px;
-      }
-
-      #startBtn,
-      .answer-btn {
-        width: 100%;
-      }
-    }
-  </style>
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Seequence",
-  "description": "A free colour memory game \u2014 remember and repeat the sequence.",
-  "url": "https://www.bludle.com/seequence/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
-  }
-}
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="seequence.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Seequence","description":"A colour sequence recognition and memory game.","url":"https://www.bludle.com/seequence/","genre":["Memory game","Colour game"],"isAccessibleForFree":true}</script>
 </head>
 <body>
   <div id="navbar-container"></div>
-  <div class="wrap">
-    <h1 class="title">Seequence</h1>
-    <p id="subtitle">Remember the colour order and pick the exact sequence.</p>
+  <main id="main-content" class="page-shell">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div class="brand-lockup"><span class="eyebrow">COLOUR MEMORY</span><h1 id="game-title">SEEQUENCE<span>.</span></h1></div>
+        <div class="header-actions">
+          <button class="icon-button" id="sound-button" type="button" aria-label="Turn sound on" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4c1.3 1.7 1.3 4.3 0 6m3-9c3 3.4 3 8.6 0 12"/></svg></button>
+          <button class="icon-button" id="help-button" type="button" aria-label="How to play">?</button>
+          <button class="icon-button" id="stats-button" type="button" aria-label="View records"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg></button>
+        </div>
+      </header>
 
-    <div id="hud">
-      <div class="chip">Level: <span id="level">1</span></div>
-      <div class="chip">Lives: <span id="lives">3</span></div>
-    </div>
+      <div class="run-stats" aria-label="Current run">
+        <div><span>LEVEL</span><strong id="level">1</strong></div><div><span>SCORE</span><strong id="score">0</strong></div><div><span>STREAK</span><strong id="streak">0</strong></div><div><span>LIVES</span><strong id="lives" class="lives">● ● ●</strong></div>
+      </div>
 
-    <div id="board"></div>
-    <button id="startBtn">Show Sequence</button>
-    <div id="answers"></div>
-    <div id="status"></div>
-  </div>
+      <div class="stage" id="stage">
+        <div class="ambient-ring one"></div><div class="ambient-ring two"></div>
+        <div class="memory-orb" id="memory-orb"><span class="orb-number" id="orb-number">✦</span><span class="orb-label" id="orb-label">READY</span></div>
+      </div>
+      <div class="sequence-progress" id="sequence-progress" aria-label="Sequence progress"></div>
+      <div class="status" id="status" role="status" aria-live="polite"><strong>Ready to test your colour memory?</strong><span>Three colours. Four possible sequences. One exact match.</span></div>
 
-  <script>
-    const COLOR_SHOW_MS = 1200; // Doubled from the original 600ms pacing.
+      <button class="primary-button" id="start-button" type="button">Show sequence <span>→</span></button>
 
-    let level = 1;
-    let lives = 3;
-    let sequence = [];
-    let gameStarted = false;
+      <div class="answers" id="answers" aria-label="Sequence choices" hidden></div>
+      <p class="key-hint">Keyboard: press 1–4 to choose an answer.</p>
+    </section>
 
-    const board = document.getElementById("board");
-    const answers = document.getElementById("answers");
-    const statusEl = document.getElementById("status");
-    const startBtn = document.getElementById("startBtn");
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+    <section class="about-card" aria-labelledby="about-title"><div><span class="eyebrow">WATCH. HOLD. RECOGNISE.</span><h2 id="about-title">A workout for visual memory.</h2></div><p>Each level adds another colour until the sequence reaches eight. After the final flash, choose the exact order from four options. Some choices use the same colours in the wrong order; others change only one colour. Three mistakes end the run.</p></section>
+  </main>
 
-    function setHud() {
-      document.getElementById("level").textContent = level;
-      document.getElementById("lives").textContent = lives;
-    }
+  <dialog id="help-dialog" class="dialog"><button class="dialog-close" type="button" data-close aria-label="Close">×</button><span class="eyebrow">HOW TO PLAY</span><h2>Hold the colours in order.</h2><ol class="steps"><li><span>01</span><div><strong>Watch the orb</strong><p>Each colour appears for 1.2 seconds. The dots show how many remain.</p></div></li><li><span>02</span><div><strong>Remember the order</strong><p>Colour and position both matter.</p></div></li><li><span>03</span><div><strong>Choose the exact sequence</strong><p>Pick one of four patterns. Expect wrong-order and one-colour-off decoys.</p></div></li><li><span>04</span><div><strong>Build your streak</strong><p>Correct answers advance the level and multiply your score. You have three lives.</p></div></li></ol><button class="primary-button" type="button" data-close>Start remembering</button></dialog>
 
-    function randomChannelValue() {
-      return Math.floor(Math.random() * 256);
-    }
+  <dialog id="result-dialog" class="dialog result-dialog"><div class="result-mark" id="result-mark">✓</div><span class="eyebrow" id="result-kicker">SEQUENCE FOUND</span><h2 id="result-title">Perfect recall.</h2><p id="result-copy">You held every colour in the right place.</p><div class="result-row" id="correct-sequence"></div><div class="result-grid"><div><strong id="result-points">+0</strong><span>Points</span></div><div><strong id="result-streak">0</strong><span>Streak</span></div><div><strong id="result-length">3</strong><span>Colours</span></div></div><button class="primary-button" id="next-button" type="button">Next sequence <span>→</span></button></dialog>
 
-    function randomColor() {
-      // Every colour is built from a fresh random R, G and B value.
-      return {
-        r: randomChannelValue(),
-        g: randomChannelValue(),
-        b: randomChannelValue()
-      };
-    }
+  <dialog id="stats-dialog" class="dialog"><button class="dialog-close" type="button" data-close aria-label="Close">×</button><span class="eyebrow">YOUR RECORDS</span><h2>Seequence stats</h2><div class="record-grid"><div><strong id="best-score">0</strong><span>Best score</span></div><div><strong id="best-level">1</strong><span>Best level</span></div><div><strong id="best-streak">0</strong><span>Best streak</span></div><div><strong id="runs-played">0</strong><span>Runs</span></div></div></dialog>
 
-    function colorToString(color) {
-      return `rgb(${color.r}, ${color.g}, ${color.b})`;
-    }
+  <dialog id="gameover-dialog" class="dialog result-dialog"><div class="result-mark gameover">◇</div><span class="eyebrow">MEMORY RUN COMPLETE</span><h2>Every sequence trains the next.</h2><p class="summary-copy">You reached level <strong id="final-level">1</strong> and scored <strong id="final-score">0</strong>.</p><div class="new-best" id="new-best" hidden>New personal best</div><button class="primary-button" id="restart-button" type="button">Play again <span>↻</span></button></dialog>
 
-    function colorKey(color) {
-      return `${color.r},${color.g},${color.b}`;
-    }
-
-    function sequenceKey(seq) {
-      return seq.map(colorKey).join("|");
-    }
-
-    function generateSequence() {
-      const len = Math.min(2 + level, 8);
-      const generated = [];
-
-      for (let i = 0; i < len; i++) {
-        // Pick from any colour by randomising r, g and b for every position.
-        generated.push(randomColor());
-      }
-
-      return generated;
-    }
-
-    function mutateSequence(base, edits) {
-      const out = base.map(color => ({ ...color }));
-      const used = new Set();
-      while (used.size < edits) {
-        used.add(Math.floor(Math.random() * out.length));
-      }
-
-      [...used].forEach(idx => {
-        let replacement = randomColor();
-        while (colorKey(replacement) === colorKey(out[idx])) {
-          replacement = randomColor();
-        }
-        out[idx] = replacement;
-      });
-
-      return out;
-    }
-
-    function buildWrongOrderDecoy(correct) {
-      if (correct.length < 2) {
-        return mutateSequence(correct, 1);
-      }
-
-      // Try several reorder attempts before falling back.
-      for (let attempt = 0; attempt < 6; attempt++) {
-        const decoy = correct.map(color => ({ ...color }));
-
-        // As levels rise, make ordering mistakes subtler (mostly adjacent swaps).
-        if (level >= 5) {
-          const i = Math.floor(Math.random() * (decoy.length - 1));
-          [decoy[i], decoy[i + 1]] = [decoy[i + 1], decoy[i]];
-        } else {
-          let j = Math.floor(Math.random() * decoy.length);
-          while (j === 0) {
-            j = Math.floor(Math.random() * decoy.length);
-          }
-          const first = decoy.shift();
-          decoy.splice(j, 0, first);
-        }
-
-        if (sequenceKey(decoy) !== sequenceKey(correct)) {
-          return decoy;
-        }
-      }
-
-      // Fallback when repeated colours make reorder collisions likely.
-      return mutateSequence(correct, 1);
-    }
-
-    function buildOneColorOffDecoy(correct) {
-      return mutateSequence(correct, 1);
-    }
-
-    function addCandidate(opts, candidate) {
-      if (!opts.some(x => sequenceKey(x) === sequenceKey(candidate))) {
-        opts.push(candidate);
-      }
-    }
-
-    function buildAnswers(correct) {
-      const opts = [correct];
-      const length = correct.length;
-
-      // Guarantee at least one wrong-order decoy (same colours, wrong order).
-      addCandidate(opts, buildWrongOrderDecoy(correct));
-
-      // Guarantee at least one one-colour-off decoy.
-      addCandidate(opts, buildOneColorOffDecoy(correct));
-
-      while (opts.length < 4) {
-        const edits = length >= 3 ? (Math.random() < 0.7 ? 1 : 2) : 1;
-        const candidate = mutateSequence(correct, edits);
-        addCandidate(opts, candidate);
-      }
-
-      return opts.sort(() => Math.random() - 0.5);
-    }
-
-    async function flashSequence(seq) {
-      answers.innerHTML = "";
-      statusEl.textContent = "Watch carefully...";
-
-      for (const color of seq) {
-        board.style.background = colorToString(color);
-        await new Promise(r => setTimeout(r, COLOR_SHOW_MS));
-      }
-
-      board.style.background = "#e6ebf5";
-      statusEl.textContent = "Choose the correct sequence:";
-    }
-
-    function renderAnswers(options) {
-      answers.innerHTML = "";
-      options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.className = "answer-btn";
-        const seqView = document.createElement("div");
-        seqView.className = "answer-sequence";
-
-        option.forEach(color => {
-          const swatch = document.createElement("span");
-          swatch.className = "swatch";
-          swatch.style.backgroundColor = colorToString(color);
-          seqView.appendChild(swatch);
-        });
-
-        btn.appendChild(seqView);
-        btn.onclick = () => checkAnswer(option);
-        answers.appendChild(btn);
-      });
-    }
-
-    function updateStartButtonVisibility() {
-      startBtn.style.display = level === 1 && !gameStarted ? "inline-block" : "none";
-    }
-
-    function resetToLevelOne() {
-      level = 1;
-      lives = 3;
-      gameStarted = false;
-      setHud();
-      board.style.background = "#e6ebf5";
-      answers.innerHTML = "";
-      updateStartButtonVisibility();
-      statusEl.textContent = "Game over. Click Show Sequence to start again.";
-    }
-
-    function checkAnswer(selected) {
-      const ok = sequenceKey(selected) === sequenceKey(sequence);
-      if (ok) {
-        statusEl.textContent = "✅ Nice! That's correct.";
-        level += 1;
-        setHud();
-      } else {
-        lives -= 1;
-        setHud();
-        statusEl.textContent = "❌ Not quite. Keep going!";
-      }
-
-      if (lives <= 0) {
-        resetToLevelOne();
-        return;
-      }
-
-      setTimeout(startRound, 850);
-    }
-
-    async function startRound() {
-      gameStarted = true;
-      updateStartButtonVisibility();
-      sequence = generateSequence();
-      const opts = buildAnswers(sequence);
-      await flashSequence(sequence);
-      renderAnswers(opts);
-    }
-
-    startBtn.addEventListener("click", startRound);
-    setHud();
-    updateStartButtonVisibility();
-  </script>
-  <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
-
-<script data-explainer-injected="v1">
-(function () {
-  const storageKey = "explainerSeen_seequence_v1";
-  const modal = document.createElement("div");
-  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
-  modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
-      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Seequence</h2>
-      <p style="line-height:1.45;margin:0 0 16px 0;">Watch the sequence carefully, then rebuild it from memory. Each level increases complexity.</p>
-      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
-    </div>`;
-
-  const helpBtn = document.createElement("button");
-  helpBtn.type = "button";
-  helpBtn.setAttribute("aria-label", "Open game explainer");
-  helpBtn.textContent = "?";
-  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
-
-  function openExplainer() {
-    modal.style.display = "flex";
-  }
-
-  function closeExplainer(markSeen) {
-    modal.style.display = "none";
-    if (markSeen) localStorage.setItem(storageKey, "true");
-  }
-
-  document.body.appendChild(helpBtn);
-  document.body.appendChild(modal);
-  helpBtn.addEventListener("click", openExplainer);
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) closeExplainer(true);
-  });
-  modal.querySelector("#explainerCloseBtn").addEventListener("click", function () {
-    closeExplainer(true);
-  });
-
-  if (localStorage.getItem(storageKey) !== "true") {
-    openExplainer();
-  }
-})();
-</script>
-
-  <aside style="max-width:600px;margin:32px auto;padding:16px 20px;background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;font-family:Arial,sans-serif;font-size:16px;">
-    <p style="margin:0 0 10px;font-weight:bold;color:#333;">Related reading:</p>
-    <ul style="margin:0;padding-left:20px;">
-      <li><a href="https://www.bludle.com/blogs/8" style="color:#1a73e8;">The Science of Why We Love Word Puzzles</a></li>
-    </ul>
-  </aside>
+  <div class="achievement" id="achievement" role="status" aria-live="polite"><span>✦</span><div><small>ACHIEVEMENT</small><strong id="achievement-text">Pattern found</strong></div></div>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
 </html>
