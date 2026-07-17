@@ -134,76 +134,6 @@ body[data-game="wordmash"] .modal ul { color: var(--slate-600); }
 body[data-game="wordmash"] .modal button,
 body[data-game="wordmash"] .input-wrap button { border-color: var(--cobalt-500); background: var(--cobalt-500); color: white; }
 
-/* Shifty Fades */
-body[data-game="shiftyfades"] .shifty-shell {
-  width: min(calc(100% - 32px), 800px);
-  min-height: 650px;
-  margin: 0 auto 64px;
-  padding: 28px clamp(18px, 4vw, 36px) 110px;
-  border: 1px solid var(--slate-100);
-  border-radius: var(--radius-lg);
-  background: var(--slate-0);
-  box-shadow: var(--shadow-sm);
-  text-align: center;
-}
-body[data-game="shiftyfades"] .shifty-shell *,
-body[data-game="shiftyfades"] .modal { animation: none !important; }
-body[data-game="shiftyfades"] .shifty-shell header { display: flex; align-items: center; justify-content: space-between; padding: 0 0 20px; border-bottom: 1px solid var(--slate-100); background: transparent; }
-body[data-game="shiftyfades"] .shifty-shell h1 { margin: 0; color: var(--slate-800); }
-body[data-game="shiftyfades"] .toggle-btn { display: none; }
-body[data-game="shiftyfades"] :where(#level, #lives, #highScore) { display: inline-block; margin: 18px 6px 0; padding: 8px 12px; border: 1px solid var(--slate-200); border-radius: var(--radius-sm); background: var(--slate-50); color: var(--slate-600); }
-body[data-game="shiftyfades"] #target { border: 8px solid var(--slate-0); border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--slate-200), var(--shadow-sm); }
-body[data-game="shiftyfades"] .option { border: 5px solid var(--slate-0); border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--slate-200), var(--shadow-xs); }
-body[data-game="shiftyfades"] #bonusContainer { border-top: 1px solid var(--slate-200); background: var(--slate-50); color: var(--slate-600); }
-body[data-game="shiftyfades"] #bonusProgressContainer { background: var(--slate-200); }
-body[data-game="shiftyfades"] #bonusProgress { background: var(--cobalt-500); }
-body[data-game="shiftyfades"] .modal { background: rgba(20,25,40,.48); backdrop-filter: none; }
-body[data-game="shiftyfades"] .modal-content { border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
-body[data-game="shiftyfades"] .modal h2 { color: var(--slate-800); }
-body[data-game="shiftyfades"] .modal p { color: var(--slate-600); }
-body[data-game="shiftyfades"] .modal button { border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: white; }
-
-/* Colour Match */
-body[data-game="colourmatch"] .colourmatch-shell { width: min(calc(100% - 32px), 900px); margin: 0 auto 64px; }
-body[data-game="colourmatch"] .colourmatch-header { padding: 28px 0 20px; background: transparent; text-align: left; }
-body[data-game="colourmatch"] .colourmatch-header h1 { margin: 4px 0 6px; color: var(--slate-800); }
-body[data-game="colourmatch"] .colourmatch-header p { margin: 0; color: var(--slate-600); }
-body[data-game="colourmatch"] .background {
-  position: relative;
-  top: auto;
-  width: 100%;
-  height: 620px;
-  padding: 72px 24px 30px;
-  border: 10px solid var(--slate-0);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 0 0 1px var(--slate-200), var(--shadow-md);
-  overflow: hidden;
-}
-body[data-game="colourmatch"] .central { width: min(100%, 320px); min-width: 0; margin: 0 auto; padding: 16px; border: 1px solid var(--slate-200); border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
-body[data-game="colourmatch"] .guessRepresentation { min-height: 220px; border: 1px solid var(--slate-300); border-radius: var(--radius-sm); }
-body[data-game="colourmatch"] .guessInput { border: 1px solid var(--slate-300); background: var(--slate-0); }
-body[data-game="colourmatch"] .adjusterUp,
-body[data-game="colourmatch"] .adjusterDown { border-color: var(--slate-300); background: var(--slate-50); color: var(--slate-600); }
-body[data-game="colourmatch"] .submitBtn { min-width: 112px; border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: white; box-shadow: var(--shadow-xs); }
-body[data-game="colourmatch"] .statsBtn,
-body[data-game="colourmatch"] .instructionsBtn { position: fixed; top: calc(var(--global-nav-height,64px) + 12px); width: 42px; min-width: 42px; height: 42px; padding: 0; border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-600); }
-body[data-game="colourmatch"] .fullScreenDiv { background: rgba(20,25,40,.48); backdrop-filter: none; }
-body[data-game="colourmatch"] .instructionText { height: auto; max-height: calc(100vh - 120px); margin: 80px auto 20px; overflow: auto; padding: 28px; border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
-body[data-game="colourmatch"] .dismissInstructionBtn { border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: white; }
-
-/* Chroma Lock */
-body[data-game="chromalock"] .wrap { border: 1px solid var(--slate-100); background: var(--slate-0); box-shadow: var(--shadow-sm); }
-body[data-game="chromalock"] .hero { border-radius: var(--radius-lg); background: var(--cobalt-800); }
-body[data-game="chromalock"] .hero h1 { color: white; }
-body[data-game="chromalock"] .hero .eyebrow { color: var(--cobalt-200); }
-body[data-game="chromalock"] .subtitle { color: var(--cobalt-100) !important; }
-body[data-game="chromalock"] .chip { border-color: var(--slate-200); border-radius: var(--radius-md); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-xs); }
-body[data-game="chromalock"] .arena { border-color: var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-50); }
-body[data-game="chromalock"] .colour-card { border-color: var(--slate-200); background: var(--slate-0); }
-body[data-game="chromalock"] .card-label { background: var(--slate-50); color: var(--slate-600); }
-body[data-game="chromalock"] .meter-wrap,
-body[data-game="chromalock"] .instructions { border-color: var(--slate-200); background: var(--slate-50); }
-
 /* Guess Hue */
 body[data-game="guesshue"] .legacy-help-button { top: calc(var(--global-nav-height,64px) + 12px) !important; }
 body[data-game="guesshue"] .intro-card { border: 1px solid var(--slate-100); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
@@ -340,9 +270,7 @@ body[data-game="trak"] .summary-grid div { background: var(--slate-50); color: v
 
 @media (max-width: 700px) {
   body[data-game="connex"] .word-list { grid-template-columns: repeat(2, 1fr); }
-  body[data-game="connex"] .connex-shell,
-  body[data-game="shiftyfades"] .shifty-shell { width: calc(100% - 16px); padding-inline: 14px; border-radius: var(--radius-md); }
-  body[data-game="colourmatch"] .background { height: 560px; padding: 54px 12px 24px; }
+  body[data-game="connex"] .connex-shell { width: calc(100% - 16px); padding-inline: 14px; border-radius: var(--radius-md); }
   body[data-game="heardle"] .heardle-shell { width: calc(100% - 16px); padding-inline: 14px; }
   body[data-game="reaction"] .reaction-card { min-height: 420px; padding: 24px 16px; }
   body[data-game="reaction"] #gameButton { min-height: 130px; }

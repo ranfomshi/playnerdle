@@ -1,175 +1,126 @@
 <!doctype html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Colour Match | Free Colour Matching Game Online</title>
-    <meta charset="" utf-8""="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex, follow">
-    <link rel="canonical" href="https://www.bludle.com/colourmatch/">
-    <meta name="description" content="Play Colour Match, a free browser colour matching game. Test eyesight and colour accuracy with quick no-download rounds.">
-    <meta name="keywords" content="reaction game">
-    <style>@font-face{font-family:FontAwesome;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0');src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:400;font-style:normal}*{font-family:'Roboto Condensed',sans-serif!important;font-weight:400!important}.fa{font:14px/1 FontAwesome!important}body{margin:0;height:100vh}.background{width:100vw;height:100vh;background:#23e962;top:0;position:absolute;z-index:0}.central{background-color:#fff;border:2px solid #000;width:200px;min-width:200px;border-radius:5px;margin:auto;margin-top:150px;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:column}.guessRepresentation{flex-grow:1;min-height:175px;border:2px solid #000;border-radius:5px;font-size:small;margin-top:10px}.inputHolder{flex-grow:1;display:flex;justify-content:space-between}#guessValue1{color:red}#guessValue2{color:green}#guessValue3{color:#00f}.guessInput{border:2px solid #000;flex-grow:1;padding:0;text-align:center}.submitBtn{background-color:#fff;border:2px solid #000;min-width:112px;border-radius:5px;margin:auto;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:row;margin-top:10px;z-index:2}.dismissInstructionBtn{background-color:#fff;border:2px solid #000;width:200px;min-width:200px;border-radius:5px;margin:auto;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:row}.fullScreenDiv{position:fixed;flex-direction:row;width:100%;height:100%;left:0;top:0;background:rgb(255 255 255 / 94%);z-index:var(--global-overlay-z,100100);display:none;justify-content:space-evenly;align-items:center;flex-wrap:wrap;overflow:auto;padding-bottom:100px}.instructionText{max-width:400px;margin:auto;margin-top:100px;position:relative;height:80%;white-space:normal;padding:20px}.statsBtn{position:absolute;left:10px;top:60px;max-width:50px}.instructionsBtn{position:absolute;right:10px;top:60px;max-width:50px}.historicAll{max-height:100px;overflow-y:scroll}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{box-shadow:inset 0 0 5px grey;border-radius:10px}::-webkit-scrollbar-thumb{background:gray;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#000}#snackbar{visibility:hidden;min-width:250px;transform:translatex(-50%);display:flex;flex-wrap:wrap;flex-direction:row;border:1px solid #000;background:#fff;justify-content:center;border-radius:5px;max-width:380px;padding:10px;position:fixed;z-index:var(--global-toast-z,100110);left:50%;top:var(--global-toast-top,30px);box-shadow:0 0 10px #00000033;font-size:large}.individualInputHolder{flex-grow:1;padding:0;text-align:center;width:30%;height:75px;display:flex;flex-direction:column}.adjusterUp{border:2px solid #000;border-radius:5px 5px 0 0}.adjusterDown{border:2px solid #000;border-radius:0 0 5px 5px}.adjusterIcon{margin:auto;top:50%;position:relative;transform:translateY(-50%);font-weight:700!important}.fa{display:inline-block;font:14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.fa-info-circle:before{content:"\f05a"}.fa-bar-chart:before{content:"\f080"}.fa-angle-up:before{content:"\f106"}.fa-angle-down:before{content:"\f107"}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <link rel="stylesheet" href="colourMatch.css">
-    <script src="colourMatch.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
-
-    <!-- Google tag (gtag.js) -->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-3Z3GM1YNZE');
-    </script>
-
-    <!-- log rocket -->
-    <script src="https://cdn.lr-in-prod.com/LogRocket.min.js"></script>
-    <script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
-    <script type="text/javascript" src="/mixpanel.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Colour Match | Daily RGB Colour Game</title>
+  <meta name="description" content="Match the daily colour by adjusting red, green and blue. One colour, one attempt, every day.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://www.bludle.com/colourmatch/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
-  <link rel="stylesheet" href="/globalNav/gameThemes.css">
+  <link rel="stylesheet" href="colourMatch.css">
 </head>
+<body data-game="colourmatch">
+  <div id="navbar-container"></div>
 
-<body data-game="colourmatch" onload="initialise()">
-    <div id="navbar-container"></div>
-    <main class="colourmatch-shell">
-    <header class="colourmatch-header">
+  <main class="colour-page" id="main-content">
+    <header class="game-heading">
+      <div>
         <span class="eyebrow">Daily colour challenge</span>
         <h1>Colour Match</h1>
-        <p>Build the target colour by adjusting its red, green and blue channels.</p>
+        <p>Recreate today’s colour using only its red, green and blue channels.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Colour Match statistics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+        </button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Colour Match">?</button>
+      </div>
     </header>
-    <div id="snackbar">Some text some message..</div>
-    <div class="submitBtn statsBtn" onclick="showStats()"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
-    <div class="submitBtn instructionsBtn" onclick="showInstructions()"><i class="fa fa-info-circle"
-            aria-hidden="true"></i></div>
-    <div class="fullScreenDiv" id="instructionsDiv">
-        <div class="instructionText">
-            <h3>Instructions</h3>
-            <p>Match the colour in the box to that of the background by adjusting the red, green and blue values of the
-                screen's pixels. Once you are confident, hit submit and see how far off you are. Get a different
-                colo(u)r to guess each day!
-                <br>
-                <small>The max value of each number is 255</small>
-            </p>
-            <div class="dismissInstructionBtn" onclick="closeInstructions()">Start</div>
+
+    <section class="match-card" aria-label="Daily colour matching workspace">
+      <div class="round-note">
+        <span>Today’s colour</span>
+        <strong>One attempt</strong>
+        <span>Lower difference wins</span>
+      </div>
+
+      <div class="comparison" id="comparisonBlock">
+        <figure class="colour-panel target-panel">
+          <div class="panel-copy"><span>Target</span><small>Study this colour</small></div>
+          <div class="colour-swatch" id="targetRepresentation" aria-label="Today’s target colour"></div>
+        </figure>
+        <figure class="colour-panel player-panel">
+          <div class="panel-copy"><span>Your mix</span><small id="mixValue">rgb(0, 0, 0)</small></div>
+          <div class="colour-swatch" id="guessRepresentation" aria-label="Your current colour mix"></div>
+        </figure>
+      </div>
+
+      <div class="mixer" aria-label="RGB controls">
+        <div class="channel red-channel">
+          <div class="channel-heading"><label for="redRange">Red</label><input id="guessValue1" type="number" min="0" max="255" value="0" inputmode="numeric" aria-label="Red value"></div>
+          <input id="redRange" type="range" min="0" max="255" value="0" aria-label="Adjust red">
         </div>
-    </div>
-    <div class="fullScreenDiv" id="statsDiv">
-        <div class="instructionText" id="Scores">All Scores
-            <div class="historicAll" id="historic"></div>
-            Your Average Score
-            <div id="average"></div>
-            Sum of all scores
-            <div id="total"></div>
-            Total games played
-            <div id="gamesPlayed"></div>
-            <div class="dismissInstructionBtn" onclick="closeStats()">Done</div>
+        <div class="channel green-channel">
+          <div class="channel-heading"><label for="greenRange">Green</label><input id="guessValue2" type="number" min="0" max="255" value="0" inputmode="numeric" aria-label="Green value"></div>
+          <input id="greenRange" type="range" min="0" max="255" value="0" aria-label="Adjust green">
         </div>
-
-    </div>
-    <!-- <div class="nav" id="nav">
-        <ul class="navList">
-            <li><a href="http://bludle.com">Daily Word Game</a></li>
-            <li class="flash"><a href="http://bludle.com/reaction">Daily Reaction Game</a></li>
-        </ul>
-    </div> -->
-    <div id="content" class="background">
-
-        <div class="central" id="comparisonBlock">
-            <div class="inputHolder">
-
-                <div class="individualInputHolder" id="IIH1">
-                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon"
-                            aria-hidden="true"></i></div>
-                    <input type="number" id="guessValue1" class="guessInput" value="0" min="0" max="255"
-                        onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}"
-                        onblur="if(this.value == ''){this.value='0'}" />
-                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i
-                            class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                </div>
-
-                <div class="individualInputHolder" id="IIH2">
-                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon"
-                            aria-hidden="true"></i></div>
-                    <input type="number" id="guessValue2" class="guessInput" value="0" min="0" max="255"
-                        onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}"
-                        onblur="if(this.value == ''){this.value='0'}" />
-                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i
-                            class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                </div>
-
-                <div class="individualInputHolder" id="IIH3">
-                    <div class="adjusterUp" onclick="valueUp($(this).next())"><i class="fa fa-angle-up adjusterIcon"
-                            aria-hidden="true"></i></div>
-                    <input type="number" id="guessValue3" class="guessInput" value="0" min="0" max="255"
-                        onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}"
-                        onblur="if(this.value == ''){this.value='0'}" />
-                    <div class="adjusterDown" onclick="valueDown($(this).prev())"><i
-                            class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                </div>
-
-            </div>
-            <div class="guessRepresentation" id="guessRepresentation"></div>
+        <div class="channel blue-channel">
+          <div class="channel-heading"><label for="blueRange">Blue</label><input id="guessValue3" type="number" min="0" max="255" value="0" inputmode="numeric" aria-label="Blue value"></div>
+          <input id="blueRange" type="range" min="0" max="255" value="0" aria-label="Adjust blue">
         </div>
-        <button class="submitBtn" id="submitBtn" onclick="submitClick()">Submit</button>
+      </div>
+
+      <div class="match-action">
+        <p id="round-status" role="status" aria-live="polite">Tune each channel, then submit your closest match.</p>
+        <button class="primary-button" id="submitBtn" type="button">Submit today’s mix <span>→</span></button>
+      </div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="colour-about-title">
+      <div><span class="eyebrow">Three channels. One judgement.</span><h2 id="colour-about-title">How close is close?</h2></div>
+      <p>Your score is the total distance between your red, green and blue values and the target. A perfect match scores 0. Come back tomorrow for a new colour.</p>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Build the colour you see.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Study the target</strong><p>The left swatch is today’s colour.</p></div></li>
+      <li><span>02</span><div><strong>Mix with RGB</strong><p>Adjust red, green and blue from 0 to 255.</p></div></li>
+      <li><span>03</span><div><strong>Submit once</strong><p>Your three channel differences are added together. Lower is better.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start mixing</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">0</div>
+    <span class="eyebrow" id="result-kicker">Today’s result</span>
+    <h2 id="result-title">Colour submitted.</h2>
+    <div class="result-swatches">
+      <div><span id="result-target"></span><small>Target</small></div>
+      <div><span id="result-player"></span><small>Your mix</small></div>
     </div>
-    </main>
-    <!-- global elements -->
-    <link rel="stylesheet" href="/globalNav/globalNav.css">
-    <script type="module" src="/globalNav/globalNav.js" defer></script>
+    <div class="result-grid">
+      <div><strong id="result-red">0</strong><span>Red difference</span></div>
+      <div><strong id="result-green">0</strong><span>Green difference</span></div>
+      <div><strong id="result-blue">0</strong><span>Blue difference</span></div>
+    </div>
+    <button class="primary-button" id="share-button" type="button">Share result</button>
+    <button class="text-button" type="button" data-close>Back to the board</button>
+  </dialog>
 
+  <dialog class="dialog stats-dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">Your record</span>
+    <h2>Colour Match statistics</h2>
+    <div class="record-grid">
+      <div><strong id="averageScore">—</strong><span>Average difference</span></div>
+      <div><strong id="bestScore">—</strong><span>Best match</span></div>
+      <div><strong id="totalScore">0</strong><span>Total difference</span></div>
+      <div><strong id="gamesPlayed">0</strong><span>Colours played</span></div>
+    </div>
+    <div class="score-history" id="score-history" aria-label="Recent scores"></div>
+  </dialog>
 
-
-
-
-
-<noscript><link rel="stylesheet" href="colourMatch.css"></noscript>
-
-
-
-
-
-
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-
-
-
-
-
-
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-
-
-
-
-
-
-<noscript><link rel="stylesheet" href="colourMatch.css"></noscript>
-
-
-
-
-
-
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-
-
-
-
-
-
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-
-
-
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script src="colourMatch.js"></script>
+  <script type="module" src="colourMatchApp.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
-
 </html>
