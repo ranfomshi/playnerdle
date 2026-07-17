@@ -1,237 +1,145 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codle | Free Decode-Style Word Puzzle Game</title>
-    <meta name="description" content="Play Codle, a free browser word puzzle where offset clues help you decode five-letter words. A logic-led daily word game with no download.">
-    <link rel="canonical" href="https://www.bludle.com/codle/">
-  <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Codle | Free Decode-Style Word Puzzle Game">
-    <meta property="og:description" content="Play Codle, a free browser word puzzle where offset clues help you decode five-letter words. A logic-led daily word game with no download.">
-    <meta property="og:url" content="https://www.bludle.com/codle/">
-    <meta property="og:image" content="https://www.bludle.com/images/codle.jpg">
-    <meta property="og:site_name" content="Bludle">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Codle | Free Decode-Style Word Puzzle Game">
-    <meta name="twitter:description" content="Play Codle, a free browser word puzzle where offset clues help you decode five-letter words. A logic-led daily word game with no download.">
-    <meta name="twitter:image" content="https://www.bludle.com/images/codle.jpg">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <style>*{font-family:'Roboto Condensed',sans-serif!important;font-weight:400!important;text-decoration:none}html{position:relative;margin:0;padding:0;min-height:100%;background:linear-gradient(120deg,#0f2027,#203a43,#2c5364);background-size:180% 180%;animation:28s ease-in-out infinite codleGradientShift}body{position:relative;isolation:isolate;padding:0;margin:0;padding-top:50px}body::after,body::before{content:'';position:fixed;z-index:-1;width:45vmax;height:45vmax;border-radius:50%;opacity:.2;filter:blur(6px);animation:32s ease-in-out infinite alternate codleFloat}body::before{background:radial-gradient(circle,rgba(59,246,184,.55) 0,rgba(59,246,184,0) 68%);top:-8vmax;left:-10vmax}body::after{background:radial-gradient(circle,rgba(0,154,255,.45) 0,rgba(0,154,255,0) 65%);right:-12vmax;bottom:-14vmax;animation-duration:38s;animation-direction:alternate-reverse}.bgAnimation{position:fixed;inset:0;z-index:-2;overflow:hidden}.bgOrb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.35;mix-blend-mode:screen}.orbOne{width:32vmax;height:32vmax;top:12%;left:-8vmax;background:radial-gradient(circle at 30% 30%,rgba(111,255,216,.85),rgba(111,255,216,0));animation:20s ease-in-out infinite alternate codleOrbDriftOne}.orbTwo{width:24vmax;height:24vmax;right:4vmax;top:-3vmax;background:radial-gradient(circle at 35% 35%,rgba(139,177,255,.75),rgba(139,177,255,0));animation:24s ease-in-out infinite alternate-reverse codleOrbDriftTwo}.orbThree{width:38vmax;height:38vmax;right:-14vmax;bottom:-14vmax;background:radial-gradient(circle at 50% 50%,rgba(31,255,193,.6),rgba(31,255,193,0));animation:26s ease-in-out infinite alternate codleOrbDriftThree}.bgScanline{position:absolute;inset:0;opacity:.08;background-image:repeating-linear-gradient(to bottom,rgba(255,255,255,.25) 0,rgba(255,255,255,.25) 1px,transparent 1px,transparent 4px);animation:8s linear infinite codleScanlineShift}h1{font-family:'Roboto Condensed',sans-serif!important;font-weight:400!important;color:#fff}ul{padding:0}.title{text-align:center}.answerList{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;flex-direction:row;color:#fff}.playAgain{background-color:rgba(255,255,255,.2);backdrop-filter:blur(1px);color:#fff;list-style:none;padding:1rem;margin:1rem;display:none;width:fit-content;max-width:200px;border-radius:3px;margin-left:50%;transform:translateX(-50%)}.playAgain>button{background-color:transparent;border:none;color:#fff}#snackbar{visibility:hidden;min-width:250px;transform:translatex(-50%);background-color:#fff;color:#000;text-align:center;border-radius:2px;padding:16px;position:fixed;z-index:var(--global-toast-z,100110);left:50%;top:var(--global-toast-top,30px);box-shadow:0 0 10px #00000033}.instruction{background:linear-gradient(to right,transparent,#000,transparent);color:#90ee90;padding:1rem;margin-left:1rem;margin-right:1rem;margin-top:.5rem;margin-bottom:.5rem;text-align:center;min-height:30px}#revealedLetters{background:0 0}input{border-width:4px;border-style:solid;border-image:linear-gradient(to top,rgb(9,139,0),rgb(0,255,191)) 1;border-left:none;border-top:none;border-right:none;position:relative;display:inline-flex;justify-content:center;align-items:center;color:#000;padding:4px;outline:0}.inputHolder{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:center}.singleInput{width:20px;margin:2px;text-align:center;font-weight:700}.explanation{max-height:0;overflow:hidden;background:#296f8787;border-radius:10px;margin:1rem;color:#fff;font-size:1rem}p{font-size:.75rem}.exToggle{font-size:x-small;color:#fff;text-align:right}.counter{font-size:x-small;color:#fff;text-align:left}.spaceBetween{display:flex;justify-content:space-between}.letterContainer{font-size:x-large;display:flex;flex-direction:column}.submitBtn{display:none;margin-left:50%;transform:translatex(-50%);margin-top:10px}@keyframes codleGradientShift{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}@keyframes codleFloat{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(7vmax,5vmax,0) scale(1.18)}}@media (prefers-reduced-motion:reduce){.bgOrb,.bgScanline,body::after,body::before,html{animation:none}}@keyframes codleOrbDriftOne{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(18vmax,8vmax,0) scale(1.25)}}@keyframes codleOrbDriftTwo{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-16vmax,12vmax,0) scale(1.2)}}@keyframes codleOrbDriftThree{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-12vmax,-14vmax,0) scale(1.15)}}@keyframes codleScanlineShift{0%{transform:translateY(0)}100%{transform:translateY(4px)}}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-    <meta name="author" content="Stuart Pecksen">
-    <link rel="stylesheet" type="text/css" href="codle.css" media="print" onload="this.media='print'">
-    <script src="codle.js"></script>
-
-    <!-- global elements -->
-    <link rel="stylesheet" href="/globalNav/globalNav.css">
-    <script type="module" src="/globalNav/globalNav.js" defer=""></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet" media="print" onload="this.media='print'">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&amp;family=Lobster&amp;family=Montserrat:wght@100&amp;family=Open+Sans:wght@300&amp;family=Roboto:wght@100&amp;display=swap&amp;family=Raleway:wght@100&amp;display=swap" rel="stylesheet" media="print" onload="this.media='print'">
-    <!-- Google tag (gtag.js) -->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3Z3GM1YNZE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-3Z3GM1YNZE');
-    </script>
-
-    <!-- log rocket -->
-    <script src="https://cdn.lr-in-prod.com/LogRocket.min.js"></script>
-    <script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
-    <script type="text/javascript" src="/mixpanel.js"></script>
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Codle",
-  "description": "A free encoded 5-letter word game \u2014 decode the hidden word.",
-  "url": "https://www.bludle.com/codle/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
-  }
-}
-  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07100f">
+  <title>Codle — Crack the five-letter code</title>
+  <meta name="description" content="Decode five-letter words through shifting, mirrored, alternating and reversed alphabet rules in Codle.">
+  <link rel="canonical" href="https://www.bludle.com/codle/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Codle — Crack the five-letter code">
+  <meta property="og:description" content="Five letters. Five attempts. A different cipher every round.">
+  <meta property="og:url" content="https://www.bludle.com/codle/">
+  <meta property="og:image" content="https://www.bludle.com/images/codle.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="codle.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
+  <script type="module" src="app.js" defer></script>
 </head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+  <div id="navbar-container"></div>
 
-<body onload="init()">
-    <div class="bgAnimation" aria-hidden="true">
-        <span class="bgOrb orbOne"></span>
-        <span class="bgOrb orbTwo"></span>
-        <span class="bgOrb orbThree"></span>
-        <span class="bgScanline"></span>
-    </div>
-    <div id="navbar-container"></div>
-    <div id="snackbar">Some text some message..</div>
-    <div id="title" class="title">
-        <h1>CODLE</h1>
-    </div>
-    <div id="inputArea">
-        <div class="instruction">Decode this word:<br>
-            <div class="spaceBetween">
-                <div class="counter" id="counter">5</div>
-                <div id="exToggle" class="exToggle" onclick="exToggle()">how?</div>
-            </div>
-
-            <div id="explanation" class="explanation">
-                <p>The letters all correspond to a letter of the alphabet - each one offset by the same amount. The
-                    offset is randomly selected each game, as is the word to decode. If it's "z" and has been offset by
-                    1, the coded letter is "a". "g" becomes
-                    "h" etc.</br><br> Look for clues in the relationship between letters:<br><br> Consecutive letters
-                    can be a big help. <br><br> Double letters tend to be "ee" or "oo" but could also be "tt", "ll",
-                    "gg". If a double consonant appears
-                    in places 3 and 4 then position 5 may well be a "y". <br><br> Have fun!</p>
-                <br><button onclick="exToggle()">OK</button>
-            </div>
+  <main class="page-shell" id="main-content">
+    <section class="game-card" id="game" aria-labelledby="game-title">
+      <header class="game-header">
+        <div>
+          <span class="eyebrow">CIPHER WORD GAME</span>
+          <h1 id="game-title">COD<span>LE</span></h1>
         </div>
-
-
-        <div class="instruction">
-
-
-            <div class="inputHolder">
-                <div id="letterContainer1" class="letterContainer">
-                    <div id="letter1"></div><input type="text" onkeyup="individualPopulation(event)" id="input1"
-                        maxlength="1" class="singleInput" />
-                </div>
-                <div id="letterContainer2" class="letterContainer">
-                    <div id="letter2"></div><input type="text" onkeyup="individualPopulation(event)" id="input2"
-                        maxlength="1" class="singleInput" />
-                </div>
-                <div id="letterContainer3" class="letterContainer">
-                    <div id="letter3"></div><input type="text" onkeyup="individualPopulation(event)" id="input3"
-                        maxlength="1" class="singleInput" />
-                </div>
-                <div id="letterContainer4" class="letterContainer">
-                    <div id="letter4"></div><input type="text" onkeyup="individualPopulation(event)" id="input4"
-                        maxlength="1" class="singleInput" />
-                </div>
-                <div id="letterContainer5" class="letterContainer">
-                    <div id="letter5"></div><input type="text" onkeyup="individualPopulation(event)" id="input5"
-                        maxlength="1" class="singleInput" />
-                </div>
-            </div>
-            <button class="playAgain submitBtn" id="submitBtn" onclick="submitBtnClick()">Submit</button>
-
-
-
-
-
-
+        <div class="header-actions">
+          <button class="icon-button" id="help-button" type="button" aria-label="How to play">?</button>
+          <button class="icon-button" id="stats-button" type="button" aria-label="View records">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+          </button>
         </div>
-        <ul id="answers" class="answerList"></ul>
-        <div id="revealedLetters" class="instruction"></div>
-        <div id="message"></div>
-        <div id="playAgain" class="playAgain"><button onclick={location.reload()}>Play Again</button></div>
+      </header>
+
+      <div class="run-bar" aria-label="Current puzzle">
+        <div><span>RULE</span><strong id="rule-level">CLASSIC · 1</strong></div>
+        <div><span>ATTEMPTS</span><strong id="attempts-left">5</strong></div>
+        <div><span>STREAK</span><strong id="streak">0</strong></div>
+      </div>
+
+      <div class="signal-panel">
+        <div class="signal-heading">
+          <span>INTERCEPTED WORD</span>
+          <i aria-hidden="true"></i>
+          <span>5 LETTERS</span>
+        </div>
+        <div class="coded-word" id="coded-word" aria-label="Coded word"></div>
+      </div>
+
+      <article class="rule-card" aria-labelledby="rule-name">
+        <div class="rule-icon" aria-hidden="true">⌁</div>
+        <div>
+          <span id="rule-tag">TODAY'S RULE</span>
+          <h2 id="rule-name">Single shift</h2>
+          <p id="rule-description"></p>
+        </div>
+      </article>
+
+      <section class="decoder" aria-labelledby="decoder-title">
+        <div class="section-heading">
+          <div><span>YOUR DECODE</span><h2 id="decoder-title">Enter a five-letter word</h2></div>
+          <span id="guess-count">Attempt 1 of 5</span>
+        </div>
+        <form id="guess-form" autocomplete="off">
+          <label class="sr-only" for="guess-input">Your five-letter guess</label>
+          <input id="guess-input" name="guess" maxlength="5" pattern="[A-Za-z]{5}" inputmode="text" autocapitalize="characters" spellcheck="false" aria-describedby="input-error">
+          <div class="input-tiles" id="input-tiles" aria-hidden="true"></div>
+          <button class="decode-button" id="submit-button" type="submit" disabled>Decode word <span>↗</span></button>
+        </form>
+        <p class="input-error" id="input-error" role="alert"></p>
+      </section>
+
+      <section class="history-section" aria-labelledby="history-title">
+        <div class="section-heading compact">
+          <div><span>DECODER LOG</span><h2 id="history-title">Your attempts</h2></div>
+          <div class="legend" aria-label="Feedback key"><i class="exact"></i> Exact <i class="present"></i> Elsewhere <i></i> Miss</div>
+        </div>
+        <div class="guess-grid" id="guess-grid"></div>
+      </section>
+
+      <div class="hint-panel">
+        <div><span>NEED A BREAKTHROUGH?</span><p id="hint-copy">The cipher key unlocks after two attempts.</p></div>
+        <button id="hint-button" type="button" disabled>Unlock key <span>−350 pts</span></button>
+      </div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="about-title">
+      <div><span class="eyebrow">READ THE SIGNAL</span><h2 id="about-title">Not every code follows the same path.</h2></div>
+      <p>Codle combines word logic with five cipher families. Learn the transformation, test a word, and use exact-position and elsewhere clues to close in on the answer. The hidden key changes every round.</p>
+    </section>
+  </main>
+
+  <dialog class="dialog help-dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">HOW TO PLAY</span>
+    <h2>Crack the intercepted word.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Read the cipher rule</strong><p>The rule family is visible, but its number key stays hidden.</p></div></li>
+      <li><span>02</span><div><strong>Decode a five-letter word</strong><p>Work backwards from the intercepted letters and submit your best answer.</p></div></li>
+      <li><span>03</span><div><strong>Use the signal report</strong><p>Green is the exact position, amber appears elsewhere, and grey is absent.</p></div></li>
+      <li><span>04</span><div><strong>Unlock the key if stuck</strong><p>After two misses you can reveal the key, but it costs 350 points.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start decoding <span>→</span></button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">✓</div>
+    <span class="eyebrow" id="result-kicker">CODE CRACKED</span>
+    <h2 id="result-title">Signal decoded.</h2>
+    <p id="result-copy"></p>
+    <div class="answer-reveal" id="answer-reveal"></div>
+    <div class="result-grid">
+      <div><strong id="result-score">0</strong><span>POINTS</span></div>
+      <div><strong id="result-attempts">0</strong><span>ATTEMPTS</span></div>
+      <div><strong id="result-streak">0</strong><span>STREAK</span></div>
     </div>
-<script data-explainer-injected="v1">
-(function () {
-  const storageKey = "explainerSeen_codle_v1";
-  const modal = document.createElement("div");
-  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
-  modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
-      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Codle</h2>
-      <p style="line-height:1.45;margin:0 0 16px 0;">Decode the hidden 5-letter coding-themed word in limited guesses using the clue feedback after each attempt.</p>
-      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
-    </div>`;
+    <button class="primary-button" id="next-button" type="button">New transmission <span>→</span></button>
+  </dialog>
 
-  const helpBtn = document.createElement("button");
-  helpBtn.type = "button";
-  helpBtn.setAttribute("aria-label", "Open game explainer");
-  helpBtn.textContent = "?";
-  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
+  <dialog class="dialog stats-dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">DECODER RECORDS</span>
+    <h2>Your Codle file.</h2>
+    <div class="record-grid">
+      <div><strong id="games-played">0</strong><span>PLAYED</span></div>
+      <div><strong id="games-won">0</strong><span>CRACKED</span></div>
+      <div><strong id="best-streak">0</strong><span>BEST STREAK</span></div>
+      <div><strong id="best-score">0</strong><span>BEST SCORE</span></div>
+    </div>
+  </dialog>
 
-  function openExplainer() {
-    modal.style.display = "flex";
-  }
-
-  function closeExplainer(markSeen) {
-    modal.style.display = "none";
-    if (markSeen) localStorage.setItem(storageKey, "true");
-  }
-
-  document.body.appendChild(helpBtn);
-  document.body.appendChild(modal);
-  helpBtn.addEventListener("click", openExplainer);
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) closeExplainer(true);
-  });
-  modal.querySelector("#explainerCloseBtn").addEventListener("click", function () {
-    closeExplainer(true);
-  });
-
-  if (localStorage.getItem(storageKey) !== "true") {
-    openExplainer();
-  }
-})();
-</script>
-
-
-
-
-
-
-
-
-<noscript><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet"></noscript>
-
-
-<noscript><link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&amp;family=Lobster&amp;family=Montserrat:wght@100&amp;family=Open+Sans:wght@300&amp;family=Roboto:wght@100&amp;display=swap&amp;family=Raleway:wght@100&amp;display=swap" rel="stylesheet"></noscript>
-
-
-<noscript><link rel="stylesheet" type="text/css" href="codle.css"></noscript>
-
-
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-
-
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-
-
-<noscript><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet"></noscript>
-
-
-<noscript><link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&amp;family=Lobster&amp;family=Montserrat:wght@100&amp;family=Open+Sans:wght@300&amp;family=Roboto:wght@100&amp;display=swap&amp;family=Raleway:wght@100&amp;display=swap" rel="stylesheet"></noscript>
-
-
-<noscript><link rel="stylesheet" type="text/css" href="codle.css" media="print" onload="this.media='all'"></noscript>
-
-
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-
-
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-
-
-<noscript><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"></noscript>
-
-
-<noscript><link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&amp;family=Lobster&amp;family=Montserrat:wght@100&amp;family=Open+Sans:wght@300&amp;family=Roboto:wght@100&amp;display=swap&amp;family=Raleway:wght@100&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"></noscript>
-
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
-
 </html>
