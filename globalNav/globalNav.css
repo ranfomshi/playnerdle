@@ -8,7 +8,16 @@
   --global-toast-z: 100110;
 }
 .pn-nav, .pn-nav * { box-sizing: border-box; }
-.pn-nav { color: #363f5c; font-family: "Inter",system-ui,sans-serif; }
+.pn-nav {
+  all: initial;
+  display: block;
+  color-scheme: light;
+  color: #363f5c;
+  font-family: "Inter",system-ui,sans-serif;
+  --global-nav-height: 64px;
+  --global-nav-z: 1000;
+  --global-dropdown-z: 99999;
+}
 .pn-nav__bar { position: fixed; z-index: var(--global-nav-z); inset: 0 0 auto; height: 64px; border-bottom: 1px solid #dce1ec; background: rgba(255,255,255,.96); box-shadow: 0 1px 2px rgba(22,41,95,.06); backdrop-filter: blur(12px); }
 .pn-nav__inner { width: min(1200px,calc(100% - 48px)); height: 100%; display: flex; align-items: center; gap: 32px; margin: auto; }
 .pn-nav__brand { display: flex; align-items: center; gap: 10px; color: #232a42; font: 700 20px/1 "Manrope",system-ui,sans-serif; text-decoration: none; white-space: nowrap; }

@@ -47,6 +47,7 @@ body { margin: 0; min-height: 100vh; background: var(--slate-50); color: var(--s
 .result-swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 16px 0; border-top: 1px solid var(--slate-200); }
 .result-swatches span { display: block; height: 74px; border: 1px solid var(--slate-200); border-radius: var(--radius-sm); }
 .result-swatches small { display: block; margin-top: 6px; color: var(--slate-500); }
+.result-swatches code { display: block; margin-top: 2px; color: var(--slate-800); font: 600 13px/20px var(--font-mono); }
 .result-grid,.record-grid { display: grid; grid-template-columns: repeat(3,1fr); margin: 0 0 18px; border-block: 1px solid var(--slate-200); }
 .result-grid div,.record-grid div { padding: 13px 6px; border-right: 1px solid var(--slate-200); }
 .result-grid div:last-child,.record-grid div:nth-child(2n) { border-right: 0; }

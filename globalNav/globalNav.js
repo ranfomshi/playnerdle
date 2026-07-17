@@ -112,14 +112,15 @@
     return wrapper;
   }
 
-  function enhanceMainLandmark() {
+  function enhanceMainLandmark(nav) {
     const main = document.querySelector('main') || document.querySelector('[role="main"]');
     if (main && !main.id) main.id = 'main-content';
-    const skip = document.querySelector('.pn-nav__skip');
+    const skip = nav.querySelector('.pn-nav__skip');
     if (skip && !document.getElementById('main-content')) skip.remove();
   }
 
   function setupInteractions(nav) {
+    const navRoot = nav.getRootNode();
     const panel = nav.querySelector('.pn-nav__panel');
     const backdrop = nav.querySelector('.pn-nav__backdrop');
     const triggers = [...nav.querySelectorAll('[aria-controls="pn-nav-panel"]')];
@@ -133,7 +134,7 @@
       nav.querySelector('.pn-nav__mobile-button').setAttribute('aria-label', open ? 'Close games menu' : 'Open games menu');
       document.documentElement.classList.toggle('pn-nav-lock', open && window.innerWidth < 760);
       if (open) {
-        returnFocus = document.activeElement;
+        returnFocus = navRoot.activeElement || document.activeElement;
         window.requestAnimationFrame(() => panel.querySelector('a, button')?.focus());
       } else if (returnFocus && nav.contains(returnFocus)) returnFocus.focus();
     };
@@ -152,10 +153,10 @@
       const focusable = [...panel.querySelectorAll('a[href], button:not([disabled])')];
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
+      if (event.shiftKey && navRoot.activeElement === first) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (!event.shiftKey && navRoot.activeElement === last) {
         event.preventDefault();
         first.focus();
       }
@@ -173,6 +174,7 @@
     update();
     if ('ResizeObserver' in window) new ResizeObserver(update).observe(bar);
     else window.addEventListener('resize', update, { passive: true });
+    return update;
   }
 
   function protectPageContent(container, nav) {
@@ -198,6 +200,7 @@
     window.requestAnimationFrame(update);
     window.addEventListener('load', update, { once: true });
     window.addEventListener('resize', update, { passive: true });
+    return update;
   }
 
   function addBreadcrumbSchema() {
@@ -217,13 +220,27 @@
     const container = document.getElementById('navbar-container');
     if (!container || container.dataset.pnReady) return;
     container.dataset.pnReady = 'true';
+    container.style.setProperty('position', 'fixed', 'important');
+    container.style.setProperty('inset', '0 0 auto', 'important');
+    container.style.setProperty('z-index', 'var(--global-nav-z, 1000)', 'important');
+    container.style.setProperty('width', '100%', 'important');
+    container.style.setProperty('height', '0', 'important');
+    container.style.setProperty('min-height', '0', 'important');
     ensureStyles();
     const nav = createNav();
-    container.replaceChildren(nav);
-    enhanceMainLandmark();
+    const shadow = container.shadowRoot || container.attachShadow({ mode: 'open' });
+    const navStyles = document.createElement('link');
+    navStyles.rel = 'stylesheet';
+    navStyles.href = '/globalNav/globalNav.css';
+    shadow.replaceChildren(navStyles, nav);
+    enhanceMainLandmark(nav);
     setupInteractions(nav);
-    syncMetrics(nav);
-    protectPageContent(container, nav);
+    const updateMetrics = syncMetrics(nav);
+    const updatePageSpacing = protectPageContent(container, nav);
+    navStyles.addEventListener('load', () => {
+      updateMetrics();
+      updatePageSpacing();
+    }, { once: true });
     addBreadcrumbSchema();
     if (!sessionStorage.getItem('bludle_session_started')) {
       sessionStorage.setItem('bludle_session_started', '1');

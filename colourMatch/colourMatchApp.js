@@ -69,6 +69,8 @@ function showResult(channels, openDialog = true) {
   document.querySelector("#result-title").textContent = total === 0 ? "Perfect match." : total <= 30 ? "Exceptionally close." : total <= 90 ? "Strong colour sense." : "A bold attempt.";
   document.querySelector("#result-target").style.background = targetColour;
   document.querySelector("#result-player").style.background = rgb(channels);
+  document.querySelector("#result-target-rgb").textContent = rgb(targetChannels);
+  document.querySelector("#result-player-rgb").textContent = rgb(channels);
   ["red", "green", "blue"].forEach((name, index) => { document.querySelector(`#result-${name}`).textContent = differences[index]; });
   els.status.textContent = `Submitted — total difference ${total}. Come back tomorrow for a new colour.`;
   if (openDialog && !els.result.open) els.result.showModal();
