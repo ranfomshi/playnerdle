@@ -286,9 +286,71 @@ html body .dialog {
 html body .dialog::backdrop { background: rgba(20,25,40,.48); backdrop-filter: none; }
 html body .dialog h2 { color: var(--slate-800); }
 html body .dialog-close { width: 36px; height: 36px; padding: 0; border-color: transparent; box-shadow: none; }
-html body :where(.steps li, .result-row, .result-score, .result-grid div, .record-grid div, .answer-reveal, .new-best) { border-color: var(--slate-100); background: var(--slate-50); color: var(--slate-800); }
+html body :where(.steps li, .result-row, .answer-reveal) { border-color: var(--slate-100); background: var(--slate-50); color: var(--slate-800); }
 html body :where(.steps p, .result-dialog > p, .privacy-note, .summary-copy) { color: var(--slate-500) !important; }
 html body :where(.result-mark, .result-mark.gameover, .result-mark.lost, .result-mark.false-start) { border-radius: var(--radius-md); background: var(--cobalt-50); color: var(--cobalt-600); box-shadow: none; }
+
+/* Results should read as a clear summary, not a second game dashboard. */
+html body .result-dialog { width: min(calc(100% - 32px), 480px); padding: 28px; }
+html body .result-dialog h2 { margin: 6px 0 18px; font-size: 24px; line-height: 32px; letter-spacing: -.02em; }
+html body .result-dialog :where(.grade, .result-mark, .result-icon) {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
+  border: 1px solid var(--cobalt-100);
+  border-radius: var(--radius-sm);
+  background: var(--cobalt-50);
+  color: var(--cobalt-700);
+  box-shadow: none;
+  font: 700 20px/1 var(--font-heading);
+}
+html body .dialog :where(.result-grid, .record-grid) {
+  gap: 0;
+  margin: 18px 0;
+  overflow: hidden;
+  border-block: 1px solid var(--slate-200);
+  background: transparent;
+}
+html body .dialog :where(.result-grid, .record-grid) > div {
+  padding: 14px 8px;
+  border: 0;
+  border-right: 1px solid var(--slate-200);
+  border-radius: 0;
+  background: transparent;
+  color: var(--slate-700);
+}
+html body .dialog :where(.result-grid, .record-grid) > div:last-child { border-right: 0; }
+html body .dialog .record-grid > div:nth-child(2n) { border-right: 0; }
+html body .dialog .record-grid > div:nth-child(n+3) { border-top: 1px solid var(--slate-200); }
+html body .dialog :where(.result-grid, .record-grid) strong {
+  color: var(--slate-800);
+  font: 700 16px/24px var(--font-heading);
+}
+html body .dialog :where(.result-grid, .record-grid) span {
+  margin-top: 2px;
+  color: var(--slate-500);
+  font: 500 12px/18px var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+html body .result-dialog .result-score {
+  margin: 16px 0 0;
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--slate-200);
+  border-radius: 0;
+  background: transparent;
+  color: var(--slate-700);
+}
+html body .result-dialog :where(.new-best, .result-score em) {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--success);
+  box-shadow: none;
+  letter-spacing: 0;
+  text-transform: none;
+}
 
 /* Home and directory pages */
 html body .home-hero { align-items: center; padding-block: var(--space-8) var(--space-7); }

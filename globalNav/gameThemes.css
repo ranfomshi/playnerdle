@@ -219,6 +219,23 @@ body[data-game="tintuition"] .timer { background: var(--slate-200); }
 body[data-game="tintuition"] .versus { border: 1px solid var(--slate-300); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-xs); }
 body[data-game="tintuition"] .slider-row { border-color: var(--slate-200); background: var(--slate-50); }
 body[data-game="tintuition"] .round-callout { border-color: var(--cobalt-100); background: var(--cobalt-50); }
+body[data-game="tintuition"] .result-swatches {
+  gap: 16px;
+  margin: 18px 0 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--slate-200);
+}
+body[data-game="tintuition"] .result-swatches div { padding: 0; border: 0; border-radius: 0; background: transparent; }
+body[data-game="tintuition"] .result-swatches span { height: 58px; border: 1px solid var(--slate-200); border-radius: var(--radius-sm); }
+body[data-game="tintuition"] .result-swatches small { margin-top: 6px; color: var(--slate-500); font-size: 12px; }
+body[data-game="tintuition"] .channel-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin: 0 0 18px;
+}
+body[data-game="tintuition"] .channel-results span { padding: 0; border: 0; color: var(--slate-500); font-size: 12px; }
 
 /* XY */
 body[data-game="hunt"] .stats-bar { border-color: var(--slate-200); background: var(--slate-50); color: var(--slate-800); }
