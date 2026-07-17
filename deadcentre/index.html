@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dead Centre | Daily Spatial Memory Game</title>
+  <meta name="description" content="Memorise a target, wait for it to vanish, then place its exact centre. Eight new spatial-memory rounds every day.">
+  <link rel="canonical" href="https://www.bludle.com/deadcentre/">
+  <meta property="og:title" content="Dead Centre | Daily Spatial Memory Game">
+  <meta property="og:description" content="How precisely can you remember a point after it disappears?">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.bludle.com/deadcentre/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="deadcentre.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Game","name":"Dead Centre","description":"A daily spatial-memory game in which players replace vanished targets as accurately as possible.","url":"https://www.bludle.com/deadcentre/","gamePlatform":"Web browser","numberOfPlayers":1,"isAccessibleForFree":true}
+  </script>
+</head>
+<body data-game="deadcentre">
+  <div id="navbar-container"></div>
+
+  <main class="centre-page" id="main-content">
+    <header class="game-heading">
+      <div>
+        <span class="eyebrow">Daily spatial memory</span>
+        <h1>Dead Centre</h1>
+        <p>Watch the target disappear, then place its centre exactly where you remember it.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Dead Centre statistics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+        </button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Dead Centre">?</button>
+      </div>
+    </header>
+
+    <section class="centre-card" aria-labelledby="board-heading">
+      <div class="run-strip">
+        <div><span>Round</span><strong id="round-value">1 / 8</strong></div>
+        <div><span>Target</span><strong id="size-value">36px</strong></div>
+        <div><span>Average</span><strong id="average-value">--</strong></div>
+        <div><span>Best</span><strong id="best-value">--</strong></div>
+      </div>
+
+      <div class="board-copy">
+        <div><span class="phase-number" id="phase-label">Round 1</span><h2 id="board-heading">Find your focus.</h2></div>
+        <p id="board-instruction">Start the round, study the target, then click where its centre used to be.</p>
+      </div>
+
+      <div class="board-wrap">
+        <button class="memory-board" id="memory-board" type="button" aria-label="Spatial memory board" disabled>
+          <span class="board-grid" aria-hidden="true"></span>
+          <span class="target-marker" id="target-marker" aria-hidden="true"></span>
+          <span class="guess-marker" id="guess-marker" aria-hidden="true"></span>
+          <span class="keyboard-marker" id="keyboard-marker" aria-hidden="true"></span>
+          <span class="connector" id="connector" aria-hidden="true"></span>
+          <span class="board-message" id="board-message">Press start when you are ready</span>
+        </button>
+      </div>
+
+      <div class="round-result" id="round-result" hidden>
+        <div><strong id="round-score">--</strong><span>Accuracy</span></div>
+        <div><strong id="round-distance">--</strong><span>Distance from centre</span></div>
+        <p id="round-verdict">A precise placement.</p>
+      </div>
+
+      <div class="game-action">
+        <p id="game-status" role="status" aria-live="polite">Round 1 is ready.</p>
+        <button class="primary-button" id="action-button" type="button">Start round <span aria-hidden="true">&rarr;</span></button>
+      </div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="centre-about-title">
+      <div><span class="eyebrow">Location without landmarks</span><h2 id="centre-about-title">How stable is your mental map?</h2></div>
+      <p>The target becomes smaller and the blank pause becomes longer across eight rounds. Accuracy is based on its distance from your placement and is normalised for every screen size.</p>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Remember one exact point.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Study the target</strong><p>Focus on its centre and its position inside the board.</p></div></li>
+      <li><span>02</span><div><strong>Wait through the blank</strong><p>The target vanishes before the board accepts an answer.</p></div></li>
+      <li><span>03</span><div><strong>Replace the centre</strong><p>Click or tap the remembered point. Keyboard players can use arrow keys and Enter.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start focusing</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">--</div>
+    <span class="eyebrow">Today's map</span>
+    <h2 id="result-title">Eight points placed.</h2>
+    <p id="result-summary">Your daily result is ready.</p>
+    <div class="result-grid">
+      <div><strong id="final-accuracy">--</strong><span>Average accuracy</span></div>
+      <div><strong id="final-distance">--</strong><span>Average distance</span></div>
+      <div><strong id="best-round">--</strong><span>Best round</span></div>
+    </div>
+    <div class="round-pips" id="round-pips" aria-label="Round accuracy"></div>
+    <button class="primary-button" id="share-button" type="button">Share result</button>
+    <button class="text-button" type="button" data-close>Back to the board</button>
+  </dialog>
+
+  <dialog class="dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">Your record</span>
+    <h2>Dead Centre statistics</h2>
+    <div class="record-grid">
+      <div><strong id="games-played">0</strong><span>Days played</span></div>
+      <div><strong id="record-average">--</strong><span>Average accuracy</span></div>
+      <div><strong id="record-best">--</strong><span>Best day</span></div>
+      <div><strong id="current-streak">0</strong><span>Current streak</span></div>
+    </div>
+  </dialog>
+
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script type="module" src="deadcentre.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>

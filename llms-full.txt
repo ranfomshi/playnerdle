@@ -23,12 +23,14 @@ Bludle is a free browser-based collection of daily and unlimited puzzle games, e
 - https://www.bludle.com/reaction/ (reaction speed)
 - https://www.bludle.com/guesshue/ (visual discrimination)
 - https://www.bludle.com/colourmatch/ (colour matching challenge)
+- https://www.bludle.com/afterimage/ (daily colour-memory reconstruction)
 - https://www.bludle.com/chromalock/ (stop a cycling colour on a fixed target)
 
 ### "I want logic and pattern games"
 - https://www.bludle.com/connex/
 - https://www.bludle.com/hunt/
 - https://www.bludle.com/seequence/
+- https://www.bludle.com/deadcentre/ (daily spatial-memory precision)
 - https://www.bludle.com/wordmash/
 
 ## Site index of notable games
