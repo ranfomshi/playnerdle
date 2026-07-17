@@ -1,391 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <style>@font-face{font-family:Poppins;font-style:normal;font-weight:300;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLDz8V1s.ttf) format('truetype')}@font-face{font-family:Poppins;font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrFJA.ttf) format('truetype')}@font-face{font-family:Poppins;font-style:normal;font-weight:600;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6V1s.ttf) format('truetype')}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tintuition | Free Colour Mixing Challenge Game</title>
-  <meta name="description" content="Play Tintuition, a free colour mixing challenge game. Match colours under time pressure in your browser with no download.">
-  <meta property="og:title" content="Tintuition | Free Colour Mixing Challenge Game">
-  <meta property="og:description" content="Play Tintuition, a free colour mixing challenge game. Match colours under time pressure in your browser with no download.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0a0b14">
+  <title>Tintuition — Trust your eye</title>
+  <meta name="description" content="Match colours by eye, build combos and climb the Tintuition ranks in this fast HSL colour challenge.">
+  <meta property="og:title" content="Tintuition — Trust your eye">
+  <meta property="og:description" content="Match colours by eye, build combos and climb the ranks.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.bludle.com/tintuition/">
-  <meta property="og:site_name" content="Bludle">
   <link rel="canonical" href="https://www.bludle.com/tintuition/">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f8f8f8;
-      margin: 0;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    #timerBar {
-      height: 6px;
-      width: 100%;
-      background-color: #ff6b6b;
-      margin-bottom: 20px;
-      border-radius: 3px;
-    }
-
-    #gameArea {
-      width: 90%;
-      max-width: 450px;
-      text-align: center;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
-    }
-
-    .colorBox {
-      display: inline-block;
-      width: 70px;
-      height: 70px;
-      margin: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-      padding: 7px 10px;
-      border: none;
-      border-radius: 25px;
-      background-color: #4fbeaa;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-      margin: 3px;
-      display: flex;
-      height: 25px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button:hover {
-      background-color: #3d8f80;
-    }
-
-    h2 {
-      margin: 0;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .adjustRow {
-      display: flex;
-      align-items: center;
-      margin: 10px 0;
-    }
-
-    .adjustRow span {
-      margin: 0 10px;
-      font-weight: 600;
-      flex: 1;
-    }
-
-    .adjustRow input[type="range"] {
-      flex: 2;
-    }
-
-    .buttonGroup {
-      text-align: center;
-      display: flex;
-      justify-content: center;
-    }
-
-    #submitBtn {
-      display: none;
-    }
-  </style>
-  <script type="text/javascript" src="/mixpanel.js"></script>
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Tintuition",
-  "description": "A free colour mixing and matching challenge.",
-  "url": "https://www.bludle.com/tintuition/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
-  }
-}
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="tintuition.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Tintuition","description":"A browser colour matching challenge based on hue, saturation and brightness.","url":"https://www.bludle.com/tintuition/","genre":["Colour game","Puzzle game"],"isAccessibleForFree":true}</script>
 </head>
-
 <body>
   <div id="navbar-container"></div>
-  <div id="gameArea">
-    <h2>Tintuition</h2>
-    <p>
-      Adjust the hue, saturation, and brightness sliders to match the target
-      color before the timer runs out!
-    </p>
-    <div id="timerBar"></div>
-    <p>Level: <span id="level">1</span></p>
-    <p>Lives: <span id="lives">3</span></p>
-    <div>
-      <div class="colorBox" id="targetColor"></div>
-      <div class="colorBox" id="yourColor"></div>
-    </div>
-    <div class="adjustRow">
-      <button onmousedown="startAdjust('hue', -1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
-        -
-      </button>
-      <span>Hue</span>
-      <input type="range" id="hueSlider" min="0" max="360" value="180" />
-      <button onmousedown="startAdjust('hue', 1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
-        +
-      </button>
-    </div>
-    <div class="adjustRow">
-      <button onmousedown="startAdjust('saturation', -1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
-        -
-      </button>
-      <span>Saturation</span>
-      <input type="range" id="saturationSlider" min="0" max="100" value="50" />
-      <button onmousedown="startAdjust('saturation', 1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
-        +
-      </button>
-    </div>
-    <div class="adjustRow">
-      <button onmousedown="startAdjust('brightness', -1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
-        -
-      </button>
-      <span>Brightness</span>
-      <input type="range" id="brightnessSlider" min="0" max="100" value="50" />
-      <button onmousedown="startAdjust('brightness', 1)" onmouseup="stopAdjust()" onmouseleave="stopAdjust()">
-        +
-      </button>
-    </div>
-    <p id="message"></p>
-    <div class="buttonGroup">
-      <button id="startBtn" onclick="startGame()">Start Game</button>
-      <button id="submitBtn" onclick="endRound()">Submit</button>
-      <button id="restartBtn" onclick="restartGame()" style="display: none">
-        Restart
-      </button>
-    </div>
-  </div>
-  <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
-  <script>
-    const BASE_GAME_DURATION = 60000;
-    const TIME_REDUCTION = 5000;
-    const MIN_GAME_DURATION = 20000;
-    const MAX_DIFFERENCE = 30;
+  <main id="main-content" class="page-shell">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div class="brand-lockup">
+          <span class="eyebrow">COLOUR INSTINCT</span>
+          <h1 id="game-title">TINTUITION<span>.</span></h1>
+        </div>
+        <div class="header-actions">
+          <button class="icon-button" id="sound-button" type="button" aria-label="Turn sound on" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4c1.3 1.7 1.3 4.3 0 6m3-9c3 3.4 3 8.6 0 12"/></svg>
+          </button>
+          <button class="icon-button" id="help-button" type="button" aria-label="How to play">?</button>
+          <button class="icon-button" id="stats-button" type="button" aria-label="View records">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+          </button>
+        </div>
+      </header>
 
-    const targetColorDiv = document.getElementById("targetColor");
-    const yourColorDiv = document.getElementById("yourColor");
-    const hueSlider = document.getElementById("hueSlider");
-    const saturationSlider = document.getElementById("saturationSlider");
-    const brightnessSlider = document.getElementById("brightnessSlider");
-    const message = document.getElementById("message");
-    const timerBar = document.getElementById("timerBar");
-    const startBtn = document.getElementById("startBtn");
-    const restartBtn = document.getElementById("restartBtn");
-    const levelDisplay = document.getElementById("level");
-    const livesDisplay = document.getElementById("lives");
+      <div class="run-stats" aria-label="Current run">
+        <div><span>LEVEL</span><strong id="level">1</strong></div>
+        <div><span>SCORE</span><strong id="score">0</strong></div>
+        <div><span>COMBO</span><strong id="combo">×1</strong></div>
+        <div><span>LIVES</span><strong id="lives" class="lives" aria-label="3 lives">● ● ●</strong></div>
+      </div>
 
-    hueSlider.addEventListener("input", updateYourColor);
-    saturationSlider.addEventListener("input", updateYourColor);
-    brightnessSlider.addEventListener("input", updateYourColor);
+      <div class="timer" aria-label="Time remaining">
+        <div class="timer-fill" id="timer-fill"></div>
+      </div>
 
-    let targetHue, targetSaturation, targetBrightness;
-    let timer;
-    let lives = 3;
-    let level = 1;
+      <div class="swatches" aria-label="Colour comparison">
+        <figure>
+          <div class="swatch target-swatch" id="target-color"><span>?</span></div>
+          <figcaption>Target</figcaption>
+        </figure>
+        <div class="versus" aria-hidden="true"><span>VS</span></div>
+        <figure>
+          <div class="swatch" id="your-color"><span id="player-hex">#40BFBF</span></div>
+          <figcaption>Your mix</figcaption>
+        </figure>
+      </div>
 
-    function startGame() {
-      document.getElementById("submitBtn").style.display = "inline-block";
-      document.getElementById("restartBtn").style.display = "none";
-      startBtn.style.display = "none";
-      targetHue = Math.floor(Math.random() * 361);
-      targetSaturation = Math.floor(Math.random() * 71) + 30;
-      targetBrightness = Math.floor(Math.random() * 41) + 30;
-      targetColorDiv.style.backgroundColor = `hsl(${targetHue}, ${targetSaturation}%, ${targetBrightness}%)`;
-      hueSlider.value = 180;
-      saturationSlider.value = 50;
-      brightnessSlider.value = 50;
-      updateYourColor();
-      message.textContent = "";
-      startTimer();
-    }
+      <div class="round-callout" id="round-callout" role="status" aria-live="polite">
+        <strong>Trust your eye.</strong><span>Match the target before time runs out.</span>
+      </div>
 
-    function updateYourColor() {
-      let currentHue = hueSlider.value;
-      let currentSaturation = saturationSlider.value;
-      let currentBrightness = brightnessSlider.value;
-      yourColorDiv.style.backgroundColor = `hsl(${currentHue}, ${currentSaturation}%, ${currentBrightness}%)`;
-    }
+      <div class="controls" id="controls">
+        <div class="control-row" data-channel="hue">
+          <div class="control-copy"><label for="hue-slider">Hue</label><output id="hue-value">180°</output></div>
+          <div class="slider-row"><button type="button" class="nudge" data-channel="hue" data-step="-1" aria-label="Decrease hue">−</button><input type="range" id="hue-slider" min="0" max="360" value="180"><button type="button" class="nudge" data-channel="hue" data-step="1" aria-label="Increase hue">+</button></div>
+        </div>
+        <div class="control-row" data-channel="saturation">
+          <div class="control-copy"><label for="saturation-slider">Saturation</label><output id="saturation-value">50%</output></div>
+          <div class="slider-row"><button type="button" class="nudge" data-channel="saturation" data-step="-1" aria-label="Decrease saturation">−</button><input type="range" id="saturation-slider" min="0" max="100" value="50"><button type="button" class="nudge" data-channel="saturation" data-step="1" aria-label="Increase saturation">+</button></div>
+        </div>
+        <div class="control-row" data-channel="brightness">
+          <div class="control-copy"><label for="brightness-slider">Brightness</label><output id="brightness-value">50%</output></div>
+          <div class="slider-row"><button type="button" class="nudge" data-channel="brightness" data-step="-1" aria-label="Decrease brightness">−</button><input type="range" id="brightness-slider" min="0" max="100" value="50"><button type="button" class="nudge" data-channel="brightness" data-step="1" aria-label="Increase brightness">+</button></div>
+        </div>
+      </div>
 
-    function adjustValue(type, value) {
-      let slider;
-      switch (type) {
-        case "hue":
-          slider = hueSlider;
-          break;
-        case "saturation":
-          slider = saturationSlider;
-          break;
-        case "brightness":
-          slider = brightnessSlider;
-          break;
-      }
-      slider.value = parseInt(slider.value) + value;
-      updateYourColor();
-    }
+      <div class="actions">
+        <button class="primary-button" id="start-button" type="button">Start run <span>→</span></button>
+        <button class="primary-button" id="lock-button" type="button" hidden>Lock in colour <span>→</span></button>
+      </div>
+      <p class="key-hint">Tip: focus a slider and use your arrow keys for fine control.</p>
+    </section>
 
-    function startTimer() {
-      let startTime = Date.now();
-      let reductionTime = (level - 1) * TIME_REDUCTION;
-      let currentGameDuration = BASE_GAME_DURATION - reductionTime;
-      currentGameDuration = Math.max(currentGameDuration, MIN_GAME_DURATION);
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
 
-      clearInterval(timer);
+    <section class="about-card" aria-labelledby="about-title">
+      <div><span class="eyebrow">TRAIN YOUR COLOUR SENSE</span><h2 id="about-title">Less calculation. More intuition.</h2></div>
+      <p>Every round gives you a target colour and three controls: hue, saturation and brightness. Get within 30 total points to advance. Fast, accurate matches build bigger combos and higher scores—but the clock gets shorter every level.</p>
+    </section>
+  </main>
 
-      timer = setInterval(() => {
-        let elapsedTime = Date.now() - startTime;
-        let remainingWidth = 100 - (elapsedTime / currentGameDuration) * 100;
-        timerBar.style.width = `${remainingWidth}%`;
+  <dialog id="help-dialog" class="dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">HOW TO PLAY</span><h2>Match colour by instinct.</h2>
+    <ol class="steps"><li><span>01</span><div><strong>Study the target</strong><p>Use the left swatch as your reference.</p></div></li><li><span>02</span><div><strong>Mix your colour</strong><p>Hue chooses the colour family, saturation controls intensity, and brightness moves from dark to light.</p></div></li><li><span>03</span><div><strong>Lock it in</strong><p>A total error of 30 or less clears the round. You have three lives.</p></div></li><li><span>04</span><div><strong>Build a combo</strong><p>Accurate, fast matches earn more points. Each new level gives you less time.</p></div></li></ol>
+    <button class="primary-button" type="button" data-close>Let’s play</button>
+  </dialog>
 
-        if (elapsedTime >= currentGameDuration) {
-          clearInterval(timer);
-          checkColors();
-        }
-      }, 50);
-    }
+  <dialog id="result-dialog" class="dialog result-dialog">
+    <div class="grade" id="result-grade">A</div><span class="eyebrow" id="result-kicker">COLOUR MATCHED</span><h2 id="result-title">Sharp eye.</h2>
+    <div class="result-swatches"><div><span id="result-target"></span><small>Target</small></div><div><span id="result-player"></span><small>Your mix</small></div></div>
+    <div class="result-grid"><div><strong id="result-error">0</strong><span>Total error</span></div><div><strong id="result-points">+0</strong><span>Points</span></div><div><strong id="result-time">0.0s</strong><span>Time left</span></div></div>
+    <div class="channel-results" id="channel-results"></div>
+    <button class="primary-button" id="next-button" type="button">Next round <span>→</span></button>
+  </dialog>
 
-    function checkColors() {
-      let hueDifference = Math.abs(targetHue - hueSlider.value);
-      let saturationDifference = Math.abs(
-        targetSaturation - saturationSlider.value
-      );
-      let brightnessDifference = Math.abs(
-        targetBrightness - brightnessSlider.value
-      );
-      let totalDifference =
-        hueDifference + saturationDifference + brightnessDifference;
+  <dialog id="stats-dialog" class="dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button><span class="eyebrow">YOUR RECORDS</span><h2>Tintuition stats</h2>
+    <div class="record-grid"><div><strong id="best-score">0</strong><span>Best score</span></div><div><strong id="best-level">1</strong><span>Best level</span></div><div><strong id="best-combo">0</strong><span>Best combo</span></div><div><strong id="runs-played">0</strong><span>Runs</span></div></div>
+  </dialog>
 
-      if (totalDifference <= MAX_DIFFERENCE) {
-        message.textContent = `Well done!`;
-        level++;
-        levelDisplay.textContent = level;
-        setTimeout(startGame, 2500);
-      } else {
-        lives--;
-        livesDisplay.textContent = lives;
-        if (lives <= 0) {
-          message.textContent = "Game Over!";
-          restartBtn.style.display = "block";
-          document.getElementById("submitBtn").style.display = "none";
-        } else {
-          message.textContent = `Try again! Differences: Hue: ${hueDifference}, Saturation: ${saturationDifference}, Brightness: ${brightnessDifference}`;
-          document.getElementById("submitBtn").style.display = "none"; // Hide the submit button
-          setTimeout(startGame, 2500);
-        }
-      }
-    }
+  <dialog id="gameover-dialog" class="dialog result-dialog">
+    <div class="grade gameover">◆</div><span class="eyebrow">RUN COMPLETE</span><h2>Your eye is getting sharper.</h2><p class="gameover-copy">You reached level <strong id="final-level">1</strong> with <strong id="final-score">0</strong> points.</p>
+    <div class="new-best" id="new-best" hidden>New personal best</div><button class="primary-button" id="restart-button" type="button">Play again <span>↻</span></button>
+  </dialog>
 
-
-    function restartGame() {
-      lives = 3;
-      level = 1;
-      levelDisplay.textContent = level;
-      livesDisplay.textContent = lives;
-      restartBtn.style.display = "none";
-      startBtn.style.display = "block";
-      message.textContent = "";
-    }
-
-    let adjustInterval;
-
-    function startAdjust(type, value) {
-      adjustValue(type, value);
-      adjustInterval = setInterval(() => {
-        adjustValue(type, value);
-      }, 100);
-    }
-
-    function stopAdjust() {
-      clearInterval(adjustInterval);
-    }
-
-    function endRound() {
-      clearInterval(timer);
-      checkColors();
-    }
-  </script>
-
-<script data-explainer-injected="v1">
-(function () {
-  const storageKey = "explainerSeen_tintuition_v1";
-  const modal = document.createElement("div");
-  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;";
-  modal.innerHTML = `<div style="max-width:520px;width:100%;background:#fff;color:#111;padding:20px;border-radius:12px;font-family:Arial,sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.35);">
-      <h2 style="margin:0 0 8px 0;font-size:1.3rem;">How to play Tintuition</h2>
-      <p style="line-height:1.45;margin:0 0 16px 0;">Match your color to the target by adjusting hue, saturation, and brightness sliders before time runs out. You have 3 lives, and each level gets faster.</p>
-      <button id="explainerCloseBtn" style="padding:10px 14px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;">Got it</button>
-    </div>`;
-
-  const helpBtn = document.createElement("button");
-  helpBtn.type = "button";
-  helpBtn.setAttribute("aria-label", "Open game explainer");
-  helpBtn.textContent = "?";
-  helpBtn.style.cssText = "position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;z-index:9998;";
-
-  function openExplainer() {
-    modal.style.display = "flex";
-  }
-
-  function closeExplainer(markSeen) {
-    modal.style.display = "none";
-    if (markSeen) localStorage.setItem(storageKey, "true");
-  }
-
-  document.body.appendChild(helpBtn);
-  document.body.appendChild(modal);
-  helpBtn.addEventListener("click", openExplainer);
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) closeExplainer(true);
-  });
-  modal.querySelector("#explainerCloseBtn").addEventListener("click", function () {
-    closeExplainer(true);
-  });
-
-  if (localStorage.getItem(storageKey) !== "true") {
-    openExplainer();
-  }
-})();
-</script>
-
-  <aside style="max-width:600px;margin:32px auto;padding:16px 20px;background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;font-family:Arial,sans-serif;font-size:16px;">
-    <p style="margin:0 0 10px;font-weight:bold;color:#333;">Related reading:</p>
-    <ul style="margin:0;padding-left:20px;">
-      <li><a href="https://www.bludle.com/blogs/7" style="color:#1a73e8;">Top 10 Word Games for Colour Lovers</a></li>
-    </ul>
-  </aside>
+  <div class="achievement" id="achievement" role="status" aria-live="polite"><span>✦</span><div><small>ACHIEVEMENT</small><strong id="achievement-text">Colour curious</strong></div></div>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
-
 </html>
