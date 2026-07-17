@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Afterimage | Daily Colour Memory Game</title>
+  <meta name="description" content="Study a colour, hold it in your memory, then rebuild it from RGB. Five new colour-memory rounds every day.">
+  <link rel="canonical" href="https://www.bludle.com/afterimage/">
+  <meta property="og:title" content="Afterimage | Daily Colour Memory Game">
+  <meta property="og:description" content="How accurately can you remember a colour after it disappears?">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.bludle.com/afterimage/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="afterimage.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Game","name":"Afterimage","description":"A daily colour-memory game in which players rebuild vanished colours using RGB controls.","url":"https://www.bludle.com/afterimage/","gamePlatform":"Web browser","numberOfPlayers":1,"isAccessibleForFree":true}
+  </script>
+</head>
+<body data-game="afterimage">
+  <div id="navbar-container"></div>
+
+  <main class="afterimage-page" id="main-content">
+    <header class="game-heading">
+      <div>
+        <span class="eyebrow">Daily colour memory</span>
+        <h1>Afterimage</h1>
+        <p>Hold a colour in your mind after it disappears, then rebuild what you remember.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Afterimage statistics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+        </button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Afterimage">?</button>
+      </div>
+    </header>
+
+    <section class="memory-card" aria-labelledby="round-title">
+      <div class="run-strip">
+        <div><span>Round</span><strong id="round-value">1 / 5</strong></div>
+        <div><span>Study time</span><strong id="study-value">5.0s</strong></div>
+        <div><span>Average</span><strong id="average-value">--</strong></div>
+      </div>
+
+      <div class="phase phase-ready" id="ready-phase">
+        <span class="phase-number" id="round-kicker">Round 1</span>
+        <h2 id="round-title">Ready to remember?</h2>
+        <p id="round-intro">You will have five seconds with the colour. Once it disappears, rebuild it from memory.</p>
+        <button class="primary-button" id="start-round" type="button">Show me the colour <span aria-hidden="true">&rarr;</span></button>
+      </div>
+
+      <div class="phase phase-study" id="study-phase" hidden>
+        <div class="phase-label"><span>Study</span><strong id="countdown">5.0</strong></div>
+        <div class="memory-swatch" id="memory-swatch" aria-label="Colour to remember"></div>
+        <p>Notice its warmth, brightness and intensity. The values stay hidden.</p>
+      </div>
+
+      <div class="phase phase-distraction" id="distraction-phase" hidden>
+        <div class="phase-label"><span>Hold that thought</span><strong>Keep the colour in mind</strong></div>
+        <div class="distraction-grid" id="distraction-grid" aria-hidden="true"></div>
+        <p>Ignore the interruption. Your colour is coming back from memory, not the screen.</p>
+      </div>
+
+      <div class="phase phase-mix" id="mix-phase" hidden>
+        <div class="mix-heading">
+          <div><span class="phase-number">From memory</span><h2>Rebuild the colour.</h2></div>
+          <code id="mix-rgb">rgb(128, 128, 128)</code>
+        </div>
+        <div class="guess-swatch" id="guess-swatch" aria-label="Your remembered colour"></div>
+        <div class="mixer" aria-label="RGB controls">
+          <div class="channel red-channel">
+            <div class="channel-heading"><label for="red-range">Red</label><input id="red-number" type="number" min="0" max="255" value="128" inputmode="numeric" aria-label="Red value"></div>
+            <input id="red-range" type="range" min="0" max="255" value="128" aria-label="Adjust red">
+          </div>
+          <div class="channel green-channel">
+            <div class="channel-heading"><label for="green-range">Green</label><input id="green-number" type="number" min="0" max="255" value="128" inputmode="numeric" aria-label="Green value"></div>
+            <input id="green-range" type="range" min="0" max="255" value="128" aria-label="Adjust green">
+          </div>
+          <div class="channel blue-channel">
+            <div class="channel-heading"><label for="blue-range">Blue</label><input id="blue-number" type="number" min="0" max="255" value="128" inputmode="numeric" aria-label="Blue value"></div>
+            <input id="blue-range" type="range" min="0" max="255" value="128" aria-label="Adjust blue">
+          </div>
+        </div>
+        <div class="phase-action">
+          <p>There is no timer now. Trust the colour you remember.</p>
+          <button class="primary-button" id="submit-mix" type="button">Reveal the match</button>
+        </div>
+      </div>
+
+      <div class="phase phase-reveal" id="reveal-phase" hidden>
+        <div class="reveal-heading">
+          <div><span class="phase-number">Round result</span><h2 id="reveal-title">Memory matched.</h2></div>
+          <strong class="accuracy-badge" id="round-accuracy">0%</strong>
+        </div>
+        <div class="reveal-swatches">
+          <figure><div id="target-reveal"></div><figcaption><span>Target</span><code id="target-rgb">rgb(0, 0, 0)</code></figcaption></figure>
+          <figure><div id="guess-reveal"></div><figcaption><span>Your memory</span><code id="guess-rgb">rgb(0, 0, 0)</code></figcaption></figure>
+        </div>
+        <div class="difference-row" aria-label="Channel differences">
+          <span>Red <strong id="red-difference">0</strong></span>
+          <span>Green <strong id="green-difference">0</strong></span>
+          <span>Blue <strong id="blue-difference">0</strong></span>
+        </div>
+        <div class="phase-action">
+          <p id="reveal-copy">Lower channel differences mean a more accurate memory.</p>
+          <button class="primary-button" id="next-round" type="button">Next colour <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </div>
+
+      <p class="status-line" id="game-status" role="status" aria-live="polite">Round 1 is ready.</p>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="afterimage-about-title">
+      <div><span class="eyebrow">Perception becomes memory</span><h2 id="afterimage-about-title">The colour is easy. Keeping it is hard.</h2></div>
+      <p>Every round shortens the study time and adds a stronger interruption. Your score measures the RGB distance between the vanished colour and the one you reconstructed.</p>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Remember first. Mix second.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Study one colour</strong><p>You get a few seconds. RGB values are never shown.</p></div></li>
+      <li><span>02</span><div><strong>Hold it through the gap</strong><p>The target disappears and later rounds add visual interference.</p></div></li>
+      <li><span>03</span><div><strong>Rebuild from memory</strong><p>Mix red, green and blue, then reveal both colours and their exact values.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start remembering</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">--</div>
+    <span class="eyebrow">Today's afterimage</span>
+    <h2 id="result-title">Five colours remembered.</h2>
+    <p id="result-summary">Your daily result is ready.</p>
+    <div class="result-grid">
+      <div><strong id="final-accuracy">--</strong><span>Average accuracy</span></div>
+      <div><strong id="final-error">--</strong><span>Total RGB difference</span></div>
+      <div><strong id="best-round">--</strong><span>Best round</span></div>
+    </div>
+    <div class="round-pips" id="round-pips" aria-label="Round accuracy"></div>
+    <button class="primary-button" id="share-button" type="button">Share result</button>
+    <button class="text-button" type="button" data-close>Back to the board</button>
+  </dialog>
+
+  <dialog class="dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">Your record</span>
+    <h2>Afterimage statistics</h2>
+    <div class="record-grid">
+      <div><strong id="games-played">0</strong><span>Days played</span></div>
+      <div><strong id="record-average">--</strong><span>Average accuracy</span></div>
+      <div><strong id="record-best">--</strong><span>Best day</span></div>
+      <div><strong id="current-streak">0</strong><span>Current streak</span></div>
+    </div>
+  </dialog>
+
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script type="module" src="afterimage.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>
