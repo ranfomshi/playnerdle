@@ -32,6 +32,8 @@ Bludle is a free browser-based collection of daily and unlimited puzzle games, e
 - https://www.bludle.com/seequence/
 - https://www.bludle.com/deadcentre/ (daily spatial-memory precision)
 - https://www.bludle.com/wordmash/
+- https://www.bludle.com/glyph/ (daily typographic word silhouettes)
+- https://www.bludle.com/borrowedletters/ (daily circular letter-repair puzzle)
 
 ## Site index of notable games
 - https://www.bludle.com/alternate/

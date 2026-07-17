@@ -30,6 +30,8 @@ Last updated: 2026-05-28
 - Seequence (colour memory puzzle): https://www.bludle.com/seequence/
 - Dead Centre (daily spatial-memory precision game): https://www.bludle.com/deadcentre/
 - Word Mash (daily overlap blend puzzle): https://www.bludle.com/wordmash/
+- Glyph (daily typographic word silhouettes): https://www.bludle.com/glyph/
+- Borrowed Letters (daily circular letter-repair puzzle): https://www.bludle.com/borrowedletters/
 - Alternate (reaction speed — click when colour changes): https://www.bludle.com/alternate/
 - Shifty Fades (colour gradient matching): https://www.bludle.com/shiftyfades/
 - Trak (track the hidden ball): https://www.bludle.com/trak/

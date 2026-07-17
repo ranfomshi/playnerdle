@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glyph | Daily Word Silhouette Game</title>
+  <meta name="description" content="Read the shape of a word before you see its letters. Solve five daily typographic word silhouettes with optional clues.">
+  <link rel="canonical" href="https://www.bludle.com/glyph/">
+  <meta property="og:title" content="Glyph | Daily Word Silhouette Game">
+  <meta property="og:description" content="Can you recognise a word from the shape its lowercase letters leave behind?">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.bludle.com/glyph/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="glyph.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Glyph","description":"A daily word game where players identify words from abstract typographic silhouettes.","url":"https://www.bludle.com/glyph/","gamePlatform":"Web browser","numberOfPlayers":1,"isAccessibleForFree":true}</script>
+</head>
+<body data-game="glyph">
+  <div id="navbar-container"></div>
+  <main class="glyph-page" id="main-content">
+    <header class="game-heading">
+      <div><span class="eyebrow">Daily visual word puzzle</span><h1>Glyph</h1><p>Read the shape of a word before you see a single letter.</p></div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Glyph statistics"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg></button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Glyph">?</button>
+      </div>
+    </header>
+
+    <section class="glyph-card" aria-labelledby="round-heading">
+      <div class="run-strip">
+        <div><span>Word</span><strong id="round-value">1 / 5</strong></div>
+        <div><span>Attempts</span><strong id="attempt-value">3</strong></div>
+        <div><span>Daily score</span><strong id="score-value">0</strong></div>
+      </div>
+
+      <div class="puzzle-stage" id="puzzle-stage">
+        <div class="puzzle-heading">
+          <div><span class="category-label" id="category-label">Objects</span><h2 id="round-heading">What word leaves this shape?</h2></div>
+          <span class="letter-count" id="letter-count">6 letters</span>
+        </div>
+
+        <div class="skyline-frame">
+          <div class="skyline" id="target-skyline" aria-label="Abstract word silhouette"></div>
+          <div class="baseline" aria-hidden="true"><span>cap</span><span>baseline</span></div>
+        </div>
+
+        <div class="hint-panel" id="hint-panel">
+          <div><span class="hint-label">Clue</span><strong id="hint-copy">No extra clue revealed</strong></div>
+          <button class="hint-button" id="hint-button" type="button">Mark vowel positions <span>-40</span></button>
+        </div>
+
+        <form class="guess-form" id="guess-form">
+          <label for="guess-input">Your word</label>
+          <div><input id="guess-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="9" placeholder="Type the word"><button class="primary-button" type="submit">Read shape</button></div>
+        </form>
+
+        <div class="guess-history" id="guess-history" aria-label="Previous guesses"></div>
+      </div>
+
+      <div class="reveal-stage" id="reveal-stage" hidden>
+        <span class="eyebrow">Word revealed</span>
+        <h2 id="reveal-word">WORD</h2>
+        <p id="reveal-definition">Definition</p>
+        <div class="reveal-score"><strong id="round-score">+0</strong><span>points this word</span></div>
+        <button class="primary-button" id="next-button" type="button">Next silhouette <span aria-hidden="true">&rarr;</span></button>
+      </div>
+
+      <p class="status-line" id="game-status" role="status" aria-live="polite">Word 1 is ready.</p>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+    <section class="about-card" aria-labelledby="glyph-about-title">
+      <div><span class="eyebrow">Words have architecture</span><h2 id="glyph-about-title">Read above and below the line.</h2></div>
+      <p>Ascenders rise, descenders fall, and some letters occupy more space than others. Glyph removes the alphabet and leaves only that typographic fingerprint behind.</p>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">How to play</span><h2>Recognise the word's skyline.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Read the silhouette</strong><p>Tall shapes rise above the body; descenders fall below the baseline. Width and curves matter too.</p></div></li>
+      <li><span>02</span><div><strong>Use the category</strong><p>Every word starts with one broad subject clue and three attempts.</p></div></li>
+      <li><span>03</span><div><strong>Buy only what you need</strong><p>Mark vowels, reveal a definition or uncover one letter. Each clue costs points.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Read the first shape</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">0</div><span class="eyebrow">Today's glyphs</span><h2 id="result-title">Five silhouettes read.</h2><p id="result-summary">Your daily result is ready.</p>
+    <div class="result-grid"><div><strong id="final-score">0</strong><span>Total points</span></div><div><strong id="words-solved">0 / 5</strong><span>Words solved</span></div><div><strong id="no-hint-count">0</strong><span>Without hints</span></div></div>
+    <div class="round-pips" id="round-pips" aria-label="Points by word"></div>
+    <button class="primary-button" id="share-button" type="button">Share result</button><button class="text-button" type="button" data-close>Back to the board</button>
+  </dialog>
+
+  <dialog class="dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button><span class="eyebrow">Your record</span><h2>Glyph statistics</h2>
+    <div class="record-grid"><div><strong id="games-played">0</strong><span>Days played</span></div><div><strong id="record-average">--</strong><span>Average score</span></div><div><strong id="record-best">--</strong><span>Best score</span></div><div><strong id="current-streak">0</strong><span>Current streak</span></div></div>
+  </dialog>
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script type="module" src="glyph.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>

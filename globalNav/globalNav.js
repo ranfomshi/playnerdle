@@ -7,6 +7,8 @@
     { name: 'Codle', href: '/codle/', category: 'Word' },
     { name: 'Connex', href: '/connex/', category: 'Word' },
     { name: 'Word Mash', href: '/wordmash/', category: 'Word' },
+    { name: 'Glyph', href: '/glyph/', category: 'Word' },
+    { name: 'Borrowed Letters', href: '/borrowedletters/', category: 'Word' },
     { name: 'Shifty Fades', href: '/shiftyfades/', category: 'Colour' },
     { name: 'Colour Match', href: '/colourmatch/', category: 'Colour' },
     { name: 'Afterimage', href: '/afterimage/', category: 'Colour' },
