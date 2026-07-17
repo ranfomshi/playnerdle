@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Borrowed Letters | Daily Circular Word Puzzle</title>
+  <meta name="description" content="Five clue answers have borrowed letters from their neighbours. Find each intruder and pass the letters around the circle to repair every word.">
+  <link rel="canonical" href="https://www.bludle.com/borrowedletters/">
+  <meta property="og:title" content="Borrowed Letters | Daily Circular Word Puzzle">
+  <meta property="og:description" content="Repair five connected words by returning every borrowed letter to its proper neighbour.">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://www.bludle.com/borrowedletters/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css"><link rel="stylesheet" href="/globalNav/bludleDesignSystem.css"><link rel="stylesheet" href="borrowedletters.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Borrowed Letters","description":"A daily circular word puzzle where misplaced letters must be passed between five clue answers.","url":"https://www.bludle.com/borrowedletters/","gamePlatform":"Web browser","numberOfPlayers":1,"isAccessibleForFree":true}</script>
+</head>
+<body data-game="borrowedletters">
+  <div id="navbar-container"></div>
+  <main class="borrow-page" id="main-content">
+    <header class="game-heading">
+      <div><span class="eyebrow">Daily circular word puzzle</span><h1>Borrowed Letters</h1><p>Every word is holding one letter that belongs to its clockwise neighbour.</p></div>
+      <div class="heading-actions"><button class="icon-button" id="stats-button" type="button" aria-label="View Borrowed Letters statistics"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg></button><button class="icon-button" id="help-button" type="button" aria-label="How to play Borrowed Letters">?</button></div>
+    </header>
+
+    <section class="borrow-card" aria-labelledby="game-title">
+      <div class="run-strip"><div><span>Pass</span><strong id="attempt-value">1 / 4</strong></div><div><span>Repaired</span><strong id="repaired-value">0 / 5</strong></div><div><span>Potential score</span><strong id="score-value">1,000</strong></div></div>
+      <div class="ring-heading"><div><span class="eyebrow">Today's letter circuit</span><h2 id="game-title">Select one intruder in every word.</h2></div><p>Selected letters all move one card clockwise at the same time.</p></div>
+
+      <div class="letter-ring" id="letter-ring" aria-label="Five connected damaged words"></div>
+
+      <div class="circuit-note"><span aria-hidden="true">&#8635;</span><p><strong>One simultaneous pass.</strong> The letter leaving each card fills the selected position in the next card.</p></div>
+      <div class="feedback-panel" id="feedback-panel" hidden></div>
+      <div class="game-action"><button class="hint-button" id="hint-button" type="button">Reveal one borrowed letter <span>-100</span></button><p id="game-status" role="status" aria-live="polite">Choose one letter on each card.</p><button class="primary-button" id="pass-button" type="button">Pass letters clockwise <span aria-hidden="true">&rarr;</span></button></div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+    <section class="about-card" aria-labelledby="borrow-about-title"><div><span class="eyebrow">Five words, one dependency</span><h2 id="borrow-about-title">No answer can repair itself.</h2></div><p>Use each clue to find the corrupted character. The five chosen letters rotate together, so a convincing answer in one card may still break its neighbour.</p></section>
+  </main>
+
+  <dialog class="dialog" id="help-dialog"><button class="dialog-close" type="button" data-close aria-label="Close">&times;</button><span class="eyebrow">How to play</span><h2>Return every borrowed letter.</h2><ol class="steps"><li><span>01</span><div><strong>Solve the clue</strong><p>Each displayed word differs from its clue answer by exactly one letter.</p></div></li><li><span>02</span><div><strong>Select the intruder</strong><p>Tap the letter that does not belong on each of the five cards.</p></div></li><li><span>03</span><div><strong>Pass the whole ring</strong><p>Every selection moves clockwise. Repair all five words in the same pass.</p></div></li></ol><button class="primary-button" type="button" data-close>Inspect the circuit</button></dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog"><div class="result-mark" id="result-mark">0</div><span class="eyebrow">Circuit complete</span><h2 id="result-title">Every letter is home.</h2><p id="result-summary">Today's words are repaired.</p><div class="result-grid"><div><strong id="final-score">0</strong><span>Points</span></div><div><strong id="passes-used">0</strong><span>Passes used</span></div><div><strong id="hints-used">0</strong><span>Hints used</span></div></div><div class="answer-list" id="answer-list"></div><button class="primary-button" id="share-button" type="button">Share result</button><button class="text-button" type="button" data-close>Back to the circuit</button></dialog>
+  <dialog class="dialog" id="stats-dialog"><button class="dialog-close" type="button" data-close aria-label="Close">&times;</button><span class="eyebrow">Your record</span><h2>Borrowed Letters statistics</h2><div class="record-grid"><div><strong id="games-played">0</strong><span>Circuits played</span></div><div><strong id="record-average">--</strong><span>Average score</span></div><div><strong id="record-best">--</strong><span>Best score</span></div><div><strong id="current-streak">0</strong><span>Current streak</span></div></div></dialog>
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script type="module" src="borrowedletters.js"></script><script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>

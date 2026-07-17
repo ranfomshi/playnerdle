@@ -36,6 +36,8 @@ function trackClick(gameName) {
 const tileHandlers = {
   bludle: () => trackClick('bludle'),
   werdle: () => trackClick('werdle'),
+  glyph: () => trackClick('glyph'),
+  borrowedLetters: () => trackClick('borrowedletters'),
   reaction: () => trackClick('reaction'),
   shiftyFades: () => trackClick('shiftyfades'),
   colourMatch: () => trackClick('colourmatch'),
