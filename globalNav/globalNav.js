@@ -41,7 +41,7 @@
   }
 
   function ensureStyles() {
-    ['/globalNav/globalNav.css', '/globalNav/globalNav.layout.css'].forEach(href => {
+    ['/globalNav/globalNav.css', '/globalNav/globalNav.layout.css', '/globalNav/bludleDesignSystem.css'].forEach(href => {
       const filename = href.split('/').pop();
       const existing = document.querySelector(`link[href*="${filename}"]`);
       if (existing) {
@@ -183,7 +183,7 @@
     }
     const basePadding = Number.parseFloat(getComputedStyle(body).paddingTop) || 0;
     const update = () => {
-      body.style.paddingTop = `${basePadding}px`;
+      body.style.setProperty('padding-top', `${basePadding}px`, 'important');
       const navBottom = nav.querySelector('.pn-nav__bar').getBoundingClientRect().bottom;
       const firstContent = [...document.body.children]
         .filter(element => element !== container && !['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(element.tagName))
@@ -191,8 +191,9 @@
         .filter(element => element.getBoundingClientRect().height > 0)
         .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
       if (!firstContent) return;
-      const overlap = Math.ceil(navBottom + 12 - firstContent.getBoundingClientRect().top);
-      if (overlap > 0) body.style.paddingTop = `${basePadding + overlap}px`;
+      const contentTop = firstContent.getBoundingClientRect().top + window.scrollY;
+      const overlap = Math.ceil(navBottom + 12 - contentTop);
+      if (overlap > 0) body.style.setProperty('padding-top', `${basePadding + overlap}px`, 'important');
     };
     window.requestAnimationFrame(update);
     window.addEventListener('load', update, { once: true });

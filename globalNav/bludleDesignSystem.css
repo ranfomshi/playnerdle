@@ -1,0 +1,390 @@
+/* Bludle Design System v1.0 — shared tokens and product-wide component layer */
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/inter-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url("/assets/fonts/manrope-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --cobalt-50: #eef3fe;
+  --cobalt-100: #d9e4fc;
+  --cobalt-200: #b3c9f9;
+  --cobalt-300: #82a6f3;
+  --cobalt-400: #5480eb;
+  --cobalt-500: #2f5fde;
+  --cobalt-600: #2249be;
+  --cobalt-700: #1c3993;
+  --cobalt-800: #182f76;
+  --cobalt-900: #16295f;
+  --slate-0: #ffffff;
+  --slate-50: #f6f8fc;
+  --slate-100: #ebeef5;
+  --slate-200: #dce1ec;
+  --slate-300: #c2c9da;
+  --slate-400: #9aa3bc;
+  --slate-500: #707a99;
+  --slate-600: #4e5875;
+  --slate-700: #363f5c;
+  --slate-800: #232a42;
+  --slate-900: #141928;
+  --amber-100: #fdecc8;
+  --amber-500: #e8a32c;
+  --amber-700: #a9700f;
+  --success: #1f9d66;
+  --success-bg: #e6f6ee;
+  --warning: #c77a0a;
+  --warning-bg: #fbf0dd;
+  --danger: #d6394a;
+  --danger-bg: #fbe7e9;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+  --shadow-xs: 0 1px 2px rgba(22,41,95,.06);
+  --shadow-sm: 0 2px 6px rgba(22,41,95,.08);
+  --shadow-md: 0 8px 20px rgba(22,41,95,.1);
+  --shadow-lg: 0 16px 40px rgba(22,41,95,.14);
+  --content-max: 1200px;
+  --font-heading: "Manrope", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+
+  /* Compatibility tokens used by existing game shells. */
+  --bg: var(--slate-50);
+  --bg-soft: var(--slate-100);
+  --panel: var(--slate-0);
+  --panel-2: var(--slate-50);
+  --ink: var(--slate-800);
+  --muted: var(--slate-500);
+  --line: var(--slate-200);
+  --accent: var(--cobalt-500);
+  --soft: var(--cobalt-50);
+  --brand: var(--cobalt-500);
+  --brand-2: var(--cobalt-600);
+  --border: var(--slate-200);
+  --text-primary: var(--slate-800);
+  --text-secondary: var(--slate-600);
+  --shadow: var(--shadow-sm);
+  --shadow-soft: var(--shadow-sm);
+  --shadow-strong: var(--shadow-md);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { min-height: 100%; background: var(--slate-50); scroll-padding-top: calc(var(--global-nav-height,64px) + var(--space-4)); }
+html body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--slate-50);
+  color: var(--slate-600);
+  font-family: "Inter", system-ui, sans-serif !important;
+  font-size: 14px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+}
+html body::before, html body::after { filter: none; }
+html body :where(button, input, select, textarea) { font-family: "Inter", system-ui, sans-serif !important; }
+html body :where(code, pre, kbd, samp, .mono) { font-family: "JetBrains Mono", monospace !important; }
+html body :where(h1, h2, h3, h4, .gameTitle, .pn-nav__brand) {
+  color: var(--slate-800);
+  font-family: "Manrope", system-ui, sans-serif !important;
+  letter-spacing: 0;
+}
+html body h1 { font-size: clamp(32px,5vw,36px); line-height: 44px; font-weight: 700; }
+html body h2 { font-size: clamp(24px,4vw,28px); line-height: 36px; font-weight: 600; }
+html body h3 { font-size: 22px; line-height: 30px; font-weight: 600; }
+html body h4 { font-size: 18px; line-height: 26px; font-weight: 600; }
+html body p { color: var(--slate-600); }
+html body a { color: var(--cobalt-500); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+html body a:hover { color: var(--cobalt-600); }
+html body :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--cobalt-300) !important;
+  outline-offset: 2px;
+}
+html body :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  min-height: 40px;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+  background: var(--slate-0);
+  color: var(--slate-800);
+  padding: 10px 12px;
+}
+html body :where(input, textarea)::placeholder { color: var(--slate-400); }
+
+/* Shared page surfaces */
+html body :where(.page-shell, .main) { color: var(--slate-600); }
+html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card, .seo-content, .game-discovery, .intent-links, .blog-play-now, .blog-ad-unit, .blog-related-games) {
+  border: 1px solid var(--slate-100);
+  border-radius: var(--radius-md);
+  background: var(--slate-0);
+  color: var(--slate-600);
+  box-shadow: var(--shadow-sm);
+}
+html body .game-card,
+html body .about-card {
+  border: 1px solid var(--slate-100) !important;
+  background: var(--slate-0) !important;
+  color: var(--slate-600) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card) { padding: var(--space-5); }
+html body :where(.game-card, .about-card)::before { display: none; }
+html body :where(.eyebrow, .kicker, .hero-kicker, .section-kicker, .card-label, .ad-label, .published-date) {
+  color: var(--cobalt-500);
+  font-family: "Inter", system-ui, sans-serif !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Buttons and compact actions */
+html body :where(.primary-button, .decode-button, .button:not(.secondary), .ad-link, .blog-button:not(.secondary)) {
+  min-height: 40px;
+  border: 1px solid var(--cobalt-500);
+  border-radius: var(--radius-md);
+  background: var(--cobalt-500);
+  color: var(--slate-0);
+  padding: 10px 16px;
+  box-shadow: var(--shadow-xs);
+  font-weight: 600;
+  text-shadow: none;
+  transition: background-color 150ms ease-out, border-color 150ms ease-out, box-shadow 150ms ease-out;
+}
+html body :where(.primary-button, .decode-button, .button:not(.secondary), .ad-link, .blog-button:not(.secondary)):hover {
+  border-color: var(--cobalt-600);
+  background: var(--cobalt-600);
+  color: var(--slate-0);
+  transform: none;
+}
+html body .primary-button,
+html body .decode-button {
+  border: 1px solid var(--cobalt-500) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--cobalt-500) !important;
+  color: var(--slate-0) !important;
+  box-shadow: var(--shadow-xs) !important;
+  text-shadow: none !important;
+}
+html body .primary-button:hover,
+html body .decode-button:hover { border-color: var(--cobalt-600) !important; background: var(--cobalt-600) !important; transform: none !important; }
+html body :where(.icon-button, .filter-chip, .button.secondary, .dialog-close) {
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-md);
+  background: var(--slate-0);
+  color: var(--slate-700);
+  box-shadow: var(--shadow-xs);
+  transition: background-color 150ms ease-out, border-color 150ms ease-out;
+}
+html body :where(.icon-button, .filter-chip, .button.secondary):hover { border-color: var(--slate-400); background: var(--slate-50); color: var(--slate-800); transform: none; }
+html body .filter-chip.active { border-color: var(--cobalt-500); background: var(--cobalt-50); color: var(--cobalt-700); }
+html body :where(button, .button):disabled { border-color: var(--slate-200); background: var(--slate-200); color: var(--slate-400); box-shadow: none; }
+
+/* Unified game chrome; the actual mechanic/canvas keeps its own palette. */
+html body .page-shell { width: min(calc(100% - 48px), 960px); padding-block: var(--space-6) var(--space-8); }
+html body .game-card { overflow: visible; }
+html body .game-header h1, html body .brand-lockup h1 { color: var(--slate-800); }
+html body .game-header h1 span, html body .brand-lockup h1 span { color: var(--cobalt-500); }
+html body .mode-switch { border: 1px solid var(--slate-200); background: var(--slate-50); }
+html body .mode-switch button { color: var(--slate-500); }
+html body .mode-switch button.active,
+html body .mode-switch button[aria-pressed="true"] { border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-800); box-shadow: var(--shadow-xs); }
+html body .board .tile { border-color: var(--slate-300); background: var(--slate-0); color: var(--slate-800); }
+html body .board .tile.filled { border-color: var(--cobalt-400); }
+html body .keyboard .key:not(.exact):not(.present):not(.absent) { background: var(--slate-200); color: var(--slate-800); }
+html body :where(.run-stats, .run-bar, .score-strip) { border: 1px solid var(--slate-200); border-radius: var(--radius-md); background: var(--slate-50); color: var(--slate-800); }
+html body .run-stats,
+html body .run-bar,
+html body .score-strip { border-color: var(--slate-200) !important; background: var(--slate-50) !important; color: var(--slate-800) !important; box-shadow: none !important; }
+html body :where(.run-stats, .run-bar, .score-strip) > div { border-color: var(--slate-200); }
+html body :where(.run-stats, .run-bar, .score-strip) span { color: var(--slate-500); letter-spacing: .04em; }
+html body :where(.run-stats, .run-bar, .score-strip) strong { color: var(--slate-800); }
+html body :where(.status, .key-hint, .input-error, .hint-panel p, .tip-row p) { color: var(--slate-600); }
+html body :where(.status span, .rule-card p, .section-heading > span) { color: var(--slate-500); }
+html body :where(.rule-card, .decoder, .history-section, .hint-panel, .tip-row) { border-color: var(--slate-200); }
+html body :where(.rule-card, .hint-panel, .tip-row) { background: var(--slate-50); }
+html body :where(.ad-card, .home-ad-unit, .ad-panel) { border: 1px solid var(--slate-200); border-radius: var(--radius-md); background: var(--slate-0); color: var(--slate-500); box-shadow: none; }
+html body .about-card { grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); }
+
+/* Bludle original keeps its shade mechanic while sharing the product shell. */
+html body .site-header {
+  position: relative;
+  z-index: 1;
+  height: 56px;
+  padding-inline: max(24px, calc((100vw - 610px) / 2));
+  border-bottom: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+html body .game-context { margin: 0; color: var(--slate-500); font-size: var(--text-sm); font-weight: 600; }
+html body .game-shell {
+  border: 1px solid var(--slate-100);
+  border-radius: var(--radius-lg);
+  background: var(--slate-0);
+  color: var(--slate-600);
+  box-shadow: var(--shadow-md);
+}
+html body .game-shell h1 { color: var(--slate-800); }
+html body .game-shell h1 span { color: var(--cobalt-500); }
+html body .game-shell :where(.intro, .scale p, .game-meta, .message) { color: var(--slate-500); }
+html body .game-shell .scale-labels { color: var(--slate-500); }
+html body .game-shell .guess-row { border-color: var(--slate-200); background: var(--slate-50); }
+html body .game-shell label { color: var(--slate-600); }
+html body .game-shell input { border-color: var(--slate-300); background: var(--slate-0); color: var(--slate-800); }
+html body .game-shell .submit-button { border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: var(--slate-0); box-shadow: var(--shadow-xs); }
+html body .about .feature-grid article { border-color: var(--slate-100); border-radius: var(--radius-md); background: var(--slate-0); box-shadow: var(--shadow-sm); }
+html body dialog .dialog-card { border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
+html body dialog .dialog-card h2,
+html body dialog .dialog-card b,
+html body dialog .dialog-card strong { color: var(--slate-800); }
+html body dialog .rules span { color: var(--slate-500); }
+
+/* Dialogs */
+html body .dialog {
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  background: var(--slate-0);
+  color: var(--slate-600);
+  box-shadow: var(--shadow-lg);
+}
+html body .dialog::backdrop { background: rgba(20,25,40,.48); backdrop-filter: none; }
+html body .dialog h2 { color: var(--slate-800); }
+html body .dialog-close { width: 36px; height: 36px; padding: 0; border-color: transparent; box-shadow: none; }
+html body :where(.steps li, .result-row, .result-score, .result-grid div, .record-grid div, .answer-reveal, .new-best) { border-color: var(--slate-100); background: var(--slate-50); color: var(--slate-800); }
+html body :where(.steps p, .result-dialog > p, .privacy-note, .summary-copy) { color: var(--slate-500) !important; }
+html body :where(.result-mark, .result-mark.gameover, .result-mark.lost, .result-mark.false-start) { border-radius: var(--radius-md); background: var(--cobalt-50); color: var(--cobalt-600); box-shadow: none; }
+
+/* Home and directory pages */
+html body .home-hero { align-items: center; padding-block: var(--space-8) var(--space-7); }
+html body .home-hero h1 { max-width: 18ch; color: var(--slate-800); font-size: clamp(36px,6vw,48px); line-height: 56px; letter-spacing: -.025em; }
+html body .hero-subtitle { color: var(--slate-600); font-size: 16px; line-height: 26px; }
+html body .hero-chips { gap: var(--space-2); margin-top: var(--space-5); }
+html body .hero-chips span { border: 0; border-radius: var(--radius-full); background: var(--cobalt-50); color: var(--cobalt-700); padding: 6px 12px; font-size: 12px; font-weight: 500; }
+html body .hero-panel { border: 1px solid var(--slate-100); border-radius: var(--radius-md); background: var(--slate-0); box-shadow: var(--shadow-sm); }
+html body .hero-panel::before { display: none; }
+html body .hero-panel-title { color: var(--slate-800); font-family: "Manrope",sans-serif !important; }
+html body .hero-panel-copy, html body .hero-panel-label { color: var(--slate-500); }
+html body .hero-stat { min-height: 72px; border: 1px solid var(--slate-100); border-radius: var(--radius-sm); background: var(--slate-50); }
+html body .hero-stat strong { color: var(--slate-800); }
+html body .hero-stat span { color: var(--slate-500); }
+html body .game-discovery { padding: var(--space-5); backdrop-filter: none; }
+html body #gameSearch { border: 1px solid var(--slate-200); border-radius: var(--radius-sm); background: var(--slate-0); color: var(--slate-800); }
+html body .content { gap: var(--space-5); }
+html body .grid-heading h2 { color: var(--slate-800); }
+html body .grid-heading p { color: var(--slate-500); }
+html body .game { border: 1px solid var(--slate-200); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: box-shadow 150ms ease-out, transform 150ms ease-out; }
+html body .game:hover { border-color: var(--slate-300); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+html body .game::before { background: linear-gradient(to top, rgba(20,25,40,.9), rgba(20,25,40,.08) 68%); }
+html body .game::after { display: none; }
+html body .gameTitle { background: transparent; color: var(--slate-0); font-size: 22px; line-height: 30px; text-shadow: 0 1px 2px rgba(22,41,95,.24); }
+html body .gameInfo { background: transparent; color: rgba(255,255,255,.9); font-size: 14px; font-weight: 500; text-shadow: 0 1px 2px rgba(22,41,95,.24); }
+html body :where(.intent-links, .home-ad-unit) { border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+html body .intent-link-grid a, html body .related-game-grid a { border-radius: var(--radius-sm); background: var(--cobalt-50); color: var(--cobalt-700); font-weight: 600; }
+html body .footer, html body footer { border-top: 1px solid rgba(255,255,255,.12); background: var(--slate-900); color: var(--slate-300); }
+html body :where(.footer, footer) h4 { color: var(--slate-0); }
+html body :where(.footer, footer) a { color: var(--cobalt-300); }
+
+/* Marketing guide pages */
+html body .hero { padding: var(--space-8) max(var(--space-5),calc((100vw - 1200px)/2)); background: var(--cobalt-800); color: var(--slate-0); }
+html body .hero h1 { color: var(--slate-0); font-size: clamp(36px,6vw,48px); line-height: 56px; letter-spacing: -.02em; }
+html body .hero-copy { color: var(--cobalt-100); font-size: 16px; line-height: 26px; }
+html body .main { max-width: 1200px; padding: var(--space-7) var(--space-5) var(--space-8); }
+html body :where(.recommendation-grid, .intent-grid, .faq-grid, .intro-grid) { gap: var(--space-5); }
+html body .game-card.featured { border-color: var(--cobalt-200); background: var(--cobalt-50); }
+html body .card-label { border-radius: var(--radius-full); background: var(--success-bg); color: var(--success); }
+html body .cta-panel { border-radius: var(--radius-lg); background: var(--cobalt-800); box-shadow: var(--shadow-md); }
+html body .cta-panel h2 { color: var(--slate-0); }
+html body .cta-panel p { color: var(--cobalt-100); }
+
+/* Editorial */
+html body.blog-page, html body:has(> header + main) { font-family: "Inter",system-ui,sans-serif !important; }
+html body > header:not(.home-hero):not(.game-header) { background: var(--cobalt-800); color: var(--slate-0); }
+html body > header:not(.home-hero):not(.game-header) h1 { color: var(--slate-0); }
+html body > header:not(.home-hero):not(.game-header) p { color: var(--cobalt-100); }
+html body main :where(p, li) { color: var(--slate-600); }
+html body .blog-cta { border-left: 4px solid var(--cobalt-500); }
+html body .blog-button.secondary { border: 1px solid var(--slate-300); background: var(--slate-0); color: var(--slate-700); }
+html body .blog-monetization {
+  min-height: 90px;
+  max-height: 180px;
+  overflow: hidden;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  background: var(--slate-0);
+  box-shadow: none;
+}
+
+/* Legal and policy documents */
+html body.legal-page .legal-content,
+html body.legal-page .content {
+  width: min(calc(100% - 48px), 760px) !important;
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  padding: var(--space-7) 0 var(--space-8) !important;
+  text-align: left !important;
+}
+html body.legal-page .title { margin: 0 0 var(--space-6) !important; color: var(--slate-800) !important; font: 700 36px/44px var(--font-heading) !important; text-align: left !important; }
+html body.legal-page [data-custom-class],
+html body.legal-page [data-custom-class] * { font-family: var(--font-body) !important; }
+html body.legal-page [data-custom-class="title"],
+html body.legal-page [data-custom-class="title"] * { color: var(--slate-800) !important; font: 700 28px/36px var(--font-heading) !important; }
+html body.legal-page [data-custom-class="heading_1"],
+html body.legal-page [data-custom-class="heading_1"] * { color: var(--slate-800) !important; font: 600 22px/30px var(--font-heading) !important; }
+html body.legal-page [data-custom-class="heading_2"],
+html body.legal-page [data-custom-class="heading_2"] * { color: var(--slate-700) !important; font: 600 18px/26px var(--font-heading) !important; }
+html body.legal-page [data-custom-class="body_text"],
+html body.legal-page [data-custom-class="body_text"] * { color: var(--slate-600) !important; font-size: 15px !important; line-height: 24px !important; text-align: left !important; }
+html body.legal-page [data-custom-class="link"],
+html body.legal-page [data-custom-class="link"] * { color: var(--cobalt-600) !important; }
+html body.legal-page .hiddenHeadings,
+html body.legal-page :where(.userBtn, .helpBtn, #snackbar) { display: none !important; }
+
+@media (max-width: 767px) {
+  html body .page-shell { width: min(calc(100% - 32px),960px); padding-block: var(--space-5) var(--space-7); }
+  html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card) { padding: var(--space-4); }
+  html body .about-card { grid-template-columns: 1fr; }
+  html body .home-hero { padding-block: var(--space-7) var(--space-6); }
+  html body .home-hero h1, html body .hero h1 { font-size: 36px; line-height: 44px; }
+  html body .hero { padding: var(--space-7) var(--space-5); }
+  html body .main { padding-inline: var(--space-5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

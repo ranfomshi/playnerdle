@@ -6,16 +6,17 @@
   <meta name="theme-color" content="#070b18">
   <meta name="description" content="Decode a five-letter word from five shades of blue in four guesses.">
   <title>Bludle — Decode the shades</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
   <link rel="stylesheet" href="bludle.css">
   <link rel="stylesheet" href="spectrum.css">
+  <script type="module" src="/globalNav/globalNav.js" defer></script>
   <script type="module" src="app.js"></script>
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
 </head>
 <body>
+  <div id="navbar-container"></div>
   <header class="site-header">
-    <a class="brand" href="../" aria-label="Play Nerdle home"><span>play</span>nerdle</a>
+    <p class="game-context">Bludle original</p>
     <nav aria-label="Game actions">
       <button class="icon-button" id="helpButton" type="button" aria-label="How to play">?</button>
       <button class="icon-button" id="statsButton" type="button" aria-label="View statistics">
