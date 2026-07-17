@@ -418,9 +418,10 @@
 }
   </script>
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="/globalNav/gameThemes.css">
 </head>
 
-<body>
+<body data-game="guesshue">
   <div id="navbar-container"></div>
   <section id="introScreen" class="intro-screen" aria-labelledby="introTitle">
     <div class="intro-card">
@@ -648,6 +649,7 @@
 <script data-explainer-injected="v2">
 (function () {
   const helpBtn = document.createElement("button");
+  helpBtn.className = "legacy-help-button";
   helpBtn.type = "button";
   helpBtn.setAttribute("aria-label", "Show Guess Hue instructions");
   helpBtn.textContent = "?";

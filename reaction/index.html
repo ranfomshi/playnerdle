@@ -189,11 +189,18 @@
 }
   </script>
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="/globalNav/gameThemes.css">
 </head>
 
-<body>
+<body data-game="reaction">
   <div id="navbar-container"></div>
-  <content>
+  <main class="reaction-shell">
+    <header class="reaction-header">
+      <span class="eyebrow">Daily speed test</span>
+      <h1>Reaction</h1>
+      <p>Wait for the signal, then click as quickly as you can.</p>
+    </header>
+    <section class="reaction-card" aria-label="Reaction test">
     <div id="iconTray">
       <!-- Icons to open modals -->
       <span onclick="openModal('instructionsModal')">
@@ -204,6 +211,7 @@
     </div>
     <div id="feedback"></div>
     <button id="gameButton">Start Game</button>
+    </section>
 
     <div id="instructionsModal" class="modal">
       <div>
@@ -249,7 +257,7 @@
         <button onclick="closeModal('reactionTimesModal')">Close</button>
       </div>
     </div>
-  </content>
+  </main>
   <script>
     const gameButton = document.getElementById("gameButton");
     const feedback = document.getElementById("feedback");
