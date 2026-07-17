@@ -1,615 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <style>h1{animation:1s fadeIn}#highScore,#level,#lives{animation:1s fadeIn}#target{animation:.8s fadeIn}.options{animation:.8s fadeIn}#message{animation:.8s fadeIn}.modal{animation:.5s fadeIn}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifty Fades — Colour Gradient Puzzle | Bludle</title>
-  <meta name="description" content="Identify and match shifting colour gradients in this free visual puzzle game — play Shifty Fades on Bludle.">
-  <meta property="og:title" content="Shifty Fades — Colour Gradient Puzzle | Bludle">
-  <meta property="og:description" content="Identify and match shifting colour gradients in this free visual puzzle game — play Shifty Fades on Bludle.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.bludle.com/shiftyfades/">
-  <meta property="og:site_name" content="Bludle">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shifty Fades | Colour Matching Puzzle</title>
+  <meta name="description" content="Find the exact colour among near matches across 50 increasingly difficult levels.">
   <link rel="canonical" href="https://www.bludle.com/shiftyfades/">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
-    <style>
-        /* CSS Variables for light and dark themes */
-        :root {
-            --bg-color: #eceff1;
-            --bg-gradient: linear-gradient(135deg, #eceff1, #ffffff);
-            --text-color: #37474f;
-            --target-border: #37474f;
-            --option-border: #cfd8dc;
-            --message-color: #00796b;
-            --modal-bg: #ffffff;
-            --modal-text: #37474f;
-            --button-bg: #00796b;
-            --button-bg-hover: #005b4f;
-            --bonus-bg: #ccc;
-            --bonus-fill: var(--button-bg);
-        }
-
-        body.dark {
-            --bg-color: #263238;
-            --bg-gradient: linear-gradient(135deg, #37474f, #263238);
-            --text-color: #eceff1;
-            --target-border: #eceff1;
-            --option-border: #78909c;
-            --message-color: #80cbc4;
-            --modal-bg: #455a64;
-            --modal-text: #eceff1;
-            --button-bg: #80cbc4;
-            --button-bg-hover: #4db6ac;
-            --bonus-bg: #666;
-            --bonus-fill: #4db6ac;
-        }
-
-        /* Reset and basic styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            padding-top: 50px;
-            overflow-x: hidden;
-            transition: background 0.3s, color 0.3s;
-            position: relative;
-            padding-bottom: 80px;
-        }
-
-        header {
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            max-width: 800px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            animation: fadeIn 1s ease;
-        }
-
-        .toggle-btn {
-            position: fixed;
-            right: 10px;
-            bottom: 10px;
-            padding: 8px 12px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background: var(--button-bg);
-            color: #fff;
-            transition: background 0.2s ease;
-        }
-
-        .toggle-btn:hover {
-            background: var(--button-bg-hover);
-        }
-
-        #level,
-        #lives,
-        #highScore {
-            font-size: 1.2rem;
-            margin-bottom: 0px;
-            font-weight: 600;
-            animation: fadeIn 1s ease;
-            text-align: center;
-        }
-
-        #target {
-            width: 180px;
-            height: 180px;
-            border-radius: 12px;
-            border: 4px solid var(--target-border);
-            margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.8s ease;
-        }
-
-        .options {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            max-width: 700px;
-            margin-bottom: 20px;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .option {
-            width: 100px;
-            height: 100px;
-            border-radius: 8px;
-            border: 2px solid var(--option-border);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease;
-            opacity: 0;
-        }
-
-        .option:hover:not(.disabled) {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-        }
-
-        .option.disabled {
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-        #message {
-            font-size: 1.1rem;
-            margin-top: 15px;
-            color: var(--message-color);
-            font-weight: 600;
-            animation: fadeIn 0.8s ease;
-            text-align: center;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Bonus meter (shows progress toward extra life) at bottom */
-        #bonusContainer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--bg-color);
-            border-top: 2px solid var(--option-border);
-            padding: 10px 0;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-
-        #bonusLabel {
-            margin-bottom: 5px;
-        }
-
-        #bonusProgressContainer {
-            width: 80%;
-            max-width: 400px;
-            height: 15px;
-            background: var(--bonus-bg);
-            border-radius: 5px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        #bonusProgress {
-            height: 100%;
-            width: 0%;
-            background: var(--bonus-fill);
-            transition: width 0.3s ease;
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .modal-content {
-            background: var(--modal-bg);
-            color: var(--modal-text);
-            width: 90%;
-            max-width: 500px;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            text-align: left;
-        }
-
-        .modal h2 {
-            margin-bottom: 15px;
-        }
-
-        .modal p {
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .modal button {
-            background: var(--button-bg);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 5px;
-            transition: background 0.2s ease;
-        }
-
-        .modal button:hover {
-            background: var(--button-bg-hover);
-        }
-
-        .modal .actions {
-            text-align: right;
-        }
-
-        /* Responsive Styles for Mobile */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            #target {
-                margin: 10px;
-                width: 140px;
-                height: 140px;
-            }
-
-            .option {
-                width: 80px;
-                height: 80px;
-            }
-
-            #level,
-            #lives,
-            #highScore,
-            #message,
-            #bonusContainer {
-                font-size: 1rem;
-            }
-
-            .toggle-btn {
-                font-size: 0.9rem;
-                padding: 6px 10px;
-            }
-
-            .modal-content {
-                padding: 15px 20px;
-            }
-        }
-    </style>
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Shifty Fades",
-  "description": "A free colour gradient puzzle game.",
-  "url": "https://www.bludle.com/shiftyfades/",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "GBP"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Bludle",
-    "url": "https://www.bludle.com"
-  }
-}
-  </script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="shiftyfades.css">
 </head>
+<body data-game="shiftyfades">
+  <div id="navbar-container"></div>
 
-<body>
-    <div id="navbar-container"></div>
-    <header>
-        <h1>Shifty Fades</h1>
-        <button class="toggle-btn" id="darkToggle">Dark Mode</button>
-    </header>
-    <div>
-        <small id="level">Level: 1</small> <small>/50</small>
-    </div>
-    <div id="lives">Lives: 3</div><small style="font-size: xx-small; margin-top: -10;">(max 5)</small>
-    <div id="highScore">High Score: 0</div>
-    <div id="target"></div>
-    <div class="options" id="options"></div>
-    <div id="message"></div>
-
-    <!-- Bonus meter at the bottom (only visible when lives are below max) -->
-    <div id="bonusContainer">
-        <div id="bonusLabel">Extra Life Meter: Progress 0 / 5</div>
-        <div id="bonusProgressContainer">
-            <div id="bonusProgress"></div>
+  <main class="shifty-page" id="main-content">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div>
+          <span class="eyebrow">Colour perception</span>
+          <h1 id="game-title">Shifty Fades</h1>
+          <p>Find the one swatch that exactly matches the target.</p>
         </div>
-    </div>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Shifty Fades">?</button>
+      </header>
 
-    <!-- Modal for Instructions -->
-    <div class="modal" id="instructionModal">
-        <div class="modal-content">
-            <h2>How to Play</h2>
-            <p>
-                A target colour is shown in the large box. Below you see 5 similar colour options.
-                Only one option exactly matches the target colour.
-            </p>
-            <p>
-                Select the colour you believe is the exact match. You start with 3 lives; every wrong answer costs a
-                life.
-                Every 5 correct answers in a row awards you an extra life (up to 5 lives maximum).
-            </p>
-            <p>
-                The challenge goes up to level 50. Can you reach the top?
-            </p>
-            <div class="actions">
-                <button id="closeModal">Got it!</button>
-            </div>
-        </div>
-    </div>
+      <div class="run-strip" aria-label="Current run">
+        <div><span>Level</span><strong id="level">1</strong><small>of 50</small></div>
+        <div><span>Lives</span><strong id="lives" aria-label="3 lives">● ● ●</strong><small>up to 5</small></div>
+        <div><span>Best</span><strong id="highScore">0</strong><small>levels cleared</small></div>
+      </div>
 
-    <!-- Modal for Game Over -->
-    <div class="modal" id="gameOverModal" style="display: none;">
-        <div class="modal-content">
-            <h2>Game Over</h2>
-            <p>Your final level: <span id="finalLevel"></span></p>
-            <div class="actions">
-                <button id="playAgain">Play Again</button>
-                <button id="shareGame">Share</button>
-                <button id="goHome">Go Home</button>
-            </div>
-        </div>
-    </div>
+      <div class="round-layout">
+        <section class="target-zone" aria-labelledby="target-label">
+          <div class="zone-heading"><span id="target-label">Target colour</span><small>Hold this in your eye</small></div>
+          <div id="target" aria-label="Target colour swatch"></div>
+        </section>
 
-    <!-- Modal for Victory (Beating Level 50) -->
-    <div class="modal" id="winModal" style="display: none;">
-        <div class="modal-content">
-            <h2>Congratulations!</h2>
-            <p>You conquered all 50 levels!</p>
-            <p>It's time for a wild celebration!</p>
-            <div class="actions">
-                <button id="playAgainWin">Play Again</button>
-                <button id="shareGameWin">Share</button>
-                <button id="goHomeWin">Go Home</button>
-            </div>
-        </div>
-    </div>
+        <section class="choice-zone" aria-labelledby="choice-label">
+          <div class="zone-heading"><span id="choice-label">Choose the exact match</span><small>Near matches get closer each level</small></div>
+          <div class="options" id="options"></div>
+          <p id="message" role="status" aria-live="polite">Take your time. There is one exact match.</p>
+        </section>
+      </div>
 
-    <script>
-        // Game state variables
-        let level = 1;
-        let lives = 3;  // Start with 3 lives.
-        const maxLives = 5;  // Maximum lives allowed.
-        let streak = 0;
-        const totalOptions = 5;
-        let targetColor = {};
+      <div class="streak-row" id="bonusContainer">
+        <div><strong id="bonusLabel">Build a five-match streak</strong><span>Earn an extra life after five correct answers.</span></div>
+        <div class="streak-dots" id="streakDots" aria-label="0 of 5 matches toward an extra life"><i></i><i></i><i></i><i></i><i></i></div>
+        <div id="bonusProgressContainer" aria-hidden="true"><div id="bonusProgress"></div></div>
+      </div>
+    </section>
 
-        // Utility: Generate a random colour in RGB format with a minimum threshold.
-        function getRandomColor() {
-            const min = 50;  // Ensure the target color is never too dark.
-            return {
-                r: Math.floor(Math.random() * (256 - min)) + min,
-                g: Math.floor(Math.random() * (256 - min)) + min,
-                b: Math.floor(Math.random() * (256 - min)) + min
-            };
-        }
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
 
-        // Utility: Convert colour object to CSS rgb() string.
-        function rgbToString(color) {
-            return `rgb(${color.r}, ${color.g}, ${color.b})`;
-        }
+    <section class="about-card" aria-labelledby="shifty-about-title">
+      <div><span class="eyebrow">Subtle by design</span><h2 id="shifty-about-title">The differences keep shrinking.</h2></div>
+      <p>Early rounds teach the rhythm. Later rounds tighten the colour offsets until observation matters more than speed. A wrong choice costs a life; five consecutive matches can win one back.</p>
+    </section>
+  </main>
 
-        // Generate a similar colour by tweaking each component.
-        function getSimilarColor(baseColor) {
-            // Adjusted difficulty: A balance between early challenge and a gradual ramp-up.
-            const maxOffset = Math.max(60 - level * 1.5, 15);
-            function tweak(value) {
-                const offset = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
-                return Math.min(255, Math.max(0, value + offset));
-            }
-            return { r: tweak(baseColor.r), g: tweak(baseColor.g), b: tweak(baseColor.b) };
-        }
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Find the colour that did not shift.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Study the target</strong><p>The large swatch is your reference.</p></div></li>
+      <li><span>02</span><div><strong>Compare five options</strong><p>Only one is identical. The rest shift slightly in RGB.</p></div></li>
+      <li><span>03</span><div><strong>Protect your lives</strong><p>A wrong choice costs one life. Clear five in a row to earn one back.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start matching</button>
+  </dialog>
 
-        // Update HUD with level, lives, high score, and bonus meter progress.
-        function updateHUD() {
-            document.getElementById('level').textContent = "Level: " + level;
-            document.getElementById('lives').textContent = "Lives: " + lives;
+  <dialog class="dialog result-dialog" id="gameOverModal">
+    <div class="result-mark">×</div>
+    <span class="eyebrow">Run complete</span>
+    <h2>Your eye made it to level <span id="finalLevel">1</span>.</h2>
+    <p>Every run makes the smaller shifts easier to spot.</p>
+    <div class="result-actions"><button class="primary-button" id="playAgain" type="button">Play again</button><button class="secondary-button" id="shareGame" type="button">Share result</button></div>
+  </dialog>
 
-            // High score tracking.
-            let storedHS = parseInt(localStorage.getItem('shiftyHighScore')) || 0;
-            let currentScore = level - 1;
-            if (currentScore > storedHS) {
-                storedHS = currentScore;
-                localStorage.setItem('shiftyHighScore', storedHS);
-            }
-            document.getElementById('highScore').textContent = "High Score: " + storedHS;
+  <dialog class="dialog result-dialog" id="winModal">
+    <div class="result-mark">50</div>
+    <span class="eyebrow">Perfect run</span>
+    <h2>You cleared every fade.</h2>
+    <p>Fifty levels, one very sharp eye.</p>
+    <div class="result-actions"><button class="primary-button" id="playAgainWin" type="button">Play again</button><button class="secondary-button" id="shareGameWin" type="button">Share result</button></div>
+  </dialog>
 
-            // Update bonus meter only if lives are below maxLives.
-            if (lives < maxLives) {
-                document.getElementById('bonusContainer').style.display = "block";
-                const bonusProgress = streak % 5;
-                document.getElementById('bonusLabel').textContent = "Extra Life Meter: Progress " + bonusProgress + " / 5";
-                document.getElementById('bonusProgress').style.width = (bonusProgress / 5 * 100) + "%";
-            } else {
-                // Hide bonus meter if maximum lives reached.
-                document.getElementById('bonusContainer').style.display = "none";
-            }
-        }
-
-        // Set up a new level.
-        function setUpLevel() {
-            document.getElementById('message').textContent = "";
-            updateHUD();
-            const targetElem = document.getElementById("target");
-            targetElem.style.opacity = 0;
-            targetColor = getRandomColor();
-            targetElem.style.backgroundColor = rgbToString(targetColor);
-            setTimeout(() => { targetElem.style.opacity = 1; }, 100);
-
-            // Create option boxes.
-            const correctIndex = Math.floor(Math.random() * totalOptions);
-            const optionsDiv = document.getElementById("options");
-            optionsDiv.innerHTML = "";
-
-            for (let i = 0; i < totalOptions; i++) {
-                let optionColor;
-                if (i === correctIndex) {
-                    optionColor = targetColor;
-                } else {
-                    do {
-                        optionColor = getSimilarColor(targetColor);
-                    } while (
-                        optionColor.r === targetColor.r &&
-                        optionColor.g === targetColor.g &&
-                        optionColor.b === targetColor.b
-                    );
-                }
-                const optionDiv = document.createElement("div");
-                optionDiv.classList.add("option");
-                optionDiv.style.backgroundColor = rgbToString(optionColor);
-                optionDiv.dataset.r = optionColor.r;
-                optionDiv.dataset.g = optionColor.g;
-                optionDiv.dataset.b = optionColor.b;
-                setTimeout(() => { optionDiv.style.opacity = 1; }, 100);
-                optionDiv.addEventListener("click", function () {
-                    checkAnswer(parseInt(this.dataset.r), parseInt(this.dataset.g), parseInt(this.dataset.b), this);
-                });
-                optionsDiv.appendChild(optionDiv);
-            }
-        }
-
-        // Check if the selected option is correct.
-        function checkAnswer(r, g, b, clickedEl) {
-            if (r === targetColor.r && g === targetColor.g && b === targetColor.b) {
-                streak++;
-                document.getElementById("message").textContent = "Correct!";
-                // Award bonus life every 5 correct answers if below maxLives.
-                if (streak % 5 === 0 && lives < maxLives) {
-                    lives++;
-                    document.getElementById("message").textContent += " Bonus Life Awarded!";
-                }
-                level++;
-                if (level > 50) {
-                    showWinModal();
-                } else {
-                    setTimeout(setUpLevel, 1000);
-                }
-            } else {
-                clickedEl.classList.add("disabled");
-                lives--;
-                streak = 0;
-                if (lives <= 0) {
-                    document.getElementById("message").textContent = "Game Over! You've run out of lives.";
-                    showGameOver();
-                } else {
-                    document.getElementById("message").textContent = "Wrong, try again!";
-                    updateHUD();
-                }
-            }
-        }
-
-        // Show game over modal.
-        function showGameOver() {
-            document.getElementById('finalLevel').textContent = level;
-            document.getElementById('gameOverModal').style.display = "flex";
-        }
-
-        // Show win modal.
-        function showWinModal() {
-            document.getElementById('winModal').style.display = "flex";
-        }
-
-        // Restart the game.
-        function resetGame() {
-            level = 1;
-            lives = 3;
-            streak = 0;
-            document.getElementById('gameOverModal').style.display = "none";
-            document.getElementById('winModal').style.display = "none";
-            setUpLevel();
-        }
-
-        // Share functionality.
-        function shareGame() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Shifty Fades',
-                    text: `I reached level ${level} in Shifty Fades! Can you beat my score?`,
-                    url: window.location.href
-                }).catch(err => console.error("Error sharing:", err));
-            } else {
-                alert("Share not supported on your browser.");
-            }
-        }
-
-        // Dark Mode Toggle handler.
-        const darkToggle = document.getElementById("darkToggle");
-        darkToggle.addEventListener("click", function () {
-            document.body.classList.toggle("dark");
-            darkToggle.textContent = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
-        });
-
-        // Modal functionality for instructions.
-        const instructionModal = document.getElementById("instructionModal");
-        const closeModalButton = document.getElementById("closeModal");
-        closeModalButton.addEventListener("click", function () {
-            instructionModal.style.display = "none";
-            setUpLevel();
-        });
-        window.addEventListener("click", function (event) {
-            if (event.target === instructionModal) {
-                instructionModal.style.display = "none";
-                setUpLevel();
-            }
-        });
-
-        // Modal button handlers.
-        document.getElementById("playAgain").addEventListener("click", resetGame);
-        document.getElementById("shareGame").addEventListener("click", shareGame);
-        document.getElementById("goHome").addEventListener("click", function () {
-            window.location.href = "https://bludle.com";
-        });
-        document.getElementById("playAgainWin").addEventListener("click", resetGame);
-        document.getElementById("shareGameWin").addEventListener("click", shareGame);
-        document.getElementById("goHomeWin").addEventListener("click", function () {
-            window.location.href = "https://bludle.com";
-        });
-
-        // Display instructions modal on load.
-        window.onload = function () {
-            instructionModal.style.display = "flex";
-        };
-    </script>
-    <!-- global elements -->
-    <link rel="stylesheet" href="/globalNav/globalNav.css">
-    <script type="module" src="/globalNav/globalNav.js" defer></script>
-  <aside style="max-width:600px;margin:32px auto;padding:16px 20px;background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;font-family:Arial,sans-serif;font-size:16px;">
-    <p style="margin:0 0 10px;font-weight:bold;color:#333;">Related reading:</p>
-    <ul style="margin:0;padding-left:20px;">
-      <li><a href="https://www.bludle.com/blogs/7" style="color:#1a73e8;">Top 10 Word Games for Colour Lovers</a></li>
-    </ul>
-  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="shiftyfades.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
-
 </html>

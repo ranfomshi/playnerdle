@@ -1,597 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chroma Lock | Free Colour Timing Puzzle Game</title>
-  <meta name="description" content="Play Chroma Lock, a free colour timing puzzle where you stop a cycling colour on the target. Browser-based and no download required.">
-  <meta property="og:title" content="Chroma Lock | Free Colour Timing Puzzle Game">
-  <meta property="og:description" content="Play Chroma Lock, a free colour timing puzzle where you stop a cycling colour on the target. Browser-based and no download required.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.bludle.com/chromalock/">
-  <meta property="og:site_name" content="Bludle">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chroma Lock | Colour Timing Puzzle</title>
+  <meta name="description" content="Stop a cycling colour when it matches the target in this visual timing game.">
   <link rel="canonical" href="https://www.bludle.com/chromalock/">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Stuart Pecksen">
-  <meta name="theme-color" content="#111827">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
-  <script type="text/javascript" src="/mixpanel.js" defer></script>
-  <style>
-    :root {
-      --bg: #0f172a;
-      --panel: rgba(15, 23, 42, 0.82);
-      --panel-strong: rgba(15, 23, 42, 0.94);
-      --ink: #f8fafc;
-      --muted: #cbd5e1;
-      --accent: #a78bfa;
-      --accent-strong: #7c3aed;
-      --good: #34d399;
-      --warn: #fb7185;
-      --line: rgba(255, 255, 255, 0.16);
-      --global-nav-height: 52px;
-      --global-ui-gap: 16px;
-      --global-toast-top: calc(var(--global-nav-height) + var(--global-ui-gap));
-      --global-nav-z: 1000;
-      --global-dropdown-z: 99999;
-      --global-overlay-z: 100100;
-      --global-toast-z: 100110;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      margin: 0;
-      font-family: Inter, "Segoe UI", Arial, sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.34), transparent 28%),
-        radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.35), transparent 30%),
-        radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.24), transparent 34%),
-        var(--bg);
-      overflow-x: hidden;
-    }
-
-    .wrap {
-      width: min(94vw, 980px);
-      margin: 82px auto 32px;
-      padding: clamp(18px, 3vw, 32px);
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
-      backdrop-filter: blur(18px);
-    }
-
-    .hero {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto 24px;
-    }
-
-    .eyebrow {
-      margin: 0 0 8px;
-      color: #ddd6fe;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      font-size: 0.76rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2.2rem, 8vw, 5.4rem);
-      line-height: 0.94;
-      letter-spacing: -0.07em;
-    }
-
-    .subtitle {
-      margin: 16px auto 0;
-      color: var(--muted);
-      font-size: clamp(1rem, 2.4vw, 1.2rem);
-      line-height: 1.55;
-    }
-
-    .hud {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin: 26px 0;
-    }
-
-    .chip {
-      padding: 12px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-
-    .chip span {
-      display: block;
-      margin-bottom: 3px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .chip strong {
-      font-size: clamp(1.1rem, 3.2vw, 1.55rem);
-    }
-
-    .arena {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      align-items: stretch;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--panel-strong);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 35px rgba(0, 0, 0, 0.25);
-    }
-
-    .colour-card {
-      min-height: clamp(230px, 38vw, 340px);
-      padding: 18px 0 0;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .card-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding: 0 18px;
-      color: var(--muted);
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-    }
-
-    .swatch {
-      flex: 1;
-      min-height: 180px;
-      border: 0;
-      box-shadow: none;
-    }
-
-    #targetSwatch {
-      border-radius: 0 0 0 24px;
-    }
-
-    #movingSwatch {
-      border-radius: 0 0 24px 0;
-      cursor: pointer;
-      transition: background-color 180ms linear, transform 120ms ease;
-    }
-
-    #movingSwatch:active {
-      transform: scale(0.98);
-    }
-
-    .hex {
-      font-family: "SFMono-Regular", Consolas, monospace;
-      color: #e2e8f0;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 5px 9px;
-      font-size: 0.78rem;
-    }
-
-    .controls {
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .meter-wrap {
-      padding: 14px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-    }
-
-    .meter-label {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .meter {
-      height: 14px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-    }
-
-    #scoreFill {
-      width: 0%;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--warn), #facc15, var(--good));
-      transition: width 220ms ease;
-    }
-
-    button {
-      border: 0;
-      border-radius: 16px;
-      padding: 15px 22px;
-      color: white;
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      font-size: 1rem;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 14px 30px rgba(124, 58, 237, 0.32);
-      transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
-    }
-
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 38px rgba(124, 58, 237, 0.42);
-    }
-
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .secondary {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid var(--line);
-      box-shadow: none;
-    }
-
-    .message {
-      min-height: 56px;
-      margin-top: 18px;
-      padding: 16px;
-      border-radius: 18px;
-      color: #e2e8f0;
-      background: rgba(15, 23, 42, 0.64);
-      border: 1px solid var(--line);
-      text-align: center;
-      font-weight: 700;
-      line-height: 1.45;
-    }
-
-    .instructions {
-      margin-top: 22px;
-      padding: 18px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      line-height: 1.55;
-    }
-
-    .instructions h2 {
-      margin: 0 0 8px;
-      color: var(--ink);
-      font-size: 1.05rem;
-    }
-
-    .instructions ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    @media (max-width: 760px) {
-      .hud,
-      .arena,
-      .controls {
-        grid-template-columns: 1fr;
-      }
-
-      .colour-card {
-        min-height: 220px;
-      }
-
-      #targetSwatch,
-      #movingSwatch {
-        border-radius: 0;
-      }
-
-      #movingSwatch {
-        border-radius: 0 0 24px 24px;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-  </style>
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Chroma Lock",
-      "description": "A free browser colour matching game where players stop a cycling colour as close as possible to a fixed target.",
-      "url": "https://www.bludle.com/chromalock/",
-      "applicationCategory": "GameApplication",
-      "operatingSystem": "Web browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "GBP"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "Bludle",
-        "url": "https://www.bludle.com"
-      }
-    }
-  </script>
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="chromalock.css">
 </head>
-<body>
+<body data-game="chromalock">
   <div id="navbar-container"></div>
-  <main class="wrap" aria-labelledby="game-title">
-    <section class="hero">
-      <p class="eyebrow">New colour challenge</p>
-      <h1 id="game-title">Chroma Lock</h1>
-      <p class="subtitle">A target colour stays fixed. The live colour cycles through a spectrum. Hit lock when your eyes say they match.</p>
-    </section>
 
-    <section class="hud" aria-label="Game status">
-      <div class="chip"><span>Level</span><strong id="level">1</strong></div>
-      <div class="chip"><span>Lives</span><strong id="lives">3</strong></div>
-      <div class="chip"><span>Margin</span><strong id="margin">24°</strong></div>
-      <div class="chip"><span>Best</span><strong id="best">1</strong></div>
-    </section>
+  <main class="chroma-page" id="main-content">
+    <section class="game-card" aria-labelledby="game-title">
+      <header class="game-header">
+        <div>
+          <span class="eyebrow">Colour timing</span>
+          <h1 id="game-title">Chroma Lock</h1>
+          <p>Stop the moving colour when it matches the target.</p>
+        </div>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Chroma Lock">?</button>
+      </header>
 
-    <section class="arena" aria-label="Colour matching arena">
-      <article class="colour-card">
-        <div class="card-label">Target <span class="hex" id="targetHex">#000000</span></div>
-        <div class="swatch" id="targetSwatch" aria-label="Target colour"></div>
-      </article>
-      <article class="colour-card">
-        <div class="card-label">Cycling colour <span class="hex" id="movingHex">#000000</span></div>
-        <div class="swatch" id="movingSwatch" role="button" tabindex="0" aria-label="Lock the cycling colour"></div>
-      </article>
-    </section>
-
-    <section class="controls" aria-label="Game controls">
-      <div class="meter-wrap">
-        <div class="meter-label"><span id="accuracyText">Lock in a match to score the round.</span><span id="differenceText">—</span></div>
-        <div class="meter" aria-hidden="true"><div id="scoreFill"></div></div>
+      <div class="run-strip" aria-label="Current run">
+        <div><span>Level</span><strong id="level">1</strong></div>
+        <div><span>Lives</span><strong id="lives" aria-label="3 lives">● ● ●</strong></div>
+        <div><span>Match window</span><strong id="margin">24°</strong></div>
+        <div><span>Best</span><strong id="best">1</strong></div>
       </div>
-      <button id="lockBtn" type="button">Lock Match</button>
+
+      <section class="arena" aria-label="Colour matching arena">
+        <figure class="colour-card">
+          <figcaption><span>Target</span><small>Keep this colour in mind</small></figcaption>
+          <div class="swatch" id="targetSwatch" aria-label="Target colour"></div>
+        </figure>
+        <figure class="colour-card moving-card">
+          <figcaption><span>Moving colour</span><small>Lock when it matches</small></figcaption>
+          <button class="swatch" id="movingSwatch" type="button" aria-label="Lock the moving colour"></button>
+        </figure>
+      </section>
+
+      <section class="lock-panel" aria-label="Lock controls">
+        <div class="lock-copy">
+          <strong id="accuracyText">Watch the colour move through the target.</strong>
+          <span id="differenceText">Press lock when your eyes say they match.</span>
+        </div>
+        <button class="lock-button" id="lockBtn" type="button">Lock colour <span>→</span></button>
+        <div class="accuracy-track" aria-hidden="true"><div id="scoreFill"></div></div>
+      </section>
+
+      <p class="message" id="message" role="status" aria-live="polite">Level 1 gives you a generous match window. Each success makes it tighter.</p>
     </section>
 
-    <div class="message" id="message" aria-live="polite">Press “Lock Match” when the cycling colour looks like the target. Each level makes the acceptable colour gap smaller.</div>
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
 
-    <section class="instructions">
-      <h2>How levels work</h2>
-      <ul>
-        <li>Level 1 gives you a generous 24° hue window.</li>
-        <li>Every successful lock starts a fresh target and narrows the margin for error.</li>
-        <li>A miss costs a life. Lose all 3 lives and your run resets, but your best level is saved.</li>
-      </ul>
+    <section class="about-card" aria-labelledby="chroma-about-title">
+      <div><span class="eyebrow">Timing through colour</span><h2 id="chroma-about-title">Trust the match, not the clock.</h2></div>
+      <p>The live colour travels around the target hue. Lock inside the current margin to advance. A miss costs one of three lives, and every new level narrows the acceptable gap.</p>
     </section>
   </main>
 
-  <script>
-    const state = {
-      level: 1,
-      lives: 3,
-      best: Number(localStorage.getItem("chromaLockBest") || 1),
-      target: { h: 0, s: 78, l: 58 },
-      current: { h: 0, s: 78, l: 58 },
-      roundStart: 0,
-      animationId: null,
-      locked: false,
-    };
+  <dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Lock the colour at the right moment.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Study the target</strong><p>The left swatch remains fixed for the round.</p></div></li>
+      <li><span>02</span><div><strong>Watch the live colour</strong><p>It moves back and forth through a spectrum around the target.</p></div></li>
+      <li><span>03</span><div><strong>Lock the match</strong><p>Stop inside the shown margin to advance. A miss costs a life.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start watching</button>
+  </dialog>
 
-    const els = {
-      level: document.getElementById("level"),
-      lives: document.getElementById("lives"),
-      margin: document.getElementById("margin"),
-      best: document.getElementById("best"),
-      targetHex: document.getElementById("targetHex"),
-      movingHex: document.getElementById("movingHex"),
-      targetSwatch: document.getElementById("targetSwatch"),
-      movingSwatch: document.getElementById("movingSwatch"),
-      lockBtn: document.getElementById("lockBtn"),
-      message: document.getElementById("message"),
-      accuracyText: document.getElementById("accuracyText"),
-      differenceText: document.getElementById("differenceText"),
-      scoreFill: document.getElementById("scoreFill"),
-    };
+  <dialog class="dialog result-dialog" id="gameover-dialog">
+    <div class="result-mark">×</div>
+    <span class="eyebrow">Run complete</span>
+    <h2>You reached level <span id="final-level">1</span>.</h2>
+    <p>Your best level is saved on this device.</p>
+    <button class="primary-button" id="restart-button" type="button">Start a new run</button>
+  </dialog>
 
-    function track(eventName, params) {
-      if (typeof window.gtag === "function") {
-        window.gtag("event", eventName, params);
-      }
-
-      if (window.mixpanel && typeof window.mixpanel.track === "function") {
-        window.mixpanel.track(eventName, params);
-      }
-    }
-
-    function randomBetween(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function marginForLevel(level) {
-      return Math.max(5, 26 - (level * 2));
-    }
-
-    function cycleDurationForLevel(level) {
-      return Math.max(10000, 16000 - Math.min(level, 12) * 450);
-    }
-
-    function cycleArcForLevel(level) {
-      return Math.max(60, 170 - level * 5);
-    }
-
-    function hslString(colour) {
-      return `hsl(${colour.h.toFixed(1)} ${colour.s.toFixed(1)}% ${colour.l.toFixed(1)}%)`;
-    }
-
-    function hslToHex({ h, s, l }) {
-      const hue = ((h % 360) + 360) % 360;
-      const sat = s / 100;
-      const light = l / 100;
-      const chroma = (1 - Math.abs(2 * light - 1)) * sat;
-      const x = chroma * (1 - Math.abs((hue / 60) % 2 - 1));
-      const m = light - chroma / 2;
-      let r = 0;
-      let g = 0;
-      let b = 0;
-
-      if (hue < 60) [r, g, b] = [chroma, x, 0];
-      else if (hue < 120) [r, g, b] = [x, chroma, 0];
-      else if (hue < 180) [r, g, b] = [0, chroma, x];
-      else if (hue < 240) [r, g, b] = [0, x, chroma];
-      else if (hue < 300) [r, g, b] = [x, 0, chroma];
-      else [r, g, b] = [chroma, 0, x];
-
-      return [r, g, b]
-        .map(channel => Math.round((channel + m) * 255).toString(16).padStart(2, "0"))
-        .join("")
-        .toUpperCase()
-        .padStart(6, "0")
-        .replace(/^/, "#");
-    }
-
-    function hueDifference(a, b) {
-      const diff = Math.abs(a - b) % 360;
-      return Math.min(diff, 360 - diff);
-    }
-
-    function setSwatches() {
-      els.targetSwatch.style.backgroundColor = hslString(state.target);
-      els.movingSwatch.style.backgroundColor = hslString(state.current);
-      els.targetHex.textContent = hslToHex(state.target);
-      els.movingHex.textContent = hslToHex(state.current);
-    }
-
-    function updateHud() {
-      els.level.textContent = state.level;
-      els.lives.textContent = state.lives;
-      els.margin.textContent = `${marginForLevel(state.level)}°`;
-      els.best.textContent = state.best;
-    }
-
-    function generateTarget() {
-      state.target = {
-        h: randomBetween(0, 359),
-        s: randomBetween(62, 88),
-        l: randomBetween(42, 64),
-      };
-    }
-
-    function animate(timestamp) {
-      if (!state.roundStart) {
-        state.roundStart = timestamp;
-      }
-
-      const elapsed = timestamp - state.roundStart;
-      const arc = cycleArcForLevel(state.level);
-      const duration = cycleDurationForLevel(state.level);
-      const phase = (elapsed % duration) / duration;
-      const easedSweep = Math.sin(phase * Math.PI * 2);
-      const shimmer = Math.sin(phase * Math.PI * 2 + Math.PI / 3);
-      state.current = {
-        h: (state.target.h + easedSweep * arc + 360) % 360,
-        s: Math.min(92, Math.max(50, state.target.s + shimmer * 2.5)),
-        l: Math.min(70, Math.max(34, state.target.l + Math.cos(phase * Math.PI * 2) * 2)),
-      };
-
-      setSwatches();
-      state.animationId = requestAnimationFrame(animate);
-    }
-
-    function startRound(message) {
-      cancelAnimationFrame(state.animationId);
-      state.locked = false;
-      state.roundStart = 0;
-      els.lockBtn.disabled = false;
-      els.scoreFill.style.width = "0%";
-      els.differenceText.textContent = "—";
-      els.accuracyText.textContent = "Lock in a match to score the round.";
-      if (message) {
-        els.message.textContent = message;
-      }
-      generateTarget();
-      updateHud();
-      state.animationId = requestAnimationFrame(animate);
-    }
-
-    function saveBest() {
-      if (state.level > state.best) {
-        state.best = state.level;
-        localStorage.setItem("chromaLockBest", String(state.best));
-      }
-    }
-
-    function lockMatch() {
-      if (state.locked) {
-        return;
-      }
-
-      state.locked = true;
-      els.lockBtn.disabled = true;
-      cancelAnimationFrame(state.animationId);
-
-      const diff = hueDifference(state.target.h, state.current.h);
-      const margin = marginForLevel(state.level);
-      const accuracy = Math.max(0, Math.round((1 - diff / 180) * 100));
-      const passed = diff <= margin;
-      els.scoreFill.style.width = `${accuracy}%`;
-      els.differenceText.textContent = `${diff.toFixed(1)}° away`;
-      els.accuracyText.textContent = passed ? "Locked close enough to level up." : "Outside the safe margin.";
-
-      if (passed) {
-        state.level += 1;
-        saveBest();
-        track("chroma_lock_success", { level: state.level - 1, difference: Number(diff.toFixed(1)), margin });
-        setTimeout(() => startRound(`✅ Great lock — ${diff.toFixed(1)}° away. Level ${state.level} is tighter.`), 1250);
-        return;
-      }
-
-      state.lives -= 1;
-      track("chroma_lock_miss", { level: state.level, difference: Number(diff.toFixed(1)), margin });
-
-      if (state.lives <= 0) {
-        const finalLevel = state.level;
-        state.level = 1;
-        state.lives = 3;
-        setTimeout(() => startRound(`Game over at level ${finalLevel}. New run started — chase your best of ${state.best}.`), 1600);
-        return;
-      }
-
-      updateHud();
-      setTimeout(() => startRound(`❌ ${diff.toFixed(1)}° away. You have ${state.lives} ${state.lives === 1 ? "life" : "lives"} left.`), 1450);
-    }
-
-    els.lockBtn.addEventListener("click", lockMatch);
-    els.movingSwatch.addEventListener("click", lockMatch);
-    els.movingSwatch.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        lockMatch();
-      }
-    });
-
-    startRound();
-  </script>
+  <script src="chromalock.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
 </html>

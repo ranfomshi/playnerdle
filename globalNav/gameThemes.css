@@ -1,0 +1,277 @@
+/* Per-game light-system adaptations. Mechanic colours are preserved where colour is gameplay. */
+body[data-game] {
+  color-scheme: light;
+  --game-accent: var(--cobalt-500);
+  --game-accent-dark: var(--cobalt-700);
+  --game-accent-soft: var(--cobalt-50);
+}
+
+body[data-game] .game-card::before { background: var(--cobalt-500) !important; }
+body[data-game] .icon-button,
+body[data-game] .legacy-help-button {
+  border: 1px solid var(--slate-200) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--slate-0) !important;
+  color: var(--slate-600) !important;
+  box-shadow: var(--shadow-xs) !important;
+}
+body[data-game] .legacy-help-button {
+  top: calc(var(--global-nav-height, 64px) + 12px) !important;
+  right: 20px !important;
+  z-index: var(--global-dropdown-z, 99999) !important;
+}
+body[data-game] .legacy-explainer { background: rgba(20,25,40,.48) !important; backdrop-filter: none; }
+body[data-game] .legacy-explainer__card {
+  padding: 28px !important;
+  border: 1px solid var(--slate-200) !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--slate-0) !important;
+  color: var(--slate-600) !important;
+  font-family: var(--font-body) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+body[data-game] .legacy-explainer__card h2 { color: var(--slate-800) !important; font-family: var(--font-heading) !important; }
+body[data-game] .legacy-explainer__card #explainerCloseBtn { border-radius: var(--radius-md) !important; background: var(--cobalt-500) !important; color: white !important; }
+
+/* Werdle */
+body[data-game="werdle"] .game-footnote { color: var(--slate-500); }
+body[data-game="werdle"] .meta-dot { background: var(--slate-300); }
+body[data-game="werdle"] .about-card .mini-row span { border-color: var(--slate-200); }
+
+/* Bludle */
+body[data-game="bludle"] .pulse { background: var(--cobalt-500); box-shadow: none; }
+body[data-game="bludle"] .guess-row { box-shadow: none; }
+body[data-game="bludle"] .guess-tile { box-shadow: inset 0 1px rgba(255,255,255,.18), var(--shadow-xs); }
+body[data-game="bludle"] .exact { box-shadow: var(--shadow-xs); }
+
+/* Codle */
+body[data-game="codle"] { --mint: var(--cobalt-600); --lime: var(--cobalt-500); }
+body[data-game="codle"] .signal-panel {
+  border-color: var(--cobalt-200);
+  background: var(--cobalt-50);
+  box-shadow: none;
+}
+body[data-game="codle"] .signal-heading { color: var(--slate-500); }
+body[data-game="codle"] .signal-heading i { background: var(--cobalt-200); }
+body[data-game="codle"] .code-tile {
+  border-color: var(--cobalt-200);
+  background: var(--slate-0);
+  color: var(--cobalt-700);
+  box-shadow: var(--shadow-xs);
+}
+body[data-game="codle"] .rule-card { border-color: var(--cobalt-100); background: var(--cobalt-50); }
+body[data-game="codle"] .rule-icon { background: var(--slate-0); color: var(--cobalt-600); }
+body[data-game="codle"] .input-tile,
+body[data-game="codle"] .guess-tile { border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-800); }
+body[data-game="codle"] .input-tile.filled { border-color: var(--cobalt-300); background: var(--cobalt-50); }
+body[data-game="codle"] .guess-tile.absent { background: var(--slate-100); color: var(--slate-500); }
+body[data-game="codle"] .guess-tile.exact { border-color: var(--success); background: var(--success-bg); color: #176d49; }
+body[data-game="codle"] .guess-tile.present { border-color: var(--warning); background: var(--warning-bg); color: #8c5708; }
+body[data-game="codle"] .hint-panel button { border-color: var(--slate-300); background: var(--slate-0); color: var(--cobalt-700); }
+body[data-game="codle"] .toast { border-color: var(--cobalt-200); background: var(--slate-0); color: var(--slate-800); box-shadow: var(--shadow-md); }
+
+/* Connex */
+body[data-game="connex"] .connex-shell {
+  width: min(calc(100% - 32px), 820px);
+  min-height: 620px;
+  margin: 0 auto 64px;
+  padding: 36px clamp(20px, 5vw, 44px);
+  border: 1px solid var(--slate-100);
+  border-radius: var(--radius-lg);
+  background: var(--slate-0);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+body[data-game="connex"] .connex-shell > h1 { margin: 0; color: var(--slate-800); }
+body[data-game="connex"] .connex-shell > p { margin: 8px 0 28px; color: var(--slate-500); }
+body[data-game="connex"] .word-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: none; }
+body[data-game="connex"] .word-item {
+  min-height: 64px;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  background: var(--slate-50);
+  color: var(--slate-700);
+  font-weight: 600;
+  box-shadow: none;
+}
+body[data-game="connex"] .word-item:hover { border-color: var(--cobalt-300); background: var(--cobalt-50); transform: none; }
+body[data-game="connex"] .word-item.selected { border-color: var(--cobalt-500); background: var(--cobalt-50); color: var(--cobalt-700); }
+body[data-game="connex"] .word-item.correct,
+body[data-game="connex"] .group-container { border-color: var(--success); background: var(--success-bg); color: #176d49; }
+body[data-game="connex"] .lives { color: var(--slate-600); font-weight: 600; }
+body[data-game="connex"] .feedback.error { color: var(--danger); }
+body[data-game="connex"] .modal-content { border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
+body[data-game="connex"] .modal-button { border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: white; }
+
+/* Word Mash */
+body[data-game="wordmash"] .page { margin-top: 24px; }
+body[data-game="wordmash"] .hero {
+  border-color: var(--cobalt-100);
+  border-left: 4px solid var(--cobalt-500);
+  background: var(--slate-0);
+  color: var(--slate-700);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: none;
+}
+body[data-game="wordmash"] .hero h1 { color: var(--slate-800); }
+body[data-game="wordmash"] .subtitle { color: var(--slate-600); }
+body[data-game="wordmash"] .badge { border-color: var(--cobalt-100); border-radius: var(--radius-sm); background: var(--cobalt-50); color: var(--cobalt-700); }
+body[data-game="wordmash"] .clue-card { border-color: var(--slate-200); background: var(--slate-50); }
+body[data-game="wordmash"] .clue-label { color: var(--cobalt-600); }
+body[data-game="wordmash"] .modal {
+  border-color: var(--slate-200);
+  border-radius: var(--radius-lg);
+  background: var(--slate-0);
+  color: var(--slate-600);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: none;
+}
+body[data-game="wordmash"] .modal h2 { color: var(--slate-800); }
+body[data-game="wordmash"] .modal ul { color: var(--slate-600); }
+body[data-game="wordmash"] .modal button,
+body[data-game="wordmash"] .input-wrap button { border-color: var(--cobalt-500); background: var(--cobalt-500); color: white; }
+
+/* Guess Hue */
+body[data-game="guesshue"] .legacy-help-button { top: calc(var(--global-nav-height,64px) + 12px) !important; }
+body[data-game="guesshue"] .intro-card { border: 1px solid var(--slate-100); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+body[data-game="guesshue"] .intro-card::before { height: 4px; background: var(--cobalt-500); }
+body[data-game="guesshue"] .button-85,
+body[data-game="guesshue"] #restartButton { border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: white; box-shadow: var(--shadow-xs); }
+body[data-game="guesshue"] .button-85::before,
+body[data-game="guesshue"] .button-85::after { display: none; }
+body[data-game="guesshue"] #gameOverScreen { border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
+
+/* Tintuition */
+body[data-game="tintuition"] .timer { background: var(--slate-200); }
+body[data-game="tintuition"] .versus { border: 1px solid var(--slate-300); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-xs); }
+body[data-game="tintuition"] .slider-row { border-color: var(--slate-200); background: var(--slate-50); }
+body[data-game="tintuition"] .round-callout { border-color: var(--cobalt-100); background: var(--cobalt-50); }
+body[data-game="tintuition"] .result-swatches {
+  gap: 16px;
+  margin: 18px 0 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--slate-200);
+}
+body[data-game="tintuition"] .result-swatches div { padding: 0; border: 0; border-radius: 0; background: transparent; }
+body[data-game="tintuition"] .result-swatches span { height: 58px; border: 1px solid var(--slate-200); border-radius: var(--radius-sm); }
+body[data-game="tintuition"] .result-swatches small { margin-top: 6px; color: var(--slate-500); font-size: 12px; }
+body[data-game="tintuition"] .channel-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin: 0 0 18px;
+}
+body[data-game="tintuition"] .channel-results span { padding: 0; border: 0; color: var(--slate-500); font-size: 12px; }
+
+/* XY */
+body[data-game="hunt"] .stats-bar { border-color: var(--slate-200); background: var(--slate-50); color: var(--slate-800); }
+body[data-game="hunt"] .stats-bar div { border-color: var(--slate-200); }
+body[data-game="hunt"] .stats-bar span { color: var(--slate-500); }
+body[data-game="hunt"] .difficulty-list button { border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-700); box-shadow: var(--shadow-xs); }
+body[data-game="hunt"] .difficulty-list button:hover { border-color: var(--cobalt-300); background: var(--cobalt-50); }
+body[data-game="hunt"] .difficulty-list small { color: var(--slate-500); }
+body[data-game="hunt"] .difficulty-list i { border-radius: var(--radius-sm); background: var(--slate-100); color: var(--slate-600); }
+body[data-game="hunt"] .clue-card { border-color: var(--slate-200); background: var(--slate-50); }
+body[data-game="hunt"] .clue-arrow { background: var(--cobalt-50); color: var(--cobalt-600); }
+body[data-game="hunt"] .cell { border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-500); }
+body[data-game="hunt"] .cell:hover:not(:disabled) { border-color: var(--cobalt-400); }
+body[data-game="hunt"] .cell.scanned { background: var(--slate-200); color: var(--slate-700); }
+body[data-game="hunt"] .cell.possible { border-color: var(--cobalt-300); background: var(--cobalt-50); color: var(--cobalt-700); box-shadow: none; }
+body[data-game="hunt"] .secondary-button { border: 1px solid var(--slate-300); background: var(--slate-0); color: var(--slate-700); }
+
+/* Seequence */
+body[data-game="seequence"] .stage { border-color: var(--cobalt-100); background: var(--cobalt-50); box-shadow: inset 0 0 40px rgba(47,95,222,.05); }
+body[data-game="seequence"] .ambient-ring { border-color: rgba(47,95,222,.13); }
+body[data-game="seequence"] .memory-orb { border-color: var(--cobalt-200); background: var(--slate-0); color: var(--cobalt-700); box-shadow: var(--shadow-md); }
+body[data-game="seequence"] .sequence-progress i { border-color: var(--slate-300); background: var(--slate-0); }
+body[data-game="seequence"] .sequence-progress i.seen { border-color: var(--cobalt-500); background: var(--cobalt-500); box-shadow: none; }
+body[data-game="seequence"] .answer-button { border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-700); box-shadow: var(--shadow-xs); }
+body[data-game="seequence"] .answer-button:hover { border-color: var(--cobalt-300); background: var(--cobalt-50); transform: none; }
+body[data-game="seequence"] .answer-label { background: var(--cobalt-50); color: var(--cobalt-700); }
+body[data-game="seequence"] .achievement { border-color: var(--slate-200); background: var(--slate-0); color: var(--slate-700); box-shadow: var(--shadow-md); }
+
+/* Heardle */
+body[data-game="heardle"] .heardle-shell {
+  width: min(calc(100% - 32px), 780px);
+  margin: 0 auto 64px;
+  padding: 30px clamp(18px,4vw,36px);
+  border: 1px solid var(--slate-100);
+  border-radius: var(--radius-lg);
+  background: var(--slate-0);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+body[data-game="heardle"] .heardle-shell > h1 { margin: 0 0 22px; color: var(--slate-800); }
+body[data-game="heardle"] .container { border-color: var(--slate-200); background: var(--slate-0); box-shadow: none; }
+body[data-game="heardle"] .status-bar { border: 1px solid var(--slate-200); border-radius: var(--radius-md); background: var(--slate-50); color: var(--slate-600); }
+body[data-game="heardle"] #compositionArea { border-color: var(--slate-200); background: var(--slate-50); }
+body[data-game="heardle"] #guessHistory .guessRow { border-color: var(--slate-200); background: var(--slate-0); }
+body[data-game="heardle"] #playerPanel { border-color: var(--slate-300); background: var(--slate-0); }
+body[data-game="heardle"] .control-buttons button,
+body[data-game="heardle"] .modal-content button { border: 1px solid var(--cobalt-500); border-radius: var(--radius-md); background: var(--cobalt-500); color: white; box-shadow: var(--shadow-xs); }
+body[data-game="heardle"] .note-button { border-radius: var(--radius-md); box-shadow: var(--shadow-xs); }
+body[data-game="heardle"] .modal { background: rgba(20,25,40,.48); backdrop-filter: none; }
+body[data-game="heardle"] .modal-content { border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
+body[data-game="heardle"] .modal-content h2 { color: var(--slate-800); }
+body[data-game="heardle"] #volumeReminder { border-radius: var(--radius-sm); background: var(--warning-bg); color: var(--warning); box-shadow: var(--shadow-sm); }
+
+/* Reaction */
+body[data-game="reaction"] .reaction-shell { width: min(calc(100% - 32px), 760px); margin: 0 auto 64px; }
+body[data-game="reaction"] .reaction-header { padding: 28px 0 20px; background: transparent; text-align: left; }
+body[data-game="reaction"] .reaction-header h1 { margin: 4px 0 6px; color: var(--slate-800); }
+body[data-game="reaction"] .reaction-header p { margin: 0; color: var(--slate-600); }
+body[data-game="reaction"] .reaction-card { position: relative; min-height: 500px; display: grid; place-items: center; align-content: center; gap: 20px; padding: 40px; border: 1px solid var(--slate-100); border-radius: var(--radius-lg); background: var(--slate-0); box-shadow: var(--shadow-sm); }
+body[data-game="reaction"] #iconTray { top: 20px; right: 20px; color: var(--slate-600); }
+body[data-game="reaction"] #iconTray span { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--slate-200); border-radius: var(--radius-md); background: var(--slate-0); box-shadow: var(--shadow-xs); }
+body[data-game="reaction"] #gameButton { width: min(100%, 360px); min-height: 150px; margin: 0; border: 1px solid var(--cobalt-500); border-radius: var(--radius-lg); background: var(--cobalt-500); color: white; box-shadow: var(--shadow-md); font: 700 24px/1 var(--font-heading); }
+body[data-game="reaction"] #gameButton:hover { background: var(--cobalt-600); transform: none; }
+body[data-game="reaction"] #gameButton:disabled { border-color: var(--slate-200); background: var(--slate-200); color: var(--slate-500); }
+body[data-game="reaction"] #feedback { min-height: 28px; margin: 0; color: var(--slate-600); font-weight: 600; }
+body[data-game="reaction"] div[id$="Modal"] { background: rgba(20,25,40,.48); backdrop-filter: none; }
+body[data-game="reaction"] div[id$="Modal"] > div { border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-lg); }
+body[data-game="reaction"] div[id$="Modal"] button { border-radius: var(--radius-md); background: var(--cobalt-500); color: white; }
+
+/* Alternate */
+body[data-game="alternate"] .arena:not(.ready) { border-color: var(--cobalt-100); background: var(--cobalt-50); color: var(--slate-800); }
+body[data-game="alternate"] .arena.waiting { background: var(--slate-100); }
+body[data-game="alternate"] .arena.over { border-color: var(--danger); background: var(--danger-bg); }
+body[data-game="alternate"] .arena:not(.ready) > span:not(.arena-grid,.state-chip,.pulse-rings) { color: var(--slate-500); }
+body[data-game="alternate"] .arena-grid { opacity: .35; background-image: linear-gradient(rgba(47,95,222,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(47,95,222,.1) 1px, transparent 1px); }
+body[data-game="alternate"] .state-chip { border-color: var(--cobalt-200); background: var(--slate-0); color: var(--cobalt-700); }
+body[data-game="alternate"] .pulse-rings i { border-color: rgba(47,95,222,.15); }
+body[data-game="alternate"] .budget { border-color: var(--slate-200); background: var(--slate-50); }
+body[data-game="alternate"] .budget-head span { color: var(--cobalt-600); }
+body[data-game="alternate"] .budget-track { border-color: var(--slate-200); background: var(--slate-200); }
+body[data-game="alternate"] .budget-track i { background: var(--cobalt-500); }
+body[data-game="alternate"] .budget-labels { color: var(--slate-500); }
+body[data-game="alternate"] .tip-row { background: var(--slate-50); }
+body[data-game="alternate"] .tip-row strong { color: var(--slate-800); }
+
+/* Trak */
+body[data-game="trak"] .stats-bar { border-color: var(--slate-200); background: var(--slate-50); color: var(--slate-800); }
+body[data-game="trak"] .stats-bar div { border-color: var(--slate-200); }
+body[data-game="trak"] .stats-bar span { color: var(--slate-500); }
+body[data-game="trak"] .phase-pill { border-color: var(--slate-300); background: var(--slate-0); color: var(--slate-600); box-shadow: var(--shadow-xs); }
+body[data-game="trak"] .track { border-color: var(--slate-200); background: radial-gradient(circle at 50% 50%, var(--slate-0), var(--slate-100) 72%); box-shadow: inset 0 0 32px rgba(47,95,222,.04), var(--shadow-sm); }
+body[data-game="trak"] .route-map path { stroke: var(--cobalt-200); }
+body[data-game="trak"] .target { border-color: rgba(31,157,102,.55); background: radial-gradient(circle, rgba(31,157,102,.15), rgba(31,157,102,.035) 70%); box-shadow: none; }
+body[data-game="trak"] .target::before,
+body[data-game="trak"] .target::after { border-color: rgba(31,157,102,.32); }
+body[data-game="trak"] .target span { color: #176d49; }
+body[data-game="trak"] .signal { border-color: var(--cobalt-200); background: var(--cobalt-500); box-shadow: 0 0 0 7px rgba(47,95,222,.08); }
+body[data-game="trak"] .result-marker.show { border-color: var(--slate-800); box-shadow: none; }
+body[data-game="trak"] .key-hint kbd { border-color: var(--slate-300); background: var(--slate-0); color: var(--slate-700); }
+body[data-game="trak"] .dialog-note,
+body[data-game="trak"] .summary-grid div { background: var(--slate-50); color: var(--slate-700); }
+
+@media (max-width: 700px) {
+  body[data-game="connex"] .word-list { grid-template-columns: repeat(2, 1fr); }
+  body[data-game="connex"] .connex-shell { width: calc(100% - 16px); padding-inline: 14px; border-radius: var(--radius-md); }
+  body[data-game="heardle"] .heardle-shell { width: calc(100% - 16px); padding-inline: 14px; }
+  body[data-game="reaction"] .reaction-card { min-height: 420px; padding: 24px 16px; }
+  body[data-game="reaction"] #gameButton { min-height: 130px; }
+}
