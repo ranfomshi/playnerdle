@@ -403,7 +403,7 @@ function updateStreak(dayKey, solved) {
 function createShareText(dayKey, attempts, solved) {
   const rows = attempts.map(attempt => (attempt.correct ? "🟩" : "⬜")).join("");
   const score = solved ? attempts.length : "X";
-  return `Word Mash ${dayKey} ${score}/${MAX_ATTEMPTS}\n${rows}\nNo spoilers. Can you beat me?\nhttps://www.bludle.com/wordmash/`;
+  return `Word Mash ${dayKey} ${score}/${MAX_ATTEMPTS}\n${rows}\nNo spoilers. Can you beat me?\nhttps://bludle.com/wordmash/`;
 }
 
 function initialiseHowToModal() {

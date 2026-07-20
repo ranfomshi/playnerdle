@@ -437,6 +437,9 @@ html body.legal-page [data-custom-class="link"] * { color: var(--cobalt-600) !im
 html body.legal-page .hiddenHeadings,
 html body.legal-page :where(.userBtn, .helpBtn, #snackbar) { display: none !important; }
 
+/* Reserve a modest slot so late-loading ads do not shift game controls or dominate the page. */
+html body ins.adsbygoogle { min-height: 90px; }
+
 @media (max-width: 767px) {
   html body .page-shell { width: min(calc(100% - 32px),960px); padding-block: var(--space-5) var(--space-7); }
   html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card) { padding: var(--space-4); }

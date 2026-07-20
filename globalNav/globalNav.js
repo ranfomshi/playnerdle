@@ -110,7 +110,7 @@
         <div class="pn-nav__groups">${gameGroups()}</div>
         <div class="pn-nav__panel-foot">
           <a href="/">Browse all games ${icon('arrow')}</a>
-          <div><a href="/blogs/">Journal</a><a href="/about/">About</a></div>
+          <div><a href="/blogs/">Journal</a><a href="/about/">About</a><a href="/editorial-policy/">Editorial policy</a></div>
         </div>
       </div>`;
     return wrapper;
@@ -207,17 +207,19 @@
     return update;
   }
 
-  function addBreadcrumbSchema() {
-    const game = games.find(item => normalizePath(item.href) === currentPath());
-    if (!game || document.querySelector('script[data-pn-breadcrumb]')) return;
-    const schema = document.createElement('script');
-    schema.type = 'application/ld+json';
-    schema.dataset.pnBreadcrumb = '';
-    schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Bludle', item: 'https://www.bludle.com/' },
-      { '@type': 'ListItem', position: 2, name: game.name, item: `https://www.bludle.com${game.href}` }
-    ] });
-    document.head.append(schema);
+  function trackDiscoveryReferral() {
+    if (sessionStorage.getItem('bludle_discovery_referral')) return;
+    const query = new URLSearchParams(window.location.search);
+    const source = query.get('utm_source')?.toLowerCase() || '';
+    const referrer = document.referrer ? new URL(document.referrer).hostname.toLowerCase() : '';
+    const knownSource = source === 'chatgpt.com' ? 'chatgpt' :
+      referrer.includes('chatgpt.com') ? 'chatgpt' :
+      referrer.includes('perplexity.ai') ? 'perplexity' :
+      referrer.includes('copilot.microsoft.com') ? 'copilot' :
+      referrer.includes('gemini.google.com') ? 'gemini' : '';
+    if (!knownSource) return;
+    sessionStorage.setItem('bludle_discovery_referral', knownSource);
+    track('discovery_referral', { source: knownSource, landing_page: currentPath() });
   }
 
   function init() {
@@ -245,7 +247,7 @@
       updateMetrics();
       updatePageSpacing();
     }, { once: true });
-    addBreadcrumbSchema();
+    trackDiscoveryReferral();
     if (!sessionStorage.getItem('bludle_session_started')) {
       sessionStorage.setItem('bludle_session_started', '1');
       track('session_start', { source_page: currentPath(), device_type: matchMedia('(max-width: 759px)').matches ? 'mobile' : 'desktop' });

@@ -265,7 +265,7 @@
 
   async function shareResult() {
     const tier = tierFor(state.streak);
-    const text = `Guess Hue 🎨\nStreak: ${state.streak}\nLens: ${tier.name}\nhttps://www.bludle.com/guesshue/`;
+    const text = `Guess Hue 🎨\nStreak: ${state.streak}\nLens: ${tier.name}\nhttps://bludle.com/guesshue/`;
     try {
       await navigator.clipboard.writeText(text);
       showSnackbar("Result copied to clipboard");
