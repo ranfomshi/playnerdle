@@ -1,0 +1,32 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Wait for the deployed verification key
+        shell: bash
+        run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent "https://bludle.com/7f3e81c9564b4d3ab241db802d67f8a1.txt" | grep --quiet "7f3e81c9564b4d3ab241db802d67f8a1"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "The production deploy did not expose the IndexNow key in time."
+          exit 1
+      - name: Submit changed canonical URLs
+        run: node scripts/submit-indexnow.mjs "${{ github.event.before }}" "${{ github.sha }}"

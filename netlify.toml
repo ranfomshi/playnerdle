@@ -1,83 +1,59 @@
 [build.processing]
   skip_processing = true
 
+# One public host, one path and one status-200 URL for each document.
 [[redirects]]
-  from = "/colourMatch/*"
-  to = "/colourmatch/:splat"
+  from = "https://www.bludle.com/*"
+  to = "https://bludle.com/:splat"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/bludle"
-  to = "/bludle/"
+  from = "/colourMatch/*"
+  to = "/colormatch/:splat"
   status = 301
+  force = true
 
 [[redirects]]
-  from = "/werdle"
+  from = "/game/nerdle.html"
   to = "/werdle/"
   status = 301
+  force = true
 
 [[redirects]]
-  from = "/codle"
-  to = "/codle/"
+  from = "/alex/*"
+  to = "/colormatch/"
   status = 301
+  force = true
 
 [[redirects]]
-  from = "/connex"
-  to = "/connex/"
+  from = "/benefits/*"
+  to = "/brain-training-games/"
   status = 301
+  force = true
 
-[[redirects]]
-  from = "/guesshue"
-  to = "/guesshue/"
-  status = 301
-
-[[redirects]]
-  from = "/reaction"
-  to = "/reaction/"
-  status = 301
-
-[[redirects]]
-  from = "/colourmatch"
-  to = "/colourmatch/"
-  status = 301
-
-[[redirects]]
-  from = "/alternate"
-  to = "/alternate/"
-  status = 301
-
-[[redirects]]
-  from = "/tintuition"
-  to = "/tintuition/"
-  status = 301
-
-[[redirects]]
-  from = "/hunt"
-  to = "/hunt/"
-  status = 301
-
-[[redirects]]
-  from = "/trak"
-  to = "/trak/"
-  status = 301
-
-[[redirects]]
-  from = "/heardle"
-  to = "/heardle/"
-  status = 301
-
-[[redirects]]
-  from = "/seequence"
-  to = "/seequence/"
-  status = 301
-
-[[redirects]]
-  from = "/wordmash"
-  to = "/wordmash/"
-  status = 301
+# Netlify's directory handling supplies trailing-slash redirects for game and guide folders.
 
 [[headers]]
   for = "/*"
   [headers.values]
     Link = "</sitemap.xml>; rel=\"sitemap\""
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/globalNav/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"

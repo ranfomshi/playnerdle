@@ -1,18 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-  <title>Colour Match Redirect | Bludle</title>
-  <meta name="description" content="Continue to Colour Match, a free browser colour matching game on Bludle.">
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta http-equiv="refresh" content="0; url=https://www.bludle.com/colourmatch/" />
-  <link rel="canonical" href="https://www.bludle.com/colourmatch/" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Colour Match | Free Colour Game | Bludle</title>
   <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="colourMatch.css">
+<link rel="stylesheet" href="/globalNav/discovery.css">
+<meta name="description" content="Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://bludle.com/colormatch/">
+  <meta property="og:site_name" content="Bludle">
+  <meta property="og:title" content="Colour Match | Free Colour Game | Bludle">
+  <meta property="og:description" content="Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values.">
+  <meta property="og:url" content="https://bludle.com/colormatch/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://bludle.com/images/social/colormatch.jpg">
+  <meta property="og:image:alt" content="Colour Match on Bludle">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Colour Match | Free Colour Game | Bludle">
+  <meta name="twitter:description" content="Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values.">
+  <meta name="twitter:image" content="https://bludle.com/images/social/colormatch.jpg">
+  <meta name="twitter:image:alt" content="Colour Match on Bludle">
+  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/colormatch/#game","name":"Colour Match","url":"https://bludle.com/colormatch/","description":"Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values.","image":"https://bludle.com/images/social/colormatch.jpg","inLanguage":"en-GB","genre":["Colour game","Puzzle game"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
 </head>
-<body>
+<body data-game="colourmatch">
   <div id="navbar-container"></div>
-  <p><a href="https://www.bludle.com/colourmatch/">Continue to Colour Match</a></p>
+
+  <main class="colour-page" id="main-content">
+    <header class="game-heading">
+      <div>
+        <span class="eyebrow">Daily colour challenge</span>
+        <h1>Colour Match</h1>
+        <p>Recreate today’s colour using only its red, green and blue channels.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Colour Match statistics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+        </button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Colour Match">?</button>
+      </div>
+    </header>
+
+    <section class="match-card" aria-label="Daily colour matching workspace">
+      <div class="round-note">
+        <span>Today’s colour</span>
+        <strong>One attempt</strong>
+        <span>Lower difference wins</span>
+      </div>
+
+      <div class="comparison" id="comparisonBlock">
+        <figure class="colour-panel target-panel">
+          <div class="panel-copy"><span>Target</span><small>Study this colour</small></div>
+          <div class="colour-swatch" id="targetRepresentation" aria-label="Today’s target colour"></div>
+        </figure>
+        <figure class="colour-panel player-panel">
+          <div class="panel-copy"><span>Your mix</span><small id="mixValue">rgb(0, 0, 0)</small></div>
+          <div class="colour-swatch" id="guessRepresentation" aria-label="Your current colour mix"></div>
+        </figure>
+      </div>
+
+      <div class="mixer" aria-label="RGB controls">
+        <div class="channel red-channel">
+          <div class="channel-heading"><label for="redRange">Red</label><input id="guessValue1" type="number" min="0" max="255" value="0" inputmode="numeric" aria-label="Red value"></div>
+          <input id="redRange" type="range" min="0" max="255" value="0" aria-label="Adjust red">
+        </div>
+        <div class="channel green-channel">
+          <div class="channel-heading"><label for="greenRange">Green</label><input id="guessValue2" type="number" min="0" max="255" value="0" inputmode="numeric" aria-label="Green value"></div>
+          <input id="greenRange" type="range" min="0" max="255" value="0" aria-label="Adjust green">
+        </div>
+        <div class="channel blue-channel">
+          <div class="channel-heading"><label for="blueRange">Blue</label><input id="guessValue3" type="number" min="0" max="255" value="0" inputmode="numeric" aria-label="Blue value"></div>
+          <input id="blueRange" type="range" min="0" max="255" value="0" aria-label="Adjust blue">
+        </div>
+      </div>
+
+      <div class="match-action">
+        <p id="round-status" role="status" aria-live="polite">Tune each channel, then submit your closest match.</p>
+        <button class="primary-button" id="submitBtn" type="button">Submit today’s mix <span>→</span></button>
+      </div>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="colour-about-title">
+      <div><span class="eyebrow">Three channels. One judgement.</span><h2 id="colour-about-title">How close is close?</h2></div>
+      <p>Your score is the total distance between your red, green and blue values and the target. A perfect match scores 0. Come back tomorrow for a new colour.</p>
+    </section>
+  </main>
+<!-- bludle-guide:start -->
+  <section class="bludle-discovery game-guide" aria-labelledby="about-colormatch">
+    <div class="discovery-heading">
+      <p class="discovery-kicker">About the game</p>
+      <h2 id="about-colormatch">How to play Colour Match</h2>
+      <p>Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values.</p>
+    </div>
+    <dl class="game-facts">
+      <div><dt>Format</dt><dd>One daily target and one submission</dd></div>
+      <div><dt>Typical round</dt><dd>About 2–4 minutes</dd></div>
+      <div><dt>Cost</dt><dd>Free, with no download required</dd></div>
+    </dl>
+    <div class="discovery-copy">
+      <div><h3>The rules</h3><p>Study the target, adjust the red, green and blue controls, and submit your closest mix. The result reveals the target RGB beside your values and scores the total channel difference.</p></div>
+      <div><h3>What makes it different</h3><p>Colour Match turns an intuitive visual judgement into understandable numeric feedback without revealing the answer before commitment.</p></div>
+    </div>
+    <nav class="related-games" aria-label="Games related to Colour Match">
+      <span>Try next</span><a href="/tintuition/">Tintuition</a><a href="/afterimage/">Afterimage</a><a href="/shiftyfades/">Shifty Fades</a>
+    </nav>
+  </section>
+  <!-- bludle-guide:end -->
+<dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Build the colour you see.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Study the target</strong><p>The left swatch is today’s colour.</p></div></li>
+      <li><span>02</span><div><strong>Mix with RGB</strong><p>Adjust red, green and blue from 0 to 255.</p></div></li>
+      <li><span>03</span><div><strong>Submit once</strong><p>Your three channel differences are added together. Lower is better.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Start mixing</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">0</div>
+    <span class="eyebrow" id="result-kicker">Today’s result</span>
+    <h2 id="result-title">Colour submitted.</h2>
+    <div class="result-swatches">
+      <div><span id="result-target"></span><small>Target</small><code id="result-target-rgb">rgb(0, 0, 0)</code></div>
+      <div><span id="result-player"></span><small>Your submitted mix</small><code id="result-player-rgb">rgb(0, 0, 0)</code></div>
+    </div>
+    <div class="result-grid">
+      <div><strong id="result-red">0</strong><span>Red difference</span></div>
+      <div><strong id="result-green">0</strong><span>Green difference</span></div>
+      <div><strong id="result-blue">0</strong><span>Blue difference</span></div>
+    </div>
+    <button class="primary-button" id="share-button" type="button">Share result</button>
+    <button class="text-button" type="button" data-close>Back to the board</button>
+  </dialog>
+
+  <dialog class="dialog stats-dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">Your record</span>
+    <h2>Colour Match statistics</h2>
+    <div class="record-grid">
+      <div><strong id="averageScore">—</strong><span>Average difference</span></div>
+      <div><strong id="bestScore">—</strong><span>Best match</span></div>
+      <div><strong id="totalScore">0</strong><span>Total difference</span></div>
+      <div><strong id="gamesPlayed">0</strong><span>Colours played</span></div>
+    </div>
+    <div class="score-history" id="score-history" aria-label="Recent scores"></div>
+  </dialog>
+
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script src="colourMatch.js"></script>
+  <script type="module" src="colourMatchApp.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
 </body>
 </html>

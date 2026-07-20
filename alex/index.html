@@ -1,16 +1,14 @@
 <!doctype html>
-<html>
+<html lang="en-GB">
 
 <head>
-    <link rel="canonical" href="https://www.bludle.com/alex/">
-    <meta property="og:url" content="https://www.bludle.com/alex/">
+    <link rel="canonical" href="https://bludle.com/alex/">
+    <meta property="og:url" content="https://bludle.com/alex/">
     <title>Colour Match</title>
     <meta charset="" utf-8""="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="index, follow">
     <meta name="description" content="A colour matching game">
-    <meta name="keywords" content="reaction game">
-    <style>@font-face{font-family:FontAwesome;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0');src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:400;font-style:normal}*{font-family:'Roboto Condensed',sans-serif;font-weight:400!important;overflow:hidden}body{margin:0;height:100vh}.background{width:100vw;height:100vh}.central{background-color:#fff;border:2px solid #000;width:200px;min-width:200px;border-radius:5px;margin:auto;margin-top:150px;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:column}.guessRepresentation{flex-grow:1;min-height:175px;border:2px solid #000;border-radius:5px;font-size:small;margin-top:10px}.inputHolder{flex-grow:1;display:flex;justify-content:space-between}#guessValue1{color:red}#guessValue2{color:green}#guessValue3{color:#00f}.guessInput{border:2px solid #000;flex-grow:1;padding:0;text-align:center}.submitBtn{background-color:#fff;border:2px solid #000;min-width:112px;border-radius:5px;margin:auto;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:row;margin-top:10px}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{box-shadow:inset 0 0 5px grey;border-radius:10px}::-webkit-scrollbar-thumb{background:gray;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#000}#snackbar{visibility:hidden;min-width:250px;transform:translatex(-50%);display:flex;flex-wrap:wrap;flex-direction:row;border:1px solid #000;background:#fff;justify-content:center;border-radius:5px;max-width:380px;padding:10px;position:fixed;z-index:var(--global-toast-z,100110);left:50%;top:var(--global-toast-top,30px);box-shadow:0 0 10px #00000033;font-size:large}.individualInputHolder{flex-grow:1;padding:0;text-align:center;width:30%;height:75px;display:flex;flex-direction:column}.adjusterUpHolder{display:flex}.adjusterDownHolder{display:flex}.adjusterUp{border:2px solid #000;border-radius:5px 5px 0 0;flex-grow:1}.adjusterDown{border:2px solid #000;border-radius:0 0 5px 5px;flex-grow:1}.adjusterIcon{margin:auto;top:50%;position:relative;transform:translateY(-50%);font-weight:700!important}.fa{display:inline-block;font:14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.fa-angle-double-up:before{content:"\f102"}.fa-angle-double-down:before{content:"\f103"}.fa-angle-up:before{content:"\f106"}.fa-angle-down:before{content:"\f107"}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
+<style>@font-face{font-family:FontAwesome;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0');src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:400;font-style:normal}*{font-family:'Roboto Condensed',sans-serif;font-weight:400!important;overflow:hidden}body{margin:0;height:100vh}.background{width:100vw;height:100vh}.central{background-color:#fff;border:2px solid #000;width:200px;min-width:200px;border-radius:5px;margin:auto;margin-top:150px;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:column}.guessRepresentation{flex-grow:1;min-height:175px;border:2px solid #000;border-radius:5px;font-size:small;margin-top:10px}.inputHolder{flex-grow:1;display:flex;justify-content:space-between}#guessValue1{color:red}#guessValue2{color:green}#guessValue3{color:#00f}.guessInput{border:2px solid #000;flex-grow:1;padding:0;text-align:center}.submitBtn{background-color:#fff;border:2px solid #000;min-width:112px;border-radius:5px;margin:auto;position:relative;text-align:center;padding:10px;display:flex;justify-content:center;flex-direction:row;margin-top:10px}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{box-shadow:inset 0 0 5px grey;border-radius:10px}::-webkit-scrollbar-thumb{background:gray;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#000}#snackbar{visibility:hidden;min-width:250px;transform:translatex(-50%);display:flex;flex-wrap:wrap;flex-direction:row;border:1px solid #000;background:#fff;justify-content:center;border-radius:5px;max-width:380px;padding:10px;position:fixed;z-index:var(--global-toast-z,100110);left:50%;top:var(--global-toast-top,30px);box-shadow:0 0 10px #00000033;font-size:large}.individualInputHolder{flex-grow:1;padding:0;text-align:center;width:30%;height:75px;display:flex;flex-direction:column}.adjusterUpHolder{display:flex}.adjusterDownHolder{display:flex}.adjusterUp{border:2px solid #000;border-radius:5px 5px 0 0;flex-grow:1}.adjusterDown{border:2px solid #000;border-radius:0 0 5px 5px;flex-grow:1}.adjusterIcon{margin:auto;top:50%;position:relative;transform:translateY(-50%);font-weight:700!important}.fa{display:inline-block;font:14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.fa-angle-double-up:before{content:"\f102"}.fa-angle-double-down:before{content:"\f103"}.fa-angle-up:before{content:"\f106"}.fa-angle-down:before{content:"\f107"}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
     <link rel="stylesheet" href="colourMatch.css">
     <script src="colourMatch.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -32,18 +30,19 @@
 
   gtag('config', 'G-3Z3GM1YNZE');
 </script>
-    
+
     <!-- log rocket -->
     <script src="https://cdn.lr-in-prod.com/LogRocket.min.js"></script><script>window.LogRocket && window.LogRocket.init('t7dfex/play-nerdle');</script>
     <script type="text/javascript" src="/mixpanel.js"></script>
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <meta name="robots" content="noindex, follow">
 </head>
 
 <body onload="initialise()">
     <div id="navbar-container"></div>
     <div id="snackbar">Some text some message..</div>
-  
- 
+
+
     <div id="content" class="background">
 
         <div class="central" id="comparisonBlock">
@@ -56,7 +55,7 @@
                     </div>   <input type="number" id="guessValue1" class="guessInput" value="0" min="0" max="255" onInput="updateComparison()" onfocus="if(this.value == '0'){this.value=''}" onblur="if(this.value == ''){this.value='0'}" />
                     <div class="adjusterDownHolder">
                         <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 1)"><i class="fa fa-angle-down adjusterIcon" aria-hidden="true"></i></div>
-                        <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>    
+                        <div class="adjusterDown" onclick="valueDown($(this).parent().prev(), 10)"><i class="fa fa-angle-double-down adjusterIcon" aria-hidden="true"></i></div>
                     </div>   </div>
 
                 <div class="individualInputHolder" id="IIH2">

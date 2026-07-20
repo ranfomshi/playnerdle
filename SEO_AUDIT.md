@@ -1,36 +1,45 @@
-# Bludle SEO and Ad Revenue Audit
+# Bludle search foundations
 
-_Last updated: 2026-06-19_
+Last updated: 2026-07-20
 
-## Executive summary
+## Canonical policy
 
-Bludle already has a strong static-site SEO base: indexable game pages, AdSense, analytics, canonical URLs, social metadata, FAQ content, and several topic landing pages. The next growth opportunity is to make every important page serve a clear search intent, improve crawl discovery, and add ad-safe content depth that increases pageviews without pushing users into accidental clicks.
+- Public host: `https://bludle.com`
+- Directory pages use a trailing slash.
+- Numbered journal articles, privacy and terms use clean extensionless URLs.
+- Netlify permanently redirects the retired `www` host, `.html` aliases, the old Colour Match path and the legacy Nerdle route.
 
-## Highest-priority recommendations implemented in this pass
+## Indexable inventory
 
-1. **Create more search-intent landing pages** for non-branded discovery queries such as free browser games, no-download games, brain-training games, logic puzzle games, games like Wordle, and games like Connections.
-2. **Refresh XML sitemap coverage** so new landing pages and existing topic pages are easier for search engines to discover.
-3. **Standardize structured data** on core playable game pages with `WebApplication` markup that describes each game as a free browser-playable app.
-4. **Add FAQ and internal-link content** on the new landing pages to capture long-tail queries and route visitors to multiple games per session.
-5. **Protect ad revenue** by keeping ads in labelled content sections, away from primary game controls, and by using reserved ad panels to reduce layout shift.
+The sitemap contains 59 deliberate canonical URLs: the homepage, 20 games, 10 selection guides, the journal index and 23 articles, About, Editorial Policy, Privacy and Terms. Utility, prototype, duplicate and error pages are `noindex` and excluded.
 
-## Current strengths
+## Maintenance commands
 
-- AdSense is already installed site-wide on many pages.
-- The homepage includes canonical metadata, social cards, structured data, and FAQ schema.
-- Existing landing pages target useful clusters including Wordle alternatives, colour puzzle games, reaction games, and daily word games.
-- The site has a broad catalogue of browser games that can support many internal-link clusters.
+```text
+node scripts/apply-search-foundations.mjs
+node scripts/generate-sitemap.mjs
+node scripts/generate-redirects.mjs
+node scripts/generate-ai-catalogue.mjs
+powershell -ExecutionPolicy Bypass -File scripts/generate-social-cards.ps1
+node scripts/audit-search.mjs
+```
 
-## Current risks and opportunities
+`scripts/site-data.mjs` is the shared source for game facts, guides, social metadata, sitemap routes and AI-readable catalogues. The search-quality GitHub workflow prevents missing canonicals, duplicate titles, broken internal links, invalid JSON-LD and sitemap drift.
 
-- Some older pages have short or generic descriptions and could be expanded over time.
-- Topic pages should be kept distinct to avoid thin or duplicated content.
-- Internal links should consistently point from informational pages to playable games and from game pages to related collections.
-- Ad slots should remain labelled and separated from gameplay controls to protect policy compliance and user trust.
+## Automated discovery
 
-## Next suggested follow-up work
+- `robots.txt` permits normal crawling and explicitly documents access for OAI-SearchBot.
+- `llms.txt` and `llms-full.txt` are generated from the factual game catalogue. They are supplementary documentation, not a substitute for indexable HTML.
+- The IndexNow workflow submits changed canonical URLs after a push to `main`.
+- ChatGPT, Perplexity, Copilot and Gemini referrals are recorded as `discovery_referral` analytics events when identifiable.
 
-- Add game-specific FAQ blocks to the top 8 playable pages.
-- Add breadcrumb schema across landing pages and game pages.
-- Build a lightweight related-games component reused across game pages.
-- Review Core Web Vitals after deployment, especially CLS around ad containers and font loading.
+## External follow-up
+
+These require account access or real traffic and cannot be completed from the repository alone:
+
+1. Verify the apex property in Google Search Console and Bing Webmaster Tools, then submit `https://bludle.com/sitemap.xml`.
+2. Inspect Google’s canonical selection after recrawl and request indexing for the homepage and highest-value games.
+3. Monitor Core Web Vitals with field data; synthetic scores alone are not enough.
+4. Confirm analytics events and `utm_source=chatgpt.com` referrals in the production analytics accounts.
+5. Review advertising/cookie consent settings and the privacy policy with an appropriate legal adviser.
+6. Add genuinely first-party findings—such as anonymised difficulty or completion patterns—only when real, consented data exists.
