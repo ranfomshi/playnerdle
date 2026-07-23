@@ -18,3 +18,5 @@ jobs:
           node-version: 22
       - name: Validate canonical pages, metadata, links and structured data
         run: node scripts/audit-search.mjs
+      - name: Validate site-wide analytics coverage
+        run: node scripts/audit-analytics.mjs
