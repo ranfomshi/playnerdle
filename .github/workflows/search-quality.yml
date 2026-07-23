@@ -20,3 +20,5 @@ jobs:
         run: node scripts/audit-search.mjs
       - name: Validate site-wide analytics coverage
         run: node scripts/audit-analytics.mjs
+      - name: Validate controlled monetization coverage
+        run: node scripts/audit-monetization.mjs
