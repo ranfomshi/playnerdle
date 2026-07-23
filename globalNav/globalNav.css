@@ -67,6 +67,27 @@
 .pn-nav-lock { overflow: hidden; }
 button[aria-label="Open game explainer"] { top: calc(var(--global-nav-height) + 12px) !important; }
 
+.pn-ad--engaged-footer {
+  box-sizing: border-box;
+  width: min(calc(100% - 32px), 970px);
+  min-height: 112px;
+  margin: 160px auto 48px;
+  padding: 12px 0 0;
+  border-top: 1px solid #dce1ec;
+  background: transparent;
+  color: #707a99;
+  text-align: center;
+}
+.pn-ad__label {
+  display: block;
+  margin-bottom: 10px;
+  font: 500 10px/1.2 "Inter",system-ui,sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.pn-ad--engaged-footer ins.adsbygoogle { min-height: 90px; }
+.pn-ad--engaged-footer[data-ad-state="unavailable"] { display: none; }
+
 @media (max-width: 900px) {
   .pn-nav__inner { gap: 20px; }
   .pn-nav__desktop-links > a, .pn-nav__games-button { padding-inline: 8px; }

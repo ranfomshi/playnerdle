@@ -24,6 +24,17 @@
 
   ensureAnalytics();
 
+  function ensureAdManager() {
+    if (document.querySelector('script[data-bludle-ad-manager]')) return;
+    const script = document.createElement('script');
+    script.src = '/globalNav/adManager.js';
+    script.async = false;
+    script.dataset.bludleAdManager = '';
+    document.head.append(script);
+  }
+
+  ensureAdManager();
+
   const games = [
     { name: 'Werdle', href: '/werdle/', category: 'Word' },
     { name: 'Bludle', href: '/bludle/', category: 'Word' },
