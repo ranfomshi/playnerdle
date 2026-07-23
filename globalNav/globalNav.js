@@ -1,6 +1,29 @@
 (function () {
   'use strict';
 
+  const analyticsId = 'G-3Z3GM1YNZE';
+
+  function ensureAnalytics() {
+    if (window.__bludleAnalyticsInitialized) return;
+    window.__bludleAnalyticsInitialized = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
+    script.dataset.bludleAnalytics = '';
+    document.head.append(script);
+
+    window.gtag('js', new Date());
+    window.gtag('config', analyticsId);
+  }
+
+  ensureAnalytics();
+
   const games = [
     { name: 'Werdle', href: '/werdle/', category: 'Word' },
     { name: 'Bludle', href: '/bludle/', category: 'Word' },
