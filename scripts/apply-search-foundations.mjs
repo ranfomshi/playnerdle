@@ -12,6 +12,11 @@ const gameSlugs = new Set(games.map(game => game.slug));
 const hubSlugs = new Set(hubs.map(hub => hub.slug));
 const utilitySet = new Set([...utilityPaths, 'blogs/disclaimer.html']);
 const editorialOverrides = new Map([
+  ['blogs/6.html', ['How to Get Better at Word Games: 12 Practical Tips', 'Learn how to get better at word games with practical strategies for openings, letter patterns, elimination, vocabulary, anagrams and daily practice.']],
+  ['werdle/index.html', ['Werdle: Free Daily Five-Letter Word Game | Bludle', 'Play Werdle free: solve a five-letter daily word in five tries, reveal its origin, or switch to unlimited practice with no sign-up.']],
+  ['bludle/index.html', ['Bludle: Decode the Blue Word | Free Word Game', 'Play Bludle free and decode a five-letter word from shades of blue, with A at the light end and Z at the darkest end of the alphabet spectrum.']],
+  ['codle/index.html', ['Codle: Free Five-Letter Word Cipher Game | Bludle', 'Play Codle free and decode five-letter word ciphers built from shifting, mirroring, reversing and alternating alphabet rules.']],
+  ['guesshue/index.html', ['Guess Hue: Spot the Different Colour | Free Game', 'Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle.']],
   ['blogs/2.html', ['The Rise of Handheld Electronic Word Games', 'Trace handheld word games from early LCD devices to modern mobile puzzles, including the design ideas that made portable play enduring.']],
   ['blogs/13.html', ['Beyond Wordle: Eight Original Daily Word Game Mechanics', 'Explore daily word games that use colour decoding, silhouettes, borrowed letters and overlapping answers instead of copying Wordle’s core loop.']],
   ['blogs/14.html', ['How to Choose a Daily Word Puzzle by Its Core Mechanic', 'Compare deduction, association, code-breaking and visual word puzzles to find a daily game that suits the way you like to think.']],
@@ -20,6 +25,13 @@ const editorialOverrides = new Map([
   ['blogs/18.html', ['Daily Word Puzzles for Vocabulary, Logic and Pattern Skills', 'Choose a free daily word puzzle by the skill it emphasises, from vocabulary recall to lateral thinking and visual pattern recognition.']],
   ['blogs/20.html', ['Browser Word Games That Are Not Wordle Clones', 'Play distinctive browser word games that use association, typography, code-breaking and overlapping answers with no app download.']],
   ['blogs/21.html', ['Mobile-Friendly Word Puzzles You Can Play Without an App', 'Compare responsive daily word games that run directly in a mobile browser without an account or app-store installation.']]
+]);
+
+const gameResources = new Map([
+  ['werdle', [['/blogs/6', 'word game strategy tips'], ['/daily-word-games/', 'daily word games']]],
+  ['bludle', [['/blogs/6', 'ways to improve at word games'], ['/wordle-alternatives/', 'original Wordle alternatives']]],
+  ['codle', [['/blogs/6', 'word pattern and elimination tips'], ['/logic-puzzle-games/', 'logic puzzle games']]],
+  ['guesshue', [['/colour-puzzle-games/', 'colour puzzle games'], ['/reaction-games/', 'quick reaction games']]]
 ]);
 
 function walk(directory) {
@@ -139,6 +151,7 @@ function gitPublishedDate(rel) {
 
 function gameGuide(game) {
   const related = game.related.map(slug => gameBySlug.get(slug)).filter(Boolean);
+  const resources = gameResources.get(game.slug) || [];
   return `<!-- bludle-guide:start -->
   <section class="bludle-discovery game-guide" aria-labelledby="about-${game.slug}">
     <div class="discovery-heading">
@@ -155,6 +168,7 @@ function gameGuide(game) {
       <div><h3>The rules</h3><p>${escapeHtml(game.how)}</p></div>
       <div><h3>What makes it different</h3><p>${escapeHtml(game.why)}</p></div>
     </div>
+    ${resources.length ? `<p class="guide-links"><strong>Useful next reads:</strong> ${resources.map(([href, label]) => `<a href="${href}">${escapeHtml(label)}</a>`).join(' · ')}</p>` : ''}
     <nav class="related-games" aria-label="Games related to ${escapeHtml(game.name)}">
       <span>Try next</span>${related.map(item => `<a href="/${item.slug}/">${escapeHtml(item.name)}</a>`).join('')}
     </nav>
@@ -253,7 +267,7 @@ function processFile(file) {
   const canonical = `${SITE_URL}${route}`;
 
   if (game) {
-    title = `${game.name} | Free ${game.category} Game | Bludle`;
+    title = editorialOverride?.[0] || `${game.name} | Free ${game.category} Game | Bludle`;
     html = html.replace(/<title[^>]*>[\s\S]*?<\/title>/i, `<title>${escapeHtml(title)}</title>`);
   }
   html = setMeta(html, 'name', 'description', description);

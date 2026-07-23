@@ -3,15 +3,15 @@ export const SITE_URL = 'https://bludle.com';
 export const games = [
   {
     slug: 'werdle', name: 'Werdle', category: 'Word', image: '/images/werdle.png',
-    description: 'Solve a five-letter word in six guesses, then inspect its origin. Play the daily puzzle or keep going in unlimited practice.',
+    description: 'Play Werdle free: solve a five-letter daily word in five tries, reveal its origin, or switch to unlimited practice with no sign-up.',
     format: 'Daily puzzle and unlimited practice', round: 'About 3–5 minutes',
-    how: 'Enter a valid five-letter word. Green letters are correct, amber letters belong elsewhere, and grey letters are not in the answer. Use the keyboard evidence to narrow the next guess.',
+    how: 'Enter any five letters; guesses do not need to be valid words. Green letters are correct, amber letters belong elsewhere, and grey letters are not in the answer. Find the word within five tries.',
     why: 'Werdle keeps the familiar deduction loop but adds a word-origin reveal, so every solved puzzle ends with something worth learning.',
     related: ['glyph', 'borrowedletters', 'codle']
   },
   {
     slug: 'bludle', name: 'Bludle', category: 'Word', image: '/images/bludle.jpg',
-    description: 'Decode a five-letter word from shades of blue, where each letter has a fixed place on a light-to-dark alphabet spectrum.',
+    description: 'Play Bludle free and decode a five-letter word from shades of blue, with A at the light end and Z at the darkest end of the alphabet spectrum.',
     format: 'Daily visual word puzzle', round: 'About 2–4 minutes',
     how: 'Read each blue tile as a letter value: A is the lightest end of the scale and Z is the darkest. Translate the five shades, submit a word, and use the new colour evidence to refine it.',
     why: 'Bludle turns spelling into visual decoding. The alphabet-to-colour mapping never changes, so pattern recognition improves naturally with repeated play.',
@@ -19,7 +19,7 @@ export const games = [
   },
   {
     slug: 'codle', name: 'Codle', category: 'Word', image: '/images/codle.jpg',
-    description: 'Crack five-letter words transformed by shifting, mirroring, reversing and alternating alphabet rules.',
+    description: 'Play Codle free and decode five-letter word ciphers built from shifting, mirroring, reversing and alternating alphabet rules.',
     format: 'Progressive code-breaking rounds', round: 'About 3–6 minutes',
     how: 'Study the encoded word and the active rule, then reverse that transformation to recover the answer. Later rounds combine less familiar rules and require closer comparison.',
     why: 'Each puzzle asks you to understand a transformation rather than memorise a single offset, making Codle a compact test of language and logical flexibility.',
@@ -91,7 +91,7 @@ export const games = [
   },
   {
     slug: 'guesshue', name: 'Guess Hue', category: 'Colour', image: '/images/hue.png',
-    description: 'Spot the one different hue before time expires as each successful round makes the distinction more subtle.',
+    description: 'Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle.',
     format: 'Endless four-second rounds', round: 'Usually 1–5 minutes',
     how: 'Scan the colour grid and select the tile whose hue differs from the rest. A correct choice extends the streak and reduces the colour gap; a miss ends the run.',
     why: 'The four-second limit keeps perception instinctive, while the adaptive hue gap gives every streak a natural difficulty curve.',
@@ -182,4 +182,3 @@ export const utilityPaths = [
   '404.html', 'alex/index.html', 'benefits/index.html', 'blogs/about.html',
   'game/nerdle.html', 'imageedit/index.html', 'push/index.html', 'shapecut/index.html'
 ];
-

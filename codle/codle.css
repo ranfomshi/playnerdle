@@ -49,6 +49,7 @@ button { color: inherit; }
 .eyebrow { color: var(--mint); font: 700 .62rem/1 "Space Mono", monospace; letter-spacing: .16em; }
 .game-header h1 { margin: 6px 0 0; font: 700 clamp(2rem,7vw,3rem)/1 "Space Mono", monospace; letter-spacing: -.08em; }
 .game-header h1 span { color: var(--lime); }
+.game-lede { max-width: 620px; margin: 12px 0 22px; color: var(--muted); font-size: .94rem; line-height: 1.55; }
 .header-actions { display: flex; gap: 7px; }
 .icon-button { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.025); color: var(--muted); font-weight: 700; cursor: pointer; }
 .icon-button:hover, .icon-button:focus-visible { color: #fff; border-color: #5e7a73; }

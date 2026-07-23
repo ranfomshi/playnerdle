@@ -8,3 +8,4 @@
 @media(max-width:560px){.page-shell{width:min(100% - 16px,760px);padding-top:30px}.game-card{border-radius:20px;padding-top:20px}.mode-switch{margin-top:18px}.tile{border-radius:9px}.key{height:45px}.about-card{grid-template-columns:1fr;gap:12px;padding:24px}.ad-card{margin-bottom:20px}.game-footnote{font-size:.61rem}.dialog{padding:26px 20px}.stats-grid{gap:4px}}
 @media(max-height:760px) and (max-width:560px){.game-card{padding-bottom:15px}.mode-switch{margin-bottom:11px}.mode-switch button{padding:7px}.mode-switch button small{display:none}.board{width:275px;margin:11px auto 8px;gap:5px}.board-row{gap:5px}.message{margin-bottom:8px}.key{height:39px}.keyboard{gap:4px}.game-footnote{margin-top:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.game-lede{max-width:620px;margin:12px 0 20px;color:var(--muted);font-size:.94rem;line-height:1.55}
