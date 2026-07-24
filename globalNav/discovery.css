@@ -29,6 +29,9 @@
 .related-games { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 26px; padding-top: 20px; border-top: 1px solid rgba(23, 32, 51, .14); }
 .related-games span { margin-right: 4px; color: #777f8f; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .related-games a { padding: 8px 12px; color: #172033; background: #fffdf9; border: 1px solid rgba(23, 32, 51, .18); border-radius: 999px; font-size: .86rem; font-weight: 700; text-decoration: none; }
+.guide-links { margin: 22px 0 0; color: #5f6674; font-size: .9rem; line-height: 1.65; }
+.guide-links strong { color: #172033; }
+.guide-links a { color: #294fba; font-weight: 700; text-underline-offset: 3px; }
 .comparison-scroll { margin-top: 28px; overflow-x: auto; }
 .bludle-discovery table { width: 100%; min-width: 700px; border-collapse: collapse; background: #fffdf9; }
 .bludle-discovery th, .bludle-discovery td { padding: 14px; border: 1px solid rgba(23, 32, 51, .13); color: #4d5669; font-size: .9rem; line-height: 1.45; text-align: left; vertical-align: top; }
@@ -42,4 +45,3 @@
   .bludle-discovery { width: min(100% - 20px, 1120px); margin-block: 32px; padding: 22px; }
   .game-facts, .discovery-copy { grid-template-columns: 1fr; }
 }
-
