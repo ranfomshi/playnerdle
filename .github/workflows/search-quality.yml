@@ -22,3 +22,5 @@ jobs:
         run: node scripts/audit-analytics.mjs
       - name: Validate controlled monetization coverage
         run: node scripts/audit-monetization.mjs
+      - name: Validate game engagement and funnel coverage
+        run: node scripts/audit-engagement.mjs
