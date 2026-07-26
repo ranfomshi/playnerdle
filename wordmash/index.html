@@ -9,10 +9,10 @@
   <title>Word Mash | Free Word Game | Bludle</title>
   <meta name="author" content="Stuart Pecksen">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=2">
   <script type="module" src="/globalNav/globalNav.js" defer=""></script>
   <script type="text/javascript" src="/mixpanel.js"></script>
-  <script src="./script.js" defer=""></script>
+  <script src="./script.js?v=3" defer=""></script>
 <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
   <link rel="stylesheet" href="/globalNav/gameThemes.css">
 <link rel="stylesheet" href="/globalNav/discovery.css">
@@ -53,54 +53,91 @@
     </section>
   </div>
 
-  <main class="page">
-    <section class="hero">
-      <p class="eyebrow">New Daily Game</p>
-      <h1>Word Mash</h1>
-      <p class="subtitle">Answer two clues. Then mash the words together so the end of answer one overlaps with the
-        start of answer two.</p>
-      <div class="badge-row">
-        <span class="badge" id="puzzle-date">Daily puzzle</span>
-        <span class="badge" id="streak-badge">Streak: 0</span>
-        <button class="badge button-badge" id="open-howto" type="button">How to play</button>
-      </div>
-    </section>
-
-    <section class="game-shell" aria-live="polite">
-      <div class="clues">
-        <article class="clue-card">
-          <p class="clue-label">Clue 1</p>
-          <p class="clue-text" id="clue-one"></p>
-        </article>
-        <article class="clue-card">
-          <p class="clue-label">Clue 2</p>
-          <p class="clue-text" id="clue-two"></p>
-        </article>
-      </div>
-
-      <form id="guess-form" class="guess-form" autocomplete="off">
-        <label for="guess-input">Your mash word</label>
-        <div class="input-wrap">
-          <input id="guess-input" name="guess" type="text" maxlength="24" placeholder="e.g. dog + gown → dogown"
-            required />
-          <button type="submit" id="submit-btn">Check</button>
+  <main class="page" id="main-content">
+    <section class="game-shell" aria-labelledby="game-title">
+      <header class="game-header">
+        <div class="game-heading">
+          <p class="eyebrow">Daily overlap puzzle</p>
+          <h1 id="game-title">Word Mash</h1>
+          <p class="subtitle">Solve both clues, then fuse the answers where their letters overlap.</p>
         </div>
-      </form>
-
-      <div class="feedback" id="feedback">You get 6 guesses per day. Good luck!</div>
-
-      <section>
-        <h2>Attempts</h2>
-        <ol id="attempts" class="attempts"></ol>
-      </section>
-
-      <section class="result" id="result" hidden>
-        <h2 id="result-title"></h2>
-        <p id="result-message"></p>
-        <div class="result-actions">
-          <button id="share-btn" type="button">Share result</button>
+        <div class="game-meta" aria-label="Puzzle information">
+          <span class="badge" id="puzzle-date">Daily puzzle</span>
+          <span class="badge" id="streak-badge">Streak: 0</span>
+          <button class="button-badge" id="open-howto" type="button">How to play</button>
         </div>
-      </section>
+      </header>
+
+      <div class="game-layout">
+        <div class="play-panel">
+          <div class="clue-intro">
+            <p class="section-label">Today’s clues</p>
+            <p>Find two answers. The end of the first becomes the start of the second.</p>
+          </div>
+
+          <div class="clues">
+            <article class="clue-card">
+              <div class="clue-card-head">
+                <span class="clue-number">1</span>
+                <p class="clue-label">First answer</p>
+              </div>
+              <p class="clue-text" id="clue-one"></p>
+            </article>
+            <div class="overlap-cue" aria-hidden="true">
+              <span></span>
+              <strong>Overlap</strong>
+              <span></span>
+            </div>
+            <article class="clue-card">
+              <div class="clue-card-head">
+                <span class="clue-number">2</span>
+                <p class="clue-label">Second answer</p>
+              </div>
+              <p class="clue-text" id="clue-two"></p>
+            </article>
+          </div>
+
+          <div class="mash-example" aria-label="Example: star plus artist becomes startist">
+            <span>STAR</span><strong>+</strong><span>ARTIST</span><strong>→</strong><span>ST<span>AR</span>TIST</span>
+          </div>
+
+          <form id="guess-form" class="guess-form" autocomplete="off">
+            <label for="guess-input">Your combined word</label>
+            <p id="guess-help">Type the complete mash with the shared letters written once.</p>
+            <div class="input-wrap">
+              <input id="guess-input" name="guess" type="text" maxlength="24" placeholder="Enter your word mash"
+                aria-describedby="guess-help feedback" required />
+              <button type="submit" id="submit-btn">Check mash <span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+
+          <div class="feedback" id="feedback" role="status">Six guesses available. Take your time.</div>
+        </div>
+
+        <aside class="attempts-panel" aria-labelledby="attempts-title">
+          <div class="attempts-heading">
+            <div>
+              <p class="section-label">Your run</p>
+              <h2 id="attempts-title">Attempts</h2>
+            </div>
+            <span id="attempts-count">0 / 6</span>
+          </div>
+          <div class="attempt-slots" id="attempt-slots" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p class="attempts-empty" id="attempts-empty">Your guesses will appear here.</p>
+          <ol id="attempts" class="attempts"></ol>
+
+          <section class="result" id="result" hidden>
+            <p class="section-label">Puzzle complete</p>
+            <h2 id="result-title"></h2>
+            <p id="result-message"></p>
+            <div class="result-actions">
+              <button id="share-btn" type="button">Share result</button>
+            </div>
+          </section>
+        </aside>
+      </div>
     </section>
   </main>
 <!-- bludle-guide:start -->
@@ -132,9 +169,9 @@
     </ul>
   </aside>
 <noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-<noscript><link rel="stylesheet" href="./style.css"></noscript>
+<noscript><link rel="stylesheet" href="./style.css?v=2"></noscript>
 
-<noscript><link rel="stylesheet" href="./style.css"></noscript>
+<noscript><link rel="stylesheet" href="./style.css?v=2"></noscript>
 </body>
 
 </html>
