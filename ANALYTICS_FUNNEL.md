@@ -7,9 +7,10 @@ The shared engagement manager in `globalNav/engagementManager.js` emits the same
 1. `search_landing` — the first page in a session arrived from a recognised organic search engine.
 2. `game_start` — the first meaningful interaction with a game.
 3. `game_complete` — the game reached its genuine result or run-complete state.
-4. `next_game_click` — a player selected one of the post-result recommendations.
-5. `next_game_start` — the recommended game was opened and started.
-6. `next_game_complete` — the recommended game was completed.
+4. `next_game_recommendation_view` — the single post-result recommendation was shown.
+5. `next_game_click` — the player selected that recommendation.
+6. `next_game_start` — the recommended game was opened and started.
+7. `next_game_complete` — the recommended game was completed.
 
 `game_page_view` and `next_game_arrival` provide useful diagnostics but are not required funnel steps.
 
@@ -27,6 +28,9 @@ The shared engagement manager in `globalNav/engagementManager.js` emits the same
 | `completed_today_count` | Distinct games completed locally today |
 | `play_streak_days` | Consecutive local dates with a completion |
 | `is_next_game` / `previous_game` | Identifies recommendation-led plays |
+| `recommendation_id` | Stable identifier for the curated game-to-game handoff |
+| `recommendation_strategy` | Curated or fresh fallback selection |
+| `recommendation_position` | Always `1` for the single-choice treatment |
 
 ## GA4 exploration
 
@@ -35,9 +39,10 @@ Create a closed funnel exploration with these steps:
 1. `event_name = search_landing`
 2. `event_name = game_start`
 3. `event_name = game_complete`
-4. `event_name = next_game_click`
-5. `event_name = next_game_complete`
+4. `event_name = next_game_recommendation_view`
+5. `event_name = next_game_click`
+6. `event_name = next_game_complete`
 
-Use a 30-minute funnel window. Break down by `landing_page`, `game_name`, device category and default channel group. Register the custom parameters above as event-scoped custom dimensions before using them in detailed reports; event collection itself begins as soon as the deployment is live.
+Use a 30-minute funnel window. Break down by `landing_page`, `game_name`, `recommendation_id`, device category and default channel group. The view event provides the denominator for recommendation click-through rate. Register the custom parameters above as event-scoped custom dimensions before using them in detailed reports; event collection itself begins as soon as the deployment is live.
 
 The daily completion list and streak are stored only in the visitor's browser. The feature creates no account, requests no notification permission and sends no puzzle answers or personally identifying data.

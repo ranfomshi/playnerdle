@@ -34,6 +34,28 @@
   ];
 
   const gameBySlug = new Map(games.map(game => [game.slug, game]));
+  const handoffs = {
+    werdle: { slug: 'glyph', id: 'word_to_shape', reason: 'You found a word from letter clues. Now find one from the shape its letters leave behind.' },
+    glyph: { slug: 'borrowedletters', id: 'shape_to_repair', reason: 'Keep those word instincts switched on, then repair five words by moving their missing letters.' },
+    borrowedletters: { slug: 'wordmash', id: 'repair_to_mash', reason: 'You have untangled misplaced letters. Next, build words quickly from a fresh set.' },
+    wordmash: { slug: 'connex', id: 'build_to_group', reason: 'You have built the words. Now spot the hidden relationship that connects them.' },
+    connex: { slug: 'werdle', id: 'group_to_daily', reason: 'Finish the word run with the flagship five-letter daily challenge.' },
+    bludle: { slug: 'codle', id: 'colour_to_cipher', reason: 'Swap colour clues for a letter cipher while keeping the same five-letter focus.' },
+    codle: { slug: 'bludle', id: 'cipher_to_colour', reason: 'You cracked the cipher. Now decode a five-letter word using only shades of blue.' },
+    shiftyfades: { slug: 'guesshue', id: 'match_to_name', reason: 'You matched the colour by eye. Now see whether you can name its exact hue.' },
+    guesshue: { slug: 'tintuition', id: 'name_to_instinct', reason: 'You named the hue. Next, trust your colour instinct under pressure.' },
+    tintuition: { slug: 'colormatch', id: 'instinct_to_mix', reason: 'Put that colour instinct to work by mixing the target yourself.' },
+    colormatch: { slug: 'afterimage', id: 'mix_to_memory', reason: 'You rebuilt a colour with controls. Now try rebuilding one from memory.' },
+    afterimage: { slug: 'deadcentre', id: 'memory_to_precision', reason: 'Switch from visual memory to pure precision with one carefully placed guess.' },
+    chromalock: { slug: 'alternate', id: 'timing_to_switch', reason: 'Keep the quick reactions, then handle a rule that changes beneath you.' },
+    alternate: { slug: 'chromalock', id: 'switch_to_timing', reason: 'You handled the changing rule. Now stop a moving colour at exactly the right moment.' },
+    hunt: { slug: 'deadcentre', id: 'coordinates_to_precision', reason: 'You narrowed down the coordinates. Now test that spatial instinct with a single shot.' },
+    deadcentre: { slug: 'trak', id: 'precision_to_focus', reason: 'Carry that precision into a moving target that rewards focus and timing.' },
+    seequence: { slug: 'afterimage', id: 'sequence_to_memory', reason: 'You held a sequence in mind. Next, hold a colour there after it disappears.' },
+    reaction: { slug: 'alternate', id: 'reaction_to_control', reason: 'Raw speed is only the start. Next, react while the rule keeps changing.' },
+    trak: { slug: 'hunt', id: 'focus_to_coordinates', reason: 'You tracked a moving target. Now narrow down a hidden point from coordinate clues.' },
+    heardle: { slug: 'werdle', id: 'sound_to_word', reason: 'Move from recognising a sound to solving the flagship daily word.' }
+  };
   const normalizePath = path => (path || '/').toLowerCase().replace(/\/index\.html$/, '').replace(/^\/+|\/+$/g, '');
   const currentSlug = normalizePath(window.location.pathname).split('/')[0];
   const currentGame = gameBySlug.get(currentSlug);
@@ -152,6 +174,7 @@
       from_game: pendingNext.from,
       to_game: pendingNext.to,
       recommendation_position: pendingNext.position,
+      recommendation_id: pendingNext.recommendationId,
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel
     });
@@ -186,7 +209,7 @@
       is_next_game: Boolean(pendingNext),
       previous_game: pendingNext?.from
     });
-    if (pendingNext) track('next_game_start', { from_game: pendingNext.from, to_game: currentGame.slug });
+    if (pendingNext) track('next_game_start', { from_game: pendingNext.from, to_game: currentGame.slug, recommendation_id: pendingNext.recommendationId });
     scheduleCompletionCheck();
   }
 
@@ -256,23 +279,34 @@
     return 'finished';
   }
 
-  function recommendations(completedToday) {
-    const candidates = [...currentGame.related, ...games.filter(game => game.category === currentGame.category).map(game => game.slug), ...games.map(game => game.slug)];
-    const unique = [...new Set(candidates)].filter(slug => slug !== currentGame.slug && gameBySlug.has(slug));
-    const fresh = unique.filter(slug => !completedToday.includes(slug));
-    return [...fresh, ...unique.filter(slug => !fresh.includes(slug))].slice(0, 2).map(slug => gameBySlug.get(slug));
+  function recommendation(completedToday) {
+    const curated = handoffs[currentGame.slug];
+    const candidates = [curated?.slug, ...currentGame.related, ...games.filter(game => game.category === currentGame.category).map(game => game.slug), ...games.map(game => game.slug)];
+    const unique = [...new Set(candidates)].filter(slug => slug && slug !== currentGame.slug && gameBySlug.has(slug));
+    const slug = unique.find(candidate => !completedToday.includes(candidate)) || unique[0];
+    const game = gameBySlug.get(slug);
+    if (!game) return null;
+    const isCurated = slug === curated?.slug;
+    return {
+      game,
+      id: isCurated ? curated.id : `${currentGame.slug}_to_${slug}_fresh`,
+      reason: isCurated ? curated.reason : `A fresh ${game.category.toLowerCase()} challenge, chosen to keep today's run moving.`,
+      strategy: isCurated ? 'curated_pair' : 'fresh_fallback'
+    };
   }
 
   function cardStyles() {
     return `
       :host{all:initial;display:block;margin:20px 0 4px;color:#191b20;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-      *{box-sizing:border-box}.card{border:1px solid #d9d5ca;border-radius:14px;background:#f8f6f0;padding:16px;text-align:left;box-shadow:0 8px 24px rgba(25,27,32,.08)}
-      .top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.eyebrow{margin:0 0 4px;color:#7b493b;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-      h2{margin:0;color:#191b20;font-size:19px;line-height:1.2;letter-spacing:-.02em}p{margin:6px 0 0;color:#5b5b58;font-size:14px;line-height:1.4}
-      .progress{flex:0 0 auto;border-left:1px solid #d9d5ca;padding-left:14px;text-align:right}.progress strong{display:block;color:#191b20;font-size:18px}.progress span{color:#6a6965;font-size:11px}
-      .choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}a{display:flex;min-height:47px;align-items:center;justify-content:space-between;gap:8px;border:1px solid #cbc5b8;border-radius:10px;background:#fff;color:#191b20;padding:11px 12px;font-size:14px;font-weight:750;text-decoration:none}
-      a:first-child{border-color:#ef5b3f;background:#ef5b3f;color:#fff}a:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(25,27,32,.1)}small{display:block;margin-top:10px;color:#77746d;font-size:11px;line-height:1.35}
-      @media(max-width:520px){.top{display:block}.progress{margin-top:10px;border:0;border-top:1px solid #d9d5ca;padding:9px 0 0;text-align:left}.progress strong,.progress span{display:inline}.choices{grid-template-columns:1fr}}
+      *{box-sizing:border-box}.card{overflow:hidden;border:1px solid #dce1ec;border-radius:16px;background:#fff;text-align:left;box-shadow:0 8px 20px rgba(22,41,95,.1)}
+      .top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 18px 14px}.eyebrow{margin:0 0 5px;color:#1c3993;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+      h2{margin:0;color:#141928;font-size:21px;line-height:1.2;letter-spacing:-.025em}.reason{max-width:52ch;margin:7px 0 0;color:#4e5875;font-size:14px;line-height:1.45}
+      .progress{flex:0 0 auto;border-left:1px solid #dce1ec;padding-left:14px;text-align:right}.progress strong{display:block;color:#141928;font-size:18px}.progress span{color:#707a99;font-size:11px}
+      .next{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 18px 18px;padding:14px 15px;border-radius:10px;background:#2249be;color:#fff;text-decoration:none;transition:background 150ms ease,transform 150ms ease}.next:hover{background:#1c3993;transform:translateY(-1px)}.next:focus-visible{outline:3px solid #82a6f3;outline-offset:3px}
+      .next strong{display:block;font-size:16px}.next small{display:block;margin-top:2px;color:#d9e4fc;font-size:11px;font-weight:500}.action{flex:0 0 auto;font-size:13px;font-weight:800}
+      .disclosure{margin:0;padding:11px 18px;border-top:1px solid #ebeef5;background:#f6f8fc;color:#707a99;font-size:11px;line-height:1.35}
+      @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.action{font-size:0}.action::after{content:'Go';font-size:13px}}
+      @media(prefers-reduced-motion:reduce){.next{transition:none}}
     `;
   }
 
@@ -281,26 +315,38 @@
     const host = document.createElement('div');
     host.id = 'bludle-engagement-host';
     const root = host.attachShadow({ mode: 'open' });
-    const choices = recommendations(progress.completed);
-    const heading = choices[0] ? `Keep the run going with ${choices[0].name}.` : 'That is today’s run complete.';
+    const next = recommendation(progress.completed);
+    if (!next) return;
     root.innerHTML = `<style>${cardStyles()}</style><section class="card" aria-labelledby="bludle-next-title">
-      <div class="top"><div><p class="eyebrow">Play next</p><h2 id="bludle-next-title">${heading}</h2></div>
-      <div class="progress"><strong>${progress.completed.length} played</strong><span> today · ${streak} day streak</span></div></div>
-      <div class="choices">${choices.map((game, index) => `<a href="/${game.slug}/" data-slug="${game.slug}" data-position="${index + 1}"><span>${game.name}</span><span aria-hidden="true">→</span></a>`).join('')}</div>
-      <small>Progress stays on this device. No account or notification permission required.</small>
+      <div class="top"><div><p class="eyebrow">Your next game</p><h2 id="bludle-next-title">Keep the run going with ${next.game.name}.</h2><p class="reason">${next.reason}</p></div>
+      <div class="progress"><strong>${progress.completed.length} played</strong><span> today &middot; ${streak} day streak</span></div></div>
+      <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}"><span><strong>Play ${next.game.name}</strong><small>${next.game.category} challenge</small></span><span class="action">Start next &rarr;</span></a>
+      <p class="disclosure">Progress stays on this device. No account or notification permission required.</p>
     </section>`;
-    root.querySelectorAll('a[data-slug]').forEach(link => link.addEventListener('click', () => {
-      const next = { from: currentGame.slug, to: link.dataset.slug, position: Number(link.dataset.position), clickedAt: Date.now() };
-      write(sessionStorage, PENDING_KEY, next);
+    track('next_game_recommendation_view', {
+      from_game: currentGame.slug,
+      to_game: next.game.slug,
+      recommendation_id: next.id,
+      recommendation_strategy: next.strategy,
+      completed_today_count: progress.completed.length,
+      landing_page: landing.landing_page,
+      landing_channel: landing.landing_channel
+    });
+    root.querySelector('a[data-slug]').addEventListener('click', event => {
+      const link = event.currentTarget;
+      const pending = { from: currentGame.slug, to: link.dataset.slug, position: 1, recommendationId: link.dataset.recommendationId, clickedAt: Date.now() };
+      write(sessionStorage, PENDING_KEY, pending);
       track('next_game_click', {
         from_game: currentGame.slug,
-        to_game: next.to,
-        recommendation_position: next.position,
+        to_game: pending.to,
+        recommendation_position: 1,
+        recommendation_id: pending.recommendationId,
+        recommendation_strategy: next.strategy,
         completed_today_count: progress.completed.length,
         landing_page: landing.landing_page,
         landing_channel: landing.landing_channel
       });
-    }));
+    });
 
     const target = surface?.querySelector?.('.modal-content') || surface || document.querySelector('main') || document.body;
     target.append(host);
@@ -327,7 +373,7 @@
     };
     track('game_complete', properties);
     if (pendingNext) {
-      track('next_game_complete', { from_game: pendingNext.from, to_game: currentGame.slug, time_to_complete_seconds: durationSeconds });
+      track('next_game_complete', { from_game: pendingNext.from, to_game: currentGame.slug, recommendation_id: pendingNext.recommendationId, time_to_complete_seconds: durationSeconds });
       remove(sessionStorage, PENDING_KEY);
       pendingNext = null;
     }

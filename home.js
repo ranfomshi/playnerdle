@@ -25,11 +25,12 @@ function trackSessionStart() {
   });
 }
 
-function trackClick(gameName) {
+function trackClick(gameName, placement = 'game_grid') {
   sendEvent('homeSelection', {
     interaction_type: 'click',
     item_name: gameName,
     source_page: 'home',
+    placement,
   });
 }
 
@@ -127,6 +128,16 @@ function initializeAdUnits() {
 
 window.addEventListener('DOMContentLoaded', () => {
   trackSessionStart();
+
+  const werdleHero = document.getElementById('werdleHero');
+  if (werdleHero) {
+    sendEvent('home_feature_view', {
+      item_name: 'werdle',
+      source_page: 'home',
+      placement: 'hero',
+    });
+    werdleHero.addEventListener('click', () => trackClick('werdle', 'hero'));
+  }
 
   Object.entries(tileHandlers).forEach(([id, handler]) => {
     const el = document.getElementById(id);
