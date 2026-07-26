@@ -207,8 +207,8 @@
   <header class="home-hero" aria-labelledby="home-title">
     <div class="hero-copy">
       <p class="hero-kicker">A game for every kind of brain</p>
-      <h1 id="home-title">Quick games. Proper challenges.</h1>
-      <p class="hero-subtitle">Play a daily word, test your eye for colour, crack a logic puzzle or chase a faster reaction time. No download or sign-up.</p>
+      <h1 id="home-title">Quick games. One brilliant place to start.</h1>
+      <p class="hero-subtitle">Start with our flagship daily word game, then explore colour, logic and reaction challenges. No download or sign-up.</p>
       <div class="hero-chips" aria-label="Game categories">
         <span>Daily Word</span>
         <span>Colour + Vision</span>
@@ -216,15 +216,20 @@
         <span>Speed + Reaction</span>
       </div>
     </div>
-    <aside class="hero-panel" aria-label="Bludle highlights">
-      <p class="hero-panel-label">Not sure where to start?</p>
-      <h2 class="hero-panel-title">Pick a game. Learn it in seconds.</h2>
-      <p class="hero-panel-copy">Most games take less than five minutes, but there is always another score to beat.</p>
-      <div class="hero-stats" aria-label="Game library stats">
-        <div class="hero-stat"><strong>20</strong><span>games</span></div>
-        <div class="hero-stat"><strong>5</strong><span>categories</span></div>
-        <div class="hero-stat"><strong>5m</strong><span>quick plays</span></div>
+    <aside class="werdle-anchor" aria-labelledby="werdle-anchor-title">
+      <div class="werdle-anchor-copy">
+        <p class="werdle-anchor-kicker">Start with the flagship</p>
+        <div class="werdle-anchor-meta" aria-label="Werdle game modes">
+          <span>Daily puzzle</span><span>Unlimited mode</span>
+        </div>
+        <h2 id="werdle-anchor-title">Werdle</h2>
+        <p>Find the five-letter word, use every clue, and come back tomorrow for a fresh challenge.</p>
+        <a class="werdle-anchor-cta" id="werdleHero" href="/werdle/" aria-label="Play today's Werdle">
+          <span>Play today's Werdle</span><span aria-hidden="true">&rarr;</span>
+        </a>
+        <small>Easy to learn. Usually finished in under five minutes.</small>
       </div>
+      <img class="werdle-anchor-art" src="/images/werdle.png" alt="Werdle letter puzzle preview" width="345" height="294" decoding="async" fetchpriority="high">
     </aside>
   </header>
 
@@ -254,17 +259,17 @@
       <h2>Choose a game</h2>
       <p>Word, colour, logic, audio and reaction games—each free to play in your browser.</p>
     </div>
-    <div class="tile featured" id="bludle" data-category="word colour">
-      <a class="game" href="/bludle/" aria-label="Play Bludle"><img class="game-art" src="/images/bludle.jpg" alt="Play Bludle game artwork" width="818" height="746" loading="lazy" decoding="async">
-        <div class="gameTitle">Bludle</div>
-        <div class="gameInfo">Decode a 5 letter word from shades of blue</div>
+    <div class="tile featured flagship" id="werdle" data-category="word">
+      <a class="game" href="/werdle/" aria-label="Play Werdle"><img class="game-art" src="/images/werdle.png" alt="Play Werdle game artwork" width="345" height="294" loading="lazy" decoding="async">
+        <div class="gameTitle">Werdle</div>
+        <div class="gameInfo">The flagship daily word game, with unlimited puzzles when one is not enough</div>
       </a>
     </div>
 
-    <div class="tile featured" id="werdle" data-category="word">
-      <a class="game" href="/werdle/" aria-label="Play Werdle"><img class="game-art" src="/images/werdle.png" alt="Play Werdle game artwork" width="345" height="294" loading="lazy" decoding="async">
-        <div class="gameTitle">Werdle</div>
-        <div class="gameInfo">Daily word game with challenge mode</div>
+    <div class="tile featured supporting" id="bludle" data-category="word colour">
+      <a class="game" href="/bludle/" aria-label="Play Bludle"><img class="game-art" src="/images/bludle.jpg" alt="Play Bludle game artwork" width="818" height="746" loading="lazy" decoding="async">
+        <div class="gameTitle">Bludle</div>
+        <div class="gameInfo">Decode a five-letter word from shades of blue</div>
       </a>
     </div>
 
