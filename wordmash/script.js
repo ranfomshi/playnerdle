@@ -451,6 +451,9 @@ function initialise() {
   const guessInput = document.getElementById("guess-input");
   const submitBtn = document.getElementById("submit-btn");
   const attemptsEl = document.getElementById("attempts");
+  const attemptsCount = document.getElementById("attempts-count");
+  const attemptsEmpty = document.getElementById("attempts-empty");
+  const attemptSlots = [...document.querySelectorAll("#attempt-slots i")];
   const resultSection = document.getElementById("result");
   const resultTitle = document.getElementById("result-title");
   const resultMessage = document.getElementById("result-message");
@@ -462,10 +465,17 @@ function initialise() {
 
   function renderAttempts() {
     attemptsEl.innerHTML = "";
+    attemptsCount.textContent = `${state.attempts.length} / ${MAX_ATTEMPTS}`;
+    attemptsEmpty.hidden = state.attempts.length > 0;
+    attemptSlots.forEach((slot, index) => {
+      slot.className = index < state.attempts.length
+        ? (state.attempts[index].correct ? "is-correct" : "is-used")
+        : "";
+    });
     state.attempts.forEach((attempt, index) => {
       const li = document.createElement("li");
       li.className = attempt.correct ? "good" : "bad";
-      li.innerHTML = `<span>${index + 1}. ${attempt.value}</span><span>${attempt.correct ? "Correct" : "Try again"}</span>`;
+      li.innerHTML = `<span><small>Guess ${index + 1}</small>${attempt.value}</span><strong>${attempt.correct ? "Correct" : "Try again"}</strong>`;
       attemptsEl.appendChild(li);
     });
   }
@@ -495,6 +505,10 @@ function initialise() {
 
   renderAttempts();
   streakBadge.textContent = `Streak: ${getStreak()}`;
+  if (state.attempts.length && !state.solved && state.attempts.length < MAX_ATTEMPTS) {
+    const remaining = MAX_ATTEMPTS - state.attempts.length;
+    feedback.textContent = `${remaining} ${remaining === 1 ? "guess" : "guesses"} remaining.`;
+  }
   setLockedResult();
 
   form.addEventListener("submit", event => {
