@@ -1,3 +1,5 @@
+import { mashWord, normalizeAnswer, scoreAnswerParts } from "./gameLogic.mjs";
+
 const MAX_ATTEMPTS = 6;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const EPOCH_UTC = Date.UTC(2024, 0, 1);
@@ -299,35 +301,6 @@ const PUZZLES = [
 
 ];
 
-function sanitize(input) {
-  return input.toLowerCase().replace(/[^a-z]/g, "");
-}
-
-function overlapLength(first, second) {
-  const max = Math.min(first.length, second.length);
-  for (let size = max; size > 0; size--) {
-    if (first.slice(-size) === second.slice(0, size)) {
-      return size;
-    }
-  }
-  return 0;
-}
-
-function mashWord(first, second) {
-  const overlap = overlapLength(first, second);
-  return first + second.slice(overlap);
-}
-
-function scoreAnswerParts(guess, first, second) {
-  const overlap = overlapLength(first, second);
-  const secondSuffix = second.slice(overlap);
-
-  return {
-    firstCorrect: guess.startsWith(first),
-    secondCorrect: guess.endsWith(secondSuffix)
-  };
-}
-
 function todayUtcKey() {
   const now = new Date();
   const yyyy = now.getUTCFullYear();
@@ -514,7 +487,7 @@ function initialise() {
   form.addEventListener("submit", event => {
     event.preventDefault();
 
-    const value = sanitize(guessInput.value);
+    const value = normalizeAnswer(guessInput.value);
     if (!value) {
       feedback.textContent = "Type a word mash first.";
       return;
