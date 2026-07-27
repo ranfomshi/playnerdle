@@ -34,6 +34,7 @@ body[data-game] .legacy-explainer__card h2 { color: var(--slate-800) !important;
 body[data-game] .legacy-explainer__card #explainerCloseBtn { border-radius: var(--radius-md) !important; background: var(--cobalt-500) !important; color: white !important; }
 
 /* Werdle */
+body[data-game="werdle"] { --present: #f2b84b; }
 body[data-game="werdle"] .game-footnote { color: var(--slate-500); }
 body[data-game="werdle"] .meta-dot { background: var(--slate-300); }
 body[data-game="werdle"] .about-card .mini-row span { border-color: var(--slate-200); }
@@ -45,7 +46,12 @@ body[data-game="werdle"] .board .tile.exact {
 body[data-game="werdle"] .board .tile.present {
   border-color: var(--present);
   background: var(--present);
-  color: #071c35;
+  color: #4a2b00;
+}
+body[data-game="werdle"] :where(.keyboard .key.present, .mini-row .present) {
+  border-color: var(--present);
+  background: var(--present);
+  color: #4a2b00;
 }
 body[data-game="werdle"] .board .tile.absent {
   border-color: var(--absent);
