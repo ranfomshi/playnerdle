@@ -281,6 +281,7 @@
 <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
   <link rel="stylesheet" href="/globalNav/gameThemes.css">
 <link rel="stylesheet" href="/globalNav/discovery.css">
+<link rel="stylesheet" href="./connex-modern.css?v=1">
 <meta name="description" content="Sort sixteen words into four hidden groups by finding the connection shared by each set.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://bludle.com/connex/">
@@ -305,15 +306,24 @@
 <body data-game="connex">
     <div id="navbar-container"></div>
     <main class="connex-shell">
-    <h1>Connex</h1>
-    <p>Find the 4 words that are connected somehow</p>
+    <header class="connex-header">
+      <div>
+        <span class="connex-kicker">Word association puzzle</span>
+        <h1>Connex</h1>
+        <p>Find four precise groups hidden among the sixteen words.</p>
+      </div>
+      <div class="connex-progress" aria-label="Game progress">
+        <div><span>Groups found</span><strong id="groups-found">0 / 4</strong></div>
+        <div><span>Chances left</span><strong id="lives">5</strong></div>
+      </div>
+    </header>
 
-    <div id="completedGroups"></div>
+    <div id="completedGroups" aria-label="Completed groups" aria-live="polite"></div>
 
+    <div class="selection-status" id="selection-status">Select four words that share one connection.</div>
     <div id="wordList" class="word-list"></div>
 
-    <div class="lives" id="lives">Lives: 5</div>
-    <div class="feedback" id="feedback"></div>
+    <div class="feedback" id="feedback" role="status"></div>
 
     <!-- Game Over Modal -->
     <div id="gameOverModal" class="modal">
@@ -1167,19 +1177,24 @@
             const wordListDiv = document.getElementById('wordList');
             wordListDiv.innerHTML = '';
             currentWords.forEach(word => {
-                const wordItem = document.createElement('div');
+                const wordItem = document.createElement('button');
+                wordItem.type = 'button';
                 wordItem.classList.add('word-item');
                 wordItem.textContent = word;
+                wordItem.setAttribute('aria-pressed', 'false');
                 wordItem.addEventListener('click', () => handleWordClick(wordItem));
                 wordItem.style.setProperty('--stagger-index', currentWords.indexOf(word));
                 wordListDiv.appendChild(wordItem);
             });
+            updateSelectionStatus();
         };
 
         const handleWordClick = (wordItem) => {
             if (wordItem.classList.contains('correct')) return;
             wordItem.classList.toggle('selected');
+            wordItem.setAttribute('aria-pressed', String(wordItem.classList.contains('selected')));
             const selectedItems = document.querySelectorAll('.word-item.selected');
+            updateSelectionStatus();
             if (selectedItems.length === 4) {
                 checkAnswer(selectedItems);
             }
@@ -1211,7 +1226,7 @@
             if (groupsSelected.length !== 1) {
                 const feedbackElement = document.getElementById('feedback');
                 feedbackElement.textContent = 'Oops! Incorrect guess.';
-                feedbackElement.style.color = '#f00';
+                feedbackElement.classList.remove('success');
                 feedbackElement.classList.remove('error');
                 void feedbackElement.offsetWidth;
                 feedbackElement.classList.add('error');
@@ -1225,7 +1240,9 @@
                     setTimeout(() => {
                         document.querySelectorAll('.word-item.selected').forEach(item => {
                             item.classList.remove('selected');
+                            item.setAttribute('aria-pressed', 'false');
                         });
+                        updateSelectionStatus();
                     }, 500);
                 }
             } else {
@@ -1233,33 +1250,39 @@
                 solvedBankIndexes.add(groupIndex);
                 selectedItems.forEach(item => item.classList.add('correct'));
                 const feedbackElement = document.getElementById('feedback');
-                feedbackElement.textContent = `Correct! Connection: ${correctAnswerBanks[groupIndex].connectionReason}`;
-                feedbackElement.style.color = '#00b96b';
                 feedbackElement.classList.remove('error');
+                feedbackElement.classList.add('success');
                 moveToTop(selectedItems);
 
                 const groupDiv = document.createElement('div');
                 groupDiv.classList.add('group-container');
+                const groupHeading = document.createElement('div');
+                groupHeading.classList.add('group-heading');
+                const groupLabel = document.createElement('span');
+                groupLabel.textContent = `Connection ${completedGroups + 1}`;
+                const connectionReasonDiv = document.createElement('strong');
+                connectionReasonDiv.classList.add('connection-reason');
+                connectionReasonDiv.textContent = correctAnswerBanks[groupIndex].connectionReason.replace(/^Category Words:\s*/i, '');
+                groupHeading.append(groupLabel, connectionReasonDiv);
+
                 const groupWrapper = document.createElement('div');
                 groupWrapper.classList.add('group-items-wrapper');
                 selectedItems.forEach(item => {
-                    const groupItem = document.createElement('div');
+                    const groupItem = document.createElement('span');
                     groupItem.classList.add('group-item');
                     groupItem.textContent = item.textContent;
                     groupWrapper.appendChild(groupItem);
                 });
-                groupDiv.appendChild(groupWrapper);
+                groupDiv.append(groupHeading, groupWrapper);
 
-                const connectionReasonDiv = document.createElement('div');
-                connectionReasonDiv.classList.add('connection-reason');
-                connectionReasonDiv.textContent = correctAnswerBanks[groupIndex].connectionReason;
-                groupDiv.appendChild(connectionReasonDiv);
-
-                // Append the new group at the end of the completedGroups div
                 document.getElementById('completedGroups').appendChild(groupDiv);
 
                 selectedItems.forEach(item => item.remove());
-                completedGroups++; // Increment completedGroups when a group is found
+                completedGroups++;
+                updateProgress();
+                updateSelectionStatus();
+                const remaining = 4 - completedGroups;
+                feedbackElement.textContent = remaining ? `Locked in. ${remaining} ${remaining === 1 ? 'group' : 'groups'} left.` : 'All four connections found.';
 
                 if (completedGroups === 4) {
                     showGameOverDialog("Congratulations! You found all connections!", true);
@@ -1275,11 +1298,24 @@
         const resetSelection = () => {
             document.querySelectorAll('.word-item').forEach(item => {
                 item.classList.remove('selected');
+                item.setAttribute('aria-pressed', 'false');
             });
+            updateSelectionStatus();
         };
 
         const updateLives = () => {
-            document.getElementById('lives').textContent = `Lives: ${lives}`;
+            document.getElementById('lives').textContent = String(lives);
+        };
+
+        const updateProgress = () => {
+            document.getElementById('groups-found').textContent = `${completedGroups} / 4`;
+        };
+
+        const updateSelectionStatus = () => {
+            const count = document.querySelectorAll('.word-item.selected').length;
+            document.getElementById('selection-status').textContent = count
+                ? `${count} of 4 selected${count < 4 ? ` · choose ${4 - count} more` : ''}`
+                : 'Select four words that share one connection.';
         };
 
         const showGameOverDialog = (message, isGameWon = false) => {
@@ -1307,7 +1343,9 @@
             completedGroups = 0;
             getWordsForConnection();
             document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
             document.getElementById('completedGroups').innerHTML = '';  // Clear completed groups
+            updateProgress();
         };
 
         const exitGame = () => {
