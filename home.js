@@ -119,6 +119,35 @@ function setupGameFiltering() {
 function initializeAdUnits() {
   const adUnits = document.querySelectorAll('.adsbygoogle');
   adUnits.forEach((adUnit) => {
+    const wrapper = adUnit.closest('.home-ad-unit');
+    const fallback = wrapper?.querySelector('[data-house-ad-fallback]');
+
+    if (fallback) {
+      const syncFallback = () => {
+        const isUnfilled = adUnit.dataset.adStatus === 'unfilled';
+        fallback.hidden = !isUnfilled;
+        wrapper.classList.toggle('has-house-ad', isUnfilled);
+
+        if (isUnfilled && !fallback.dataset.viewTracked) {
+          fallback.dataset.viewTracked = 'true';
+          sendEvent('house_ad_fallback_view', {
+            advertiser: 'keyzee',
+            placement: adUnit.dataset.adPlacement || 'home_grid',
+          });
+        }
+      };
+
+      new MutationObserver(syncFallback).observe(adUnit, {
+        attributes: true,
+        attributeFilter: ['data-ad-status'],
+      });
+      fallback.addEventListener('click', () => sendEvent('house_ad_fallback_click', {
+        advertiser: 'keyzee',
+        placement: adUnit.dataset.adPlacement || 'home_grid',
+      }));
+      syncFallback();
+    }
+
     (window.adsbygoogle = window.adsbygoogle || []).push({});
     sendEvent('ad_eligible_view', {
       placement: adUnit.dataset.adPlacement || 'home_grid',
