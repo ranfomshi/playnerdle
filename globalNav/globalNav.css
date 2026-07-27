@@ -67,12 +67,12 @@
 .pn-nav-lock { overflow: hidden; }
 button[aria-label="Open game explainer"] { top: calc(var(--global-nav-height) + 12px) !important; }
 
-.pn-ad--engaged-footer {
+.pn-ad--post-game {
   box-sizing: border-box;
-  width: min(calc(100% - 32px), 970px);
+  width: min(100%, 970px);
   min-height: 112px;
-  margin: 160px auto 48px;
-  padding: 12px 0 0;
+  margin: 28px auto 32px;
+  padding: 12px 0 4px;
   border-top: 1px solid #dce1ec;
   background: transparent;
   color: #707a99;
@@ -85,8 +85,8 @@ button[aria-label="Open game explainer"] { top: calc(var(--global-nav-height) + 
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.pn-ad--engaged-footer ins.adsbygoogle { min-height: 90px; }
-.pn-ad--engaged-footer[data-ad-state="unavailable"] { display: none; }
+.pn-ad--post-game[hidden], .pn-ad--post-game[data-ad-state="unavailable"] { display: none !important; }
+.pn-ad--post-game ins.adsbygoogle { min-height: 90px; }
 
 @media (max-width: 900px) {
   .pn-nav__inner { gap: 20px; }

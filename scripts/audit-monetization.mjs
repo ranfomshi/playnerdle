@@ -27,12 +27,27 @@ for (const game of games) {
   }
 }
 
-if (!manager.includes('IntersectionObserver')) {
-  issues.push('globalNav/adManager.js: placements are not viewability-aware');
+if (!manager.includes("window.addEventListener('bludle:game-complete'")) {
+  issues.push('globalNav/adManager.js: game placements are not gated by completion');
 }
 
-if (!styles.includes('margin: 160px auto 48px')) {
-  issues.push('globalNav/globalNav.css: game/ad interaction spacing is below policy target');
+if (!manager.includes('entry.intersectionRatio >= 0.5') || !manager.includes('}, 750)')) {
+  issues.push('globalNav/adManager.js: placement requests are not gated by sustained viewability');
+}
+
+if (!manager.includes("fillState === 'unfilled'") || !manager.includes("track('ad_slot_unfilled')")) {
+  issues.push('globalNav/adManager.js: unfilled placements are not collapsed and tracked');
+}
+
+if (!styles.includes('margin: 28px auto 32px')) {
+  issues.push('globalNav/globalNav.css: post-game placement spacing is missing');
+}
+
+for (const slug of ['werdle', 'hunt', 'trak']) {
+  const html = await readFile(path.join(root, slug, 'index.html'), 'utf8');
+  if (html.includes('<ins class="adsbygoogle"')) {
+    issues.push(`${slug}/index.html: eager manual game placement is still present`);
+  }
 }
 
 if (bludle.includes('class="ad-slot"')) {
