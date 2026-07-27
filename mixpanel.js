@@ -68,7 +68,10 @@
     })(document, window.mixpanel || []);
 
     mixpanel.init("7f00bf62909510847bbbc30a1e8e2b26", {
-      debug: true,
-      track_pageview: true,
+      api_host: "https://api-eu.mixpanel.com",
+      debug: false,
+      track_pageview: false,
+      autocapture: false,
+      ip: false,
       persistence: "localStorage",
     });

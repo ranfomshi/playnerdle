@@ -24,6 +24,17 @@
 
   ensureAnalytics();
 
+  function ensureProductAnalytics() {
+    if (window.mixpanel || document.querySelector('script[src$="/mixpanel.js"]')) return;
+    const script = document.createElement('script');
+    script.src = '/mixpanel.js';
+    script.async = false;
+    script.dataset.bludleProductAnalytics = '';
+    document.head.append(script);
+  }
+
+  ensureProductAnalytics();
+
   function ensureAdManager() {
     if (document.querySelector('script[data-bludle-ad-manager]')) return;
     const script = document.createElement('script');
@@ -34,6 +45,17 @@
   }
 
   ensureAdManager();
+
+  function ensureGameTelemetry() {
+    if (window.BludleGameTelemetry || document.querySelector('script[data-bludle-game-telemetry]')) return;
+    const script = document.createElement('script');
+    script.src = '/globalNav/gameTelemetry.js';
+    script.async = false;
+    script.dataset.bludleGameTelemetry = '';
+    document.head.append(script);
+  }
+
+  ensureGameTelemetry();
 
   function ensureEngagementManager() {
     if (document.querySelector('script[data-bludle-engagement-manager]')) return;

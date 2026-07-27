@@ -186,6 +186,7 @@
   track('game_page_view', {
     game_name: currentGame.slug,
     game_category: currentGame.category.toLowerCase(),
+    ...(window.BludleGameTelemetry?.context(currentGame.slug) || {}),
     landing_page: landing.landing_page,
     landing_channel: landing.landing_channel,
     search_engine: landing.search_engine,
@@ -201,6 +202,7 @@
     track('game_start', {
       game_name: currentGame.slug,
       game_category: currentGame.category.toLowerCase(),
+      ...(window.BludleGameTelemetry?.context(currentGame.slug) || {}),
       start_trigger: trigger,
       session_game_number: sessionGameNumber,
       landing_page: landing.landing_page,
@@ -361,6 +363,7 @@
     const properties = {
       game_name: currentGame.slug,
       game_category: currentGame.category.toLowerCase(),
+      ...(window.BludleGameTelemetry?.snapshot(currentGame.slug) || {}),
       outcome: details.outcome || inferOutcome(surface),
       time_to_complete_seconds: durationSeconds,
       completed_today_count: progress.completed.length,
