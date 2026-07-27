@@ -3,6 +3,9 @@
 
   const clientId = 'ca-pub-5140172230633441';
   const engagedFooterSlot = '7551359942';
+  const slotByGame = new Map([
+    ['/werdle', '3900592841']
+  ]);
   const gamePaths = new Set([
     '/afterimage', '/alternate', '/bludle', '/borrowedletters', '/chromalock',
     '/codle', '/colormatch', '/connex', '/deadcentre', '/glyph', '/guesshue',
@@ -16,38 +19,61 @@
     .replace(/\/$/, '') || '/';
 
   if (!gamePaths.has(currentPath)) return;
-  if (document.querySelector('ins.adsbygoogle')) return;
 
   const main = document.querySelector('main');
   if (!main) return;
 
   const placement = document.createElement('aside');
-  placement.className = 'pn-ad pn-ad--engaged-footer';
-  placement.dataset.bludleAdPlacement = 'game-footer-engaged';
+  placement.className = 'pn-ad pn-ad--post-game';
+  placement.dataset.bludleAdPlacement = 'post-game-engaged';
+  placement.dataset.adState = 'waiting';
+  placement.hidden = true;
   placement.setAttribute('aria-label', 'Advertisement');
   placement.innerHTML = `
     <span class="pn-ad__label">Advertisement</span>
     <ins class="adsbygoogle"
       style="display:block"
       data-ad-client="${clientId}"
-      data-ad-slot="${engagedFooterSlot}"
+      data-ad-slot="${slotByGame.get(currentPath) || engagedFooterSlot}"
       data-ad-format="auto"
       data-full-width-responsive="true"></ins>`;
-  main.insertAdjacentElement('afterend', placement);
+  const gameSurface = main.querySelector(':scope > .game-card, :scope > .game-shell, :scope > [class*="game-card"], :scope > [class*="game-shell"]') || main.firstElementChild;
+  if (gameSurface) gameSurface.insertAdjacentElement('afterend', placement);
+  else main.append(placement);
 
   let requested = false;
+  let observer;
+  let viewTimer;
+
+  function track(eventName, properties = {}) {
+    const params = { placement: 'post_game_engaged', game: currentPath.slice(1), ...properties };
+    if (typeof window.gtag === 'function') window.gtag('event', eventName, params);
+    if (window.mixpanel && typeof window.mixpanel.track === 'function') {
+      window.mixpanel.track(eventName, params);
+    }
+  }
 
   function trackRequest() {
-    const params = { placement: 'game_footer_engaged', game: currentPath.slice(1) };
-    if (typeof window.gtag === 'function') window.gtag('event', 'ad_slot_requested', params);
-    if (window.mixpanel && typeof window.mixpanel.track === 'function') {
-      window.mixpanel.track('ad_slot_requested', params);
-    }
+    track('ad_slot_requested', { visibility_gate: '50_percent_for_750ms' });
   }
 
   function requestAd() {
     if (requested) return;
     requested = true;
+    const unit = placement.querySelector('ins.adsbygoogle');
+
+    const fillObserver = new MutationObserver(() => {
+      const fillState = unit.dataset.adStatus;
+      if (fillState === 'filled') {
+        placement.dataset.adState = 'filled';
+        fillObserver.disconnect();
+      } else if (fillState === 'unfilled') {
+        placement.dataset.adState = 'unavailable';
+        track('ad_slot_unfilled');
+        fillObserver.disconnect();
+      }
+    });
+    fillObserver.observe(unit, { attributes: true, attributeFilter: ['data-ad-status'] });
 
     if (!document.querySelector(`script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle"]`)) {
       const script = document.createElement('script');
@@ -67,14 +93,29 @@
     }
   }
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.isIntersecting)) return;
-      observer.disconnect();
-      requestAd();
-    }, { rootMargin: '320px 0px' });
+  function watchForViewability() {
+    if (!('IntersectionObserver' in window)) {
+      window.setTimeout(requestAd, 1000);
+      return;
+    }
+
+    observer = new IntersectionObserver(entries => {
+      const sufficientlyVisible = entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.5);
+      window.clearTimeout(viewTimer);
+      if (!sufficientlyVisible) return;
+      viewTimer = window.setTimeout(() => {
+        observer.disconnect();
+        requestAd();
+      }, 750);
+    }, { threshold: [0, 0.5, 1] });
     observer.observe(placement);
-  } else {
-    window.setTimeout(requestAd, 1500);
   }
+
+  window.addEventListener('bludle:game-complete', event => {
+    if (!placement.hidden) return;
+    placement.hidden = false;
+    placement.dataset.adState = 'eligible';
+    track('ad_slot_eligible', { outcome: event.detail?.outcome });
+    watchForViewability();
+  }, { once: true });
 })();
