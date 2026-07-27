@@ -37,6 +37,21 @@ body[data-game] .legacy-explainer__card #explainerCloseBtn { border-radius: var(
 body[data-game="werdle"] .game-footnote { color: var(--slate-500); }
 body[data-game="werdle"] .meta-dot { background: var(--slate-300); }
 body[data-game="werdle"] .about-card .mini-row span { border-color: var(--slate-200); }
+body[data-game="werdle"] .board .tile.exact {
+  border-color: var(--exact);
+  background: var(--exact);
+  color: #0a2a1b;
+}
+body[data-game="werdle"] .board .tile.present {
+  border-color: var(--present);
+  background: var(--present);
+  color: #071c35;
+}
+body[data-game="werdle"] .board .tile.absent {
+  border-color: var(--absent);
+  background: var(--absent);
+  color: #f3f5f8;
+}
 
 /* Bludle */
 body[data-game="bludle"] .pulse { background: var(--cobalt-500); box-shadow: none; }
