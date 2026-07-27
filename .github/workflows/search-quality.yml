@@ -24,3 +24,5 @@ jobs:
         run: node scripts/audit-monetization.mjs
       - name: Validate game engagement and funnel coverage
         run: node scripts/audit-engagement.mjs
+      - name: Validate Word Mash answer normalisation
+        run: node scripts/audit-wordmash.mjs
