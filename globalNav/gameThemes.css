@@ -52,6 +52,51 @@ body[data-game="werdle"] .board .tile.absent {
   background: var(--absent);
   color: #f3f5f8;
 }
+body[data-game="werdle"] #stats-dialog {
+  width: min(calc(100% - 32px), 500px);
+  padding: 28px;
+}
+body[data-game="werdle"] #stats-dialog h2 { margin: 5px 0 0; }
+body[data-game="werdle"] #stats-dialog .stats-grid {
+  gap: 0;
+  margin: 22px 0 4px;
+  overflow: hidden;
+  border-block: 1px solid var(--slate-200);
+}
+body[data-game="werdle"] #stats-dialog .stats-grid div {
+  padding: 16px 8px;
+  border-right: 1px solid var(--slate-200);
+  border-radius: 0;
+  background: transparent;
+}
+body[data-game="werdle"] #stats-dialog .stats-grid div:last-child { border-right: 0; }
+body[data-game="werdle"] #stats-dialog .stats-grid strong {
+  color: var(--slate-800);
+  font: 700 20px/24px var(--font-heading);
+}
+body[data-game="werdle"] #stats-dialog .stats-grid span {
+  margin-top: 3px;
+  color: var(--slate-500);
+  font: 500 11px/17px var(--font-body);
+}
+body[data-game="werdle"] #stats-dialog .result-actions { margin-top: 20px; }
+body[data-game="werdle"] #stats-dialog .secondary-button {
+  border: 1px solid var(--slate-300);
+  background: var(--slate-0);
+  color: var(--slate-700);
+  box-shadow: var(--shadow-xs);
+}
+body[data-game="werdle"] #stats-dialog .secondary-button:hover {
+  border-color: var(--slate-400);
+  background: var(--slate-50);
+  color: var(--slate-800);
+}
+body[data-game="werdle"] .toast {
+  border-color: var(--slate-200);
+  background: var(--slate-0);
+  color: var(--slate-700);
+  box-shadow: var(--shadow-md);
+}
 
 /* Bludle */
 body[data-game="bludle"] .pulse { background: var(--cobalt-500); box-shadow: none; }
