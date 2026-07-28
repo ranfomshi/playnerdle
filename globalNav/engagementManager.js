@@ -9,6 +9,13 @@
   const LANDING_KEY = 'bludle:landing-context:v1';
   const PENDING_KEY = 'bludle:next-game:v1';
   const SESSION_COUNT_KEY = 'bludle:session-game-count:v1';
+  const ALLOWED_GAME_EVENTS = new Set(['werdle_first_guess']);
+  const GAME_EVENT_PROPERTIES = {
+    werdle_first_guess: new Set([
+      'first_guess', 'exact_letters', 'present_letters', 'absent_letters', 'vowel_count',
+      'unique_letter_count', 'has_repeated_letter', 'game_mode'
+    ])
+  };
 
   const games = [
     { slug: 'werdle', name: 'Werdle', category: 'Word', related: ['glyph', 'bludle', 'codle'] },
@@ -124,6 +131,23 @@
   }
 
   const landing = detectLanding();
+
+  function trackGameEvent(eventName, properties = {}) {
+    if (!currentGame || !ALLOWED_GAME_EVENTS.has(eventName)) return;
+    const allowedProperties = GAME_EVENT_PROPERTIES[eventName];
+    const eventProperties = Object.fromEntries(Object.entries(properties)
+      .filter(([property]) => allowedProperties.has(property)));
+    if (eventName === 'werdle_first_guess' && !/^[a-z]{5}$/.test(eventProperties.first_guess || '')) return;
+    track(eventName, {
+      ...eventProperties,
+      game_name: currentGame.slug,
+      game_category: currentGame.category.toLowerCase(),
+      ...(window.BludleGameTelemetry?.context(currentGame.slug) || {}),
+      landing_page: landing.landing_page,
+      landing_channel: landing.landing_channel,
+      search_engine: landing.search_engine
+    });
+  }
 
   function progressForToday() {
     const stored = read(localStorage, PROGRESS_KEY, null);
@@ -404,6 +428,12 @@
   window.BludleEngagement = Object.freeze({
     start: details => startGame(details?.trigger || 'explicit'),
     complete: details => completeGame(details?.surface || document.querySelector('main'), details || {}),
+    gameEvent: trackGameEvent,
     track
   });
+
+  const queuedGameEvents = Array.isArray(window.__bludleGameplayEventQueue)
+    ? window.__bludleGameplayEventQueue.splice(0)
+    : [];
+  queuedGameEvents.forEach(event => trackGameEvent(event?.eventName, event?.properties));
 }());

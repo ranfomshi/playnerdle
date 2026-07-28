@@ -1,4 +1,5 @@
 import { WORDS } from './words.js';
+import { firstGuessProperties } from './firstGuessTelemetry.js';
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 5;
@@ -76,6 +77,17 @@ function scoreGuess(guess, secret) {
   return result;
 }
 
+function trackFirstGuess(guess) {
+  const properties = firstGuessProperties(guess, scoreGuess(guess, game.secret), game.mode);
+  if (!properties) return;
+  if (window.BludleEngagement?.gameEvent) {
+    window.BludleEngagement.gameEvent('werdle_first_guess', properties);
+    return;
+  }
+  window.__bludleGameplayEventQueue = window.__bludleGameplayEventQueue || [];
+  window.__bludleGameplayEventQueue.push({ eventName: 'werdle_first_guess', properties });
+}
+
 function render() {
   renderBoard();
   renderKeyboard();
@@ -142,6 +154,7 @@ async function submitGuess() {
   if (game.current.length !== WORD_LENGTH) return invalid('Enter five letters first');
   locked = true;
   const guess = game.current;
+  if (game.guesses.length === 0) trackFirstGuess(guess);
   game.guesses.push(guess); game.current = '';
   render();
   const row = elements.board.querySelector(`[data-row="${game.guesses.length - 1}"]`);

@@ -3,7 +3,7 @@
 
   if (window.BludleGameTelemetry) return;
 
-  const SCHEMA_VERSION = 1;
+  const SCHEMA_VERSION = 2;
   const formats = {
     werdle: 'hybrid', bludle: 'session', codle: 'daily', connex: 'session', wordmash: 'daily',
     glyph: 'daily', borrowedletters: 'daily', shiftyfades: 'session', colormatch: 'session',

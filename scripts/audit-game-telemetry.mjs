@@ -30,7 +30,7 @@ const werdle = runTelemetry({
   multiples: { '#board .board-row': [guessedRow, guessedRow, emptyRow, emptyRow, emptyRow] }
 });
 const werdleSnapshot = werdle.telemetry.snapshot('werdle');
-assert.equal(werdle.html.dataset.bludleTelemetrySchema, '1');
+assert.equal(werdle.html.dataset.bludleTelemetrySchema, '2');
 assert.equal(werdleSnapshot.game_mode, 'daily');
 assert.equal(werdleSnapshot.attempts_used, 2);
 assert.match(werdleSnapshot.puzzle_id, /^werdle:\d{4}-\d{2}-\d{2}$/);

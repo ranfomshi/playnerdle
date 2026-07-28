@@ -26,5 +26,7 @@ jobs:
         run: node scripts/audit-engagement.mjs
       - name: Validate privacy-safe game performance telemetry
         run: node scripts/audit-game-telemetry.mjs
+      - name: Validate Werdle opening-guess telemetry
+        run: node scripts/audit-werdle-first-guess.mjs
       - name: Validate Word Mash answer normalisation
         run: node scripts/audit-wordmash.mjs
