@@ -6,7 +6,7 @@ const OPTION_COUNT = 5;
 const els = {
   level: document.querySelector("#level"), lives: document.querySelector("#lives"), best: document.querySelector("#highScore"),
   target: document.querySelector("#target"), options: document.querySelector("#options"), message: document.querySelector("#message"),
-  bonus: document.querySelector("#bonusProgress"), bonusLabel: document.querySelector("#bonusLabel"), dots: [...document.querySelectorAll("#streakDots i")],
+  bonus: document.querySelector("#bonusProgress"), bonusContainer: document.querySelector("#bonusContainer"), bonusLabel: document.querySelector("#bonusLabel"), bonusCopy: document.querySelector("#bonusCopy"), streakDots: document.querySelector("#streakDots"), dots: [...document.querySelectorAll("#streakDots i")],
   help: document.querySelector("#help-dialog"), gameOver: document.querySelector("#gameOverModal"), win: document.querySelector("#winModal"), toast: document.querySelector("#toast"),
 };
 
@@ -31,11 +31,14 @@ function updateHud() {
   els.lives.textContent = Array.from({length:state.lives},()=>"●").join(" ");
   els.lives.setAttribute("aria-label", `${state.lives} lives`);
   els.best.textContent = best;
-  const progress = state.streak % 5;
+  const atMaxLives = state.lives >= MAX_LIVES;
+  const progress = atMaxLives ? 5 : state.streak % 5;
+  els.bonusContainer.classList.toggle("is-maxed", atMaxLives);
   els.bonus.style.width = `${progress * 20}%`;
-  els.bonusLabel.textContent = progress ? `${progress} of 5 matches` : "Build a five-match streak";
+  els.bonusLabel.textContent = atMaxLives ? "Maximum lives reached" : progress ? `${progress} of 5 matches` : "Build a five-match streak";
+  els.bonusCopy.textContent = atMaxLives ? "You have all five. Keep matching to protect your streak." : "Earn an extra life after five correct answers.";
   els.dots.forEach((dot,index) => dot.classList.toggle("filled", index < progress));
-  document.querySelector("#streakDots").setAttribute("aria-label", `${progress} of 5 matches toward an extra life`);
+  els.streakDots.setAttribute("aria-label", atMaxLives ? "Maximum lives reached: 5 lives" : `${progress} of 5 matches toward an extra life`);
 }
 
 function setMessage(text, tone = "") {
@@ -72,7 +75,10 @@ function choose(colour,button) {
     [...els.options.children].forEach(option => { option.disabled = true; });
     state.streak += 1;
     let message = "Exact match.";
-    if (state.streak % 5 === 0 && state.lives < MAX_LIVES) { state.lives += 1; message += " You earned a life."; }
+    if (state.streak % 5 === 0) {
+      if (state.lives < MAX_LIVES) { state.lives += 1; message += " You earned a life."; }
+      else message += " You already have the maximum five lives.";
+    }
     state.level += 1;
     setMessage(message,"good");
     updateHud();
