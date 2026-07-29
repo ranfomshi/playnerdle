@@ -30,3 +30,5 @@ jobs:
         run: node scripts/audit-werdle-first-guess.mjs
       - name: Validate Word Mash answer normalisation
         run: node scripts/audit-wordmash.mjs
+      - name: Validate Shifty Fades gameplay presentation
+        run: node scripts/audit-shiftyfades.mjs
