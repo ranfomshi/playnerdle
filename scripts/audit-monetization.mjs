@@ -9,6 +9,8 @@ const manager = await readFile(path.join(root, 'globalNav', 'adManager.js'), 'ut
 const nav = await readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
 const styles = await readFile(path.join(root, 'globalNav', 'globalNav.css'), 'utf8');
 const bludle = await readFile(path.join(root, 'bludle', 'index.html'), 'utf8');
+const tintuition = await readFile(path.join(root, 'tintuition', 'app.js'), 'utf8');
+const seequence = await readFile(path.join(root, 'seequence', 'app.js'), 'utf8');
 const issues = [];
 
 if (!nav.includes('/globalNav/adManager.js')) {
@@ -31,6 +33,17 @@ for (const game of games) {
 
 if (!manager.includes("window.addEventListener('bludle:game-complete'")) {
   issues.push('globalNav/adManager.js: game placements are not gated by completion');
+}
+
+if (!manager.includes("const levelSummaryGames = new Set(['/tintuition', '/seequence'])") ||
+    !manager.includes("window.addEventListener('bludle:level-summary'")) {
+  issues.push('globalNav/adManager.js: supported level-summary placements are missing');
+}
+
+for (const [slug, source] of [['tintuition', tintuition], ['seequence', seequence]]) {
+  if (!source.includes("new CustomEvent('bludle:level-summary'")) {
+    issues.push(`${slug}/app.js: level summary does not notify the shared ad manager`);
+  }
 }
 
 if (!manager.includes('entry.intersectionRatio >= 0.5') || !manager.includes('}, 1000)')) {
@@ -118,6 +131,52 @@ assert.equal(placement.hidden, false);
 assert.equal(observedPlacement, placement);
 assert.equal(trackedEvents.some(([, eventName, properties]) =>
   eventName === 'ad_eligible_view' && properties.placement === 'result_summary' && properties.summary_placement === true
+), true);
+
+let levelHandler;
+let levelPlacement;
+let levelObservedPlacement;
+const levelTrackedEvents = [];
+const levelAdUnit = { dataset: {}, hidden: false };
+const levelFallback = { dataset: {}, hidden: true, addEventListener() {} };
+const levelLabel = { textContent: 'Advertisement' };
+const levelPlacementElement = {
+  dataset: {}, hidden: false, parentElement: null, setAttribute() {},
+  querySelector(selector) {
+    if (selector === 'ins.adsbygoogle') return levelAdUnit;
+    if (selector === '[data-house-ad-fallback]') return levelFallback;
+    if (selector === '.pn-ad__label') return levelLabel;
+    return null;
+  }
+};
+const levelSurface = {
+  append(element) { levelPlacement = element; element.parentElement = this; }
+};
+const levelWindow = {
+  location: { pathname: '/tintuition/' },
+  addEventListener(name, handler) { if (name === 'bludle:level-summary') levelHandler = handler; },
+  gtag(...args) { levelTrackedEvents.push(args); }
+};
+class LevelIntersectionObserverStub {
+  observe(element) { levelObservedPlacement = element; }
+}
+levelWindow.IntersectionObserver = LevelIntersectionObserverStub;
+levelWindow.setTimeout = setTimeout;
+levelWindow.clearTimeout = clearTimeout;
+vm.runInNewContext(manager, {
+  window: levelWindow,
+  document: {
+    head: { append() {} }, createElement: () => levelPlacementElement, getElementById: () => null,
+    querySelector: selector => selector === 'main' ? main : null
+  },
+  IntersectionObserver: LevelIntersectionObserverStub, MutationObserver: class {}, URL, Object, Map, Set
+});
+levelHandler({ detail: { surface: levelSurface, level: 2, outcome: 'advanced' } });
+assert.equal(levelPlacement, levelPlacementElement);
+assert.equal(levelPlacementElement.hidden, false);
+assert.equal(levelObservedPlacement, levelPlacementElement);
+assert.equal(levelTrackedEvents.some(([, eventName, properties]) =>
+  eventName === 'ad_eligible_view' && properties.summary_type === 'level' && properties.level === 2
 ), true);
 
 if (issues.length) {

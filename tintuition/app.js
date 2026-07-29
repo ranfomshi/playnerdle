@@ -118,7 +118,11 @@ function resolveRound(forcedRatio) {
   updateRecords();
   checkAchievements(result);
   tone(result.success ? 660 : 180, result.success ? .12 : .18);
-  $('#result-dialog').showModal();
+  const resultDialog = $('#result-dialog');
+  resultDialog.showModal();
+  window.dispatchEvent(new CustomEvent('bludle:level-summary', {
+    detail: { surface: resultDialog, level: run.level, outcome: result.success ? 'advanced' : 'life_lost' }
+  }));
 }
 
 function updateRecords(finished = false) {
