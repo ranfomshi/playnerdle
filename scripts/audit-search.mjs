@@ -14,6 +14,7 @@ const pages = [
 const expectedUrls = new Set(pages.map(([, route]) => `${SITE_URL}${route}`));
 const errors = [];
 const titles = new Map();
+const retiredColourMatchRoute = /(?:https:\/\/bludle\.com)?\/colourmatch(?:\/|["'#])/i;
 
 function tags(html, name) {
   return [...html.matchAll(new RegExp(`<${name}\\b[^>]*>`, 'gi'))].map(match => match[0]);
@@ -61,8 +62,12 @@ for (const [rel, route] of pages) {
     if (!resolveInternal(file, match[1])) errors.push(`${rel}: broken internal link ${match[1]}`);
   }
   if (/https?:\/\/www\.bludle\.com/i.test(html)) errors.push(`${rel}: contains the retired www host`);
+  if (retiredColourMatchRoute.test(html)) errors.push(`${rel}: contains retired Colour Match route /colourmatch/`);
   if (/\u00e2\u20ac|\u00c3\u2014|\u00c2\u00b7/.test(html)) errors.push(`${rel}: contains likely mojibake`);
 }
+
+const sharedNavigation = fs.readFileSync(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
+if (retiredColourMatchRoute.test(sharedNavigation)) errors.push('globalNav/globalNav.js: contains retired Colour Match route /colourmatch/');
 
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
@@ -73,6 +78,7 @@ if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push('sitemap.xml: 
 const redirects = fs.readFileSync(path.join(root, 'netlify.toml'), 'utf8');
 if (!redirects.includes('from = "https://www.bludle.com/*"') || !redirects.includes('to = "https://bludle.com/:splat"')) errors.push('netlify.toml: missing www-to-apex redirect');
 if (redirects.includes('from = "https://bludle.com/*"')) errors.push('netlify.toml: apex host must not redirect to itself');
+if (!redirects.includes('from = "/colourmatch/*"') || !redirects.includes('to = "/colormatch/:splat"')) errors.push('netlify.toml: missing retired Colour Match route redirect');
 const flatRedirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
 for (const name of blogs) {
   const number = name.replace('.html', '');
