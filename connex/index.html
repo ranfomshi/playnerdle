@@ -213,41 +213,6 @@
             text-align: center;
         }
 
-        /* Modal Styles */
-        #gameOverModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: #2a2a2a;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .modal-button {
-            background-color: #00b96b;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        .modal-button:hover {
-            background-color: #007a3e;
-        }
-
         @media (max-width: 600px) {
             body {
                 padding: 0px;
@@ -281,7 +246,7 @@
 <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
   <link rel="stylesheet" href="/globalNav/gameThemes.css">
 <link rel="stylesheet" href="/globalNav/discovery.css">
-<link rel="stylesheet" href="./connex-modern.css?v=1">
+<link rel="stylesheet" href="./connex-modern.css?v=2">
 <meta name="description" content="Sort sixteen words into four hidden groups by finding the connection shared by each set.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://bludle.com/connex/">
@@ -325,16 +290,25 @@
 
     <div class="feedback" id="feedback" role="status"></div>
 
-    <!-- Game Over Modal -->
-    <div id="gameOverModal" class="modal">
-        <div class="modal-content">
-            <h2>Game Over</h2>
-            <p id="finalFeedback"></p>
-            <button class="modal-button" onclick="restartGame()">Restart</button>
-            <button class="modal-button" onclick="exitGame()">Exit</button>
-        </div>
-    </div>
     </main>
+
+    <dialog id="gameOverModal" class="connex-result-dialog" aria-labelledby="connex-result-title">
+      <div class="modal-content">
+        <button class="connex-dialog-close" id="connex-review-board" type="button" aria-label="Close result and review the board">&times;</button>
+        <span class="connex-result-kicker" id="connex-result-kicker">Run complete</span>
+        <div class="connex-result-mark" id="connex-result-mark">0 / 4</div>
+        <h2 id="connex-result-title">Run complete.</h2>
+        <p id="finalFeedback">Your connections are shown on the board.</p>
+        <div class="connex-result-stats" aria-label="Final result">
+          <div><strong id="final-groups">0 / 4</strong><span>Groups found</span></div>
+          <div><strong id="final-chances">0</strong><span>Chances left</span></div>
+        </div>
+        <div class="connex-result-actions">
+          <button class="connex-primary-button" id="connex-restart" type="button">Play again</button>
+          <a class="connex-secondary-link" href="/">All games</a>
+        </div>
+      </div>
+    </dialog>
 <!-- bludle-guide:start -->
   <section class="bludle-discovery game-guide" aria-labelledby="about-connex">
     <div class="discovery-heading">
@@ -1160,6 +1134,7 @@
         let selectedGroups = [false, false, false, false];
         let solvedBankIndexes = new Set();
         let completedGroups = 0;
+        let resolvingGroup = false;
 
         const warmConnexMotion = () => window.BludleMotion?.load({ flip: true });
         window.addEventListener('bludle:motion-ready', warmConnexMotion, { once: true });
@@ -1180,12 +1155,11 @@
         const renderWordList = () => {
             const wordListDiv = document.getElementById('wordList');
             wordListDiv.innerHTML = '';
-            currentWords.forEach((word, wordIndex) => {
+            currentWords.forEach(word => {
                 const wordItem = document.createElement('button');
                 wordItem.type = 'button';
                 wordItem.classList.add('word-item');
                 wordItem.textContent = word;
-                wordItem.dataset.flipId = `connex-word-${wordIndex}`;
                 wordItem.setAttribute('aria-pressed', 'false');
                 wordItem.addEventListener('click', () => handleWordClick(wordItem));
                 wordItem.style.setProperty('--stagger-index', currentWords.indexOf(word));
@@ -1195,17 +1169,18 @@
         };
 
         const handleWordClick = (wordItem) => {
-            if (wordItem.classList.contains('correct')) return;
+            if (resolvingGroup || wordItem.classList.contains('correct')) return;
             wordItem.classList.toggle('selected');
             wordItem.setAttribute('aria-pressed', String(wordItem.classList.contains('selected')));
             const selectedItems = document.querySelectorAll('.word-item.selected');
             updateSelectionStatus();
             if (selectedItems.length === 4) {
-                checkAnswer(selectedItems);
+                resolvingGroup = true;
+                Promise.resolve(checkAnswer(selectedItems)).finally(() => { resolvingGroup = false; });
             }
         };
 
-        const checkAnswer = (selectedItems) => {
+        const checkAnswer = async (selectedItems) => {
             const selectedWords = Array.from(selectedItems).map(el => el.textContent);
             const normalizedSelectedWords = selectedWords.map(word => word.toLowerCase());
 
@@ -1239,7 +1214,7 @@
                 updateLives();
 
                 if (lives === 0) {
-                    showGameOverDialog("Game Over! You have no lives left.");
+                    showGameOverDialog(false);
                     return;
                 } else {
                     setTimeout(() => {
@@ -1254,19 +1229,24 @@
                 const groupIndex = groupsSelected[0].index;
                 solvedBankIndexes.add(groupIndex);
                 const motion = window.BludleMotion?.current({ flip: true });
-                const flipState = motion?.Flip.getState([
-                    ...document.querySelectorAll('.word-item'),
-                    ...document.querySelectorAll('.group-container, .group-item')
-                ]);
-                selectedItems.forEach(item => item.classList.add('correct'));
                 const feedbackElement = document.getElementById('feedback');
                 feedbackElement.classList.remove('error');
                 feedbackElement.classList.add('success');
-                moveToTop(selectedItems);
+
+                if (motion) {
+                    await new Promise(resolve => {
+                        motion.gsap.timeline({ onComplete: resolve })
+                            .to(selectedItems, { borderColor: '#1f9d66', backgroundColor: '#edf8f2', color: '#176d49', scale: 1.025, duration: .14, stagger: .025, ease: 'power1.out' })
+                            .to(selectedItems, { autoAlpha: 0, y: -5, scale: .97, duration: .16, stagger: .018, ease: 'power1.in' });
+                    });
+                }
+
+                const remainingItems = [...document.querySelectorAll('.word-item')].filter(item => !item.classList.contains('selected'));
+                const reflowState = motion?.Flip.getState(remainingItems);
 
                 const groupDiv = document.createElement('div');
                 groupDiv.classList.add('group-container');
-                if (motion) groupDiv.style.animation = 'none';
+                if (motion) groupDiv.classList.add('is-motion-group');
                 const groupHeading = document.createElement('div');
                 groupHeading.classList.add('group-heading');
                 const groupLabel = document.createElement('span');
@@ -1282,7 +1262,6 @@
                     const groupItem = document.createElement('span');
                     groupItem.classList.add('group-item');
                     groupItem.textContent = item.textContent;
-                    groupItem.dataset.flipId = item.dataset.flipId;
                     groupWrapper.appendChild(groupItem);
                 });
                 groupDiv.append(groupHeading, groupWrapper);
@@ -1290,16 +1269,19 @@
                 document.getElementById('completedGroups').appendChild(groupDiv);
 
                 selectedItems.forEach(item => item.remove());
-                if (motion && flipState) {
-                    const targets = [...document.querySelectorAll('.word-item, .group-container, .group-item')];
-                    motion.Flip.from(flipState, {
-                        targets,
-                        absolute: true,
-                        nested: true,
-                        duration: .46,
-                        ease: 'power2.inOut',
-                        stagger: .012,
-                        onEnter: elements => motion.gsap.fromTo(elements, { autoAlpha: 0, scale: .97 }, { autoAlpha: 1, scale: 1, duration: .24, clearProps: 'opacity,visibility,transform' })
+                if (motion && reflowState) {
+                    await new Promise(resolve => {
+                        const reflow = motion.Flip.from(reflowState, {
+                            targets: remainingItems,
+                            absolute: true,
+                            duration: .32,
+                            ease: 'power2.inOut',
+                            simple: true
+                        });
+                        motion.gsap.timeline({ onComplete: resolve })
+                            .add(reflow, 0)
+                            .fromTo(groupDiv, { autoAlpha: 0, y: -8, scaleY: .96, transformOrigin: 'top' }, { autoAlpha: 1, y: 0, scaleY: 1, duration: .28, ease: 'power2.out', clearProps: 'opacity,visibility,transform' }, .04)
+                            .fromTo(groupWrapper.children, { autoAlpha: 0, y: 4 }, { autoAlpha: 1, y: 0, duration: .18, stagger: .025, clearProps: 'opacity,visibility,transform' }, .13);
                     });
                 }
                 completedGroups++;
@@ -1309,14 +1291,9 @@
                 feedbackElement.textContent = remaining ? `Locked in. ${remaining} ${remaining === 1 ? 'group' : 'groups'} left.` : 'All four connections found.';
 
                 if (completedGroups === 4) {
-                    showGameOverDialog("Congratulations! You found all connections!", true);
+                    showGameOverDialog(true);
                 }
             }
-        };
-
-        const moveToTop = (selectedItems) => {
-            const wordListDiv = document.getElementById('wordList');
-            selectedItems.forEach(item => wordListDiv.insertBefore(item, wordListDiv.firstChild));
         };
 
         const resetSelection = () => {
@@ -1342,39 +1319,42 @@
                 : 'Select four words that share one connection.';
         };
 
-        const showGameOverDialog = (message, isGameWon = false) => {
-            document.getElementById('finalFeedback').textContent = message;
-            document.getElementById('gameOverModal').style.display = 'flex';
+        const showGameOverDialog = (isGameWon = false) => {
+            const dialog = document.getElementById('gameOverModal');
+            document.getElementById('connex-result-kicker').textContent = isGameWon ? 'All connections found' : 'Run complete';
+            document.getElementById('connex-result-mark').textContent = `${completedGroups} / 4`;
+            document.getElementById('connex-result-title').textContent = isGameWon ? 'Every group locked in.' : 'The connections got away.';
+            document.getElementById('finalFeedback').textContent = isGameWon
+                ? 'Four precise groups, with every red herring accounted for.'
+                : `You found ${completedGroups} ${completedGroups === 1 ? 'group' : 'groups'} before the five chances ran out.`;
+            document.getElementById('final-groups').textContent = `${completedGroups} / 4`;
+            document.getElementById('final-chances').textContent = String(lives);
+            document.getElementById('connex-restart').textContent = isGameWon ? 'Play another board' : 'Try another board';
+            document.documentElement.classList.add('connex-dialog-open');
+            if (!dialog.open) dialog.showModal();
 
-            // Change buttons based on whether the game is won or lost
-            const restartButton = document.querySelector('.modal-button');
-            const exitButton = document.querySelectorAll('.modal-button')[1];
-
-            if (isGameWon) {
-                document.getElementById('finalFeedback').textContent = "You won! Do you want to play again?";
-                restartButton.textContent = "Play Again";
-            } else {
-                document.getElementById('finalFeedback').textContent = message;
-                restartButton.textContent = "Restart";
+            const motion = window.BludleMotion?.current();
+            if (motion) {
+                motion.gsap.fromTo(dialog.querySelector('.modal-content'), { autoAlpha: 0, y: 12, scale: .985 }, { autoAlpha: 1, y: 0, scale: 1, duration: .3, ease: 'power2.out', clearProps: 'opacity,visibility,transform' });
             }
-
-            exitButton.textContent = "Exit";
         };
 
         const restartGame = () => {
-            document.getElementById('gameOverModal').style.display = 'none';
+            const dialog = document.getElementById('gameOverModal');
+            if (dialog.open) dialog.close();
             lives = 5;
             completedGroups = 0;
+            document.getElementById('completedGroups').innerHTML = '';
             getWordsForConnection();
             document.getElementById('feedback').textContent = '';
             document.getElementById('feedback').className = 'feedback';
-            document.getElementById('completedGroups').innerHTML = '';  // Clear completed groups
             updateProgress();
         };
 
-        const exitGame = () => {
-            window.location.href = "https://bludle.com";
-        };
+        document.getElementById('connex-restart').addEventListener('click', restartGame);
+        document.getElementById('connex-review-board').addEventListener('click', () => document.getElementById('gameOverModal').close());
+        document.getElementById('gameOverModal').addEventListener('click', event => { if (event.target === event.currentTarget) event.currentTarget.close(); });
+        document.getElementById('gameOverModal').addEventListener('close', () => document.documentElement.classList.remove('connex-dialog-open'));
 
         getWordsForConnection();
     </script>
