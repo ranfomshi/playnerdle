@@ -22,8 +22,9 @@ assert.match(motion, /prefers-reduced-motion: reduce/);
 
 assert.match(home, /Flip\.getState\(gameTiles\)/, 'home filtering should capture the tile grid');
 assert.match(home, /Flip\.from\(previous/, 'home filtering should animate the reflow');
-assert.match(connex, /dataset\.flipId = `connex-word-/);
-assert.match(connex, /motion\.Flip\.from\(flipState/, 'Connex should move solved words into their group');
+assert.match(connex, /motion\.Flip\.from\(reflowState/, 'Connex should smoothly close the remaining grid');
+assert.match(connex, /Every group locked in\./, 'Connex needs the rebuilt completion summary');
+assert.match(connex, /<dialog id="gameOverModal" class="connex-result-dialog"/, 'Connex result must use a viewport-level dialog');
 assert.match(borrowed, /className='borrow-letter-ghost'/);
 assert.match(borrowed, /async function passLetters\(\)/, 'Borrowed Letters should finish its pass after the motion cue');
 assert.match(borrowedStyles, /@media\(prefers-reduced-motion:reduce\).*\.borrow-letter-ghost\{display:none\}/s);
