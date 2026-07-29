@@ -4,7 +4,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 
 const root = path.resolve(import.meta.dirname, '..');
-const [motion, nav, home, connex, borrowed, borrowedStyles, engagement] = await Promise.all([
+const [motion, nav, home, connex, borrowed, borrowedStyles, engagement, reaction, reactionStyles] = await Promise.all([
   readFile(path.join(root, 'globalNav', 'motion.js'), 'utf8'),
   readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8'),
   readFile(path.join(root, 'home.js'), 'utf8'),
@@ -12,6 +12,8 @@ const [motion, nav, home, connex, borrowed, borrowedStyles, engagement] = await 
   readFile(path.join(root, 'borrowedletters', 'borrowedletters.js'), 'utf8'),
   readFile(path.join(root, 'borrowedletters', 'borrowedletters.css'), 'utf8'),
   readFile(path.join(root, 'globalNav', 'engagementManager.js'), 'utf8'),
+  readFile(path.join(root, 'reaction', 'reaction.js'), 'utf8'),
+  readFile(path.join(root, 'reaction', 'reaction.css'), 'utf8'),
 ]);
 
 assert.ok(nav.indexOf('ensureMotion();') < nav.indexOf('ensureEngagementManager();'), 'motion manager must load before engagement tracking');
@@ -29,6 +31,11 @@ assert.match(borrowed, /className='borrow-letter-ghost'/);
 assert.match(borrowed, /async function passLetters\(\)/, 'Borrowed Letters should finish its pass after the motion cue');
 assert.match(borrowedStyles, /@media\(prefers-reduced-motion:reduce\).*\.borrow-letter-ghost\{display:none\}/s);
 assert.match(engagement, /motion\.gsap\.timeline/, 'shared completion recommendations should use the warmed motion runtime');
+assert.match(reaction, /const tiers = \[/, 'Reaction should scale its response across performance tiers');
+assert.match(reaction, /window\.BludleMotion\?\.load\(\)/, 'Reaction should use the optional shared GSAP runtime');
+assert.match(reaction, /tier\.id === 'glacial'/, 'Reaction needs an exaggerated slow-result treatment');
+assert.match(reaction, /createFalseStartShards/, 'Reaction needs an exaggerated false-start treatment');
+assert.match(reactionStyles, /@media \(prefers-reduced-motion: reduce\)/, 'Reaction effects must respect reduced motion');
 
 const appended = [];
 const context = {
