@@ -1,12 +1,91 @@
-.legend .unchecked { background: #303a49; }
-.tutorial-dialog > p { color: var(--muted); line-height: 1.5; }
-.tutorial-clue { min-height: 50px; padding: 12px; margin: 12px 0; border: 1px solid var(--line); border-radius: 11px; background: #111925; color: var(--teal); font-weight: 700; text-align: center; }
-.tutorial-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: min(100%, 300px); margin: auto; }
-.tutorial-grid button { aspect-ratio: 1; border: 1px solid #3b4960; border-radius: 8px; background: #151e2a; color: #7f8da2; cursor: default; }
-.tutorial-grid button.next { border-color: var(--sand); color: var(--sand); box-shadow: 0 0 0 3px rgba(255,217,120,.08); cursor: pointer; animation: tutorial-pulse 1.3s infinite; }
-.tutorial-grid button.demo-possible { border-color: var(--teal); background: rgba(87,223,194,.16); color: #c8f5ec; }
-.tutorial-grid button.demo-scanned { background: #344259; color: white; }
-.tutorial-grid button.demo-treasure { border-color: var(--sand); background: var(--sand); color: #332706; font-size: 1.5rem; }
-.tutorial-note { font-size: .7rem; text-align: center; }
-.tutorial-dialog #tutorial-done { width: 100%; }
-@keyframes tutorial-pulse { 50% { box-shadow: 0 0 0 7px rgba(255,217,120,.03); } }
+body[data-game="hunt"] .legend .unchecked {
+  background: var(--slate-300);
+}
+
+body[data-game="hunt"] .tutorial-dialog {
+  border-color: var(--slate-200);
+  background: var(--slate-0);
+  color: var(--slate-600);
+}
+
+body[data-game="hunt"] .tutorial-dialog > p {
+  color: var(--slate-600);
+  line-height: 1.5;
+}
+
+body[data-game="hunt"] .tutorial-clue {
+  min-height: 50px;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid var(--cobalt-200);
+  border-radius: 11px;
+  background: var(--cobalt-50);
+  color: var(--cobalt-700);
+  font-weight: 700;
+  text-align: center;
+}
+
+body[data-game="hunt"] .tutorial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  width: min(100%, 300px);
+  margin: auto;
+}
+
+body[data-game="hunt"] .tutorial-grid button {
+  aspect-ratio: 1;
+  border: 1px solid var(--slate-200);
+  border-radius: 8px;
+  background: var(--slate-0);
+  color: var(--slate-500);
+  box-shadow: var(--shadow-xs);
+  cursor: default;
+}
+
+body[data-game="hunt"] .tutorial-grid button.next {
+  border-color: var(--cobalt-500);
+  background: var(--cobalt-50);
+  color: var(--cobalt-700);
+  box-shadow: 0 0 0 3px rgba(47, 95, 222, .1);
+  cursor: pointer;
+  animation: tutorial-pulse 1.3s infinite;
+}
+
+body[data-game="hunt"] .tutorial-grid button.demo-possible {
+  border-color: var(--success);
+  background: var(--success-bg);
+  color: #176d49;
+}
+
+body[data-game="hunt"] .tutorial-grid button.demo-possible.next {
+  border-color: var(--cobalt-500);
+  box-shadow: 0 0 0 3px rgba(47, 95, 222, .12);
+}
+
+body[data-game="hunt"] .tutorial-grid button.demo-scanned {
+  border-color: var(--slate-300);
+  background: var(--slate-200);
+  color: var(--slate-700);
+}
+
+body[data-game="hunt"] .tutorial-grid button.demo-treasure {
+  border-color: var(--amber-500);
+  background: var(--amber-100);
+  color: var(--amber-700);
+  font-size: 1.5rem;
+}
+
+body[data-game="hunt"] .tutorial-note {
+  color: var(--slate-500);
+  font-size: .7rem;
+  text-align: center;
+}
+
+body[data-game="hunt"] .tutorial-dialog #tutorial-done {
+  width: 100%;
+}
+
+@keyframes tutorial-pulse {
+  50% { box-shadow: 0 0 0 7px rgba(47, 95, 222, .04); }
+}
