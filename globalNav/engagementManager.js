@@ -299,6 +299,31 @@
     trak: () => visible('#gameover-dialog')
   };
 
+  // A returning player may open a result that was completed in an earlier page
+  // view. Keep this stricter than completionRules: restored monetisation belongs
+  // inside a visible summary, never on the dormant game surface behind it.
+  const restoredSummaryRules = {
+    werdle: () => textMatches('#attempt-label', /solved in|round complete/i) && visible('#stats-dialog'),
+    bludle: () => visible('#resultDialog'),
+    codle: () => visible('#result-dialog'),
+    connex: () => visible('#gameOverModal'),
+    wordmash: () => visible('#result'),
+    glyph: () => visible('#result-dialog'),
+    borrowedletters: () => visible('#result-dialog'),
+    shiftyfades: () => visible('#gameOverModal') || visible('#winModal'),
+    colormatch: () => visible('#result-dialog'),
+    afterimage: () => textMatches('#game-status', /daily challenge complete/i) && visible('#result-dialog'),
+    chromalock: () => visible('#gameover-dialog'),
+    guesshue: () => visible('#result-dialog'),
+    tintuition: () => visible('#gameover-dialog'),
+    hunt: () => visible('#result-dialog'),
+    seequence: () => visible('#gameover-dialog'),
+    deadcentre: () => textMatches('#game-status', /daily challenge complete/i) && visible('#result-dialog'),
+    heardle: () => visible('#statsModal'),
+    alternate: () => visible('#result-dialog'),
+    trak: () => visible('#gameover-dialog')
+  };
+
   function inferOutcome(surface) {
     const copy = (surface?.textContent || '').toLowerCase();
     if (/(out of guesses|signal lost|game over|went cold|false start|just missed|attempts used)/.test(copy)) return 'lost';
@@ -427,12 +452,42 @@
     window.dispatchEvent(new CustomEvent('bludle:game-complete', { detail: properties }));
   }
 
+  function showRestoredSummary(surface) {
+    if (completed) return;
+    completed = true;
+
+    const progress = progressForToday();
+    if (!progress.completed.includes(currentGame.slug)) {
+      progress.completed.push(currentGame.slug);
+      write(localStorage, PROGRESS_KEY, progress);
+    }
+    const streak = read(localStorage, STREAK_KEY, { count: 0 }).count || 0;
+    const outcome = inferOutcome(surface);
+
+    renderRecirculation(surface, progress, streak);
+    track('completed_game_summary_view', {
+      game_name: currentGame.slug,
+      game_category: currentGame.category.toLowerCase(),
+      outcome,
+      summary_context: 'restored',
+      completed_today_count: progress.completed.length,
+      play_streak_days: streak,
+      landing_page: landing.landing_page,
+      landing_channel: landing.landing_channel
+    });
+    window.dispatchEvent(new CustomEvent('bludle:game-complete', {
+      detail: { game_name: currentGame.slug, outcome, restored_completion: true }
+    }));
+  }
+
   let checkScheduled = false;
   function checkForCompletion() {
     checkScheduled = false;
-    if (!started || completed) return;
-    const surface = completionRules[currentGame.slug]?.();
-    if (surface) completeGame(surface);
+    if (completed) return;
+    const surface = (started ? completionRules : restoredSummaryRules)[currentGame.slug]?.();
+    if (!surface) return;
+    if (started) completeGame(surface);
+    else showRestoredSummary(surface);
   }
 
   function scheduleCompletionCheck() {
@@ -443,6 +498,7 @@
 
   const observer = new MutationObserver(scheduleCompletionCheck);
   observer.observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['open', 'hidden', 'style', 'class', 'disabled'] });
+  scheduleCompletionCheck();
 
   window.BludleEngagement = Object.freeze({
     start: details => startGame(details?.trigger || 'explicit'),
