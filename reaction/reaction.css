@@ -126,12 +126,19 @@ body[data-game="reaction"] {
   line-height: 1.15;
 }
 
-#feedback {
-  max-width: 48ch;
-  min-height: 44px;
+body[data-game="reaction"] #feedback {
+  width: min(100%, 540px);
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
   color: var(--slate-600);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.55;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .reaction-scale {
@@ -274,6 +281,12 @@ body[data-reaction-tier="false-start"] .reaction-card {
 }
 body[data-reaction-tier="false-start"] .reaction-readout { letter-spacing: -.045em; }
 body[data-reaction-tier="false-start"] .reaction-readout strong { font-size: clamp(46px, 10vw, 88px); }
+body[data-reaction-tier="false-start"] #feedback {
+  width: min(100%, 580px);
+  color: #a52232;
+  font-size: clamp(16px, 2.4vw, 18px);
+  font-weight: 700;
+}
 
 .reaction-dialog { width: min(calc(100% - 32px), 520px); }
 .reaction-dialog h2 { margin: 6px 0 20px; }
