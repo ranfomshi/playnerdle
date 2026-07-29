@@ -1,3 +1,5 @@
+import { routes, routePathData } from './routes.js?v=1';
+
 const STORAGE_KEY = 'trak:v2';
 const MAX_LIVES = 3;
 const elements = {
@@ -7,14 +9,6 @@ const elements = {
   start: document.querySelector('#start-button'), help: document.querySelector('#help-dialog'), gameover: document.querySelector('#gameover-dialog'), sound: document.querySelector('#sound-button'),
 };
 
-const triangle = (value) => { const wrapped = ((value % 2) + 2) % 2; return wrapped <= 1 ? wrapped : 2 - wrapped; };
-const routes = [
-  { name: 'Line', from: 1, path: 'M50 7 L50 93', targetPhase: .5, point: (p) => ({ x: .5, y: .07 + .86 * triangle(p) }) },
-  { name: 'Arc', from: 4, path: 'M15 86 Q50 5 85 86', targetPhase: .5, point: (p) => { const t = triangle(p); return { x: .15 + .7 * t, y: .86 - .8 * Math.sin(Math.PI * t) }; } },
-  { name: 'Orbit', from: 7, path: 'M50 8 A38 42 0 1 1 49.9 8', targetPhase: .25, point: (p) => ({ x: .5 + .38 * Math.cos(p * Math.PI * 2 - Math.PI / 2), y: .5 + .42 * Math.sin(p * Math.PI * 2 - Math.PI / 2) }) },
-  { name: 'Eight', from: 10, path: 'M50 50 C8 5 8 95 50 50 C92 5 92 95 50 50', targetPhase: .125, point: (p) => ({ x: .5 + .36 * Math.sin(p * Math.PI * 2), y: .5 + .38 * Math.sin(p * Math.PI * 4) }) },
-  { name: 'S-Curve', from: 13, path: 'M78 8 C15 8 15 50 50 50 C85 50 85 92 22 92', targetPhase: .5, point: (p) => { const t = triangle(p); return { x: .5 - .3 * Math.sin((t - .5) * Math.PI * 2), y: .08 + .84 * t }; } },
-];
 const loadStats = () => { try { return { best: 1, hits: 0, ...JSON.parse(localStorage.getItem(STORAGE_KEY)) }; } catch { return { best: 1, hits: 0 }; } };
 const stats = loadStats();
 const game = { level: 1, lives: MAX_LIVES, hits: 0, state: 'ready', phase: 0, visibleTime: 0, lastTime: 0, frame: 0, muted: localStorage.getItem('trak:muted') === 'true' };
@@ -27,7 +21,7 @@ function pixelPoint(point) { const pad = 16; return { x: pad + point.x * (elemen
 
 function updateHud() {
   const activeRoute = route();
-  elements.level.textContent = game.level; elements.best.textContent = stats.best; elements.route.textContent = activeRoute.name; elements.routePath.setAttribute('d', activeRoute.path);
+  elements.level.textContent = game.level; elements.best.textContent = stats.best; elements.route.textContent = activeRoute.name; elements.routePath.setAttribute('d', routePathData(activeRoute));
   const zone = pixelPoint(activeRoute.point(activeRoute.targetPhase)); const size = targetSize();
   elements.target.style.cssText = `left:${zone.x}px;top:${zone.y}px;width:${size}px;height:${size}px`;
   elements.lives.textContent = Array.from({ length: MAX_LIVES }, (_, index) => index < game.lives ? '●' : '○').join(' ');
