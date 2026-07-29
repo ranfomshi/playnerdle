@@ -9,7 +9,25 @@
   force = true
 
 [[redirects]]
+  from = "/colourMatch"
+  to = "/colormatch/"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/colourMatch/*"
+  to = "/colormatch/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/colourmatch"
+  to = "/colormatch/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/colourmatch/*"
   to = "/colormatch/:splat"
   status = 301
   force = true
