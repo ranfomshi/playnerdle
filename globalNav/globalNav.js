@@ -35,6 +35,17 @@
 
   ensureProductAnalytics();
 
+  function ensureMotion() {
+    if (window.BludleMotion || document.querySelector('script[data-bludle-motion]')) return;
+    const script = document.createElement('script');
+    script.src = '/globalNav/motion.js';
+    script.async = false;
+    script.dataset.bludleMotion = '';
+    document.head.append(script);
+  }
+
+  ensureMotion();
+
   function ensureAdManager() {
     if (document.querySelector('script[data-bludle-ad-manager]')) return;
     const script = document.createElement('script');

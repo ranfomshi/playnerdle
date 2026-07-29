@@ -14,13 +14,44 @@ function shuffle(items){const copy=[...items];for(let index=copy.length-1;index>
 const puzzle=shuffle(Object.entries(BANK).map(([letter,items])=>{const [word,clue,index]=items[Math.floor(random()*items.length)];return{word,clue,index,letter}}));
 const corrupt=puzzle.map((entry,index)=>{const next=puzzle[(index+1)%puzzle.length].letter;return entry.word.slice(0,entry.index)+next+entry.word.slice(entry.index+1)});
 const els={ring:document.querySelector('#letter-ring'),pass:document.querySelector('#pass-button'),hint:document.querySelector('#hint-button'),feedback:document.querySelector('#feedback-panel'),status:document.querySelector('#game-status'),help:document.querySelector('#help-dialog'),stats:document.querySelector('#stats-dialog'),result:document.querySelector('#result-dialog'),toast:document.querySelector('#snackbar')};
-let selections=Array(5).fill(null),locked=new Set(),attempt=1,hints=0,lastResults=Array(5).fill(null),completedResult=null;
+let selections=Array(5).fill(null),locked=new Set(),attempt=1,hints=0,lastResults=Array(5).fill(null),completedResult=null,passing=false;
+const warmBorrowedMotion=()=>window.BludleMotion?.load();
+window.addEventListener('bludle:motion-ready',warmBorrowedMotion,{once:true});warmBorrowedMotion();
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch{return fallback}}
 function potentialScore(){return Math.max(0,1000-(attempt-1)*200-hints*100)}
 function render(){els.ring.innerHTML=puzzle.map((entry,nodeIndex)=>`<article class="word-node ${lastResults[nodeIndex]===true?'is-repaired':lastResults[nodeIndex]===false?'is-broken':''} ${locked.has(nodeIndex)?'is-hinted':''}" data-node="${nodeIndex}"><span class="node-number">Word ${nodeIndex+1}</span><p class="node-clue">${entry.clue}</p><div class="letter-buttons" role="group" aria-label="Select the borrowed letter in ${corrupt[nodeIndex]}">${[...corrupt[nodeIndex]].map((letter,letterIndex)=>`<button class="letter-button" type="button" data-letter="${letterIndex}" aria-pressed="${selections[nodeIndex]===letterIndex}" ${locked.has(nodeIndex)?'disabled':''}>${letter}</button>`).join('')}</div><div class="result-word">${typeof lastResults[nodeIndex]==='boolean'?(lastResults[nodeIndex]?entry.word:'Not repaired'):''}</div></article>`).join('');document.querySelector('#attempt-value').textContent=`${attempt} / 4`;document.querySelector('#repaired-value').textContent=`${lastResults.filter(Boolean).length} / 5`;document.querySelector('#score-value').textContent=potentialScore().toLocaleString();els.hint.disabled=locked.size===5;els.pass.disabled=selections.some(value=>value===null);els.ring.querySelectorAll('.letter-button').forEach(button=>button.addEventListener('click',selectLetter))}
 function selectLetter(event){const node=Number(event.currentTarget.closest('.word-node').dataset.node);if(locked.has(node))return;selections[node]=Number(event.currentTarget.dataset.letter);lastResults=Array(5).fill(null);els.feedback.hidden=true;render();els.status.textContent=selections.every(value=>value!==null)?'All five intruders selected. Ready to pass.':`Select ${selections.filter(value=>value===null).length} more ${selections.filter(value=>value===null).length===1?'letter':'letters'}.`}
 function simulate(){const selected=selections.map((position,index)=>corrupt[index][position]);return puzzle.map((entry,index)=>{const incoming=selected[(index-1+5)%5];const position=selections[index];return corrupt[index].slice(0,position)+incoming+corrupt[index].slice(position+1)})}
-function passLetters(){if(selections.some(value=>value===null))return;const words=simulate();lastResults=words.map((word,index)=>word===puzzle[index].word);render();if(lastResults.every(Boolean)){finish(true);return}const repaired=lastResults.filter(Boolean).length;els.feedback.hidden=false;els.feedback.innerHTML=`<strong>${repaired} of 5 words repaired.</strong> The pass returned ${words.map(word=>`<code>${word}</code>`).join(', ')}. Keep useful selections and rethink the rest.`;if(attempt>=4){finish(false);return}attempt+=1;document.querySelector('#attempt-value').textContent=`${attempt} / 4`;document.querySelector('#score-value').textContent=potentialScore().toLocaleString();els.status.textContent=`${repaired} repaired. Adjust the circuit for pass ${attempt}.`}
+function animateLetterPass(){
+  const motion=window.BludleMotion?.current();
+  if(!motion)return Promise.resolve();
+  const nodes=[...els.ring.querySelectorAll('.word-node')],ghosts=[];
+  nodes.forEach((node,index)=>{
+    const source=node.querySelector(`.letter-button[data-letter="${selections[index]}"]`);
+    const destination=nodes[(index+1)%nodes.length]?.querySelector('.letter-buttons');
+    if(!source||!destination)return;
+    const start=source.getBoundingClientRect(),end=destination.getBoundingClientRect(),ghost=document.createElement('span');
+    ghost.className='borrow-letter-ghost';ghost.textContent=source.textContent;ghost.setAttribute('aria-hidden','true');
+    Object.assign(ghost.style,{left:`${start.left}px`,top:`${start.top}px`,width:`${start.width}px`,height:`${start.height}px`});
+    document.body.append(ghost);
+    ghosts.push({ghost,dx:end.left+end.width/2-(start.left+start.width/2),dy:end.top+end.height/2-(start.top+start.height/2)});
+  });
+  if(!ghosts.length)return Promise.resolve();
+  return new Promise(resolve=>{
+    const timeline=motion.gsap.timeline({onComplete:()=>{ghosts.forEach(({ghost})=>ghost.remove());resolve()}});
+    ghosts.forEach(({ghost,dx,dy})=>{
+      const lift=Math.min(46,Math.max(20,Math.abs(dx)*.055));
+      timeline.to(ghost,{keyframes:[{x:dx*.48,y:dy*.48-lift,scale:1.08,duration:.22,ease:'power1.out'},{x:dx,y:dy,scale:.72,autoAlpha:0,duration:.3,ease:'power2.in'}]},0);
+    });
+  });
+}
+function applyPass(words){lastResults=words.map((word,index)=>word===puzzle[index].word);render();if(lastResults.every(Boolean)){finish(true);return}const repaired=lastResults.filter(Boolean).length;els.feedback.hidden=false;els.feedback.innerHTML=`<strong>${repaired} of 5 words repaired.</strong> The pass returned ${words.map(word=>`<code>${word}</code>`).join(', ')}. Keep useful selections and rethink the rest.`;if(attempt>=4){finish(false);return}attempt+=1;document.querySelector('#attempt-value').textContent=`${attempt} / 4`;document.querySelector('#score-value').textContent=potentialScore().toLocaleString();els.status.textContent=`${repaired} repaired. Adjust the circuit for pass ${attempt}.`}
+async function passLetters(){
+  if(passing||selections.some(value=>value===null))return;
+  passing=true;els.ring.setAttribute('aria-busy','true');els.pass.disabled=true;
+  const words=simulate();
+  try{await animateLetterPass();applyPass(words)}finally{passing=false;els.ring.removeAttribute('aria-busy')}
+}
 function useHint(){const candidates=puzzle.map((_,index)=>index).filter(index=>!locked.has(index)&&selections[index]!==puzzle[index].index);const fallback=puzzle.map((_,index)=>index).filter(index=>!locked.has(index));const target=(candidates.length?candidates:fallback)[0];if(target===undefined)return;selections[target]=puzzle[target].index;locked.add(target);hints+=1;lastResults=Array(5).fill(null);els.feedback.hidden=false;els.feedback.innerHTML=`Word ${target+1}'s borrowed letter has been selected and locked.`;render();els.status.textContent=`One intruder revealed. ${potentialScore()} points remain available.`}
 function resultData(solved){return{date:dateKey,score:solved?potentialScore():0,solved,passes:attempt,hints,answers:puzzle.map(item=>item.word)}}
 function renderResult(result,open=true){document.querySelector('#result-mark').textContent=result.score;document.querySelector('#result-title').textContent=result.solved?'Every letter is home.':'The circuit stayed tangled.';document.querySelector('#result-summary').textContent=result.solved?`All five words repaired in ${result.passes} ${result.passes===1?'pass':'passes'}.`:'The answers have been revealed. A new circuit arrives tomorrow.';document.querySelector('#final-score').textContent=result.score;document.querySelector('#passes-used').textContent=result.passes;document.querySelector('#hints-used').textContent=result.hints;document.querySelector('#answer-list').innerHTML=result.answers.map(word=>`<span>${word}</span>`).join('');if(open&&!els.result.open)els.result.showModal()}

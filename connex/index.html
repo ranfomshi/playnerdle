@@ -1161,6 +1161,10 @@
         let solvedBankIndexes = new Set();
         let completedGroups = 0;
 
+        const warmConnexMotion = () => window.BludleMotion?.load({ flip: true });
+        window.addEventListener('bludle:motion-ready', warmConnexMotion, { once: true });
+        warmConnexMotion();
+
         const getWordsForConnection = () => {
             const selectedBanks = selectRandomWordsFromBanks();
             currentWords = shuffle(selectedBanks.flatMap(bank => bank.words));
@@ -1176,11 +1180,12 @@
         const renderWordList = () => {
             const wordListDiv = document.getElementById('wordList');
             wordListDiv.innerHTML = '';
-            currentWords.forEach(word => {
+            currentWords.forEach((word, wordIndex) => {
                 const wordItem = document.createElement('button');
                 wordItem.type = 'button';
                 wordItem.classList.add('word-item');
                 wordItem.textContent = word;
+                wordItem.dataset.flipId = `connex-word-${wordIndex}`;
                 wordItem.setAttribute('aria-pressed', 'false');
                 wordItem.addEventListener('click', () => handleWordClick(wordItem));
                 wordItem.style.setProperty('--stagger-index', currentWords.indexOf(word));
@@ -1248,6 +1253,11 @@
             } else {
                 const groupIndex = groupsSelected[0].index;
                 solvedBankIndexes.add(groupIndex);
+                const motion = window.BludleMotion?.current({ flip: true });
+                const flipState = motion?.Flip.getState([
+                    ...document.querySelectorAll('.word-item'),
+                    ...document.querySelectorAll('.group-container, .group-item')
+                ]);
                 selectedItems.forEach(item => item.classList.add('correct'));
                 const feedbackElement = document.getElementById('feedback');
                 feedbackElement.classList.remove('error');
@@ -1256,6 +1266,7 @@
 
                 const groupDiv = document.createElement('div');
                 groupDiv.classList.add('group-container');
+                if (motion) groupDiv.style.animation = 'none';
                 const groupHeading = document.createElement('div');
                 groupHeading.classList.add('group-heading');
                 const groupLabel = document.createElement('span');
@@ -1271,6 +1282,7 @@
                     const groupItem = document.createElement('span');
                     groupItem.classList.add('group-item');
                     groupItem.textContent = item.textContent;
+                    groupItem.dataset.flipId = item.dataset.flipId;
                     groupWrapper.appendChild(groupItem);
                 });
                 groupDiv.append(groupHeading, groupWrapper);
@@ -1278,6 +1290,18 @@
                 document.getElementById('completedGroups').appendChild(groupDiv);
 
                 selectedItems.forEach(item => item.remove());
+                if (motion && flipState) {
+                    const targets = [...document.querySelectorAll('.word-item, .group-container, .group-item')];
+                    motion.Flip.from(flipState, {
+                        targets,
+                        absolute: true,
+                        nested: true,
+                        duration: .46,
+                        ease: 'power2.inOut',
+                        stagger: .012,
+                        onEnter: elements => motion.gsap.fromTo(elements, { autoAlpha: 0, scale: .97 }, { autoAlpha: 1, scale: 1, duration: .24, clearProps: 'opacity,visibility,transform' })
+                    });
+                }
                 completedGroups++;
                 updateProgress();
                 updateSelectionStatus();

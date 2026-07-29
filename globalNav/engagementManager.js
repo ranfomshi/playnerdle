@@ -221,6 +221,7 @@
     if (started) return;
     started = true;
     startedAt = performance.now();
+    window.BludleMotion?.load();
     const sessionGameNumber = Number(sessionStorage.getItem(SESSION_COUNT_KEY) || 0) + 1;
     try { sessionStorage.setItem(SESSION_COUNT_KEY, String(sessionGameNumber)); } catch { /* Ignore. */ }
     track('game_start', {
@@ -385,6 +386,15 @@
 
     const target = surface?.querySelector?.('.modal-content') || surface || document.querySelector('main') || document.body;
     target.append(host);
+
+    const motion = window.BludleMotion?.current();
+    if (motion) {
+      const card = root.querySelector('.card');
+      const sections = [root.querySelector('.top'), root.querySelector('.next'), root.querySelector('.foot')].filter(Boolean);
+      motion.gsap.timeline({ defaults: { ease: 'power2.out' } })
+        .fromTo(card, { autoAlpha: 0, y: 12, scale: .99 }, { autoAlpha: 1, y: 0, scale: 1, duration: .32, clearProps: 'opacity,visibility,transform' })
+        .fromTo(sections, { autoAlpha: 0, y: 7 }, { autoAlpha: 1, y: 0, duration: .24, stagger: .045, clearProps: 'opacity,visibility,transform' }, '<.08');
+    }
   }
 
   function completeGame(surface, details = {}) {

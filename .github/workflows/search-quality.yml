@@ -32,3 +32,5 @@ jobs:
         run: node scripts/audit-wordmash.mjs
       - name: Validate Shifty Fades gameplay presentation
         run: node scripts/audit-shiftyfades.mjs
+      - name: Validate purposeful motion enhancements
+        run: node scripts/audit-motion.mjs
