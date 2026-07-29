@@ -36,6 +36,7 @@ assert.match(reaction, /window\.BludleMotion\?\.load\(\)/, 'Reaction should use 
 assert.match(reaction, /tier\.id === 'glacial'/, 'Reaction needs an exaggerated slow-result treatment');
 assert.match(reaction, /createFalseStartShards/, 'Reaction needs an exaggerated false-start treatment');
 assert.match(reactionStyles, /@media \(prefers-reduced-motion: reduce\)/, 'Reaction effects must respect reduced motion');
+assert.match(reactionStyles, /body\[data-game="reaction"\] #feedback\s*\{(?=[^}]*margin:\s*0 auto)(?=[^}]*justify-content:\s*center)(?=[^}]*text-align:\s*center)[^}]*\}/s, 'Reaction feedback must remain central despite the shared theme');
 
 const appended = [];
 const context = {
