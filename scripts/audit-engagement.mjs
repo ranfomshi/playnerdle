@@ -23,7 +23,7 @@ if (!mixpanel.includes('https://api-eu.mixpanel.com') || !mixpanel.includes('deb
   issues.push('mixpanel.js: privacy-conscious EU production configuration is missing');
 }
 
-for (const eventName of ['search_landing', 'game_start', 'game_complete', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete']) {
+for (const eventName of ['search_landing', 'game_start', 'game_complete', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete', 'result_home_click']) {
   if (!manager.includes(`'${eventName}'`)) issues.push(`globalNav/engagementManager.js: missing ${eventName} event`);
 }
 
@@ -60,6 +60,10 @@ if (!manager.includes('bludle:daily-progress:v1') || !manager.includes('bludle:p
 
 if (!manager.includes('Progress stays on this device')) {
   issues.push('globalNav/engagementManager.js: local-only progress disclosure is missing');
+}
+
+if (!manager.includes('data-summary-home') || !manager.includes('&larr; All games')) {
+  issues.push('globalNav/engagementManager.js: completed-game summaries have no subtle route home');
 }
 
 if (!manager.includes("landing_channel: landing.landing_channel")) {
