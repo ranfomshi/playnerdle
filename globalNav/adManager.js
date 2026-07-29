@@ -2,7 +2,7 @@
   'use strict';
 
   const clientId = 'ca-pub-5140172230633441';
-  const engagedFooterSlot = '7551359942';
+  const resultSummarySlot = '7551359942';
   const slotByGame = new Map([
     ['/werdle', '3900592841']
   ]);
@@ -24,8 +24,9 @@
   if (!main) return;
 
   const placement = document.createElement('aside');
-  placement.className = 'pn-ad pn-ad--post-game';
-  placement.dataset.bludleAdPlacement = 'post-game-engaged';
+  placement.id = 'bludle-result-ad';
+  placement.className = 'pn-ad pn-ad--result-summary';
+  placement.dataset.bludleAdPlacement = 'result-summary';
   placement.dataset.adState = 'waiting';
   placement.hidden = true;
   placement.setAttribute('aria-label', 'Advertisement');
@@ -34,9 +35,16 @@
     <ins class="adsbygoogle"
       style="display:block"
       data-ad-client="${clientId}"
-      data-ad-slot="${slotByGame.get(currentPath) || engagedFooterSlot}"
-      data-ad-format="auto"
-      data-full-width-responsive="true"></ins>`;
+      data-ad-slot="${slotByGame.get(currentPath) || resultSummarySlot}"
+      data-ad-format="horizontal"
+      data-full-width-responsive="true"></ins>
+    <a class="pn-house-ad" href="https://keyzee.co.uk" target="_blank" rel="noopener noreferrer sponsored"
+      data-house-ad-fallback hidden aria-label="Visit Keyzee, the free way to sell your home">
+      <span class="pn-house-ad__brand">keyzee</span>
+      <span class="pn-house-ad__copy"><strong>Sell your home for free.</strong><small>List for free. Pay 0% commission.</small></span>
+      <span class="pn-house-ad__cta">Visit Keyzee <span aria-hidden="true">&rarr;</span></span>
+    </a>`;
+
   const gameSurface = main.querySelector(':scope > .game-card, :scope > .game-shell, :scope > [class*="game-card"], :scope > [class*="game-shell"]') || main.firstElementChild;
   if (gameSurface) gameSurface.insertAdjacentElement('afterend', placement);
   else main.append(placement);
@@ -46,15 +54,36 @@
   let viewTimer;
 
   function track(eventName, properties = {}) {
-    const params = { placement: 'post_game_engaged', game: currentPath.slice(1), ...properties };
+    const params = { placement: 'result_summary', game: currentPath.slice(1), ...properties };
     if (typeof window.gtag === 'function') window.gtag('event', eventName, params);
     if (window.mixpanel && typeof window.mixpanel.track === 'function') {
       window.mixpanel.track(eventName, params);
     }
   }
 
+  function moveIntoResultSummary() {
+    const recommendation = document.getElementById('bludle-engagement-host');
+    if (!recommendation?.parentElement) return false;
+    recommendation.insertAdjacentElement('beforebegin', placement);
+    placement.dataset.summaryPlacement = 'true';
+    return true;
+  }
+
   function trackRequest() {
-    track('ad_slot_requested', { visibility_gate: '50_percent_for_750ms' });
+    track('ad_slot_requested', { visibility_gate: '50_percent_for_1000ms' });
+  }
+
+  function showHouseFallback(reason) {
+    const unit = placement.querySelector('ins.adsbygoogle');
+    const fallback = placement.querySelector('[data-house-ad-fallback]');
+    unit.hidden = true;
+    fallback.hidden = false;
+    placement.dataset.adState = 'house';
+    placement.querySelector('.pn-ad__label').textContent = 'Sponsored';
+    if (!fallback.dataset.viewTracked) {
+      fallback.dataset.viewTracked = 'true';
+      track('house_ad_fallback_view', { advertiser: 'keyzee', reason });
+    }
   }
 
   function requestAd() {
@@ -66,10 +95,11 @@
       const fillState = unit.dataset.adStatus;
       if (fillState === 'filled') {
         placement.dataset.adState = 'filled';
+        track('ad_slot_filled');
         fillObserver.disconnect();
       } else if (fillState === 'unfilled') {
-        placement.dataset.adState = 'unavailable';
         track('ad_slot_unfilled');
+        showHouseFallback('unfilled');
         fillObserver.disconnect();
       }
     });
@@ -89,7 +119,7 @@
       window.adsbygoogle.push({});
       trackRequest();
     } catch (error) {
-      placement.dataset.adState = 'unavailable';
+      showHouseFallback('request_error');
     }
   }
 
@@ -106,16 +136,24 @@
       viewTimer = window.setTimeout(() => {
         observer.disconnect();
         requestAd();
-      }, 750);
+      }, 1000);
     }, { threshold: [0, 0.5, 1] });
     observer.observe(placement);
   }
 
   window.addEventListener('bludle:game-complete', event => {
     if (!placement.hidden) return;
+    moveIntoResultSummary();
     placement.hidden = false;
     placement.dataset.adState = 'eligible';
-    track('ad_slot_eligible', { outcome: event.detail?.outcome });
+    track('ad_eligible_view', {
+      outcome: event.detail?.outcome,
+      summary_placement: placement.dataset.summaryPlacement === 'true'
+    });
     watchForViewability();
   }, { once: true });
-})();
+
+  placement.querySelector('[data-house-ad-fallback]').addEventListener('click', () => {
+    track('house_ad_fallback_click', { advertiser: 'keyzee' });
+  });
+}());
