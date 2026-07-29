@@ -91,7 +91,11 @@ function showResult(result) {
   $('#correct-sequence').innerHTML = swatches(run.sequence, 'result-swatch');
   $('#result-points').textContent = `+${result.points.toLocaleString()}`; $('#result-streak').textContent = run.streak; $('#result-length').textContent = run.sequence.length;
   $('#next-button').innerHTML = result.gameOver ? 'See run summary <span>→</span>' : 'Next sequence <span>→</span>';
-  $('#result-dialog').showModal();
+  const resultDialog = $('#result-dialog');
+  resultDialog.showModal();
+  window.dispatchEvent(new CustomEvent('bludle:level-summary', {
+    detail: { surface: resultDialog, level: run.level, outcome: result.correct ? 'advanced' : 'life_lost' }
+  }));
 }
 
 function next() { $('#result-dialog').close(); if (run.lives === 0) showGameOver(); else beginRound(); }

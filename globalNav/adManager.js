@@ -6,6 +6,7 @@
   const slotByGame = new Map([
     ['/werdle', '3900592841']
   ]);
+  const levelSummaryGames = new Set(['/tintuition', '/seequence']);
   const gamePaths = new Set([
     '/afterimage', '/alternate', '/bludle', '/borrowedletters', '/chromalock',
     '/codle', '/colormatch', '/connex', '/deadcentre', '/glyph', '/guesshue',
@@ -50,6 +51,8 @@
   else main.append(placement);
 
   let requested = false;
+  let eligibleTracked = false;
+  let watching = false;
   let observer;
   let viewTimer;
 
@@ -67,6 +70,35 @@
     recommendation.insertAdjacentElement('beforebegin', placement);
     placement.dataset.summaryPlacement = 'true';
     return true;
+  }
+
+  function moveIntoLevelSummary(surface) {
+    if (!levelSummaryGames.has(currentPath) || !surface?.append) return false;
+    if (requested && placement.parentElement !== surface) return false;
+    if (placement.parentElement !== surface) surface.append(placement);
+    placement.dataset.summaryPlacement = 'true';
+    return true;
+  }
+
+  function presentPlacement({ summaryType, surface, outcome, level }) {
+    const moved = summaryType === 'level'
+      ? moveIntoLevelSummary(surface)
+      : !requested && moveIntoResultSummary();
+    if (!moved && (placement.hidden || (summaryType === 'complete' && requested))) return;
+
+    placement.hidden = false;
+    placement.dataset.adState = requested ? placement.dataset.adState : 'eligible';
+    placement.dataset.summaryType = summaryType;
+    if (!eligibleTracked) {
+      eligibleTracked = true;
+      track('ad_eligible_view', {
+        outcome,
+        level,
+        summary_type: summaryType,
+        summary_placement: placement.dataset.summaryPlacement === 'true'
+      });
+    }
+    watchForViewability();
   }
 
   function trackRequest() {
@@ -89,6 +121,7 @@
   function requestAd() {
     if (requested) return;
     requested = true;
+    watching = false;
     const unit = placement.querySelector('ins.adsbygoogle');
 
     const fillObserver = new MutationObserver(() => {
@@ -124,6 +157,8 @@
   }
 
   function watchForViewability() {
+    if (requested || watching) return;
+    watching = true;
     if (!('IntersectionObserver' in window)) {
       window.setTimeout(requestAd, 1000);
       return;
@@ -142,16 +177,20 @@
   }
 
   window.addEventListener('bludle:game-complete', event => {
-    if (!placement.hidden) return;
-    moveIntoResultSummary();
-    placement.hidden = false;
-    placement.dataset.adState = 'eligible';
-    track('ad_eligible_view', {
-      outcome: event.detail?.outcome,
-      summary_placement: placement.dataset.summaryPlacement === 'true'
+    presentPlacement({
+      summaryType: 'complete',
+      outcome: event.detail?.outcome
     });
-    watchForViewability();
   }, { once: true });
+
+  window.addEventListener('bludle:level-summary', event => {
+    presentPlacement({
+      summaryType: 'level',
+      surface: event.detail?.surface,
+      outcome: event.detail?.outcome,
+      level: event.detail?.level
+    });
+  });
 
   placement.querySelector('[data-house-ad-fallback]').addEventListener('click', () => {
     track('house_ad_fallback_click', { advertiser: 'keyzee' });
