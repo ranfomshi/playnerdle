@@ -330,8 +330,9 @@
       .progress{flex:0 0 auto;border-left:1px solid #dce1ec;padding-left:14px;text-align:right}.progress strong{display:block;color:#141928;font-size:18px}.progress span{color:#707a99;font-size:11px}
       .next{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 18px 18px;padding:14px 15px;border-radius:10px;background:#2249be;color:#fff;text-decoration:none;transition:background 150ms ease,transform 150ms ease}.next:hover{background:#1c3993;transform:translateY(-1px)}.next:focus-visible{outline:3px solid #82a6f3;outline-offset:3px}
       .next strong{display:block;font-size:16px}.next small{display:block;margin-top:2px;color:#d9e4fc;font-size:11px;font-weight:500}.action{flex:0 0 auto;font-size:13px;font-weight:800}
-      .disclosure{margin:0;padding:11px 18px;border-top:1px solid #ebeef5;background:#f6f8fc;color:#707a99;font-size:11px;line-height:1.35}
-      @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.action{font-size:0}.action::after{content:'Go';font-size:13px}}
+      .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 18px;border-top:1px solid #ebeef5;background:#f6f8fc}.disclosure{margin:0;color:#707a99;font-size:11px;line-height:1.35}
+      .home{flex:0 0 auto;color:#4e5875;font-size:12px;font-weight:700;text-decoration:none}.home:hover{color:#1c3993;text-decoration:underline;text-underline-offset:3px}.home:focus-visible{outline:3px solid #82a6f3;outline-offset:3px;border-radius:3px}
+      @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.action{font-size:0}.action::after{content:'Go';font-size:13px}.foot{align-items:flex-start}.disclosure{max-width:22ch}}
       @media(prefers-reduced-motion:reduce){.next{transition:none}}
     `;
   }
@@ -347,7 +348,7 @@
       <div class="top"><div><p class="eyebrow">Your next game</p><h2 id="bludle-next-title">Keep the run going with ${next.game.name}.</h2><p class="reason">${next.reason}</p></div>
       <div class="progress"><strong>${progress.completed.length} played</strong><span> today &middot; ${streak} day streak</span></div></div>
       <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}"><span><strong>Play ${next.game.name}</strong><small>${next.game.category} challenge</small></span><span class="action">Start next &rarr;</span></a>
-      <p class="disclosure">Progress stays on this device. No account or notification permission required.</p>
+      <div class="foot"><p class="disclosure">Progress stays on this device. No account required.</p><a class="home" href="/" data-summary-home>&larr; All games</a></div>
     </section>`;
     track('next_game_recommendation_view', {
       from_game: currentGame.slug,
@@ -368,6 +369,14 @@
         recommendation_position: 1,
         recommendation_id: pending.recommendationId,
         recommendation_strategy: next.strategy,
+        completed_today_count: progress.completed.length,
+        landing_page: landing.landing_page,
+        landing_channel: landing.landing_channel
+      });
+    });
+    root.querySelector('[data-summary-home]').addEventListener('click', () => {
+      track('result_home_click', {
+        from_game: currentGame.slug,
         completed_today_count: progress.completed.length,
         landing_page: landing.landing_page,
         landing_channel: landing.landing_channel
