@@ -78,23 +78,50 @@ function setupGameFiltering() {
     return category.split(' ').includes(filter);
   };
 
-  const applyFilter = () => {
+  const applyFilter = (animate = true) => {
     const query = searchInput.value.trim().toLowerCase();
     let visibleCount = 0;
+    const visibility = new Map();
 
     gameTiles.forEach((tile) => {
       const text = tile.textContent.toLowerCase();
       const visible = text.includes(query) && matchesCategory(tile, selectedFilter);
-      tile.hidden = !visible;
+      visibility.set(tile, visible);
       if (visible) {
         visibleCount += 1;
       }
     });
 
     const emptyState = document.getElementById('filterEmptyState');
-    if (emptyState) {
-      emptyState.hidden = visibleCount > 0;
+    const commit = () => {
+      visibility.forEach((visible, tile) => { tile.hidden = !visible; });
+      if (emptyState) emptyState.hidden = visibleCount > 0;
+    };
+
+    const motion = window.BludleMotion;
+    if (!animate || !motion || motion.reduced()) {
+      commit();
+      return;
     }
+
+    const runtime = motion.current({ flip: true });
+    if (!runtime) {
+      commit();
+      motion.load({ flip: true });
+      return;
+    }
+
+    runtime.Flip.killFlipsOf(gameTiles);
+    const previous = runtime.Flip.getState(gameTiles);
+    commit();
+    runtime.Flip.from(previous, {
+      absolute: true,
+      duration: .38,
+      ease: 'power2.inOut',
+      prune: true,
+      onEnter: elements => runtime.gsap.fromTo(elements, { autoAlpha: 0, scale: .97 }, { autoAlpha: 1, scale: 1, duration: .24, clearProps: 'opacity,visibility,transform' }),
+      onLeave: elements => runtime.gsap.to(elements, { autoAlpha: 0, scale: .97, duration: .18 }),
+    });
   };
 
   searchInput.addEventListener('input', applyFilter);
@@ -113,7 +140,16 @@ function setupGameFiltering() {
     });
   });
 
-  applyFilter();
+  applyFilter(false);
+
+  let motionIntent = false;
+  const warmMotion = () => {
+    motionIntent = true;
+    window.BludleMotion?.load({ flip: true });
+  };
+  const discovery = searchInput.closest('.game-discovery');
+  ['pointerenter', 'focusin', 'touchstart'].forEach(eventName => discovery?.addEventListener(eventName, warmMotion, { once: true, passive: true }));
+  window.addEventListener('bludle:motion-ready', () => { if (motionIntent) warmMotion(); }, { once: true });
 }
 
 function initializeAdUnits() {
