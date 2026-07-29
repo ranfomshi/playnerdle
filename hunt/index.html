@@ -43,7 +43,7 @@
 
       <section id="setup-panel" class="setup-panel">
         <div class="map-mark" aria-hidden="true"><span>×</span></div>
-        <span class="eyebrow">CHOOSE YOUR MAP</span><h2>Find the hidden X.</h2><p>Each scan gives you a direction and distance. Use the clues to shrink the search area before you run out.</p>
+        <span class="eyebrow">CHOOSE YOUR MAP</span><h2>Find the hidden X.</h2><p>Each scan gives you a direction, total number of steps and the difference between its X and Y distances. Combine the clues before you run out.</p>
         <div class="difficulty-list">
           <button type="button" data-difficulty="trail"><span><strong>Trail</strong><small>6 × 6 map · 5 scans</small></span><i>Easy start</i></button>
           <button type="button" data-difficulty="explorer"><span><strong>Explorer</strong><small>8 × 8 map · 5 scans</small></span><i>Balanced</i></button>
@@ -55,7 +55,7 @@
         <div class="game-status"><button id="back-button" type="button" aria-label="Choose another map">←</button><div><span id="mode-label">TRAIL MAP</span><strong id="scan-label">5 scans left</strong></div><button id="new-button" type="button">New map</button></div>
         <div class="clue-card" id="clue-card">
           <div id="clue-arrow" class="clue-arrow" aria-hidden="true">◎</div>
-          <div><span id="clue-kicker">MAKE YOUR FIRST SCAN</span><strong id="clue-title">Pick any coordinate</strong><p id="clue-copy" role="status" aria-live="polite">We’ll tell you which way—and how far—the treasure lies.</p></div>
+          <div><span id="clue-kicker">MAKE YOUR FIRST SCAN</span><strong id="clue-title">Pick any coordinate</strong><p id="clue-copy" role="status" aria-live="polite">We’ll give you the direction, total steps and X/Y distance difference.</p></div>
         </div>
         <div class="axis-x" aria-hidden="true">X COORDINATE →</div>
         <div class="grid-wrap"><div class="axis-y" aria-hidden="true">Y COORDINATE →</div><div id="grid" class="grid" role="grid" aria-label="Treasure map"></div></div>
@@ -63,7 +63,7 @@
       </section>
     </section>
 
-    <section class="about-card"><div><span class="eyebrow">SCAN. DEDUCE. DISCOVER.</span><h2>Every clue narrows the map.</h2></div><p>XY is a spatial deduction game built around coordinates without the algebra homework. Each scan gives you a compass direction and grid distance; combine the clues in your head and commit to the coordinate where they intersect.</p></section>
+    <section class="about-card"><div><span class="eyebrow">SCAN. DEDUCE. DISCOVER.</span><h2>Every clue narrows the map.</h2></div><p>XY is a spatial deduction game built around coordinates without the algebra homework. Each scan gives you a compass direction, total grid distance and the difference between the X and Y distances; combine the clues and commit where they intersect.</p></section>
   </main>
 <!-- bludle-guide:start -->
   <section class="bludle-discovery game-guide" aria-labelledby="about-hunt">
@@ -78,7 +78,7 @@
       <div><dt>Cost</dt><dd>Free, with no download required</dd></div>
     </dl>
     <div class="discovery-copy">
-      <div><h3>The rules</h3><p>Choose a coordinate to scan. The game reports the direction and distance to the hidden point; combine successive clues to eliminate locations and make the final find.</p></div>
+      <div><h3>The rules</h3><p>Choose a coordinate to scan. The game reports the direction, total steps and absolute difference between the horizontal and vertical distances. It does not reveal which axis is longer, so combine successive clues to make the final find.</p></div>
       <div><h3>What makes it different</h3><p>The required demonstration teaches the coordinate idea with visible possibilities, while real rounds remove those highlights and leave the deduction to you.</p></div>
     </div>
     <nav class="related-games" aria-label="Games related to XY Marks the Spot">
@@ -87,8 +87,8 @@
   </section>
   <!-- bludle-guide:end -->
 <dialog id="tutorial-dialog" class="dialog tutorial-dialog"><span class="eyebrow">TRAINING HUNT</span><h2>Learn by finding one X.</h2><p id="tutorial-copy">First, scan coordinate <strong>X 1, Y 4</strong>.</p><div id="tutorial-clue" class="tutorial-clue">Your clue will appear here.</div><div id="tutorial-grid" class="tutorial-grid" aria-label="Training map"></div><p class="tutorial-note">Glowing squares are shown in training only. Real hunts never reveal possible answers.</p><button id="tutorial-done" class="primary-button" type="button" hidden>Choose your map</button></dialog>
-  <dialog id="help-dialog" class="dialog"><button class="dialog-close" type="button" aria-label="Close">×</button><span class="eyebrow">HOW TO PLAY</span><h2>Three ideas. No formulas.</h2><ol class="steps"><li><span>01</span><div><strong>Scan a square</strong><p>Choose any coordinate on the map.</p></div></li><li><span>02</span><div><strong>Read the clue</strong><p>“North-east · 4 steps” means the treasure is above, to the right, and four grid moves away.</p></div></li><li><span>03</span><div><strong>Combine your clues</strong><p>Each scan rules out more coordinates. Find where every direction and distance intersects.</p></div></li></ol><button class="primary-button" type="button" data-close>Start hunting</button></dialog>
+  <dialog id="help-dialog" class="dialog"><button class="dialog-close" type="button" aria-label="Close">×</button><span class="eyebrow">HOW TO PLAY</span><h2>Three ideas. No formulas.</h2><ol class="steps"><li><span>01</span><div><strong>Scan a square</strong><p>Choose any coordinate on the map.</p></div></li><li><span>02</span><div><strong>Read the clue</strong><p>“North-east · 5 steps total · X/Y difference 1” means the treasure is above and right, takes five grid moves to reach, and its horizontal and vertical distances differ by one.</p></div></li><li><span>03</span><div><strong>Combine your clues</strong><p>The difference does not say which axis is longer. Use another scan to find where all three facts intersect.</p></div></li></ol><button class="primary-button" type="button" data-close>Start hunting</button></dialog>
   <dialog id="result-dialog" class="dialog result-dialog"><button class="dialog-close" type="button" aria-label="Close">×</button><div id="result-icon" class="result-icon">×</div><span id="result-kicker" class="eyebrow">TREASURE FOUND</span><h2 id="result-title">You found the X.</h2><p id="result-copy">Sharp work.</p><div class="result-actions"><button id="again-button" class="primary-button" type="button">Play again</button><button id="change-button" class="secondary-button" type="button">Change map</button></div></dialog>
-  <script type="module" src="hunt.js"></script><script type="module" src="/globalNav/globalNav.js"></script>
+  <script type="module" src="hunt.js?v=3"></script><script type="module" src="/globalNav/globalNav.js"></script>
 </body>
 </html>
