@@ -23,8 +23,19 @@ if (!mixpanel.includes('https://api-eu.mixpanel.com') || !mixpanel.includes('deb
   issues.push('mixpanel.js: privacy-conscious EU production configuration is missing');
 }
 
-for (const eventName of ['search_landing', 'game_start', 'game_complete', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete', 'result_home_click']) {
+for (const eventName of ['search_landing', 'game_start', 'game_complete', 'completed_game_summary_view', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete', 'result_home_click']) {
   if (!manager.includes(`'${eventName}'`)) issues.push(`globalNav/engagementManager.js: missing ${eventName} event`);
+}
+
+if (!manager.includes("summary_context: 'restored'") ||
+    !manager.includes('restored_completion: true') ||
+    !manager.includes('const restoredSummaryRules = {')) {
+  issues.push('globalNav/engagementManager.js: restored completed-game summaries do not trigger monetisation');
+}
+
+if (!manager.includes('if (!progress.completed.includes(currentGame.slug))') ||
+    manager.includes("recordCompletion(currentGame.slug, 'restored')")) {
+  issues.push('globalNav/engagementManager.js: restored summaries may inflate completion streaks');
 }
 
 for (const game of games) {

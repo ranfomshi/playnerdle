@@ -6,6 +6,7 @@ import { games } from './site-data.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const manager = await readFile(path.join(root, 'globalNav', 'adManager.js'), 'utf8');
+const engagement = await readFile(path.join(root, 'globalNav', 'engagementManager.js'), 'utf8');
 const nav = await readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
 const styles = await readFile(path.join(root, 'globalNav', 'globalNav.css'), 'utf8');
 const bludle = await readFile(path.join(root, 'bludle', 'index.html'), 'utf8');
@@ -33,6 +34,10 @@ for (const game of games) {
 
 if (!manager.includes("window.addEventListener('bludle:game-complete'")) {
   issues.push('globalNav/adManager.js: game placements are not gated by completion');
+}
+
+if (!engagement.includes("restored_completion: true") || !engagement.includes("summary_context: 'restored'")) {
+  issues.push('globalNav/engagementManager.js: restored result summaries do not notify the ad manager');
 }
 
 if (!manager.includes("const levelSummaryGames = new Set(['/tintuition', '/seequence'])") ||
