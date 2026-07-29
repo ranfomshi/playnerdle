@@ -1,173 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-
 <head>
-    <style>@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:block;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-regular-400.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-regular-400.ttf) format("truetype")}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:block;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.ttf) format("truetype")}.fa-regular,.fas{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:var(--fa-display,inline-block);font-style:normal;font-variant:normal;line-height:1;text-rendering:auto}.fa-chart-column:before{content:"\e0e3"}.fa-circle-question:before{content:"\f059"}:host,:root{--fa-font-brands:normal 400 1em/1 "Font Awesome 6 Brands"}:host,:root{--fa-font-regular:normal 400 1em/1 "Font Awesome 6 Free"}.fa-regular{font-family:"Font Awesome 6 Free";font-weight:400}:host,:root{--fa-font-solid:normal 900 1em/1 "Font Awesome 6 Free"}.fas{font-family:"Font Awesome 6 Free";font-weight:900}body{animation:10s linear infinite hue-rotate-animation}#gameButton{margin:20% 0}#feedback{margin:20% 0}:root{--global-nav-height:52px;--global-ui-gap:16px;--global-toast-top:calc(var(--global-nav-height) + var(--global-ui-gap));--global-nav-z:1000;--global-dropdown-z:99999;--global-overlay-z:100100;--global-toast-z:100110}</style>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reaction | Free Speed Game | Bludle</title>
   <meta name="author" content="Stuart Pecksen">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 0;
-      padding-top: 50px;
-      height: calc(100vh - 50px);
-      margin: 0;
-      animation: hue-rotate-animation 10s infinite linear;
-      background: black;
-      color: white;
-    }
-
-    #gameButton {
-      padding: 10px 20px;
-      font-size: 20px;
-      cursor: pointer;
-      border: none;
-      background-color: #4caf50;
-      color: white;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-      top: 50%;
-      width: 300px;
-      height: 120px;
-      margin: 20% 0% 20% 0;
-    }
-
-    #gameButton:hover {
-      background-color: #45a049;
-    }
-
-    #gameButton:disabled {
-      background-color: #ddd;
-      color: #666;
-      cursor: not-allowed;
-    }
-
-    .pulse {
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    /* Updated Modal styles */
-    div[id$="Modal"] {
-      color: black;
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    div[id$="Modal"].show {
-      display: block;
-      opacity: 1;
-    }
-
-    div[id$="Modal"]>div {
-      margin: 100px auto;
-      padding: 20px;
-      background-color: white;
-      width: 50%;
-      min-width: 350px;
-      text-align: left;
-      border-radius: 10px;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    div[id$="Modal"] button {
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      text-align: center;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    div[id$="Modal"] button:hover {
-      background-color: #45a049;
-    }
-
-    span {
-      cursor: pointer;
-      padding: 0 10px;
-      font-size: 24px;
-    }
-
-    /* Bar graph styles */
-    .bar-container {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-end;
-      height: 200px;
-      border: 1px solid #ddd;
-      padding: 10px;
-    }
-
-    .bar {
-      width: 20px;
-      height: 100%;
-      margin-right: 5px;
-      background-color: #4caf50;
-    }
-
-    #iconTray {
-      top: 100px;
-      width: 100%;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      box-sizing: border-box;
-    }
-
-    #feedback {
-      width: 100%;
-      height: 30px;
-      bottom: 150px;
-      text-align: center;
-      margin: 20% 0 20% 0;
-    }
-
-    content {
-      width: 400px;
-      margin: auto;
-      display: block;
-    }
-  </style>
-  <script type="text/javascript" src="/mixpanel.js"></script>
-<link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
-  <link rel="stylesheet" href="/globalNav/gameThemes.css">
-<link rel="stylesheet" href="/globalNav/discovery.css">
-<meta name="description" content="Measure how quickly you respond to a visual change through short, repeatable browser reaction tests.">
+  <meta name="description" content="Measure how quickly you respond to a visual change through a dramatic daily browser reaction test.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://bludle.com/reaction/">
   <meta property="og:site_name" content="Bludle">
   <meta property="og:title" content="Reaction | Free Speed Game | Bludle">
-  <meta property="og:description" content="Measure how quickly you respond to a visual change through short, repeatable browser reaction tests.">
+  <meta property="og:description" content="Measure how quickly you respond to a visual change through a dramatic daily browser reaction test.">
   <meta property="og:url" content="https://bludle.com/reaction/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://bludle.com/images/social/reaction.jpg">
@@ -177,274 +20,106 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Reaction | Free Speed Game | Bludle">
-  <meta name="twitter:description" content="Measure how quickly you respond to a visual change through short, repeatable browser reaction tests.">
+  <meta name="twitter:description" content="Measure how quickly you respond to a visual change through a dramatic daily browser reaction test.">
   <meta name="twitter:image" content="https://bludle.com/images/social/reaction.jpg">
   <meta name="twitter:image:alt" content="Reaction on Bludle">
-  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/reaction/#game","name":"Reaction","url":"https://bludle.com/reaction/","description":"Measure how quickly you respond to a visual change through short, repeatable browser reaction tests.","image":"https://bludle.com/images/social/reaction.jpg","inLanguage":"en-GB","genre":["Speed game","Puzzle game"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
+  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/reaction/#game","name":"Reaction","url":"https://bludle.com/reaction/","description":"Measure how quickly you respond to a visual change through a dramatic daily browser reaction test.","image":"https://bludle.com/images/social/reaction.jpg","inLanguage":"en-GB","genre":["Speed game","Puzzle game"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5140172230633441" crossorigin="anonymous"></script>
+  <script src="/mixpanel.js"></script>
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="/globalNav/gameThemes.css">
+  <link rel="stylesheet" href="/globalNav/discovery.css">
+  <link rel="stylesheet" href="reaction.css?v=3">
 </head>
-
-<body data-game="reaction">
+<body data-game="reaction" data-reaction-tier="idle">
   <div id="navbar-container"></div>
-  <main class="reaction-shell">
+  <main class="reaction-shell" id="main-content">
     <header class="reaction-header">
-      <span class="eyebrow">Daily speed test</span>
-      <h1>Reaction</h1>
-      <p>Wait for the signal, then click as quickly as you can.</p>
+      <div>
+        <span class="eyebrow">Daily speed test</span>
+        <h1>Reaction</h1>
+        <p>Wait for the signal. Hit it the instant the screen turns green.</p>
+      </div>
+      <div class="reaction-tools" aria-label="Game information">
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play">?</button>
+        <button class="icon-button" id="stats-button" type="button" aria-label="Reaction history">
+          <span aria-hidden="true">▥</span>
+        </button>
+      </div>
     </header>
-    <section class="reaction-card" aria-label="Reaction test">
-    <div id="iconTray">
-      <!-- Icons to open modals -->
-      <span onclick="openModal('instructionsModal')">
-        <i class="fa-regular fa-circle-question"></i></span>
-      <!-- Instructions Icon -->
-      <span onclick="openModal('reactionTimesModal')"><i class="fas fa-chart-column"></i></span>
-      <!-- Reaction Times Icon -->
-    </div>
-    <div id="feedback"></div>
-    <button id="gameButton">Start Game</button>
-    </section>
 
-    <div id="instructionsModal" class="modal">
-      <div>
-        <h2>📚 Instructions</h2>
-        <p>
-          <strong>Step 1: 🚦 Get Ready</strong><br />
-          Click the "Start Game" button and prepare yourself.
-        </p>
-        <p>
-          <strong>Step 2: ⏱ Wait...</strong><br />
-          The button will say "Wait..." and pulse. Do not click it yet!
-        </p>
-        <p>
-          <strong>Step 3: 🟦 Click!</strong><br />
-          The background will change color. Click the button as fast as you
-          can!
-        </p>
-        <p>
-          <strong>Step 4: 🎉 Celebrate!</strong><br />
-          Your reaction time will be displayed. Aim to improve!
-        </p>
-        <p>
-          <strong>Step 5: 👀 Review!</strong><br />
-          See all your reaction times by clicking the graph logo in the top
-          right 📊!
-        </p>
-        <i>Each day a new random delay will be applied for all users so you
-          can compare reaction times. Play once per day and track your
-          improvements</i>
-        <br />
-        <br />
-        <button onclick="closeModal('instructionsModal')">OK</button>
-      </div>
-    </div>
-
-    <div id="reactionTimesModal" class="modal">
-      <div>
-        <h2>Your Reaction Times</h2>
-        <div class="bar-container" id="reactionGraph">
-          <!-- Bars will be dynamically added here -->
+    <section class="reaction-card" id="reaction-card" data-state="idle" aria-labelledby="result-title">
+      <div class="reaction-aura" aria-hidden="true"></div>
+      <div class="effect-layer" id="effect-layer" aria-hidden="true"></div>
+      <div class="reaction-result" aria-live="polite">
+        <p class="result-kicker" id="result-kicker">One chance today</p>
+        <div class="reaction-readout" id="reaction-readout">
+          <strong id="reaction-value">READY?</strong>
+          <span id="reaction-unit" hidden>ms</span>
         </div>
-        <p id="averageTime">Average Reaction Time: Calculating...</p>
-        <button onclick="closeModal('reactionTimesModal')">Close</button>
+        <h2 id="result-title">How fast are you, really?</h2>
+        <p id="feedback">Start the test, hold your nerve, then react.</p>
+        <div class="reaction-scale" aria-hidden="true">
+          <span>Elite</span><i></i><span>Human</span><i></i><span>Glacial</span>
+        </div>
       </div>
-    </div>
+      <button id="gameButton" class="reaction-trigger" type="button">
+        <span class="trigger-dot" aria-hidden="true"></span>
+        <span id="button-label">Start today’s test</span>
+      </button>
+      <p class="daily-note">One shared wait each day. No second chances.</p>
+    </section>
   </main>
-<!-- bludle-guide:start -->
+
+  <dialog id="instructions-dialog" class="dialog reaction-dialog" aria-labelledby="instructions-title">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">How to play</span>
+    <h2 id="instructions-title">Wait. Watch. Strike.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>Start the test</strong><p>Press the button and get ready. Today’s wait is the same for everyone.</p></div></li>
+      <li><span>02</span><div><strong>Do not anticipate</strong><p>Clicking while the screen says “Hold” is a false start and ends today’s attempt.</p></div></li>
+      <li><span>03</span><div><strong>React to green</strong><p>The timer starts when the signal changes. Your result is measured in milliseconds.</p></div></li>
+    </ol>
+    <button class="primary-button" type="button" data-close>Got it</button>
+  </dialog>
+
+  <dialog id="stats-dialog" class="dialog reaction-dialog" aria-labelledby="stats-title">
+    <button class="dialog-close" type="button" data-close aria-label="Close">×</button>
+    <span class="eyebrow">Your pace</span>
+    <h2 id="stats-title">Reaction history</h2>
+    <div class="reaction-graph" id="reactionGraph" aria-label="Recent reaction times"></div>
+    <div class="history-summary">
+      <div><strong id="best-time">—</strong><span>Best</span></div>
+      <div><strong id="average-time">—</strong><span>Average</span></div>
+      <div><strong id="attempt-count">0</strong><span>Attempts</span></div>
+    </div>
+  </dialog>
+
+  <!-- bludle-guide:start -->
   <section class="bludle-discovery game-guide" aria-labelledby="about-reaction">
     <div class="discovery-heading">
       <p class="discovery-kicker">About the game</p>
       <h2 id="about-reaction">How to play Reaction</h2>
-      <p>Measure how quickly you respond to a visual change through short, repeatable browser reaction tests.</p>
+      <p>Measure how quickly you respond to a visual change through a short daily browser reaction test.</p>
     </div>
     <dl class="game-facts">
-      <div><dt>Format</dt><dd>Repeatable reaction trials</dd></div>
-      <div><dt>Typical round</dt><dd>Under 2 minutes</dd></div>
+      <div><dt>Format</dt><dd>One daily reaction trial</dd></div>
+      <div><dt>Typical round</dt><dd>Under 10 seconds</dd></div>
       <div><dt>Cost</dt><dd>Free, with no download required</dd></div>
     </dl>
     <div class="discovery-copy">
-      <div><h3>The rules</h3><p>Start a trial, wait without anticipating, and respond the moment the visual signal changes. Repeated attempts produce a more useful picture than a single lucky click.</p></div>
-      <div><h3>What makes it different</h3><p>The restrained presentation keeps attention on the signal and makes it easy to compare attempts without downloads or setup.</p></div>
+      <div><h3>The rules</h3><p>Start the trial, wait without anticipating, and respond the moment the visual signal turns green. An early click ends the attempt.</p></div>
+      <div><h3>What makes it different</h3><p>Everyone gets the same daily wait, making the result easy to compare while the response adapts to just how extraordinary—or leisurely—your reaction was.</p></div>
     </div>
     <nav class="related-games" aria-label="Games related to Reaction">
       <span>Try next</span><a href="/alternate/">Alternate</a><a href="/guesshue/">Guess Hue</a><a href="/trak/">Trak</a>
     </nav>
   </section>
   <!-- bludle-guide:end -->
-<script>
-    const gameButton = document.getElementById("gameButton");
-    const feedback = document.getElementById("feedback");
 
-    function getDayOfYear() {
-      const now = new Date();
-      const start = new Date(now.getFullYear(), 0, 0);
-      const diff =
-        now -
-        start +
-        (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
-      const oneDay = 1000 * 60 * 60 * 24;
-      return Math.floor(diff / oneDay);
-    }
-
-    function getDelayTime(dayOfYear) {
-      const delay = (Math.sin(dayOfYear) * 8.5 + 11.5) * 1000;
-      return delay;
-    }
-
-    function getTodayAsString() {
-      const today = new Date();
-      return today.toISOString().split("T")[0]; // Returns date in YYYY-MM-DD format
-    }
-
-    function logReactionTime(reactionTime) {
-      const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
-      const today = getTodayAsString();
-      historicLog.push({
-        date: today,
-        reactionTime: reactionTime,
-      });
-      localStorage.setItem("historicScores", JSON.stringify(historicLog));
-    }
-    function showReactionTimes() {
-      const historicLog = JSON.parse(localStorage.getItem("historicScores") || "[]");
-      const reactionGraph = document.getElementById("reactionGraph");
-
-      // Clear previous bars
-      reactionGraph.innerHTML = "";
-
-      let totalReactionTime = 0;
-      let maxReactionTime = 0; // New variable to store the maximum reaction time
-
-      const reversedLog = [...historicLog]
-
-      reversedLog.forEach((entry) => {
-        totalReactionTime += entry.reactionTime;
-
-        // Check for a new max value
-        if (entry.reactionTime > maxReactionTime) {
-          maxReactionTime = entry.reactionTime;
-        }
-      });
-
-      // Only proceed if there is a max value to avoid division by zero
-      if (maxReactionTime > 0) {
-        reversedLog.forEach((entry) => {
-          const bar = document.createElement("div");
-          bar.className = "bar";
-          // Scale the height of the bar relative to the max value
-          bar.style.height =
-            (entry.reactionTime / maxReactionTime) * 100 + "%";
-          bar.title = entry.date + ": " + entry.reactionTime + "ms";
-          reactionGraph.appendChild(bar);
-        });
-      }
-
-
-
-      const averageTime = document.getElementById("averageTime");
-      averageTime.textContent =
-        "Average Reaction Time: " +
-        (totalReactionTime / historicLog.length / 1000).toFixed(3) +
-        " s";
-    }
-
-    function earlyClickHandler() {
-      gameButton.classList.remove("pulse");
-
-      feedback.textContent = "Too soon!";
-      localStorage.setItem("playedToday", "true");
-      localStorage.setItem("reactionTime", 5000); // 5 seconds
-      logReactionTime(5000);
-      gameButton.textContent = "Played Today";
-      gameButton.disabled = true;
-      gameButton.removeEventListener("click", earlyClickHandler);
-      gameButton.classList.remove("pulse");
-    }
-
-    function initializeGame() {
-      const currentDay = getDayOfYear();
-      const storedDay = localStorage.getItem("currentDay");
-      if (storedDay === null || currentDay !== parseInt(storedDay)) {
-        localStorage.removeItem("playedToday");
-        localStorage.setItem("currentDay", currentDay);
-      }
-
-      const playedToday = localStorage.getItem("playedToday");
-      if (playedToday === "true") {
-        const reactionTimeMillis = localStorage.getItem("reactionTime");
-        const reactionTimeSeconds = (reactionTimeMillis / 1000).toFixed(3); // Convert milliseconds to seconds and round to 3 decimal places
-        feedback.textContent =
-          "You've already played today! Your reaction time was " +
-          reactionTimeSeconds +
-          " seconds.";
-
-        gameButton.disabled = true;
-      } else {
-        gameButton.addEventListener("click", startGame);
-      }
-    }
-
-    function startGame() {
-      feedback.textContent = "Prepare to click...";
-      gameButton.textContent = "Wait...";
-      gameButton.classList.add("pulse");
-      gameButton.addEventListener("click", earlyClickHandler);
-
-      const startTime = Date.now();
-      const delay = getDelayTime(getDayOfYear());
-
-      setTimeout(() => {
-        gameButton.classList.remove("pulse"); // Remove the pulse class
-        document.body.style.background = "#556677"; // Set the background color
-
-        gameButton.textContent = "Click!";
-        gameButton.removeEventListener("click", earlyClickHandler);
-
-        gameButton.addEventListener("click", function reactionHandler() {
-          gameButton.classList.remove("pulse");
-          const endTime = Date.now();
-          const reactionTime = endTime - startTime - delay;
-          localStorage.setItem("playedToday", "true");
-          localStorage.setItem("reactionTime", reactionTime);
-          const reactionTimeMillis = localStorage.getItem("reactionTime");
-          const reactionTimeSeconds = (reactionTimeMillis / 1000).toFixed(3);
-          feedback.textContent =
-            "Your reaction time was " + reactionTimeSeconds + " s.";
-          gameButton.removeEventListener("click", reactionHandler);
-          gameButton.textContent = "Played Today";
-          gameButton.disabled = true;
-
-          // Log the reaction time
-          logReactionTime(reactionTime);
-        });
-      }, delay);
-    }
-
-    function openModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.style.display = "block"; // Add this line
-      modal.classList.add("show");
-      if (modalId === "reactionTimesModal") {
-        showReactionTimes();
-      }
-    }
-
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.classList.remove("show");
-      setTimeout(() => {
-        modal.style.display = "none";
-      }, 300);
-    }
-
-    // Initialize the game on page load
-    initializeGame();
-  </script>
+  <script type="module" src="reaction.js?v=3"></script>
   <link rel="stylesheet" href="/globalNav/globalNav.css">
-  <script type="module" src="/globalNav/globalNav.js" defer></script>
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></noscript>
-<noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></noscript>
-
+  <script type="module" src="/globalNav/globalNav.js"></script>
+  <noscript><link rel="stylesheet" href="/globalNav/globalNav.css"></noscript>
 </body>
-
 </html>
