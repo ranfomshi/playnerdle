@@ -67,26 +67,58 @@
 .pn-nav-lock { overflow: hidden; }
 button[aria-label="Open game explainer"] { top: calc(var(--global-nav-height) + 12px) !important; }
 
-.pn-ad--post-game {
+#bludle-result-ad {
   box-sizing: border-box;
-  width: min(100%, 970px);
-  min-height: 112px;
-  margin: 28px auto 32px;
-  padding: 12px 0 4px;
-  border-top: 1px solid #dce1ec;
-  background: transparent;
-  color: #707a99;
-  text-align: center;
-}
-.pn-ad__label {
   display: block;
-  margin-bottom: 10px;
+  width: min(100%, 640px) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 28px auto 36px !important;
+  padding: 22px 0 24px !important;
+  border: 0 !important;
+  border-top: 1px solid #dce1ec !important;
+  border-bottom: 1px solid #dce1ec !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #707a99 !important;
+  font-family: "Inter",system-ui,sans-serif !important;
+  text-align: center !important;
+}
+#bludle-result-ad .pn-ad__label {
+  display: block;
+  margin: 0 0 12px !important;
+  color: #707a99 !important;
   font: 500 10px/1.2 "Inter",system-ui,sans-serif;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.pn-ad--post-game[hidden], .pn-ad--post-game[data-ad-state="unavailable"] { display: none !important; }
-.pn-ad--post-game ins.adsbygoogle { min-height: 90px; }
+#bludle-result-ad[hidden] { display: none !important; }
+#bludle-result-ad ins.adsbygoogle { width: 100% !important; min-height: 90px; }
+#bludle-result-ad ins.adsbygoogle[hidden], #bludle-result-ad .pn-house-ad[hidden] { display: none !important; }
+#bludle-result-ad .pn-house-ad {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 88px;
+  padding: 16px 18px;
+  border: 1px solid #b3c9f9;
+  border-radius: 12px;
+  background: #f6f8fc;
+  color: #232a42;
+  text-align: left;
+  text-decoration: none;
+}
+#bludle-result-ad .pn-house-ad:hover { border-color: #82a6f3; background: #eef3fe; }
+#bludle-result-ad .pn-house-ad:focus-visible { outline: 3px solid #82a6f3; outline-offset: 3px; }
+#bludle-result-ad .pn-house-ad__brand { color: #1c3993; font: 700 20px/1 "Manrope",system-ui,sans-serif; letter-spacing: -.03em; }
+#bludle-result-ad .pn-house-ad__copy strong, #bludle-result-ad .pn-house-ad__copy small { display: block; }
+#bludle-result-ad .pn-house-ad__copy strong { color: #141928; font-size: 14px; line-height: 1.35; }
+#bludle-result-ad .pn-house-ad__copy small { margin-top: 2px; color: #4e5875; font-size: 12px; line-height: 1.35; }
+#bludle-result-ad .pn-house-ad__cta { color: #1c3993; font-size: 12px; font-weight: 700; white-space: nowrap; }
 
 @media (max-width: 900px) {
   .pn-nav__inner { gap: 20px; }
@@ -107,6 +139,10 @@ button[aria-label="Open game explainer"] { top: calc(var(--global-nav-height) + 
   .pn-nav__groups { grid-template-columns: 1fr 1fr; gap: 24px 12px; padding: 20px 16px; }
   .pn-nav__panel-foot { padding: 16px; }
   .pn-nav__panel-foot > div { display: none; }
+  #bludle-result-ad { margin: 24px auto 32px !important; padding: 20px 0 22px !important; }
+  #bludle-result-ad .pn-house-ad { grid-template-columns: 1fr auto; gap: 5px 12px; padding: 14px; }
+  #bludle-result-ad .pn-house-ad__brand { grid-column: 1 / -1; font-size: 18px; }
+  #bludle-result-ad .pn-house-ad__copy small { font-size: 11px; }
 }
 @media (max-width: 390px) { .pn-nav__groups { grid-template-columns: 1fr; } .pn-nav__panel { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .pn-nav * { transition-duration: .01ms !important; } }
