@@ -46,3 +46,11 @@ Create a closed funnel exploration with these steps:
 Use a 30-minute funnel window. Break down by `landing_page`, `game_name`, `recommendation_id`, device category and default channel group. The view event provides the denominator for recommendation click-through rate. Register the custom parameters above as event-scoped custom dimensions before using them in detailed reports; event collection itself begins as soon as the deployment is live.
 
 The daily completion list and streak are stored only in the visitor's browser. The feature creates no account, requests no notification permission and sends no puzzle answers or personally identifying data.
+
+## Internal and test traffic
+
+Analytics is disabled automatically on local development addresses, `file:` pages and Netlify preview hosts. These visits do not initialise GA4 or Mixpanel.
+
+To exclude a browser used for testing the production site, visit any live Bludle URL once with `?internal=1`. The preference is stored locally and applies to later pages on that browser. Use `?internal=0` to restore normal tracking. Set the opt-out separately on every browser and device used for internal testing.
+
+Saved analytics reports should also exclude historical events whose host is `localhost`, a loopback address or a `netlify.app` preview. Earlier production visits cannot be identified reliably because they predate the internal-traffic marker.
