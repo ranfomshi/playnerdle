@@ -1,9 +1,16 @@
+import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
+
 (function () {
   'use strict';
 
   const analyticsId = 'G-3Z3GM1YNZE';
+  const analyticsPolicy = resolveAnalyticsPolicy({ location: window.location, storage: window.localStorage });
+  window.__bludleAnalyticsDisabled = analyticsPolicy.disabled;
+  window.__bludleAnalyticsPolicy = analyticsPolicy;
+  document.documentElement.dataset.bludleAnalytics = analyticsPolicy.disabled ? `disabled-${analyticsPolicy.reason}` : 'enabled';
 
   function ensureAnalytics() {
+    if (analyticsPolicy.disabled) return;
     if (window.__bludleAnalyticsInitialized) return;
     window.__bludleAnalyticsInitialized = true;
 
@@ -25,6 +32,7 @@
   ensureAnalytics();
 
   function ensureProductAnalytics() {
+    if (analyticsPolicy.disabled) return;
     if (window.mixpanel || document.querySelector('script[src$="/mixpanel.js"]')) return;
     const script = document.createElement('script');
     script.src = '/mixpanel.js';
@@ -118,6 +126,7 @@
   const currentPath = () => normalizePath(window.location.pathname);
 
   function track(eventName, params) {
+    if (analyticsPolicy.disabled) return;
     if (typeof window.gtag === 'function') window.gtag('event', eventName, params);
     if (window.mixpanel && typeof window.mixpanel.track === 'function') window.mixpanel.track(eventName, params);
   }
