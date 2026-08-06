@@ -13,10 +13,10 @@ const hubSlugs = new Set(hubs.map(hub => hub.slug));
 const utilitySet = new Set([...utilityPaths, 'blogs/disclaimer.html']);
 const editorialOverrides = new Map([
   ['blogs/6.html', ['How to Get Better at Word Games: 12 Practical Tips', 'Learn how to get better at word games with practical strategies for openings, letter patterns, elimination, vocabulary, anagrams and daily practice.']],
-  ['werdle/index.html', ['Werdle: Free Daily Five-Letter Word Game | Bludle', 'Play Werdle free: solve a five-letter daily word in five tries, reveal its origin, or switch to unlimited practice with no sign-up.']],
+  ['werdle/index.html', ['Werdle — Free Daily Word Game with Unlimited Play', "Solve today's five-letter word in five tries, reveal its origin, then keep playing in unlimited practice mode. Play Werdle free with no sign-up."]],
   ['bludle/index.html', ['Bludle: Decode the Blue Word | Free Word Game', 'Play Bludle free and decode a five-letter word from shades of blue, with A at the light end and Z at the darkest end of the alphabet spectrum.']],
-  ['codle/index.html', ['Codle: Free Five-Letter Word Cipher Game | Bludle', 'Play Codle free and decode five-letter word ciphers built from shifting, mirroring, reversing and alternating alphabet rules.']],
-  ['guesshue/index.html', ['Guess Hue: Spot the Different Colour | Free Game', 'Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle.']],
+  ['codle/index.html', ['Codle — Free Daily Word Cipher Game | Play Online', "Decode today's five-letter cipher using shifts, mirrors, reversals and alternating rules. Play Codle free online with five attempts and no download."]],
+  ['guesshue/index.html', ['Guess Hue — Free Online Colour Spotting Game | Bludle', 'Spot the different hue in four seconds. Play Guess Hue, a free online colour game with increasingly subtle differences and test your colour vision.']],
   ['blogs/2.html', ['The Rise of Handheld Electronic Word Games', 'Trace handheld word games from early LCD devices to modern mobile puzzles, including the design ideas that made portable play enduring.']],
   ['blogs/13.html', ['Beyond Wordle: Eight Original Daily Word Game Mechanics', 'Explore daily word games that use colour decoding, silhouettes, borrowed letters and overlapping answers instead of copying Wordle’s core loop.']],
   ['blogs/14.html', ['How to Choose a Daily Word Puzzle by Its Core Mechanic', 'Compare deduction, association, code-breaking and visual word puzzles to find a daily game that suits the way you like to think.']],
