@@ -21,7 +21,7 @@ function tags(html, name) {
 }
 
 function attribute(tag, name) {
-  return tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, 'i'))?.[1] || '';
+  return tag.match(new RegExp(`\\b${name}=(["'])(.*?)\\1`, 'i'))?.[2] || '';
 }
 
 function meta(html, key, value) {
