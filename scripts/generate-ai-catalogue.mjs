@@ -8,7 +8,7 @@ const categoryOrder = ['Word', 'Colour', 'Logic', 'Speed', 'Audio'];
 
 const compact = `# Bludle
 
-> Bludle is an independent collection of free browser puzzle games created by Stuart Pecksen. Games cover words, colour perception, logic, memory, audio recognition and reaction speed. No download is required.
+> Bludle is an independent collection of free browser puzzle games created by Stuart Pecksen. Games cover words, colour perception, logic, visual and musical memory, and reaction speed. No download is required.
 
 - Canonical site: ${SITE_URL}/
 - Creator and contact: ${SITE_URL}/about/
