@@ -131,11 +131,11 @@ export const games = [
   },
   {
     slug: 'heardle', name: 'Heardle', category: 'Audio', image: '/images/heardle.png',
-    description: 'Listen to a short music preview and identify the track in a free browser-based song puzzle.',
-    format: 'Audio recognition puzzle', round: 'About 2–5 minutes',
-    how: 'Play the available clip, enter the artist or song you recognise, and use additional audio only when needed. Earlier identification produces the cleanest solve.',
-    why: 'Heardle turns the instant familiarity of a melody, voice or production style into a concise deduction game.',
-    related: ['werdle', 'connex', 'seequence']
+    description: 'Listen to a sequence of musical notes, then recreate the melody from memory before your lives run out.',
+    format: 'Melody memory game', round: 'About 2–5 minutes',
+    how: 'Play the target melody, remember the order of its notes, then select C, D, E, F and G to rebuild the sequence. Submit the composition to score it; successful rounds become longer and introduce more notes.',
+    why: 'Heardle combines musical listening with sequence memory: it asks you to reproduce an original note pattern, not identify a commercial song or artist.',
+    related: ['seequence', 'afterimage', 'deadcentre']
   },
   {
     slug: 'reaction', name: 'Reaction', category: 'Speed', image: '/images/reaction.jpg',

@@ -2,11 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { SITE_URL, games, hubs } from './site-data.mjs';
+import { activeBlogNumbers } from './editorial-inventory.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
-const blogs = fs.readdirSync(path.join(root, 'blogs'))
-  .filter(name => /^\d+\.html$/.test(name))
-  .sort((a, b) => Number.parseInt(a) - Number.parseInt(b));
+const blogs = activeBlogNumbers.map(number => `${number}.html`);
 
 const pages = [
   ['/', 'index.html', 'weekly', '1.0'],

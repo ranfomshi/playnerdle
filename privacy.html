@@ -34,7 +34,7 @@
     <div class="discovery-heading">
       <p class="discovery-kicker">Privacy</p>
       <h1>Privacy policy</h1>
-      <p>Last updated 27 July 2026. This policy explains what information may be handled when you visit bludle.com, play a game or contact Bludle.</p>
+      <p>Last updated 19 August 2026. This policy explains what information may be handled when you visit bludle.com, play a game or contact Bludle.</p>
     </div>
 
     <section>
@@ -67,6 +67,12 @@
     </section>
 
     <section>
+      <h2>Advertising and analytics consent</h2>
+      <p>Bludle uses Google’s certified consent-management platform to request advertising choices where UK or European privacy rules apply. Google AdSense is loaded only after that platform reports that consent data is ready. Your choice may result in personalised ads, non-personalised or limited ads, or no ad where required.</p>
+      <p>Google Analytics and Mixpanel are disabled by default and are loaded only when the applicable analytics purposes have been accepted. You can review or withdraw advertising choices at any time using the control below.</p>
+    </section>
+
+    <section>
       <h2>Retention and security</h2>
       <p>Contact messages are retained only while reasonably needed to answer and manage the request. Analytics, advertising and hosting records follow the retention settings of the relevant provider. Browser game data remains until you clear site storage or the game removes it. Reasonable technical and organisational measures are used, but no internet service can guarantee absolute security.</p>
     </section>
@@ -75,6 +81,8 @@
       <h2>Your choices and rights</h2>
       <p>Depending on where you live, you may have rights to access, correct, delete or restrict personal information, object to processing, withdraw consent and receive a portable copy. You can also clear local game data and cookies through your browser. To make a request, contact the address above. UK users may complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="external">Information Commissioner’s Office</a>.</p>
       <p>Browser “Do Not Track” signals do not yet have one consistently implemented industry standard. Use the privacy and cookie controls offered by your browser and the relevant advertising provider.</p>
+      <p><button type="button" id="privacy-choices">Review advertising privacy choices</button></p>
+      <p id="privacy-choices-status" role="status"></p>
     </section>
 
     <section>
@@ -84,5 +92,13 @@
 
     <p><a href="/terms-and-conditions">Terms and conditions</a> · <a href="/editorial-policy/">Editorial policy</a> · <a href="/about/">About Bludle</a></p>
   </main>
+  <script>
+    document.getElementById('privacy-choices').addEventListener('click', () => {
+      const opened = window.BludlePrivacy?.openChoices();
+      document.getElementById('privacy-choices-status').textContent = opened
+        ? ''
+        : 'Privacy choices are still loading. Please try again in a moment.';
+    });
+  </script>
 </body>
 </html>

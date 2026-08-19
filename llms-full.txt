@@ -1,21 +1,21 @@
 # Bludle
 
-> Bludle is an independent collection of free browser puzzle games created by Stuart Pecksen. Games cover words, colour perception, logic, memory, audio recognition and reaction speed. No download is required.
+> Bludle is an independent collection of free browser puzzle games created by Stuart Pecksen. Games cover words, colour perception, logic, visual and musical memory, and reaction speed. No download is required.
 
 - Canonical site: https://bludle.com/
 - Creator and contact: https://bludle.com/about/
 - Editorial policy: https://bludle.com/editorial-policy/
 - Journal: https://bludle.com/blogs/
 - Sitemap: https://bludle.com/sitemap.xml
-- Last updated: 2026-07-20
+- Last updated: 2026-08-19
 
 ## Games
 
 ### Word games
 
-- [Werdle](https://bludle.com/werdle/): Solve a five-letter word in six guesses, then inspect its origin. Play the daily puzzle or keep going in unlimited practice. Format: Daily puzzle and unlimited practice. Typical round: About 3–5 minutes.
-- [Bludle](https://bludle.com/bludle/): Decode a five-letter word from shades of blue, where each letter has a fixed place on a light-to-dark alphabet spectrum. Format: Daily visual word puzzle. Typical round: About 2–4 minutes.
-- [Codle](https://bludle.com/codle/): Crack five-letter words transformed by shifting, mirroring, reversing and alternating alphabet rules. Format: Progressive code-breaking rounds. Typical round: About 3–6 minutes.
+- [Werdle](https://bludle.com/werdle/): Play Werdle free: solve a five-letter daily word in five tries, reveal its origin, or switch to unlimited practice with no sign-up. Format: Daily puzzle and unlimited practice. Typical round: About 3–5 minutes.
+- [Bludle](https://bludle.com/bludle/): Play Bludle free and decode a five-letter word from shades of blue, with A at the light end and Z at the darkest end of the alphabet spectrum. Format: Daily visual word puzzle. Typical round: About 2–4 minutes.
+- [Codle](https://bludle.com/codle/): Play Codle free and decode five-letter word ciphers built from shifting, mirroring, reversing and alternating alphabet rules. Format: Progressive code-breaking rounds. Typical round: About 3–6 minutes.
 - [Connex](https://bludle.com/connex/): Sort sixteen words into four hidden groups by finding the connection shared by each set. Format: Browser word-association puzzle. Typical round: About 5–10 minutes.
 - [Word Mash](https://bludle.com/wordmash/): Build a chain of overlapping words by finding the shared letters that join one answer to the next. Format: Daily overlap puzzle. Typical round: About 3–5 minutes.
 - [Glyph](https://bludle.com/glyph/): Identify daily words from their typographic silhouettes before the individual letters are revealed. Format: Five daily silhouette puzzles. Typical round: About 3–6 minutes.
@@ -27,7 +27,7 @@
 - [Colour Match](https://bludle.com/colormatch/): Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values. Format: One daily target and one submission. Typical round: About 2–4 minutes.
 - [Afterimage](https://bludle.com/afterimage/): Memorise a colour, wait for it to disappear, and rebuild it from RGB controls across five daily rounds. Format: Five daily memory rounds. Typical round: About 4–7 minutes.
 - [Chroma Lock](https://bludle.com/chromalock/): Stop a cycling colour at the instant it matches the target in a compact visual timing puzzle. Format: Progressive timing challenge. Typical round: About 2–5 minutes.
-- [Guess Hue](https://bludle.com/guesshue/): Spot the one different hue before time expires as each successful round makes the distinction more subtle. Format: Endless four-second rounds. Typical round: Usually 1–5 minutes.
+- [Guess Hue](https://bludle.com/guesshue/): Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle. Format: Endless four-second rounds. Typical round: Usually 1–5 minutes.
 - [Tintuition](https://bludle.com/tintuition/): Match colours by eye using HSL controls, build combos and climb through increasingly exact ranks. Format: Ranked colour-matching run. Typical round: About 3–8 minutes.
 
 ### Logic games
@@ -44,7 +44,7 @@
 
 ### Audio games
 
-- [Heardle](https://bludle.com/heardle/): Listen to a short music preview and identify the track in a free browser-based song puzzle. Format: Audio recognition puzzle. Typical round: About 2–5 minutes.
+- [Heardle](https://bludle.com/heardle/): Listen to a sequence of musical notes, then recreate the melody from memory before your lives run out. Format: Melody memory game. Typical round: About 2–5 minutes.
 
 ## Selection guides
 
@@ -70,7 +70,7 @@ Pages are public and may be crawled when permitted by robots.txt. Individual gam
 
 - URL: https://bludle.com/werdle/
 - Category: Word
-- How to play: Enter a valid five-letter word. Green letters are correct, amber letters belong elsewhere, and grey letters are not in the answer. Use the keyboard evidence to narrow the next guess.
+- How to play: Enter any five letters; guesses do not need to be valid words. Green letters are correct, amber letters belong elsewhere, and grey letters are not in the answer. Find the word within five tries.
 - Distinguishing mechanic: Werdle keeps the familiar deduction loop but adds a word-origin reveal, so every solved puzzle ends with something worth learning.
 - Access: Free browser game; no download required.
 
@@ -198,8 +198,8 @@ Pages are public and may be crawled when permitted by robots.txt. Individual gam
 
 - URL: https://bludle.com/heardle/
 - Category: Audio
-- How to play: Play the available clip, enter the artist or song you recognise, and use additional audio only when needed. Earlier identification produces the cleanest solve.
-- Distinguishing mechanic: Heardle turns the instant familiarity of a melody, voice or production style into a concise deduction game.
+- How to play: Play the target melody, remember the order of its notes, then select C, D, E, F and G to rebuild the sequence. Submit the composition to score it; successful rounds become longer and introduce more notes.
+- Distinguishing mechanic: Heardle combines musical listening with sequence memory: it asks you to reproduce an original note pattern, not identify a commercial song or artist.
 - Access: Free browser game; no download required.
 
 ### Reaction

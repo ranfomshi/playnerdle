@@ -8,6 +8,7 @@ const root = path.resolve(import.meta.dirname, '..');
 const manager = await readFile(path.join(root, 'globalNav', 'adManager.js'), 'utf8');
 const engagement = await readFile(path.join(root, 'globalNav', 'engagementManager.js'), 'utf8');
 const nav = await readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
+const consent = await readFile(path.join(root, 'globalNav', 'consentManager.js'), 'utf8');
 const styles = await readFile(path.join(root, 'globalNav', 'globalNav.css'), 'utf8');
 const bludle = await readFile(path.join(root, 'bludle', 'index.html'), 'utf8');
 const tintuition = await readFile(path.join(root, 'tintuition', 'app.js'), 'utf8');
@@ -16,6 +17,10 @@ const issues = [];
 
 if (!nav.includes('/globalNav/adManager.js')) {
   issues.push('globalNav/globalNav.js: shared ad manager is not loaded');
+}
+
+if (!nav.includes('/globalNav/consentManager.js') || !consent.includes('CONSENT_DATA_READY')) {
+  issues.push('shared advertising is not gated by the certified CMP');
 }
 
 if (!manager.includes('ca-pub-5140172230633441')) {

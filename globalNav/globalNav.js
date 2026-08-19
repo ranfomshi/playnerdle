@@ -11,6 +11,7 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
 
   function ensureAnalytics() {
     if (analyticsPolicy.disabled) return;
+    if (window.__bludleAnalyticsConsent !== true) return;
     if (window.__bludleAnalyticsInitialized) return;
     window.__bludleAnalyticsInitialized = true;
 
@@ -29,10 +30,9 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     window.gtag('config', analyticsId);
   }
 
-  ensureAnalytics();
-
   function ensureProductAnalytics() {
     if (analyticsPolicy.disabled) return;
+    if (window.__bludleAnalyticsConsent !== true) return;
     if (window.mixpanel || document.querySelector('script[src$="/mixpanel.js"]')) return;
     const script = document.createElement('script');
     script.src = '/mixpanel.js';
@@ -41,6 +41,16 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     document.head.append(script);
   }
 
+  window.addEventListener('bludle:analytics-consent', event => {
+    if (!event.detail?.granted) {
+      if (window.mixpanel?.opt_out_tracking) window.mixpanel.opt_out_tracking();
+      return;
+    }
+    ensureAnalytics();
+    ensureProductAnalytics();
+  });
+
+  ensureAnalytics();
   ensureProductAnalytics();
 
   function ensureMotion() {
@@ -63,6 +73,16 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     document.head.append(script);
   }
 
+  function ensureConsentManager() {
+    if (window.__bludleConsentManagerLoaded || document.querySelector('script[src="/globalNav/consentManager.js"]')) return;
+    const script = document.createElement('script');
+    script.src = '/globalNav/consentManager.js';
+    script.async = false;
+    script.dataset.bludleConsentManager = '';
+    document.head.append(script);
+  }
+
+  ensureConsentManager();
   ensureAdManager();
 
   function ensureGameTelemetry() {
