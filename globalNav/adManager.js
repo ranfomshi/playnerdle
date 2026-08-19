@@ -138,22 +138,18 @@
     });
     fillObserver.observe(unit, { attributes: true, attributeFilter: ['data-ad-status'] });
 
-    if (!document.querySelector(`script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle"]`)) {
-      const script = document.createElement('script');
-      script.async = true;
-      script.crossOrigin = 'anonymous';
-      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`;
-      script.dataset.bludleAdsense = '';
-      document.head.append(script);
-    }
+    const submit = () => {
+      try {
+        window.adsbygoogle = window.adsbygoogle || [];
+        window.adsbygoogle.push({});
+        trackRequest();
+      } catch (error) {
+        showHouseFallback('request_error');
+      }
+    };
 
-    try {
-      window.adsbygoogle = window.adsbygoogle || [];
-      window.adsbygoogle.push({});
-      trackRequest();
-    } catch (error) {
-      showHouseFallback('request_error');
-    }
+    if (window.__bludleAdsReady) submit();
+    else window.addEventListener('bludle:ads-ready', submit, { once: true });
   }
 
   function watchForViewability() {
