@@ -1,3 +1,5 @@
+import { buildMemoryMetrics } from './memoryMetrics.js';
+
 const ROUND_CONFIG = [
   { study: 5000, distraction: 0 },
   { study: 4500, distraction: 600 },
@@ -76,10 +78,20 @@ let round = 0;
 let roundResults = [];
 let countdownFrame = 0;
 let completedResult = null;
+let submittedRound = -1;
 
 const clamp = value => Math.max(0, Math.min(255, Number(value) || 0));
 const rgb = channels => `rgb(${channels.join(', ')})`;
 const values = () => els.numbers.map(input => clamp(input.value));
+
+function trackGameEvent(eventName, properties) {
+  if (window.BludleEngagement?.gameEvent) {
+    window.BludleEngagement.gameEvent(eventName, properties);
+    return;
+  }
+  window.__bludleGameplayEventQueue = window.__bludleGameplayEventQueue || [];
+  window.__bludleGameplayEventQueue.push({ eventName, properties });
+}
 
 function readJson(key, fallback) {
   try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
@@ -177,12 +189,24 @@ function updateMix(changedIndex) {
 }
 
 function revealRound() {
+  if (submittedRound === round) return;
+  submittedRound = round;
   const target = targets[round];
   const guess = values();
   const differences = guess.map((value, index) => Math.abs(value - target[index]));
   const error = differences.reduce((sum, value) => sum + value, 0);
   const accuracy = Math.round((1 - error / 765) * 100);
   roundResults.push({ accuracy, error });
+  trackGameEvent('afterimage_memory_reconstruction', buildMemoryMetrics({
+    target,
+    memory: guess,
+    differences,
+    error,
+    accuracy,
+    roundNumber: round + 1,
+    studyMs: ROUND_CONFIG[round].study,
+    distractionMs: ROUND_CONFIG[round].distraction,
+  }));
 
   document.querySelector('#target-reveal').style.background = rgb(target);
   document.querySelector('#guess-reveal').style.background = rgb(guess);

@@ -9,7 +9,7 @@
   const LANDING_KEY = 'bludle:landing-context:v1';
   const PENDING_KEY = 'bludle:next-game:v1';
   const SESSION_COUNT_KEY = 'bludle:session-game-count:v1';
-  const ALLOWED_GAME_EVENTS = new Set(['werdle_first_guess', 'second_sight_answer']);
+  const ALLOWED_GAME_EVENTS = new Set(['werdle_first_guess', 'second_sight_answer', 'afterimage_memory_reconstruction']);
   const GAME_EVENT_PROPERTIES = {
     werdle_first_guess: new Set([
       'first_guess', 'exact_letters', 'present_letters', 'absent_letters', 'vowel_count',
@@ -17,6 +17,17 @@
     ]),
     second_sight_answer: new Set([
       'round_number', 'dimension', 'direction', 'correct', 'response_ms', 'perceptual_delta'
+    ]),
+    afterimage_memory_reconstruction: new Set([
+      'round_number', 'study_ms', 'distraction_ms', 'accuracy_percent',
+      'target_red', 'target_green', 'target_blue', 'memory_red', 'memory_green', 'memory_blue',
+      'memory_minus_target_red', 'memory_minus_target_green', 'memory_minus_target_blue',
+      'absolute_error_red', 'absolute_error_green', 'absolute_error_blue', 'absolute_error_total',
+      'target_lightness', 'memory_lightness', 'memory_minus_target_lightness',
+      'target_chroma', 'memory_chroma', 'memory_minus_target_chroma',
+      'target_hue_degrees', 'memory_hue_degrees', 'memory_minus_target_hue_degrees',
+      'hue_comparison_available', 'perceptual_distance', 'target_hue_band',
+      'target_lightness_band', 'target_chroma_band'
     ])
   };
 
@@ -143,7 +154,7 @@
     const eventProperties = Object.fromEntries(Object.entries(properties)
       .filter(([property]) => allowedProperties.has(property)));
     if (eventName === 'werdle_first_guess' && !/^[a-z]{5}$/.test(eventProperties.first_guess || '')) return;
-    track(eventName, {
+    const payload = {
       ...eventProperties,
       game_name: currentGame.slug,
       game_category: currentGame.category.toLowerCase(),
@@ -151,7 +162,14 @@
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine
-    });
+    };
+    // This event intentionally keeps a richer research schema than GA4's
+    // event-parameter limit permits. Mixpanel is the source of truth for it.
+    if (eventName === 'afterimage_memory_reconstruction') {
+      if (window.mixpanel && typeof window.mixpanel.track === 'function') window.mixpanel.track(eventName, payload);
+      return;
+    }
+    track(eventName, payload);
   }
 
   function progressForToday() {

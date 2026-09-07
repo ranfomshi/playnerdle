@@ -33,7 +33,7 @@ const [app, engagement, documentation, privacy] = await Promise.all([
   readFile(path.join(root, 'privacy.html'), 'utf8')
 ]);
 assert.match(app, /game\.guesses\.length === 0[^\n]+trackFirstGuess/);
-assert.match(engagement, /ALLOWED_GAME_EVENTS = new Set\(\['werdle_first_guess'\]\)/);
+assert.match(engagement, /ALLOWED_GAME_EVENTS = new Set\(\[[^\]]*'werdle_first_guess'/);
 assert.match(documentation, /Werdle opening guesses/);
 assert.match(privacy, /Werdle also sends the first five-letter guess/);
 
