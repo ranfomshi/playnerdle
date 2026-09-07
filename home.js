@@ -43,6 +43,7 @@ const tileHandlers = {
   shiftyFades: () => trackClick('shiftyfades'),
   colourMatch: () => trackClick('colourmatch'),
   afterimage: () => trackClick('afterimage'),
+  secondSight: () => trackClick('secondsight'),
   chromaLock: () => trackClick('chromalock'),
   codle: () => trackClick('codle'),
   alternate: () => trackClick('alternate'),

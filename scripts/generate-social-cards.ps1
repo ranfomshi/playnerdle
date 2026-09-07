@@ -16,6 +16,7 @@ $games = @(
   @{ Slug='shiftyfades'; Name='Shifty Fades'; Category='COLOUR'; Source='shifty.png' },
   @{ Slug='colormatch'; Name='Colour Match'; Category='COLOUR'; Source='cm.jpg' },
   @{ Slug='afterimage'; Name='Afterimage'; Category='COLOUR'; Source='background.jpg' },
+  @{ Slug='secondsight'; Name='Second Sight'; Category='COLOUR'; Source='game-screens\secondsight.png' },
   @{ Slug='chromalock'; Name='Chroma Lock'; Category='COLOUR'; Source='background.jpg' },
   @{ Slug='guesshue'; Name='Guess Hue'; Category='COLOUR'; Source='hue.png' },
   @{ Slug='tintuition'; Name='Tintuition'; Category='COLOUR'; Source='tintuition.png' },

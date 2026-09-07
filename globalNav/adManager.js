@@ -11,7 +11,7 @@
     '/afterimage', '/alternate', '/bludle', '/borrowedletters', '/chromalock',
     '/codle', '/colormatch', '/connex', '/deadcentre', '/glyph', '/guesshue',
     '/heardle', '/hunt', '/reaction', '/seequence', '/shiftyfades', '/tintuition',
-    '/trak', '/werdle', '/wordmash'
+    '/secondsight', '/trak', '/werdle', '/wordmash'
   ]);
 
   const currentPath = window.location.pathname

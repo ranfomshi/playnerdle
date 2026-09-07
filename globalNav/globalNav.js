@@ -118,6 +118,7 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     { name: 'Shifty Fades', href: '/shiftyfades/', category: 'Colour' },
     { name: 'Colour Match', href: '/colormatch/', category: 'Colour' },
     { name: 'Afterimage', href: '/afterimage/', category: 'Colour' },
+    { name: 'Second Sight', href: '/secondsight/', category: 'Colour' },
     { name: 'Chroma Lock', href: '/chromalock/', category: 'Colour' },
     { name: 'Guess Hue', href: '/guesshue/', category: 'Colour' },
     { name: 'Tintuition', href: '/tintuition/', category: 'Colour' },

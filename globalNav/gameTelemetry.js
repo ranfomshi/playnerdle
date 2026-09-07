@@ -7,7 +7,7 @@
   const formats = {
     werdle: 'hybrid', bludle: 'session', codle: 'daily', connex: 'session', wordmash: 'daily',
     glyph: 'daily', borrowedletters: 'daily', shiftyfades: 'session', colormatch: 'session',
-    afterimage: 'daily', chromalock: 'session', guesshue: 'session', tintuition: 'session',
+    afterimage: 'daily', secondsight: 'daily', chromalock: 'session', guesshue: 'session', tintuition: 'session',
     hunt: 'session', seequence: 'session', deadcentre: 'daily', heardle: 'session',
     reaction: 'daily', alternate: 'session', trak: 'session'
   };
@@ -68,6 +68,10 @@
       accuracy_percent: number('#final-accuracy'), error_total: number('#final-error'),
       error_red: number('#red-difference'), error_green: number('#green-difference'), error_blue: number('#blue-difference'),
       rounds_completed: count('#round-pips span')
+    }),
+    secondsight: () => ({
+      score: number('#final-score'), accuracy_percent: number('#final-accuracy'),
+      streak: number('#best-streak'), rounds_completed: count('#round-pips span')
     }),
     chromalock: () => ({
       level_reached: number('#final-level') ?? number('#level'), accuracy_percent: number('#accuracyText'),

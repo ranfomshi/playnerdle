@@ -7,7 +7,7 @@
 - Editorial policy: https://bludle.com/editorial-policy/
 - Journal: https://bludle.com/blogs/
 - Sitemap: https://bludle.com/sitemap.xml
-- Last updated: 2026-08-19
+- Last updated: 2026-09-07
 
 ## Games
 
@@ -26,6 +26,7 @@
 - [Shifty Fades](https://bludle.com/shiftyfades/): Find the exact target colour among near matches across fifty increasingly subtle levels. Format: Fifty progressive levels. Typical round: About 2–8 minutes.
 - [Colour Match](https://bludle.com/colormatch/): Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values. Format: One daily target and one submission. Typical round: About 2–4 minutes.
 - [Afterimage](https://bludle.com/afterimage/): Memorise a colour, wait for it to disappear, and rebuild it from RGB controls across five daily rounds. Format: Five daily memory rounds. Typical round: About 4–7 minutes.
+- [Second Sight](https://bludle.com/secondsight/): Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds. Format: Ten daily colour comparisons. Typical round: About 3–5 minutes.
 - [Chroma Lock](https://bludle.com/chromalock/): Stop a cycling colour at the instant it matches the target in a compact visual timing puzzle. Format: Progressive timing challenge. Typical round: About 2–5 minutes.
 - [Guess Hue](https://bludle.com/guesshue/): Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle. Format: Endless four-second rounds. Typical round: Usually 1–5 minutes.
 - [Tintuition](https://bludle.com/tintuition/): Match colours by eye using HSL controls, build combos and climb through increasingly exact ranks. Format: Ranked colour-matching run. Typical round: About 3–8 minutes.
@@ -144,6 +145,14 @@ Pages are public and may be crawled when permitted by robots.txt. Individual gam
 - Category: Colour
 - How to play: Study each colour during the viewing phase. Once it vanishes, reconstruct it with the RGB controls and submit to see the target and your remembered mix together.
 - Distinguishing mechanic: Removing the reference separates colour memory from ordinary matching and shows how quickly a precise visual impression drifts.
+- Access: Free browser game; no download required.
+
+### Second Sight
+
+- URL: https://bludle.com/secondsight/
+- Category: Colour
+- How to play: Study one colour, hold it through a blank interval, then study a second. Decide whether the second became lighter, darker, more vivid, more muted, redder, greener, yellower or bluer.
+- Distinguishing mechanic: The colours never appear together until after the answer. Each round changes exactly one perceptual dimension, turning colour memory into clear, learnable feedback.
 - Access: Free browser game; no download required.
 
 ### Chroma Lock
