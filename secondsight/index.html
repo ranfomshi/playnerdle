@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Second Sight | Free Colour Game | Bludle</title>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="secondsight.css">
+  <link rel="stylesheet" href="/globalNav/discovery.css">
+<meta name="description" content="Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://bludle.com/secondsight/">
+  <meta property="og:site_name" content="Bludle">
+  <meta property="og:title" content="Second Sight | Free Colour Game | Bludle">
+  <meta property="og:description" content="Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.">
+  <meta property="og:url" content="https://bludle.com/secondsight/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://bludle.com/images/social/secondsight.jpg">
+  <meta property="og:image:alt" content="Second Sight on Bludle">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Second Sight | Free Colour Game | Bludle">
+  <meta name="twitter:description" content="Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.">
+  <meta name="twitter:image" content="https://bludle.com/images/social/secondsight.jpg">
+  <meta name="twitter:image:alt" content="Second Sight on Bludle">
+  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/secondsight/#game","name":"Second Sight","url":"https://bludle.com/secondsight/","description":"Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.","image":"https://bludle.com/images/social/secondsight.jpg","inLanguage":"en-GB","genre":["Colour game","Puzzle game"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
+</head>
+<body data-game="secondsight">
+  <div id="navbar-container"></div>
+
+  <main class="second-sight-page" id="main-content">
+    <header class="game-heading">
+      <div>
+        <span class="eyebrow">Daily colour perception</span>
+        <h1>Second Sight</h1>
+        <p>Two colours. One subtle change. Can your memory tell you what moved?</p>
+      </div>
+      <div class="heading-actions">
+        <button class="icon-button" id="stats-button" type="button" aria-label="View Second Sight statistics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>
+        </button>
+        <button class="icon-button" id="help-button" type="button" aria-label="How to play Second Sight">?</button>
+      </div>
+    </header>
+
+    <section class="sight-card" aria-labelledby="phase-title">
+      <div class="run-strip">
+        <div><span>Round</span><strong id="round-value">1 / 10</strong></div>
+        <div><span>Score</span><strong id="score-value">0</strong></div>
+        <div><span>Streak</span><strong id="streak-value">0</strong></div>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="stage-topline">
+          <span class="phase-pill" id="phase-pill">Ready</span>
+          <div class="sequence-dots" aria-label="Colour sequence">
+            <span id="first-dot">1</span><i></i><span id="second-dot">2</span>
+          </div>
+        </div>
+
+        <div class="colour-window" id="colour-window">
+          <div class="colour-field" id="colour-field" aria-hidden="true"></div>
+          <div class="interference" id="interference" aria-hidden="true"></div>
+          <div class="stage-copy" id="stage-copy">
+            <span class="stage-number">Round <b id="round-number">1</b></span>
+            <h2 id="phase-title">Watch for the change.</h2>
+            <p id="phase-copy">You will see one colour, a short pause, then another. Choose the one thing that changed.</p>
+            <button class="primary-button" id="start-round" type="button">Show the colours <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="exposure-label" id="exposure-label" hidden>
+            <span id="exposure-name">First colour</span>
+            <strong id="exposure-count">1</strong>
+          </div>
+        </div>
+
+        <div class="answer-panel" id="answer-panel" hidden>
+          <span class="eyebrow">Trust your first impression</span>
+          <h2>How did the second colour differ?</h2>
+          <div class="answer-grid" id="answer-grid"></div>
+        </div>
+
+        <div class="reveal-panel" id="reveal-panel" hidden>
+          <div class="reveal-heading">
+            <div><span class="eyebrow" id="reveal-kicker">You saw it</span><h2 id="reveal-title">The second colour was lighter.</h2></div>
+            <strong class="points-badge" id="round-points">+0</strong>
+          </div>
+          <div class="reveal-swatches">
+            <figure><div id="first-reveal"></div><figcaption>First</figcaption></figure>
+            <div class="change-mark" aria-hidden="true">→</div>
+            <figure><div id="second-reveal"></div><figcaption>Second</figcaption></figure>
+          </div>
+          <p class="explanation" id="explanation">Only lightness changed; the colour direction and intensity stayed fixed.</p>
+          <button class="primary-button" id="next-round" type="button">Next comparison <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+
+      <div class="round-track" id="round-track" aria-label="Daily round progress"></div>
+      <p class="status-line" id="game-status" role="status" aria-live="polite">Round 1 is ready.</p>
+    </section>
+
+    <aside class="ad-card" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="about-card" aria-labelledby="second-sight-about-title">
+      <div><span class="eyebrow">Memory, not matching</span><h2 id="second-sight-about-title">The reference disappears before you decide.</h2></div>
+      <p>Early changes are obvious. Later ones are shorter, quieter and separated by a longer pause. Each answer reveals the two colours together and explains the exact dimension that moved.</p>
+    </section>
+  </main>
+<!-- bludle-guide:start -->
+  <section class="bludle-discovery game-guide" aria-labelledby="about-secondsight">
+    <div class="discovery-heading">
+      <p class="discovery-kicker">About the game</p>
+      <h2 id="about-secondsight">How to play Second Sight</h2>
+      <p>Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.</p>
+    </div>
+    <dl class="game-facts">
+      <div><dt>Format</dt><dd>Ten daily colour comparisons</dd></div>
+      <div><dt>Typical round</dt><dd>About 3–5 minutes</dd></div>
+      <div><dt>Cost</dt><dd>Free, with no download required</dd></div>
+    </dl>
+    <div class="discovery-copy">
+      <div><h3>The rules</h3><p>Study one colour, hold it through a blank interval, then study a second. Decide whether the second became lighter, darker, more vivid, more muted, redder, greener, yellower or bluer.</p></div>
+      <div><h3>What makes it different</h3><p>The colours never appear together until after the answer. Each round changes exactly one perceptual dimension, turning colour memory into clear, learnable feedback.</p></div>
+    </div>
+
+    <nav class="related-games" aria-label="Games related to Second Sight">
+      <span>Try next</span><a href="/afterimage/">Afterimage</a><a href="/colormatch/">Colour Match</a><a href="/guesshue/">Guess Hue</a>
+    </nav>
+  </section>
+  <!-- bludle-guide:end -->
+<dialog class="dialog" id="help-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">How to play</span>
+    <h2>Spot what changed.</h2>
+    <ol class="steps">
+      <li><span>01</span><div><strong>See the first colour</strong><p>Take in its brightness, intensity and colour direction.</p></div></li>
+      <li><span>02</span><div><strong>Hold it through the pause</strong><p>The gap grows and viewing time shrinks as the daily challenge progresses.</p></div></li>
+      <li><span>03</span><div><strong>Name the one change</strong><p>The colours appear together only after you commit, with a plain-language explanation.</p></div></li>
+    </ol>
+    <p class="help-note"><strong>Useful language:</strong> vivid means more intense; muted means closer to grey.</p>
+    <button class="primary-button" type="button" data-close>Use my second sight</button>
+  </dialog>
+
+  <dialog class="dialog result-dialog" id="result-dialog">
+    <div class="result-mark" id="result-mark">--</div>
+    <span class="eyebrow">Today's perception profile</span>
+    <h2 id="result-title">Your second sight is in.</h2>
+    <p id="result-summary">Ten fleeting colour changes, measured.</p>
+    <div class="result-grid">
+      <div><strong id="final-score">0</strong><span>Score</span></div>
+      <div><strong id="final-accuracy">0%</strong><span>Accuracy</span></div>
+      <div><strong id="best-streak">0</strong><span>Best streak</span></div>
+    </div>
+    <div class="profile-grid" aria-label="Perception by colour dimension">
+      <div><span>Lightness</span><strong id="final-lightness">--</strong><i><b id="lightness-bar"></b></i></div>
+      <div><span>Intensity</span><strong id="final-chroma">--</strong><i><b id="chroma-bar"></b></i></div>
+      <div><span>Colour direction</span><strong id="final-hue">--</strong><i><b id="hue-bar"></b></i></div>
+    </div>
+    <div class="round-pips" id="round-pips" aria-label="Round answers"></div>
+    <button class="primary-button" id="share-button" type="button">Share result</button>
+    <button class="text-button" type="button" data-close>Back to the board</button>
+  </dialog>
+
+  <dialog class="dialog" id="stats-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close">&times;</button>
+    <span class="eyebrow">Your record</span>
+    <h2>Second Sight statistics</h2>
+    <div class="record-grid">
+      <div><strong id="games-played">0</strong><span>Days played</span></div>
+      <div><strong id="record-average">--</strong><span>Average accuracy</span></div>
+      <div><strong id="record-best">--</strong><span>Best day</span></div>
+      <div><strong id="current-streak">0</strong><span>Current streak</span></div>
+    </div>
+  </dialog>
+
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script type="module" src="secondsight.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>

@@ -82,6 +82,14 @@ export const games = [
     related: ['colormatch', 'deadcentre', 'seequence']
   },
   {
+    slug: 'secondsight', name: 'Second Sight', category: 'Colour', image: '/images/game-screens/secondsight.png',
+    description: 'Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.',
+    format: 'Ten daily colour comparisons', round: 'About 3–5 minutes',
+    how: 'Study one colour, hold it through a blank interval, then study a second. Decide whether the second became lighter, darker, more vivid, more muted, redder, greener, yellower or bluer.',
+    why: 'The colours never appear together until after the answer. Each round changes exactly one perceptual dimension, turning colour memory into clear, learnable feedback.',
+    related: ['afterimage', 'colormatch', 'guesshue']
+  },
+  {
     slug: 'chromalock', name: 'Chroma Lock', category: 'Colour', image: '/images/shifty.png',
     description: 'Stop a cycling colour at the instant it matches the target in a compact visual timing puzzle.',
     format: 'Progressive timing challenge', round: 'About 2–5 minutes',
@@ -168,7 +176,7 @@ export const gameBySlug = new Map(games.map(game => [game.slug, game]));
 export const hubs = [
   ['wordle-alternatives', 'Wordle alternatives', ['werdle', 'bludle', 'codle', 'glyph']],
   ['daily-word-games', 'Daily word games', ['werdle', 'glyph', 'borrowedletters', 'wordmash']],
-  ['colour-puzzle-games', 'Colour puzzle games', ['colormatch', 'afterimage', 'tintuition', 'shiftyfades']],
+  ['colour-puzzle-games', 'Colour puzzle games', ['colormatch', 'afterimage', 'secondsight', 'tintuition']],
   ['reaction-games', 'Reaction games', ['reaction', 'alternate', 'guesshue', 'trak']],
   ['free-browser-games', 'Free browser games', ['werdle', 'connex', 'colormatch', 'reaction']],
   ['no-download-games', 'No-download games', ['bludle', 'wordmash', 'tintuition', 'deadcentre']],

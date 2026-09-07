@@ -9,11 +9,14 @@
   const LANDING_KEY = 'bludle:landing-context:v1';
   const PENDING_KEY = 'bludle:next-game:v1';
   const SESSION_COUNT_KEY = 'bludle:session-game-count:v1';
-  const ALLOWED_GAME_EVENTS = new Set(['werdle_first_guess']);
+  const ALLOWED_GAME_EVENTS = new Set(['werdle_first_guess', 'second_sight_answer']);
   const GAME_EVENT_PROPERTIES = {
     werdle_first_guess: new Set([
       'first_guess', 'exact_letters', 'present_letters', 'absent_letters', 'vowel_count',
       'unique_letter_count', 'has_repeated_letter', 'game_mode'
+    ]),
+    second_sight_answer: new Set([
+      'round_number', 'dimension', 'direction', 'correct', 'response_ms', 'perceptual_delta'
     ])
   };
 
@@ -28,6 +31,7 @@
     { slug: 'shiftyfades', name: 'Shifty Fades', category: 'Colour', related: ['guesshue', 'colormatch', 'tintuition'] },
     { slug: 'colormatch', name: 'Colour Match', category: 'Colour', related: ['tintuition', 'afterimage', 'shiftyfades'] },
     { slug: 'afterimage', name: 'Afterimage', category: 'Colour', related: ['colormatch', 'deadcentre', 'seequence'] },
+    { slug: 'secondsight', name: 'Second Sight', category: 'Colour', related: ['afterimage', 'colormatch', 'guesshue'] },
     { slug: 'chromalock', name: 'Chroma Lock', category: 'Colour', related: ['tintuition', 'alternate', 'guesshue'] },
     { slug: 'guesshue', name: 'Guess Hue', category: 'Colour', related: ['shiftyfades', 'reaction', 'tintuition'] },
     { slug: 'tintuition', name: 'Tintuition', category: 'Colour', related: ['colormatch', 'chromalock', 'shiftyfades'] },
@@ -53,7 +57,8 @@
     guesshue: { slug: 'tintuition', id: 'name_to_instinct', reason: 'You named the hue. Next, trust your colour instinct under pressure.' },
     tintuition: { slug: 'colormatch', id: 'instinct_to_mix', reason: 'Put that colour instinct to work by mixing the target yourself.' },
     colormatch: { slug: 'afterimage', id: 'mix_to_memory', reason: 'You rebuilt a colour with controls. Now try rebuilding one from memory.' },
-    afterimage: { slug: 'deadcentre', id: 'memory_to_precision', reason: 'Switch from visual memory to pure precision with one carefully placed guess.' },
+    afterimage: { slug: 'secondsight', id: 'memory_to_change', reason: 'You held one colour in your mind. Now compare two fleeting colours and name exactly what changed.' },
+    secondsight: { slug: 'guesshue', id: 'change_to_hue', reason: 'You identified how a colour moved. Now spot the odd hue before the clock runs out.' },
     chromalock: { slug: 'alternate', id: 'timing_to_switch', reason: 'Keep the quick reactions, then handle a rule that changes beneath you.' },
     alternate: { slug: 'chromalock', id: 'switch_to_timing', reason: 'You handled the changing rule. Now stop a moving colour at exactly the right moment.' },
     hunt: { slug: 'deadcentre', id: 'coordinates_to_precision', reason: 'You narrowed down the coordinates. Now test that spatial instinct with a single shot.' },
@@ -287,6 +292,7 @@
     shiftyfades: () => visible('#gameOverModal') || visible('#winModal'),
     colormatch: () => visible('#result-dialog'),
     afterimage: () => textMatches('#game-status', /daily challenge complete/i) && (visible('#result-dialog') || document.querySelector('.game-card')),
+    secondsight: () => textMatches('#game-status', /daily challenge complete/i) && (visible('#result-dialog') || document.querySelector('.sight-card')),
     chromalock: () => visible('#gameover-dialog'),
     guesshue: () => visible('#result-dialog'),
     tintuition: () => visible('#gameover-dialog'),
@@ -313,6 +319,7 @@
     shiftyfades: () => visible('#gameOverModal') || visible('#winModal'),
     colormatch: () => visible('#result-dialog'),
     afterimage: () => textMatches('#game-status', /daily challenge complete/i) && visible('#result-dialog'),
+    secondsight: () => textMatches('#game-status', /daily challenge complete/i) && visible('#result-dialog'),
     chromalock: () => visible('#gameover-dialog'),
     guesshue: () => visible('#result-dialog'),
     tintuition: () => visible('#gameover-dialog'),
