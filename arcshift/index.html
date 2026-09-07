@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b17">
+  <title>Arc Shift | One-button arcade game | Bludle</title>
+  <meta name="description" content="Ride the orbit, hit each shrinking arc and reverse direction before time runs out in this one-button arcade game.">
+  <link rel="canonical" href="https://bludle.com/arcshift/">
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="arcshift.css">
+</head>
+<body data-game="arcshift">
+  <div id="navbar-container"></div>
+  <main class="arc-page" id="main-content">
+    <header class="arc-heading">
+      <div>
+        <p class="eyebrow">One-button arcade</p>
+        <h1>Arc Shift</h1>
+        <p>Wait for the runner to enter the bright arc. Tap to bank the point and reverse.</p>
+      </div>
+      <button class="sound-button" id="sound-button" type="button" aria-pressed="true" aria-label="Mute game sounds">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6L8 10H4Zm12.5-1.5a5 5 0 0 1 0 7M19 6a9 9 0 0 1 0 12"/></svg>
+      </button>
+    </header>
+
+    <section class="game-shell" aria-labelledby="game-title">
+      <div class="score-row">
+        <div><span>Score</span><strong id="score">00</strong></div>
+        <div><span>Best</span><strong id="best">00</strong></div>
+        <div><span>Speed</span><strong id="speed">1.0×</strong></div>
+      </div>
+
+      <div class="playfield" id="playfield">
+        <canvas id="game-canvas" aria-label="Arc Shift game board: press Space, Enter or tap when the moving node is inside the highlighted arc"></canvas>
+        <div class="centre-readout" aria-hidden="true">
+          <span id="centre-label">Ready</span>
+          <strong id="centre-score">0</strong>
+          <small id="combo-label">Find your rhythm</small>
+        </div>
+        <div class="game-overlay" id="game-overlay">
+          <p class="overlay-kicker" id="overlay-kicker">Timing is everything</p>
+          <h2 id="game-title">Hit the bright arc.</h2>
+          <p id="overlay-copy">The runner reverses on every hit. Targets get smaller and the orbit gets faster.</p>
+          <div class="tap-demo" aria-hidden="true"><span></span><i></i></div>
+          <button class="start-button" id="start-button" type="button">Start run <span aria-hidden="true">→</span></button>
+          <small>Tap anywhere or press <kbd>Space</kbd></small>
+        </div>
+        <div class="flash-message" id="flash-message" role="status" aria-live="polite"></div>
+      </div>
+
+      <footer class="game-footer">
+        <div class="lives" id="lives" aria-label="3 lives"><i></i><i></i><i></i></div>
+        <p id="status">Three misses end the run.</p>
+        <button class="how-button" id="how-button" type="button">How to play</button>
+      </footer>
+    </section>
+
+    <section class="arc-about">
+      <p class="eyebrow">A shrinking window</p>
+      <h2>Keep changing direction.</h2>
+      <p>Every successful tap sends the runner back around the ring towards a newly placed target. Build a clean streak for bonus points, but do not tap early: precision matters more than panic.</p>
+    </section>
+  </main>
+
+  <dialog id="how-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close instructions">×</button>
+    <p class="eyebrow">How to play</p>
+    <h2>One tap. Perfect timing.</h2>
+    <ol>
+      <li><span>01</span><div><strong>Watch the runner</strong><p>The white node continuously follows the circular track.</p></div></li>
+      <li><span>02</span><div><strong>Tap inside the arc</strong><p>Land anywhere in the glowing target to score and reverse direction.</p></div></li>
+      <li><span>03</span><div><strong>Stay precise</strong><p>The orbit accelerates and the target shrinks. Three misses end your run.</p></div></li>
+    </ol>
+    <button class="start-button" type="button" data-close>Got it</button>
+  </dialog>
+
+  <script type="module" src="arcshift.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>
