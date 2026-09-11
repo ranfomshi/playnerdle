@@ -24,15 +24,17 @@ const dimensions = {
 const schedule = [
   ['lightness', .105, 1250, 260],
   ['chroma', .068, 1150, 320],
-  ['redGreen', .060, 1050, 380],
-  ['yellowBlue', .054, 950, 460],
+  ['redGreen', .085, 1050, 380],
+  ['yellowBlue', .078, 950, 460],
   ['lightness', .050, 850, 550],
   ['chroma', .038, 780, 650],
-  ['redGreen', .033, 700, 760],
-  ['yellowBlue', .029, 630, 880],
+  ['redGreen', .055, 700, 760],
+  ['yellowBlue', .050, 630, 880],
   ['lightness', .026, 570, 1000],
   ['mixed', .022, 500, 1150],
 ];
+
+const DIRECTIONAL_DELTA_FLOOR = .046;
 
 const els = Object.fromEntries([
   'round-value', 'score-value', 'streak-value', 'phase-pill', 'first-dot', 'second-dot',
@@ -92,26 +94,30 @@ function generateRounds() {
     const dimension = scheduledDimension === 'mixed'
       ? ['lightness', 'chroma', 'redGreen', 'yellowBlue'][Math.floor(random() * 4)]
       : scheduledDimension;
+    const isDirectional = dimension === 'redGreen' || dimension === 'yellowBlue';
+    const effectiveDelta = isDirectional ? Math.max(delta, DIRECTIONAL_DELTA_FLOOR) : delta;
     const directionIndex = random() < .5 ? 0 : 1;
     const angle = random() * Math.PI * 2;
-    const chroma = .055 + random() * .085;
+    // Directional rounds use a safer central gamut so browser gamut mapping
+    // cannot flatten the very red/green/yellow/blue change being tested.
+    const chroma = isDirectional ? .040 + random() * .055 : .055 + random() * .085;
     const first = {
-      l: .47 + random() * .28,
+      l: isDirectional ? .50 + random() * .20 : .47 + random() * .28,
       a: Math.cos(angle) * chroma,
       b: Math.sin(angle) * chroma,
     };
     const second = { ...first };
-    if (dimension === 'lightness') second.l = clamp(first.l + (directionIndex === 0 ? delta : -delta), .30, .88);
+    if (dimension === 'lightness') second.l = clamp(first.l + (directionIndex === 0 ? effectiveDelta : -effectiveDelta), .30, .88);
     if (dimension === 'chroma') {
       const length = Math.hypot(first.a, first.b);
-      const target = clamp(length + (directionIndex === 0 ? delta : -delta), .018, .22);
+      const target = clamp(length + (directionIndex === 0 ? effectiveDelta : -effectiveDelta), .018, .22);
       second.a = first.a / length * target;
       second.b = first.b / length * target;
     }
-    if (dimension === 'redGreen') second.a = clamp(first.a + (directionIndex === 0 ? delta : -delta), -.22, .22);
-    if (dimension === 'yellowBlue') second.b = clamp(first.b + (directionIndex === 0 ? delta : -delta), -.22, .22);
+    if (dimension === 'redGreen') second.a = clamp(first.a + (directionIndex === 0 ? effectiveDelta : -effectiveDelta), -.22, .22);
+    if (dimension === 'yellowBlue') second.b = clamp(first.b + (directionIndex === 0 ? effectiveDelta : -effectiveDelta), -.22, .22);
     return {
-      index, dimension, answer: dimensions[dimension].directions[directionIndex], delta,
+      index, dimension, answer: dimensions[dimension].directions[directionIndex], delta: effectiveDelta,
       exposure, gap, first, second,
     };
   });
