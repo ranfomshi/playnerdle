@@ -4,15 +4,26 @@ const playfield = document.querySelector('#playfield');
 const overlay = document.querySelector('#game-overlay');
 const startButton = document.querySelector('#start-button');
 const soundButton = document.querySelector('#sound-button');
+const resultDialog = document.querySelector('#result-dialog');
 
 const state = {
   phase: 'ready', score: 0, streak: 0, lives: 3, angle: -Math.PI / 2,
   direction: 1, target: .35, targetSize: .62, speed: 1.42, lastTime: 0,
-  best: Number(localStorage.getItem('arcShiftBest') || 0), sound: true,
+  best: Number(localStorage.getItem('arcShiftBest') || 0), previousBest: 0,
+  hits: 0, misses: 0, bestStreak: 0, sound: true,
 };
 
 let geometry = { width: 0, height: 0, x: 0, y: 0, radius: 0 };
 let audioContext;
+
+function trackGameEvent(eventName, properties) {
+  if (window.BludleEngagement?.gameEvent) {
+    window.BludleEngagement.gameEvent(eventName, properties);
+    return;
+  }
+  window.__bludleGameplayEventQueue = window.__bludleGameplayEventQueue || [];
+  window.__bludleGameplayEventQueue.push({ eventName, properties });
+}
 
 function resize() {
   const rect = playfield.getBoundingClientRect();
@@ -114,8 +125,14 @@ function flash(message, miss = false) {
 
 function act() {
   if (state.phase !== 'playing') return;
-  if (angularDistance(state.angle, state.target) <= state.targetSize / 2) {
+  const timingError = angularDistance(state.angle, state.target);
+  const targetWindow = state.targetSize;
+  const speed = state.speed;
+  const hit = timingError <= targetWindow / 2;
+  if (hit) {
     state.streak += 1;
+    state.bestStreak = Math.max(state.bestStreak, state.streak);
+    state.hits += 1;
     state.score += 1 + Math.floor(state.streak / 8);
     state.best = Math.max(state.best, state.score);
     localStorage.setItem('arcShiftBest', state.best);
@@ -127,17 +144,30 @@ function act() {
     beep(470 + Math.min(state.streak, 14) * 22);
   } else {
     state.lives -= 1;
+    state.misses += 1;
     state.streak = 0;
     flash('MISS', true);
     beep(130, .16);
-    if (state.lives <= 0) endGame();
   }
+  trackGameEvent('arc_shift_attempt', {
+    attempt_number: state.hits + state.misses,
+    result: hit ? 'hit' : 'miss',
+    score: state.score,
+    streak: state.streak,
+    lives_remaining: state.lives,
+    timing_error_degrees: Number((timingError * 180 / Math.PI).toFixed(2)),
+    target_window_degrees: Number((targetWindow * 180 / Math.PI).toFixed(2)),
+    speed_multiplier: Number((speed / 1.42).toFixed(2)),
+  });
   updateHud();
+  if (!hit && state.lives <= 0) endGame();
 }
 
 function startGame(event) {
   event?.stopPropagation();
+  if (resultDialog.open) resultDialog.close();
   state.phase = 'playing'; state.score = 0; state.streak = 0; state.lives = 3;
+  state.hits = 0; state.misses = 0; state.bestStreak = 0; state.previousBest = state.best;
   state.angle = -Math.PI / 2; state.direction = 1; state.speed = 1.42; state.targetSize = .62;
   state.target = .45;
   state.lastTime = performance.now();
@@ -148,12 +178,29 @@ function startGame(event) {
 
 function endGame() {
   state.phase = 'ended';
-  document.querySelector('#overlay-kicker').textContent = state.score >= state.best && state.score > 0 ? 'New best' : 'Run over';
-  document.querySelector('#game-title').textContent = `${state.score} point${state.score === 1 ? '' : 's'}.`;
-  document.querySelector('#overlay-copy').textContent = state.score < 5 ? 'Hold your nerve and wait for the glow.' : 'Good rhythm. The target will be tighter next time.';
-  startButton.innerHTML = 'Run again <span aria-hidden="true">→</span>';
-  overlay.hidden = false;
+  const newBest = state.score > state.previousBest;
+  document.querySelector('#result-kicker').textContent = newBest ? 'New personal best' : 'Run complete';
+  document.querySelector('#result-title').textContent = state.score < 5
+    ? 'The orbit got away.'
+    : state.score < 12 ? 'You found the rhythm.' : 'Precision under pressure.';
+  document.querySelector('#result-copy').textContent = state.score < 5
+    ? 'Wait for the runner to settle inside the whole arc before you shift.'
+    : 'Every clean reversal made the next timing window tighter.';
+  document.querySelector('#final-score').textContent = state.score;
+  document.querySelector('#final-hits').textContent = state.hits;
+  document.querySelector('#final-streak').textContent = state.bestStreak;
+  document.querySelector('#final-speed').textContent = `${(state.speed / 1.42).toFixed(1)}×`;
   document.querySelector('#status').textContent = 'Three misses. Start a new run when ready.';
+  trackGameEvent('arc_shift_run_complete', {
+    score: state.score,
+    hits: state.hits,
+    misses: state.misses,
+    attempts: state.hits + state.misses,
+    best_streak: state.bestStreak,
+    speed_multiplier: Number((state.speed / 1.42).toFixed(2)),
+    new_best: newBest,
+  });
+  resultDialog.showModal();
 }
 
 function frame(time) {
@@ -174,6 +221,15 @@ window.addEventListener('keydown', event => {
   }
 });
 startButton.addEventListener('click', startGame);
+document.querySelector('#replay-button').addEventListener('click', startGame);
+document.querySelector('#share-button').addEventListener('click', async () => {
+  const result = `Arc Shift — ${state.score} points · ${state.hits} hits · ${state.bestStreak} best streak\nhttps://bludle.com/arcshift/`;
+  try {
+    await navigator.clipboard.writeText(result);
+    document.querySelector('#share-button').textContent = 'Copied';
+    setTimeout(() => { document.querySelector('#share-button').textContent = 'Share result'; }, 1500);
+  } catch { /* Clipboard access is optional. */ }
+});
 soundButton.addEventListener('click', () => {
   state.sound = !state.sound;
   soundButton.setAttribute('aria-pressed', String(state.sound));

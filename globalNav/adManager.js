@@ -10,7 +10,7 @@
   const gamePaths = new Set([
     '/afterimage', '/alternate', '/bludle', '/borrowedletters', '/chromalock',
     '/codle', '/colormatch', '/connex', '/deadcentre', '/glyph', '/guesshue',
-    '/heardle', '/hunt', '/reaction', '/seequence', '/shiftyfades', '/tintuition',
+    '/heardle', '/hunt', '/reaction', '/arcshift', '/seequence', '/shiftyfades', '/tintuition',
     '/secondsight', '/trak', '/werdle', '/wordmash'
   ]);
 

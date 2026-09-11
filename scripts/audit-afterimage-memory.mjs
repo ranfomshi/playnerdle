@@ -40,7 +40,7 @@ assert.equal(grey.memory_minus_target_hue_degrees, null);
 
 assert.match(afterimage, /submittedRound === round/);
 assert.match(afterimage, /afterimage_memory_reconstruction/);
-assert.match(engagement, /ALLOWED_GAME_EVENTS[^\n]+afterimage_memory_reconstruction/);
+assert.match(engagement, /ALLOWED_GAME_EVENTS[\s\S]{0,400}afterimage_memory_reconstruction/);
 assert.match(engagement, /eventName === 'afterimage_memory_reconstruction'[\s\S]+mixpanel\.track\(eventName, payload\)/);
 for (const property of Object.keys(controlled)) {
   assert.ok(engagement.includes(`'${property}'`), `${property} is missing from the gameplay-event allowlist`);
