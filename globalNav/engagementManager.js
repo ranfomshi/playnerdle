@@ -386,7 +386,14 @@
     };
   }
 
-  function cardStyles() {
+  function cardStyles(variant) {
+    const treatmentStyles = variant === 'treatment' ? `
+      .card{border-color:#b9c9f5;box-shadow:0 14px 34px rgba(22,41,95,.16)}
+      .top{padding:22px 22px 16px;background:linear-gradient(135deg,#f1f5ff 0%,#fff 74%)}
+      .journey{display:flex;align-items:center;gap:8px;margin:0 0 10px;color:#53617f;font-size:11px;font-weight:700}.journey .done{color:#1c3993}.journey .arrow{color:#8c96ae}
+      .next{margin:0 22px 22px;padding:17px 18px;background:#193ca9;box-shadow:0 7px 16px rgba(28,57,147,.2)}
+      .next strong{font-size:18px}.next small{font-size:12px}.action{font-size:14px}
+    ` : '';
     return `
       :host{all:initial;display:block;margin:20px 0 4px;color:#191b20;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
       *{box-sizing:border-box}.card{overflow:hidden;border:1px solid #dce1ec;border-radius:16px;background:#fff;text-align:left;box-shadow:0 8px 20px rgba(22,41,95,.1)}
@@ -399,20 +406,48 @@
       .home{flex:0 0 auto;color:#4e5875;font-size:12px;font-weight:700;text-decoration:none}.home:hover{color:#1c3993;text-decoration:underline;text-underline-offset:3px}.home:focus-visible{outline:3px solid #82a6f3;outline-offset:3px;border-radius:3px}
       @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.action{font-size:0}.action::after{content:'Go';font-size:13px}.foot{align-items:flex-start}.disclosure{max-width:22ch}}
       @media(prefers-reduced-motion:reduce){.next{transition:none}}
+      ${treatmentStyles}
     `;
   }
 
-  function renderRecirculation(surface, progress, streak) {
+  async function postGameExperimentVariant() {
+    if (!window.BludleExperiments) {
+      await Promise.race([
+        new Promise(resolve => window.addEventListener('bludle:experiments-ready', resolve, { once: true })),
+        new Promise(resolve => window.setTimeout(resolve, 1500))
+      ]);
+    }
+    const experimentKey = window.BludleExperiments?.FLAG_KEYS?.postGameContinuation;
+    return experimentKey
+      ? window.BludleExperiments.getVariant(experimentKey, 'control')
+      : 'control';
+  }
+
+  async function renderRecirculation(surface, progress, streak) {
     if (document.getElementById('bludle-engagement-host')) return;
+    const next = recommendation(progress.completed);
+    if (!next) return;
     const host = document.createElement('div');
     host.id = 'bludle-engagement-host';
     const root = host.attachShadow({ mode: 'open' });
-    const next = recommendation(progress.completed);
-    if (!next) return;
-    root.innerHTML = `<style>${cardStyles()}</style><section class="card" aria-labelledby="bludle-next-title">
-      <div class="top"><div><p class="eyebrow">Your next game</p><h2 id="bludle-next-title">Keep the run going with ${next.game.name}.</h2><p class="reason">${next.reason}</p></div>
+    const target = surface?.querySelector?.('.modal-content') || surface || document.querySelector('main') || document.body;
+    target.append(host);
+
+    const experimentVariant = await postGameExperimentVariant();
+    const isTreatment = experimentVariant === 'treatment';
+    host.dataset.experimentVariant = experimentVariant;
+
+    const journey = isTreatment
+      ? `<p class="journey"><span class="done">${currentGame.name} complete</span><span class="arrow" aria-hidden="true">&rarr;</span><span>${next.game.name} next</span></p>`
+      : '';
+    const eyebrow = isTreatment ? 'Keep playing' : 'Your next game';
+    const title = isTreatment ? `Next up: ${next.game.name}` : `Keep the run going with ${next.game.name}.`;
+    const action = isTreatment ? 'Continue &rarr;' : 'Start next &rarr;';
+
+    root.innerHTML = `<style>${cardStyles(experimentVariant)}</style><section class="card" aria-labelledby="bludle-next-title">
+      <div class="top"><div>${journey}<p class="eyebrow">${eyebrow}</p><h2 id="bludle-next-title">${title}</h2><p class="reason">${next.reason}</p></div>
       <div class="progress"><strong>${progress.completed.length} played</strong><span> today &middot; ${streak} day streak</span></div></div>
-      <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}"><span><strong>Play ${next.game.name}</strong><small>${next.game.category} challenge</small></span><span class="action">Start next &rarr;</span></a>
+      <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}"><span><strong>Play ${next.game.name}</strong><small>${next.game.category} challenge</small></span><span class="action">${action}</span></a>
       <div class="foot"><p class="disclosure">Progress stays on this device. No account required.</p><a class="home" href="/" data-summary-home>&larr; All games</a></div>
     </section>`;
     track('next_game_recommendation_view', {
@@ -421,6 +456,7 @@
       recommendation_id: next.id,
       recommendation_strategy: next.strategy,
       completed_today_count: progress.completed.length,
+      experiment_variant: experimentVariant,
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel
     });
@@ -435,6 +471,7 @@
         recommendation_id: pending.recommendationId,
         recommendation_strategy: next.strategy,
         completed_today_count: progress.completed.length,
+        experiment_variant: experimentVariant,
         landing_page: landing.landing_page,
         landing_channel: landing.landing_channel
       });
@@ -443,13 +480,11 @@
       track('result_home_click', {
         from_game: currentGame.slug,
         completed_today_count: progress.completed.length,
+        experiment_variant: experimentVariant,
         landing_page: landing.landing_page,
         landing_channel: landing.landing_channel
       });
     });
-
-    const target = surface?.querySelector?.('.modal-content') || surface || document.querySelector('main') || document.body;
-    target.append(host);
 
     const motion = window.BludleMotion?.current();
     if (motion) {
