@@ -154,6 +154,14 @@ export const games = [
     related: ['alternate', 'guesshue', 'trak']
   },
   {
+    slug: 'arcshift', name: 'Arc Shift', category: 'Speed', image: '/images/game-screens/arcshift.png',
+    description: 'Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed.',
+    format: 'Unlimited one-button arcade runs', round: 'Usually 1–4 minutes',
+    how: 'Start the runner, then tap, click or press Space only while it is inside the bright target arc. Every hit scores, reverses direction and makes the next target smaller; three misses end the run.',
+    why: 'A single action creates a demanding rhythm game because every success changes the direction, target position and timing window. There are no controls to learn, but the precision ceiling keeps rising.',
+    related: ['reaction', 'alternate', 'chromalock']
+  },
+  {
     slug: 'alternate', name: 'Alternate', category: 'Speed', image: '/images/alternate.jpg',
     description: 'React to each colour switch and stretch a five-second time budget through a fast sequence of accurate responses.',
     format: 'Five-second reaction run', round: 'Under 1 minute',
@@ -177,7 +185,7 @@ export const hubs = [
   ['wordle-alternatives', 'Wordle alternatives', ['werdle', 'bludle', 'codle', 'glyph']],
   ['daily-word-games', 'Daily word games', ['werdle', 'glyph', 'borrowedletters', 'wordmash']],
   ['colour-puzzle-games', 'Colour puzzle games', ['colormatch', 'afterimage', 'secondsight', 'tintuition']],
-  ['reaction-games', 'Reaction games', ['reaction', 'alternate', 'guesshue', 'trak']],
+  ['reaction-games', 'Reaction games', ['reaction', 'arcshift', 'alternate', 'trak']],
   ['free-browser-games', 'Free browser games', ['werdle', 'connex', 'colormatch', 'reaction']],
   ['no-download-games', 'No-download games', ['bludle', 'wordmash', 'tintuition', 'deadcentre']],
   ['brain-training-games', 'Brain training games', ['seequence', 'deadcentre', 'connex', 'codle']],

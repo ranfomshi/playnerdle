@@ -1,15 +1,34 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
+  <script src="/globalNav/consentManager.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#080b17">
-  <title>Arc Shift | One-button arcade game | Bludle</title>
-  <meta name="description" content="Ride the orbit, hit each shrinking arc and reverse direction before time runs out in this one-button arcade game.">
-  <link rel="canonical" href="https://bludle.com/arcshift/">
+  <meta name="theme-color" content="#f6f8fc">
+  <title>Arc Shift | Free Speed Game | Bludle</title>
   <link rel="stylesheet" href="/globalNav/globalNav.css">
   <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
   <link rel="stylesheet" href="arcshift.css">
+  <meta name="description" content="Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://bludle.com/arcshift/">
+  <meta property="og:site_name" content="Bludle">
+  <meta property="og:title" content="Arc Shift | Free Speed Game | Bludle">
+  <meta property="og:description" content="Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed.">
+  <meta property="og:url" content="https://bludle.com/arcshift/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://bludle.com/images/social/arcshift.jpg">
+  <meta property="og:image:alt" content="Arc Shift on Bludle">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Arc Shift | Free Speed Game | Bludle">
+  <meta name="twitter:description" content="Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed.">
+  <meta name="twitter:image" content="https://bludle.com/images/social/arcshift.jpg">
+  <meta name="twitter:image:alt" content="Arc Shift on Bludle">
+  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/arcshift/#game","name":"Arc Shift","url":"https://bludle.com/arcshift/","description":"Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed.","image":"https://bludle.com/images/social/arcshift.jpg","inLanguage":"en-GB","genre":["Speed game","Puzzle game"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
+  <link rel="stylesheet" href="/globalNav/discovery.css">
 </head>
 <body data-game="arcshift">
   <div id="navbar-container"></div>
@@ -58,11 +77,32 @@
     </section>
 
     <section class="arc-about">
-      <p class="eyebrow">A shrinking window</p>
-      <h2>Keep changing direction.</h2>
+      <div><p class="eyebrow">A shrinking window</p><h2>Keep changing direction.</h2></div>
       <p>Every successful tap sends the runner back around the ring towards a newly placed target. Build a clean streak for bonus points, but do not tap early: precision matters more than panic.</p>
     </section>
   </main>
+<!-- bludle-guide:start -->
+  <section class="bludle-discovery game-guide" aria-labelledby="about-arcshift">
+    <div class="discovery-heading">
+      <p class="discovery-kicker">About the game</p>
+      <h2 id="about-arcshift">How to play Arc Shift</h2>
+      <p>Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed.</p>
+    </div>
+    <dl class="game-facts">
+      <div><dt>Format</dt><dd>Unlimited one-button arcade runs</dd></div>
+      <div><dt>Typical round</dt><dd>Usually 1–4 minutes</dd></div>
+      <div><dt>Cost</dt><dd>Free, with no download required</dd></div>
+    </dl>
+    <div class="discovery-copy">
+      <div><h3>The rules</h3><p>Start the runner, then tap, click or press Space only while it is inside the bright target arc. Every hit scores, reverses direction and makes the next target smaller; three misses end the run.</p></div>
+      <div><h3>What makes it different</h3><p>A single action creates a demanding rhythm game because every success changes the direction, target position and timing window. There are no controls to learn, but the precision ceiling keeps rising.</p></div>
+    </div>
+
+    <nav class="related-games" aria-label="Games related to Arc Shift">
+      <span>Try next</span><a href="/reaction/">Reaction</a><a href="/alternate/">Alternate</a><a href="/chromalock/">Chroma Lock</a>
+    </nav>
+  </section>
+  <!-- bludle-guide:end -->
 
   <dialog id="how-dialog">
     <button class="dialog-close" type="button" data-close aria-label="Close instructions">×</button>
@@ -74,6 +114,23 @@
       <li><span>03</span><div><strong>Stay precise</strong><p>The orbit accelerates and the target shrinks. Three misses end your run.</p></div></li>
     </ol>
     <button class="start-button" type="button" data-close>Got it</button>
+  </dialog>
+
+  <dialog class="result-dialog" id="result-dialog">
+    <button class="dialog-close" type="button" data-close aria-label="Close result">&times;</button>
+    <span class="eyebrow" id="result-kicker">Run complete</span>
+    <h2 id="result-title">You found the rhythm.</h2>
+    <p id="result-copy">Every clean reversal made the next timing window tighter.</p>
+    <div class="result-score"><strong id="final-score">0</strong><span>points</span></div>
+    <div class="result-grid">
+      <div><strong id="final-hits">0</strong><span>Successful shifts</span></div>
+      <div><strong id="final-streak">0</strong><span>Best streak</span></div>
+      <div><strong id="final-speed">1.0&times;</strong><span>Final speed</span></div>
+    </div>
+    <div class="result-actions">
+      <button class="primary-button" id="replay-button" type="button">Run again</button>
+      <button class="secondary-button" id="share-button" type="button">Share result</button>
+    </div>
   </dialog>
 
   <script type="module" src="arcshift.js"></script>

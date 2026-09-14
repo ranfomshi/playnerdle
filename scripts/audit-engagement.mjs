@@ -5,6 +5,7 @@ import { games } from './site-data.mjs';
 const root = path.resolve(import.meta.dirname, '..');
 const nav = await readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
 const manager = await readFile(path.join(root, 'globalNav', 'engagementManager.js'), 'utf8');
+const arcShift = await readFile(path.join(root, 'arcshift', 'arcshift.js'), 'utf8');
 const telemetry = await readFile(path.join(root, 'globalNav', 'gameTelemetry.js'), 'utf8');
 const mixpanel = await readFile(path.join(root, 'mixpanel.js'), 'utf8');
 const home = await readFile(path.join(root, 'index.html'), 'utf8');
@@ -25,6 +26,11 @@ if (!mixpanel.includes('https://api-eu.mixpanel.com') || !mixpanel.includes('deb
 
 for (const eventName of ['search_landing', 'game_start', 'game_complete', 'completed_game_summary_view', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete', 'result_home_click']) {
   if (!manager.includes(`'${eventName}'`)) issues.push(`globalNav/engagementManager.js: missing ${eventName} event`);
+}
+
+for (const eventName of ['arc_shift_attempt', 'arc_shift_run_complete']) {
+  if (!manager.includes(`'${eventName}'`)) issues.push(`globalNav/engagementManager.js: missing ${eventName} interaction event`);
+  if (!arcShift.includes(`trackGameEvent('${eventName}'`)) issues.push(`arcshift/arcshift.js: does not emit ${eventName}`);
 }
 
 if (!manager.includes("summary_context: 'restored'") ||

@@ -9,7 +9,10 @@
   const LANDING_KEY = 'bludle:landing-context:v1';
   const PENDING_KEY = 'bludle:next-game:v1';
   const SESSION_COUNT_KEY = 'bludle:session-game-count:v1';
-  const ALLOWED_GAME_EVENTS = new Set(['werdle_first_guess', 'second_sight_answer', 'afterimage_memory_reconstruction']);
+  const ALLOWED_GAME_EVENTS = new Set([
+    'werdle_first_guess', 'second_sight_answer', 'afterimage_memory_reconstruction',
+    'arc_shift_attempt', 'arc_shift_run_complete'
+  ]);
   const GAME_EVENT_PROPERTIES = {
     werdle_first_guess: new Set([
       'first_guess', 'exact_letters', 'present_letters', 'absent_letters', 'vowel_count',
@@ -28,6 +31,13 @@
       'target_hue_degrees', 'memory_hue_degrees', 'memory_minus_target_hue_degrees',
       'hue_comparison_available', 'perceptual_distance', 'target_hue_band',
       'target_lightness_band', 'target_chroma_band'
+    ]),
+    arc_shift_attempt: new Set([
+      'attempt_number', 'result', 'score', 'streak', 'lives_remaining',
+      'timing_error_degrees', 'target_window_degrees', 'speed_multiplier'
+    ]),
+    arc_shift_run_complete: new Set([
+      'score', 'hits', 'misses', 'attempts', 'best_streak', 'speed_multiplier', 'new_best'
     ])
   };
 
@@ -51,6 +61,7 @@
     { slug: 'deadcentre', name: 'Dead Centre', category: 'Logic', related: ['afterimage', 'hunt', 'trak'] },
     { slug: 'heardle', name: 'Heardle', category: 'Audio', related: ['werdle', 'connex', 'seequence'] },
     { slug: 'reaction', name: 'Reaction', category: 'Speed', related: ['alternate', 'guesshue', 'trak'] },
+    { slug: 'arcshift', name: 'Arc Shift', category: 'Speed', related: ['reaction', 'alternate', 'chromalock'] },
     { slug: 'alternate', name: 'Alternate', category: 'Speed', related: ['reaction', 'chromalock', 'guesshue'] },
     { slug: 'trak', name: 'Trak', category: 'Speed', related: ['deadcentre', 'reaction', 'hunt'] }
   ];
@@ -75,7 +86,8 @@
     hunt: { slug: 'deadcentre', id: 'coordinates_to_precision', reason: 'You narrowed down the coordinates. Now test that spatial instinct with a single shot.' },
     deadcentre: { slug: 'trak', id: 'precision_to_focus', reason: 'Carry that precision into a moving target that rewards focus and timing.' },
     seequence: { slug: 'afterimage', id: 'sequence_to_memory', reason: 'You held a sequence in mind. Next, hold a colour there after it disappears.' },
-    reaction: { slug: 'alternate', id: 'reaction_to_control', reason: 'Raw speed is only the start. Next, react while the rule keeps changing.' },
+    reaction: { slug: 'arcshift', id: 'reaction_to_rhythm', reason: 'You proved your raw reaction speed. Now turn it into a precise rhythm around a moving target.' },
+    arcshift: { slug: 'alternate', id: 'rhythm_to_switch', reason: 'You handled a reversing orbit. Next, react while the rule itself keeps changing.' },
     trak: { slug: 'hunt', id: 'focus_to_coordinates', reason: 'You tracked a moving target. Now narrow down a hidden point from coordinate clues.' },
     heardle: { slug: 'werdle', id: 'sound_to_word', reason: 'Move from recognising a sound to solving the flagship daily word.' }
   };
@@ -319,6 +331,7 @@
     deadcentre: () => textMatches('#game-status', /daily challenge complete/i) && (visible('#result-dialog') || document.querySelector('.game-card')),
     heardle: () => visible('#statsModal'),
     reaction: () => textMatches('#gameButton', /played today/i)?.closest('.reaction-card'),
+    arcshift: () => visible('#result-dialog'),
     alternate: () => visible('#result-dialog'),
     trak: () => visible('#gameover-dialog')
   };
@@ -345,6 +358,7 @@
     seequence: () => visible('#gameover-dialog'),
     deadcentre: () => textMatches('#game-status', /daily challenge complete/i) && visible('#result-dialog'),
     heardle: () => visible('#statsModal'),
+    arcshift: () => visible('#result-dialog'),
     alternate: () => visible('#result-dialog'),
     trak: () => visible('#gameover-dialog')
   };

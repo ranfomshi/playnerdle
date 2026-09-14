@@ -127,6 +127,7 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     { name: 'Dead Centre', href: '/deadcentre/', category: 'Logic' },
     { name: 'Heardle', href: '/heardle/', category: 'Audio' },
     { name: 'Reaction', href: '/reaction/', category: 'Speed' },
+    { name: 'Arc Shift', href: '/arcshift/', category: 'Speed' },
     { name: 'Alternate', href: '/alternate/', category: 'Speed' },
     { name: 'Trak', href: '/trak/', category: 'Speed' }
   ];

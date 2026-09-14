@@ -48,7 +48,16 @@ assert.equal(colour.error_blue, 3);
 const reaction = runTelemetry({ storage: { reactionTime: '284.7' } }).telemetry.snapshot('reaction');
 assert.equal(reaction.reaction_ms, 284.7);
 
-for (const snapshot of [werdleSnapshot, colour, reaction]) {
+const arcShift = runTelemetry({ singles: {
+  '#final-score': element('18'), '#final-hits': element('15'), '#final-streak': element('9'), '#final-speed': element('1.7×')
+} }).telemetry.snapshot('arcshift');
+assert.equal(arcShift.game_format, 'session');
+assert.equal(arcShift.score, 18);
+assert.equal(arcShift.rounds_completed, 15);
+assert.equal(arcShift.streak, 9);
+assert.equal(arcShift.speed_multiplier, 1.7);
+
+for (const snapshot of [werdleSnapshot, colour, reaction, arcShift]) {
   for (const forbidden of ['answer', 'secret', 'guess_value', 'target_rgb', 'player_rgb']) {
     assert.equal(Object.hasOwn(snapshot, forbidden), false);
   }

@@ -9,7 +9,7 @@
     glyph: 'daily', borrowedletters: 'daily', shiftyfades: 'session', colormatch: 'session',
     afterimage: 'daily', secondsight: 'daily', chromalock: 'session', guesshue: 'session', tintuition: 'session',
     hunt: 'session', seequence: 'session', deadcentre: 'daily', heardle: 'session',
-    reaction: 'daily', alternate: 'session', trak: 'session'
+    reaction: 'daily', arcshift: 'session', alternate: 'session', trak: 'session'
   };
 
   const text = selector => document.querySelector(selector)?.textContent?.trim() || '';
@@ -92,6 +92,11 @@
     }),
     heardle: () => ({ level_reached: number('#levelDisplay'), lives_remaining: number('#livesDisplay') }),
     reaction: () => ({ reaction_ms: numericText(localStorage.getItem('reactionTime')) }),
+    arcshift: () => ({
+      score: number('#final-score'), rounds_completed: number('#final-hits'),
+      streak: number('#final-streak'), speed_multiplier: number('#final-speed'),
+      lives_remaining: 0
+    }),
     alternate: () => ({
       score: number('#final-score'), average_response_ms: milliseconds('#final-average'),
       fastest_response_ms: milliseconds('#final-fastest')

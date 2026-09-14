@@ -7,7 +7,7 @@
 - Editorial policy: https://bludle.com/editorial-policy/
 - Journal: https://bludle.com/blogs/
 - Sitemap: https://bludle.com/sitemap.xml
-- Last updated: 2026-09-07
+- Last updated: 2026-09-11
 
 ## Games
 
@@ -40,6 +40,7 @@
 ### Speed games
 
 - [Reaction](https://bludle.com/reaction/): Measure how quickly you respond to a visual change through short, repeatable browser reaction tests. Format: Repeatable reaction trials. Typical round: Under 2 minutes.
+- [Arc Shift](https://bludle.com/arcshift/): Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed. Format: Unlimited one-button arcade runs. Typical round: Usually 1–4 minutes.
 - [Alternate](https://bludle.com/alternate/): React to each colour switch and stretch a five-second time budget through a fast sequence of accurate responses. Format: Five-second reaction run. Typical round: Under 1 minute.
 - [Trak](https://bludle.com/trak/): Follow a moving signal after it disappears and stop it inside changing targets on lines, curves, circles and shaped tracks. Format: Progressive visual tracking levels. Typical round: About 2–6 minutes.
 
@@ -217,6 +218,14 @@ Pages are public and may be crawled when permitted by robots.txt. Individual gam
 - Category: Speed
 - How to play: Start a trial, wait without anticipating, and respond the moment the visual signal changes. Repeated attempts produce a more useful picture than a single lucky click.
 - Distinguishing mechanic: The restrained presentation keeps attention on the signal and makes it easy to compare attempts without downloads or setup.
+- Access: Free browser game; no download required.
+
+### Arc Shift
+
+- URL: https://bludle.com/arcshift/
+- Category: Speed
+- How to play: Start the runner, then tap, click or press Space only while it is inside the bright target arc. Every hit scores, reverses direction and makes the next target smaller; three misses end the run.
+- Distinguishing mechanic: A single action creates a demanding rhythm game because every success changes the direction, target position and timing window. There are no controls to learn, but the precision ceiling keeps rising.
 - Access: Free browser game; no download required.
 
 ### Alternate

@@ -25,6 +25,7 @@ $games = @(
   @{ Slug='deadcentre'; Name='Dead Centre'; Category='LOGIC'; Source='background.jpg' },
   @{ Slug='heardle'; Name='Heardle'; Category='AUDIO'; Source='heardle.png' },
   @{ Slug='reaction'; Name='Reaction'; Category='SPEED'; Source='reaction.jpg' },
+  @{ Slug='arcshift'; Name='Arc Shift'; Category='SPEED'; Source='game-screens\arcshift.png' },
   @{ Slug='alternate'; Name='Alternate'; Category='SPEED'; Source='alternate.jpg' },
   @{ Slug='trak'; Name='Trak'; Category='SPEED'; Source='trak.png' }
 )
