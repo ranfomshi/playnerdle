@@ -74,4 +74,9 @@
       autocapture: false,
       ip: false,
       persistence: "localStorage",
+      flags: {
+        persistence: {
+          variantLookupPolicy: "networkFirst",
+        },
+      },
     });

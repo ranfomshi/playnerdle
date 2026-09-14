@@ -96,6 +96,17 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
 
   ensureGameTelemetry();
 
+  function ensureExperimentManager() {
+    if (window.BludleExperiments || document.querySelector('script[data-bludle-experiment-manager]')) return;
+    const script = document.createElement('script');
+    script.src = '/globalNav/experimentManager.js';
+    script.async = false;
+    script.dataset.bludleExperimentManager = '';
+    document.head.append(script);
+  }
+
+  ensureExperimentManager();
+
   function ensureEngagementManager() {
     if (document.querySelector('script[data-bludle-engagement-manager]')) return;
     const script = document.createElement('script');

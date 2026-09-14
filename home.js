@@ -31,7 +31,23 @@ function trackClick(gameName, placement = 'game_grid') {
     item_name: gameName,
     source_page: 'home',
     placement,
+    experiment_variant: document.documentElement.dataset.homeExperiment || 'unassigned',
   });
+}
+
+async function applyHomepageExperiment() {
+  const fallback = 'control';
+  const managerReady = window.BludleExperiments
+    ? Promise.resolve()
+    : new Promise(resolve => window.addEventListener('bludle:experiments-ready', resolve, { once: true }));
+  await Promise.race([managerReady, new Promise(resolve => window.setTimeout(resolve, 1500))]);
+
+  const key = window.BludleExperiments?.FLAG_KEYS?.homepageWerdleFocus;
+  const variant = key
+    ? await window.BludleExperiments.getVariant(key, fallback)
+    : fallback;
+  document.documentElement.dataset.homeExperiment = variant;
+  return variant;
 }
 
 const tileHandlers = {
@@ -197,11 +213,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const werdleHero = document.getElementById('werdleHero');
   if (werdleHero) {
-    sendEvent('home_feature_view', {
-      item_name: 'werdle',
-      source_page: 'home',
-      placement: 'hero',
-    });
     werdleHero.addEventListener('click', () => trackClick('werdle', 'hero'));
   }
 
@@ -214,4 +225,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setupGameFiltering();
   initializeAdUnits();
+
+  applyHomepageExperiment().then(experimentVariant => {
+    if (!werdleHero) return;
+    sendEvent('home_feature_view', {
+      item_name: 'werdle',
+      source_page: 'home',
+      placement: 'hero',
+      experiment_variant: experimentVariant,
+    });
+  });
 });
