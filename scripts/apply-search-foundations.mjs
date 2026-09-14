@@ -1,13 +1,18 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { SITE_URL, games, gameBySlug, hubs, utilityPaths } from './site-data.mjs';
+import { SITE_URL, games, gameBySlug, hubs, relatedHubsFor, utilityPaths } from './site-data.mjs';
+import { relatedBlogNumbers } from './editorial-inventory.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const blogFiles = fs.readdirSync(path.join(root, 'blogs'))
   .filter(name => /^\d+\.html$/.test(name))
   .sort((a, b) => Number.parseInt(a) - Number.parseInt(b));
 const blogNumbers = new Set(blogFiles.map(name => name.replace('.html', '')));
+const blogTitles = new Map(blogFiles.map(name => {
+  const html = fs.readFileSync(path.join(root, 'blogs', name), 'utf8');
+  return [name.replace('.html', ''), plainText(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || `Bludle article ${name}`)];
+}));
 const gameSlugs = new Set(games.map(game => game.slug));
 const hubSlugs = new Set(hubs.map(hub => hub.slug));
 const utilitySet = new Set([...utilityPaths, 'blogs/disclaimer.html']);
@@ -178,6 +183,7 @@ function gameGuide(game) {
 
 function hubGuide(hub) {
   const selected = hub.games.map(slug => gameBySlug.get(slug)).filter(Boolean);
+  const relatedHubs = relatedHubsFor(hub);
   return `<!-- bludle-hub-guide:start -->
   <section class="bludle-discovery choice-guide" aria-labelledby="compare-${hub.slug}">
     <div class="discovery-heading"><p class="discovery-kicker">Choose by play style</p><h2 id="compare-${hub.slug}">Compare ${escapeHtml(hub.name.toLowerCase())}</h2><p>These recommendations are selected from games built and maintained by Bludle. The table describes the actual mechanic and format rather than ranking games by sponsorship.</p></div>
@@ -185,13 +191,39 @@ function hubGuide(hub) {
       ${selected.map(game => `<tr><th><a href="/${game.slug}/">${escapeHtml(game.name)}</a></th><td>${escapeHtml(game.description)}</td><td>${escapeHtml(game.format)}</td><td>${escapeHtml(game.round)}</td></tr>`).join('\n      ')}
     </tbody></table></div>
     <p class="method-note"><strong>How this guide is made:</strong> selections are based on the rules, pacing and accessibility of Bludle’s own games. No placement is paid for. See the <a href="/editorial-policy/">editorial policy</a>.</p>
+    <!-- bludle-related-hubs:start -->
+    <nav class="related-games" aria-label="Related game guides">
+      <span>More guides</span>${relatedHubs.map(item => `<a href="/${item.slug}/">${escapeHtml(item.name)}</a>`).join('')}
+    </nav>
+    <!-- bludle-related-hubs:end -->
   </section>
   <!-- bludle-hub-guide:end -->`;
+}
+
+function articleRelated(number) {
+  const related = (relatedBlogNumbers.get(number) || [])
+    .filter(candidate => blogTitles.has(candidate));
+  if (!related.length) return '';
+  return `<!-- bludle-article-related:start -->
+  <aside class="bludle-discovery article-related" aria-labelledby="related-reading-${number}">
+    <p class="discovery-kicker">Continue reading</p>
+    <h2 id="related-reading-${number}">Related puzzle guides</h2>
+    <nav class="related-games" aria-label="Articles related to this guide">
+      ${related.map(candidate => `<a href="/blogs/${candidate}">${escapeHtml(blogTitles.get(candidate))}</a>`).join('')}
+    </nav>
+  </aside>
+  <!-- bludle-article-related:end -->`;
 }
 
 function addAfterMain(html, block) {
   const position = html.toLowerCase().lastIndexOf('</main>');
   if (position >= 0) return `${html.slice(0, position + 7)}\n${block}${html.slice(position + 7)}`;
+  return html.replace(/<\/body>/i, `${block}\n</body>`);
+}
+
+function addBeforeMainEnd(html, block) {
+  const position = html.toLowerCase().lastIndexOf('</main>');
+  if (position >= 0) return `${html.slice(0, position)}\n${block}\n${html.slice(position)}`;
   return html.replace(/<\/body>/i, `${block}\n</body>`);
 }
 
@@ -315,6 +347,9 @@ function processFile(file) {
 
   if (/^blogs\/\d+\.html$/.test(rel)) {
     html = ensureStylesheet(html, '/globalNav/discovery.css');
+    const blogNumber = rel.match(/^blogs\/(\d+)\.html$/)?.[1];
+    html = removeTaggedBlock(html, 'bludle-article-related');
+    html = addBeforeMainEnd(html, articleRelated(blogNumber));
     const meta = `<p class="bludle-article-meta">By <a href="/about/" rel="author">Stuart Pecksen</a> · Updated ${new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${gitDate(rel)}T00:00:00Z`))} · <a href="/editorial-policy/">How we publish</a></p>`;
     if (html.includes('bludle-article-meta')) html = html.replace(/<p class="bludle-article-meta">[\s\S]*?<\/p>/i, meta);
     else html = html.replace(/<\/h1>/i, `</h1>\n${meta}`);

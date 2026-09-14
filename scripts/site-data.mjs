@@ -194,6 +194,17 @@ export const hubs = [
   ['games-like-connections', 'Games like Connections', ['connex', 'borrowedletters', 'wordmash', 'codle']]
 ].map(([slug, name, games]) => ({ slug, name, games }));
 
+export function relatedHubsFor(hub) {
+  const index = hubs.findIndex(candidate => candidate.slug === hub.slug);
+  const neighbours = [hubs[(index - 1 + hubs.length) % hubs.length], hubs[(index + 1) % hubs.length]];
+  const closest = hubs
+    .filter(candidate => candidate.slug !== hub.slug)
+    .map(candidate => ({ ...candidate, overlap: candidate.games.filter(slug => hub.games.includes(slug)).length }))
+    .sort((a, b) => b.overlap - a.overlap || a.name.localeCompare(b.name))
+    .slice(0, 2);
+  return [...new Map([...closest, ...neighbours].map(candidate => [candidate.slug, candidate])).values()];
+}
+
 export const utilityPaths = [
   '404.html', 'alex/index.html', 'benefits/index.html', 'blogs/about.html',
   'game/nerdle.html', 'imageedit/index.html', 'push/index.html', 'shapecut/index.html'
