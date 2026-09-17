@@ -40,6 +40,9 @@
 .method-note { margin: 18px 0 0 !important; font-size: .84rem !important; }
 .bludle-article-meta { margin: 10px 0 24px; color: #697184; font-size: .86rem; line-height: 1.5; }
 .bludle-article-meta a { color: inherit; text-underline-offset: 3px; }
+.article-related { margin-top: 32px; padding-block: 28px; }
+.article-related h2 { font-size: clamp(1.35rem, 2.5vw, 1.8rem); }
+.article-related .related-games { margin-top: 16px; }
 
 @media (max-width: 680px) {
   .bludle-discovery { width: min(100% - 20px, 1120px); margin-block: 32px; padding: 22px; }
