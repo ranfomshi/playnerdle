@@ -11,7 +11,7 @@
   const SESSION_COUNT_KEY = 'bludle:session-game-count:v1';
   const ALLOWED_GAME_EVENTS = new Set([
     'werdle_first_guess', 'second_sight_answer', 'afterimage_memory_reconstruction',
-    'arc_shift_attempt', 'arc_shift_run_complete'
+    'arc_shift_attempt', 'arc_shift_run_complete', 'guess_hue_round'
   ]);
   const GAME_EVENT_PROPERTIES = {
     werdle_first_guess: new Set([
@@ -38,6 +38,11 @@
     ]),
     arc_shift_run_complete: new Set([
       'score', 'hits', 'misses', 'attempts', 'best_streak', 'speed_multiplier', 'new_best'
+    ]),
+    guess_hue_round: new Set([
+      'round_number', 'result', 'response_ms', 'difficulty', 'hue_gap_degrees',
+      'base_hue_degrees', 'base_hue_band', 'odd_hue_degrees', 'odd_hue_band', 'hue_shift_direction',
+      'saturation_percent', 'lightness_percent', 'odd_tile_position', 'selected_tile_position'
     ])
   };
 

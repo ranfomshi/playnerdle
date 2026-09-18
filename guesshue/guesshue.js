@@ -61,6 +61,11 @@
       oddIndex: -1,
       baseColour: "hsl(210 70% 55%)",
       oddColour: "hsl(228 70% 55%)",
+      baseHue: 210,
+      oddHue: 228,
+      saturation: 70,
+      lightness: 55,
+      hueDirection: "clockwise",
       gap: 18,
       deadline: 0,
       remaining: ROUND_MS,
@@ -104,8 +109,44 @@
     const oddHue = (hue + direction * gap + 360) % 360;
     return {
       base: `hsl(${hue} ${saturation}% ${lightness}%)`,
-      odd: `hsl(${oddHue} ${saturation}% ${lightness}%)`
+      odd: `hsl(${oddHue} ${saturation}% ${lightness}%)`,
+      baseHue: hue,
+      oddHue,
+      saturation,
+      lightness,
+      direction: direction > 0 ? "clockwise" : "counterclockwise"
     };
+  }
+
+  function hueBand(hue) {
+    const bands = ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "magenta"];
+    return bands[Math.floor(((hue + 22.5) % 360) / 45)];
+  }
+
+  function trackRound(result, response, selectedIndex) {
+    const properties = {
+      round_number: state.streak + 1,
+      result,
+      response_ms: Math.round(response),
+      difficulty: tierFor(state.streak).name.toLowerCase(),
+      hue_gap_degrees: state.gap,
+      base_hue_degrees: state.baseHue,
+      base_hue_band: hueBand(state.baseHue),
+      odd_hue_degrees: state.oddHue,
+      odd_hue_band: hueBand(state.oddHue),
+      hue_shift_direction: state.hueDirection,
+      saturation_percent: state.saturation,
+      lightness_percent: state.lightness,
+      odd_tile_position: state.oddIndex + 1,
+      selected_tile_position: Number.isInteger(selectedIndex) ? selectedIndex + 1 : undefined
+    };
+
+    if (window.BludleEngagement?.gameEvent) {
+      window.BludleEngagement.gameEvent("guess_hue_round", properties);
+      return;
+    }
+    window.__bludleGameplayEventQueue = window.__bludleGameplayEventQueue || [];
+    window.__bludleGameplayEventQueue.push({ eventName: "guess_hue_round", properties });
   }
 
   function updateHeader() {
@@ -132,6 +173,11 @@
     state.oddIndex = randomBetween(0, 8);
     state.baseColour = colours.base;
     state.oddColour = colours.odd;
+    state.baseHue = colours.baseHue;
+    state.oddHue = colours.oddHue;
+    state.saturation = colours.saturation;
+    state.lightness = colours.lightness;
+    state.hueDirection = colours.direction;
     state.gap = tier.gap;
     state.remaining = ROUND_MS;
     state.deadline = performance.now() + ROUND_MS;
@@ -166,6 +212,7 @@
     els.timerNumber.textContent = (state.remaining / 1000).toFixed(1);
 
     if (state.remaining <= 0) {
+      trackRound("timeout", ROUND_MS);
       endRun("timeout");
       return;
     }
@@ -179,6 +226,7 @@
     const response = Math.min(ROUND_MS, ROUND_MS - state.remaining);
 
     if (index === state.oddIndex) {
+      trackRound("correct", response, index);
       tile.classList.add("correct");
       state.responses.push(response);
       state.streak += 1;
@@ -188,6 +236,7 @@
       return;
     }
 
+    trackRound("wrong", response, index);
     tile.classList.add("wrong");
     revealOddTile();
     els.roundStatus.textContent = "That tile matched the field. The odd hue is outlined.";
@@ -230,6 +279,7 @@
     els.resultStreak.textContent = state.streak;
     els.resultAverage.textContent = average;
     els.resultBest.textContent = stats.best;
+    els.resultDialog.dataset.endReason = reason;
     updateHeader();
     window.setTimeout(() => els.resultDialog.showModal(), reason === "timeout" ? 80 : 0);
   }

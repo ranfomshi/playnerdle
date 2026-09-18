@@ -3,7 +3,7 @@
 
   if (window.BludleGameTelemetry) return;
 
-  const SCHEMA_VERSION = 2;
+  const SCHEMA_VERSION = 3;
   const formats = {
     werdle: 'hybrid', bludle: 'session', codle: 'daily', connex: 'session', wordmash: 'daily',
     glyph: 'daily', borrowedletters: 'daily', shiftyfades: 'session', colormatch: 'session',
@@ -18,6 +18,7 @@
     return match ? Number(match[0]) : undefined;
   };
   const number = selector => numericText(text(selector));
+  const data = (selector, key) => document.querySelector(selector)?.dataset?.[key];
   const count = selector => document.querySelectorAll(selector).length;
   const sumNumbers = values => {
     const present = values.filter(value => value !== undefined);
@@ -27,7 +28,9 @@
   const milliseconds = selector => {
     const value = number(selector);
     if (value === undefined) return undefined;
-    return /(?:^|\s)s(?:ec(?:ond)?s?)?\b/i.test(text(selector)) ? Math.round(value * 1000) : Math.round(value);
+    return /^\s*-?\d+(?:\.\d+)?\s*s(?:ec(?:ond)?s?)?\s*$/i.test(text(selector))
+      ? Math.round(value * 1000)
+      : Math.round(value);
   };
   const filledRows = (rowSelector, tileSelector) => [...document.querySelectorAll(rowSelector)]
     .filter(row => [...row.querySelectorAll(tileSelector)].some(tile => tile.textContent.trim())).length;
@@ -78,7 +81,9 @@
       error_degrees: number('#differenceText'), lives_remaining: number('#lives')
     }),
     guesshue: () => ({
-      streak: number('#result-streak'), average_response_ms: milliseconds('#result-average'), difficulty: mode('#level-value')
+      streak: number('#result-streak'), average_response_ms: milliseconds('#result-average'),
+      difficulty: mode('#level-value'), final_hue_gap_degrees: number('#hue-gap'),
+      end_reason: data('#result-dialog', 'endReason')
     }),
     tintuition: () => ({ level_reached: number('#final-level'), score: number('#final-score') }),
     hunt: () => ({ difficulty: mode('#mode-label'), scans_remaining: number('#scan-label') }),
