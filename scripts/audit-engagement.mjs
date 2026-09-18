@@ -6,6 +6,7 @@ const root = path.resolve(import.meta.dirname, '..');
 const nav = await readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
 const manager = await readFile(path.join(root, 'globalNav', 'engagementManager.js'), 'utf8');
 const arcShift = await readFile(path.join(root, 'arcshift', 'arcshift.js'), 'utf8');
+const guessHue = await readFile(path.join(root, 'guesshue', 'guesshue.js'), 'utf8');
 const telemetry = await readFile(path.join(root, 'globalNav', 'gameTelemetry.js'), 'utf8');
 const mixpanel = await readFile(path.join(root, 'mixpanel.js'), 'utf8');
 const home = await readFile(path.join(root, 'index.html'), 'utf8');
@@ -31,6 +32,11 @@ for (const eventName of ['search_landing', 'game_start', 'game_complete', 'compl
 for (const eventName of ['arc_shift_attempt', 'arc_shift_run_complete']) {
   if (!manager.includes(`'${eventName}'`)) issues.push(`globalNav/engagementManager.js: missing ${eventName} interaction event`);
   if (!arcShift.includes(`trackGameEvent('${eventName}'`)) issues.push(`arcshift/arcshift.js: does not emit ${eventName}`);
+}
+
+if (!manager.includes("'guess_hue_round'")) issues.push('globalNav/engagementManager.js: missing guess_hue_round interaction event');
+if (!guessHue.includes('gameEvent("guess_hue_round"') || !guessHue.includes('trackRound("timeout"')) {
+  issues.push('guesshue/guesshue.js: does not emit complete round-level outcomes');
 }
 
 if (!manager.includes("summary_context: 'restored'") ||

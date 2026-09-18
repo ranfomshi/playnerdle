@@ -30,7 +30,7 @@ const werdle = runTelemetry({
   multiples: { '#board .board-row': [guessedRow, guessedRow, emptyRow, emptyRow, emptyRow] }
 });
 const werdleSnapshot = werdle.telemetry.snapshot('werdle');
-assert.equal(werdle.html.dataset.bludleTelemetrySchema, '2');
+assert.equal(werdle.html.dataset.bludleTelemetrySchema, '3');
 assert.equal(werdleSnapshot.game_mode, 'daily');
 assert.equal(werdleSnapshot.attempts_used, 2);
 assert.match(werdleSnapshot.puzzle_id, /^werdle:\d{4}-\d{2}-\d{2}$/);
@@ -48,6 +48,15 @@ assert.equal(colour.error_blue, 3);
 const reaction = runTelemetry({ storage: { reactionTime: '284.7' } }).telemetry.snapshot('reaction');
 assert.equal(reaction.reaction_ms, 284.7);
 
+const guessHue = runTelemetry({ singles: {
+  '#result-streak': element('12'), '#result-average': element('2.35s'), '#level-value': element('Expert'),
+  '#hue-gap': element('Δ 6°'), '#result-dialog': element('', { dataset: { endReason: 'wrong' } })
+} }).telemetry.snapshot('guesshue');
+assert.equal(guessHue.streak, 12);
+assert.equal(guessHue.average_response_ms, 2350);
+assert.equal(guessHue.final_hue_gap_degrees, 6);
+assert.equal(guessHue.end_reason, 'wrong');
+
 const arcShift = runTelemetry({ singles: {
   '#final-score': element('18'), '#final-hits': element('15'), '#final-streak': element('9'), '#final-speed': element('1.7×')
 } }).telemetry.snapshot('arcshift');
@@ -57,7 +66,7 @@ assert.equal(arcShift.rounds_completed, 15);
 assert.equal(arcShift.streak, 9);
 assert.equal(arcShift.speed_multiplier, 1.7);
 
-for (const snapshot of [werdleSnapshot, colour, reaction, arcShift]) {
+for (const snapshot of [werdleSnapshot, colour, reaction, guessHue, arcShift]) {
   for (const forbidden of ['answer', 'secret', 'guess_value', 'target_rgb', 'player_rgb']) {
     assert.equal(Object.hasOwn(snapshot, forbidden), false);
   }
