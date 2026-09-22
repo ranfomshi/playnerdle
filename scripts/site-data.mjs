@@ -7,7 +7,7 @@ export const games = [
     format: 'Daily puzzle and unlimited practice', round: 'About 3–5 minutes',
     how: 'Enter any five letters; guesses do not need to be valid words. Green letters are correct, amber letters belong elsewhere, and grey letters are not in the answer. Find the word within five tries.',
     why: 'Werdle keeps the familiar deduction loop but adds a word-origin reveal, so every solved puzzle ends with something worth learning.',
-    related: ['glyph', 'borrowedletters', 'codle']
+    related: ['glyph', 'borrowedletters', 'wordmash']
   },
   {
     slug: 'bludle', name: 'Bludle', category: 'Word', image: '/images/bludle.jpg',
@@ -15,7 +15,7 @@ export const games = [
     format: 'Daily visual word puzzle', round: 'About 2–4 minutes',
     how: 'Read each blue tile as a letter value: A is the lightest end of the scale and Z is the darkest. Translate the five shades, submit a word, and use the new colour evidence to refine it.',
     why: 'Bludle turns spelling into visual decoding. The alphabet-to-colour mapping never changes, so pattern recognition improves naturally with repeated play.',
-    related: ['werdle', 'glyph', 'codle']
+    related: ['afterimage', 'colormatch', 'shiftyfades']
   },
   {
     slug: 'codle', name: 'Codle', category: 'Word', image: '/images/codle.jpg',
@@ -23,7 +23,7 @@ export const games = [
     format: 'Progressive code-breaking rounds', round: 'About 3–6 minutes',
     how: 'Study the encoded word and the active rule, then reverse that transformation to recover the answer. Later rounds combine less familiar rules and require closer comparison.',
     why: 'Each puzzle asks you to understand a transformation rather than memorise a single offset, making Codle a compact test of language and logical flexibility.',
-    related: ['bludle', 'wordmash', 'borrowedletters']
+    related: ['borrowedletters', 'wordmash', 'glyph']
   },
   {
     slug: 'connex', name: 'Connex', category: 'Word', image: '/images/connex.png',
@@ -31,7 +31,7 @@ export const games = [
     format: 'Browser word-association puzzle', round: 'About 5–10 minutes',
     how: 'Select four words that share a precise connection and submit the group. Correct groups lock into place; incorrect attempts encourage you to reconsider overlaps and red herrings.',
     why: 'Connex rewards lateral thinking because plausible relationships often cross the intended groups. The challenge is finding the most exact explanation.',
-    related: ['wordmash', 'werdle', 'glyph']
+    related: ['wordmash', 'borrowedletters', 'glyph']
   },
   {
     slug: 'wordmash', name: 'Word Mash', category: 'Word', image: '/images/wordmash.svg',
@@ -95,7 +95,7 @@ export const games = [
     format: 'Progressive timing challenge', round: 'About 2–5 minutes',
     how: 'Memorise the target colour, watch the active colour cycle, and lock it when the two match. Accurate stops advance the run while misses expose the difference.',
     why: 'Chroma Lock mixes perception with timing: recognising the correct colour is only half the problem; you must act at the right instant.',
-    related: ['tintuition', 'alternate', 'guesshue']
+    related: ['secondsight', 'shiftyfades', 'colormatch']
   },
   {
     slug: 'guesshue', name: 'Guess Hue', category: 'Colour', image: '/images/hue.png',
@@ -103,7 +103,7 @@ export const games = [
     format: 'Endless four-second rounds', round: 'Usually 1–5 minutes',
     how: 'Scan the colour grid and select the tile whose hue differs from the rest. A correct choice extends the streak and reduces the colour gap; a miss ends the run.',
     why: 'The four-second limit keeps perception instinctive, while the adaptive hue gap gives every streak a natural difficulty curve.',
-    related: ['shiftyfades', 'reaction', 'tintuition']
+    related: ['shiftyfades', 'reaction', 'secondsight']
   },
   {
     slug: 'tintuition', name: 'Tintuition', category: 'Colour', image: '/images/tintuition.png',
@@ -111,7 +111,7 @@ export const games = [
     format: 'Ranked colour-matching run', round: 'About 3–8 minutes',
     how: 'Adjust hue, saturation and lightness until your colour looks like the target, then lock the answer. Accuracy and remaining time combine into points and combo progress.',
     why: 'HSL mirrors the way people describe colour—tone, intensity and lightness—making the feedback easier to learn from than raw guessing.',
-    related: ['colormatch', 'chromalock', 'shiftyfades']
+    related: ['colormatch', 'afterimage', 'shiftyfades']
   },
   {
     slug: 'hunt', name: 'XY Marks the Spot', category: 'Logic', image: '/images/hunt.png',
@@ -119,7 +119,7 @@ export const games = [
     format: 'Guided demo then puzzle rounds', round: 'About 3–6 minutes',
     how: 'Choose a coordinate to scan. The game reports the direction and distance to the hidden point; combine successive clues to eliminate locations and make the final find.',
     why: 'The required demonstration teaches the coordinate idea with visible possibilities, while real rounds remove those highlights and leave the deduction to you.',
-    related: ['deadcentre', 'trak', 'seequence']
+    related: ['deadcentre', 'seequence', 'heardle']
   },
   {
     slug: 'seequence', name: 'Seequence', category: 'Logic', image: '/images/seequence.jpg',
@@ -167,7 +167,7 @@ export const games = [
     format: 'Five-second reaction run', round: 'Under 1 minute',
     how: 'Wait for the state to switch, respond immediately, and repeat. Correct reactions preserve the run; hesitation consumes the shared clock.',
     why: 'Alternate replaces a conventional submitted score with an immediate personal run, keeping the ending quick and replayable.',
-    related: ['reaction', 'chromalock', 'guesshue']
+    related: ['reaction', 'arcshift', 'shiftyfades']
   },
   {
     slug: 'trak', name: 'Trak', category: 'Speed', image: '/images/trak.png',
@@ -175,7 +175,7 @@ export const games = [
     format: 'Progressive visual tracking levels', round: 'About 2–6 minutes',
     how: 'Watch the signal establish its speed and path. Continue tracking it mentally after it vanishes, then stop it when you believe it has entered the target zone.',
     why: 'Later tracks add curves, loops, letter-like paths and smaller stopping zones, expanding one simple timing action into a varied focus challenge.',
-    related: ['deadcentre', 'reaction', 'hunt']
+    related: ['arcshift', 'reaction', 'deadcentre']
   }
 ];
 
