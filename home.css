@@ -10,6 +10,7 @@ body {
 }
 
 .home-hero,
+.home-picks,
 .game-discovery,
 .home-ad-unit,
 .content,
@@ -70,6 +71,46 @@ body {
   font-size: var(--text-sm);
   font-weight: 500;
 }
+
+.home-picks {
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  gap: var(--space-6);
+  align-items: end;
+  margin-bottom: var(--space-6);
+  padding: var(--space-5) 0;
+  border-block: 1px solid var(--slate-200);
+}
+
+.home-picks-heading h2 {
+  max-width: 19ch;
+  margin: 0;
+  color: var(--slate-900);
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -.025em;
+}
+
+.home-picks-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.home-picks-list a {
+  display: block;
+  min-width: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  color: var(--slate-700);
+  text-decoration: none;
+}
+
+.home-picks-list a:hover,
+.home-picks-list a:focus-visible { background: var(--slate-100); }
+.home-picks-list a:focus-visible { outline: 3px solid var(--cobalt-300); outline-offset: 2px; }
+.home-picks-list strong { display: block; color: var(--cobalt-700); font-size: var(--text-base); }
+.home-picks-list span { display: block; margin-top: 4px; color: var(--slate-500); font-size: var(--text-sm); line-height: 1.45; }
 
 .werdle-anchor {
   display: grid;
@@ -317,8 +358,10 @@ html[data-home-experiment="treatment"] .hero-chips {
   .home-house-ad { grid-template-columns: 1fr auto; gap: var(--space-2) var(--space-4); }
   .home-house-ad__brand { grid-column: 1 / -1; }
   .home-house-ad__copy small { font-size: .75rem; }
-  .home-hero, .game-discovery, .home-ad-unit, .content, .filter-empty, .seo-content { width: min(calc(100% - 32px), var(--content-max)); }
+  .home-hero, .home-picks, .game-discovery, .home-ad-unit, .content, .filter-empty, .seo-content { width: min(calc(100% - 32px), var(--content-max)); }
   .home-hero { display: block; padding-block: 40px 32px; }
+  .home-picks { grid-template-columns: 1fr; gap: var(--space-4); }
+  .home-picks-list { grid-template-columns: 1fr; gap: var(--space-1); }
   .home-hero h1 { font-size: clamp(2.5rem, 13vw, 3.75rem); }
   .werdle-anchor { min-height: 0; margin-top: var(--space-8); }
   html[data-home-experiment="treatment"] .werdle-anchor { display: block; margin-top: 0; min-height: 0; }
