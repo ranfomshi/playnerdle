@@ -9,7 +9,11 @@ const manager = await readFile(path.join(root, 'globalNav', 'adManager.js'), 'ut
 const engagement = await readFile(path.join(root, 'globalNav', 'engagementManager.js'), 'utf8');
 const nav = await readFile(path.join(root, 'globalNav', 'globalNav.js'), 'utf8');
 const consent = await readFile(path.join(root, 'globalNav', 'consentManager.js'), 'utf8');
+const contentManager = await readFile(path.join(root, 'globalNav', 'contentAdManager.js'), 'utf8');
 const styles = await readFile(path.join(root, 'globalNav', 'globalNav.css'), 'utf8');
+const designStyles = await readFile(path.join(root, 'globalNav', 'bludleDesignSystem.css'), 'utf8');
+const homeScript = await readFile(path.join(root, 'home.js'), 'utf8');
+const werdle = await readFile(path.join(root, 'werdle', 'index.html'), 'utf8');
 const bludle = await readFile(path.join(root, 'bludle', 'index.html'), 'utf8');
 const tintuition = await readFile(path.join(root, 'tintuition', 'app.js'), 'utf8');
 const seequence = await readFile(path.join(root, 'seequence', 'app.js'), 'utf8');
@@ -17,6 +21,10 @@ const issues = [];
 
 if (!nav.includes('/globalNav/adManager.js')) {
   issues.push('globalNav/globalNav.js: shared ad manager is not loaded');
+}
+
+if (!nav.includes('/globalNav/contentAdManager.js')) {
+  issues.push('globalNav/globalNav.js: shared content ad manager is not loaded');
 }
 
 if (!nav.includes('/globalNav/consentManager.js') || !consent.includes('CONSENT_DATA_READY')) {
@@ -64,7 +72,34 @@ if (!manager.includes("fillState === 'unfilled'") || !manager.includes("showHous
   issues.push('globalNav/adManager.js: unfilled placements do not use the house-ad fallback');
 }
 
-if (!manager.includes("document.getElementById('bludle-engagement-host')") || !manager.includes("insertAdjacentElement('beforebegin', placement)")) {
+if (!manager.includes("showHouseFallback('no_response')") || !manager.includes("showHouseFallback('ads_unavailable')")) {
+  issues.push('globalNav/adManager.js: blocked or non-responsive inventory has no house-ad fallback');
+}
+
+for (const signal of ['entry.intersectionRatio >= 0.5', 'showHouseFallback(\'no_response\')', 'showHouseFallback(\'ads_unavailable\')', 'content_group: contentGroup()', 'https://keyzee.co.uk']) {
+  if (!contentManager.includes(signal)) issues.push(`globalNav/contentAdManager.js: missing ${signal}`);
+}
+
+if (homeScript.includes('(window.adsbygoogle = window.adsbygoogle || []).push({})')) {
+  issues.push('home.js: homepage ad is still requested before the shared viewability gate');
+}
+
+if (!werdle.includes('data-ad-placement="werdle_guide"') || !werdle.includes('data-ad-slot="3900592841"')) {
+  issues.push('werdle/index.html: controlled below-game flagship inventory is missing');
+}
+
+for (const article of ['4', '5', '6', '19']) {
+  const html = await readFile(path.join(root, 'blogs', `${article}.html`), 'utf8');
+  if (!html.includes('data-ad-placement="blog_article_midpoint"')) {
+    issues.push(`blogs/${article}.html: substantial article has no controlled midpoint inventory`);
+  }
+}
+
+if (!designStyles.includes('.bludle-house-ad') || !designStyles.includes('[data-bludle-content-ad]')) {
+  issues.push('globalNav/bludleDesignSystem.css: content inventory or house-ad fallback styling is missing');
+}
+
+if (!manager.includes("document.getElementById('bludle-engagement-host')") || !manager.includes("insertAdjacentElement('afterend', placement)")) {
   issues.push('globalNav/adManager.js: placement is not moved into the result summary');
 }
 
@@ -135,7 +170,7 @@ vm.runInNewContext(manager, {
   MutationObserver: class {}, URL, Object, Map, Set
 });
 completionHandler({ detail: { outcome: 'completed' } });
-assert.equal(summaryInsertion.position, 'beforebegin');
+assert.equal(summaryInsertion.position, 'afterend');
 assert.equal(summaryInsertion.element, placement);
 assert.equal(placement.hidden, false);
 assert.equal(observedPlacement, placement);

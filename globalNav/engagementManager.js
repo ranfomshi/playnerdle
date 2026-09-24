@@ -72,6 +72,7 @@
   ];
 
   const gameBySlug = new Map(games.map(game => [game.slug, game]));
+  const typicalMinutesByCategory = Object.freeze({ Word: 3, Colour: 2, Logic: 3, Speed: 1, Audio: 2 });
   const handoffs = {
     werdle: { slug: 'glyph', id: 'word_to_shape', reason: 'You found a word from letter clues. Now find one from the shape its letters leave behind.' },
     glyph: { slug: 'borrowedletters', id: 'shape_to_repair', reason: 'Keep those word instincts switched on, then repair five words by moving their missing letters.' },
@@ -317,7 +318,7 @@
   }
 
   const completionRules = {
-    werdle: () => textMatches('#attempt-label', /solved in|round complete/i) && (visible('#stats-dialog') || document.querySelector('.game-card')),
+    werdle: () => textMatches('#attempt-label', /solved in|round complete/i) && visible('#stats-dialog'),
     bludle: () => visible('#resultDialog'),
     codle: () => visible('#result-dialog'),
     connex: () => visible('#gameOverModal'),
@@ -397,6 +398,7 @@
       .top{padding:22px 22px 16px;background:linear-gradient(135deg,#f1f5ff 0%,#fff 74%)}
       .journey{display:flex;align-items:center;gap:8px;margin:0 0 10px;color:#53617f;font-size:11px;font-weight:700}.journey .done{color:#1c3993}.journey .arrow{color:#8c96ae}
       .next{margin:0 22px 22px;padding:17px 18px;background:#193ca9;box-shadow:0 7px 16px rgba(28,57,147,.2)}
+      .next{display:grid;grid-template-columns:88px minmax(0,1fr) auto}.preview{display:block;width:88px;height:56px;object-fit:cover;border-radius:7px;border:1px solid rgba(255,255,255,.28)}
       .next strong{font-size:18px}.next small{font-size:12px}.action{font-size:14px}
     ` : '';
     return `
@@ -409,7 +411,7 @@
       .next strong{display:block;font-size:16px}.next small{display:block;margin-top:2px;color:#d9e4fc;font-size:11px;font-weight:500}.action{flex:0 0 auto;font-size:13px;font-weight:800}
       .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 18px;border-top:1px solid #ebeef5;background:#f6f8fc}.disclosure{margin:0;color:#707a99;font-size:11px;line-height:1.35}
       .home{flex:0 0 auto;color:#4e5875;font-size:12px;font-weight:700;text-decoration:none}.home:hover{color:#1c3993;text-decoration:underline;text-underline-offset:3px}.home:focus-visible{outline:3px solid #82a6f3;outline-offset:3px;border-radius:3px}
-      @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.action{font-size:0}.action::after{content:'Go';font-size:13px}.foot{align-items:flex-start}.disclosure{max-width:22ch}}
+      @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.next:has(.preview){grid-template-columns:72px minmax(0,1fr)}.preview{width:72px;height:45px}.next:has(.preview) .action{display:none}.action{font-size:0}.action::after{content:'Go';font-size:13px}.foot{align-items:flex-start}.disclosure{max-width:22ch}}
       @media(prefers-reduced-motion:reduce){.next{transition:none}}
       ${treatmentStyles}
     `;
@@ -440,19 +442,22 @@
 
     const experimentVariant = await postGameExperimentVariant();
     const isTreatment = experimentVariant === 'treatment';
+    const typicalMinutes = typicalMinutesByCategory[next.game.category] || 2;
     host.dataset.experimentVariant = experimentVariant;
 
     const journey = isTreatment
       ? `<p class="journey"><span class="done">${currentGame.name} complete</span><span class="arrow" aria-hidden="true">&rarr;</span><span>${next.game.name} next</span></p>`
       : '';
-    const eyebrow = isTreatment ? 'Keep playing' : 'Your next game';
-    const title = isTreatment ? `Next up: ${next.game.name}` : `Keep the run going with ${next.game.name}.`;
-    const action = isTreatment ? 'Continue &rarr;' : 'Start next &rarr;';
+    const eyebrow = isTreatment ? 'One more?' : 'Your next game';
+    const title = isTreatment ? `${next.game.name} takes about ${typicalMinutes} minute${typicalMinutes === 1 ? '' : 's'}.` : `Keep the run going with ${next.game.name}.`;
+    const action = isTreatment ? 'Play now &rarr;' : 'Start next &rarr;';
+    const preview = isTreatment ? `<img class="preview" src="/images/game-screens/${next.game.slug}.png" alt="" width="1265" height="712" loading="lazy">` : '';
+    const detail = isTreatment ? `${next.game.category} &middot; No sign-up &middot; About ${typicalMinutes} min` : `${next.game.category} challenge`;
 
     root.innerHTML = `<style>${cardStyles(experimentVariant)}</style><section class="card" aria-labelledby="bludle-next-title">
       <div class="top"><div>${journey}<p class="eyebrow">${eyebrow}</p><h2 id="bludle-next-title">${title}</h2><p class="reason">${next.reason}</p></div>
       <div class="progress"><strong>${progress.completed.length} played</strong><span> today &middot; ${streak} day streak</span></div></div>
-      <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}"><span><strong>Play ${next.game.name}</strong><small>${next.game.category} challenge</small></span><span class="action">${action}</span></a>
+      <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}">${preview}<span><strong>Play ${next.game.name}</strong><small>${detail}</small></span><span class="action">${action}</span></a>
       <div class="foot"><p class="disclosure">Progress stays on this device. No account required.</p><a class="home" href="/" data-summary-home>&larr; All games</a></div>
     </section>`;
     track('next_game_recommendation_view', {
@@ -462,6 +467,7 @@
       recommendation_strategy: next.strategy,
       completed_today_count: progress.completed.length,
       experiment_variant: experimentVariant,
+      estimated_minutes: typicalMinutes,
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel
     });
@@ -477,6 +483,7 @@
         recommendation_strategy: next.strategy,
         completed_today_count: progress.completed.length,
         experiment_variant: experimentVariant,
+        estimated_minutes: typicalMinutes,
         landing_page: landing.landing_page,
         landing_channel: landing.landing_channel
       });

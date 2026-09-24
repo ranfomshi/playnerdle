@@ -169,45 +169,6 @@ function setupGameFiltering() {
   window.addEventListener('bludle:motion-ready', () => { if (motionIntent) warmMotion(); }, { once: true });
 }
 
-function initializeAdUnits() {
-  const adUnits = document.querySelectorAll('.adsbygoogle');
-  adUnits.forEach((adUnit) => {
-    const wrapper = adUnit.closest('.home-ad-unit');
-    const fallback = wrapper?.querySelector('[data-house-ad-fallback]');
-
-    if (fallback) {
-      const syncFallback = () => {
-        const isUnfilled = adUnit.dataset.adStatus === 'unfilled';
-        fallback.hidden = !isUnfilled;
-        wrapper.classList.toggle('has-house-ad', isUnfilled);
-
-        if (isUnfilled && !fallback.dataset.viewTracked) {
-          fallback.dataset.viewTracked = 'true';
-          sendEvent('house_ad_fallback_view', {
-            advertiser: 'keyzee',
-            placement: adUnit.dataset.adPlacement || 'home_grid',
-          });
-        }
-      };
-
-      new MutationObserver(syncFallback).observe(adUnit, {
-        attributes: true,
-        attributeFilter: ['data-ad-status'],
-      });
-      fallback.addEventListener('click', () => sendEvent('house_ad_fallback_click', {
-        advertiser: 'keyzee',
-        placement: adUnit.dataset.adPlacement || 'home_grid',
-      }));
-      syncFallback();
-    }
-
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
-    sendEvent('ad_eligible_view', {
-      placement: adUnit.dataset.adPlacement || 'home_grid',
-    });
-  });
-}
-
 window.addEventListener('DOMContentLoaded', () => {
   trackSessionStart();
 
@@ -224,7 +185,34 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   setupGameFiltering();
-  initializeAdUnits();
+
+  const houseAdTile = document.querySelector('.ad-tile .ad-link');
+  if (houseAdTile) {
+    const tile = houseAdTile.closest('.ad-tile');
+    const trackView = () => sendEvent('house_ad_fallback_view', {
+      advertiser: 'keyzee',
+      placement: 'home_grid_tile',
+      reason: 'house_inventory',
+    });
+    if ('IntersectionObserver' in window && tile) {
+      let timer;
+      const observer = new IntersectionObserver(entries => {
+        window.clearTimeout(timer);
+        if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.5)) return;
+        timer = window.setTimeout(() => {
+          observer.disconnect();
+          trackView();
+        }, 1000);
+      }, { threshold: [0, 0.5, 1] });
+      observer.observe(tile);
+    } else {
+      trackView();
+    }
+    houseAdTile.addEventListener('click', () => sendEvent('house_ad_fallback_click', {
+      advertiser: 'keyzee',
+      placement: 'home_grid_tile',
+    }));
+  }
 
   applyHomepageExperiment().then(experimentVariant => {
     if (!werdleHero) return;
