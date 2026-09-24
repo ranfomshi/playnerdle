@@ -83,6 +83,17 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
   }
 
   ensureConsentManager();
+
+  function ensureContentAdManager() {
+    if (window.__bludleContentAdsLoaded || document.querySelector('script[data-bludle-content-ad-manager]')) return;
+    const script = document.createElement('script');
+    script.src = '/globalNav/contentAdManager.js';
+    script.async = false;
+    script.dataset.bludleContentAdManager = '';
+    document.head.append(script);
+  }
+
+  ensureContentAdManager();
   ensureAdManager();
 
   function ensureGameTelemetry() {

@@ -60,7 +60,9 @@ body[data-game="werdle"] .board .tile.absent {
 }
 body[data-game="werdle"] #stats-dialog {
   width: min(calc(100% - 32px), 500px);
+  max-height: min(90dvh, 760px);
   padding: 28px;
+  overflow-y: auto;
 }
 body[data-game="werdle"] #stats-dialog h2 { margin: 5px 0 0; }
 body[data-game="werdle"] #stats-dialog .stats-grid {

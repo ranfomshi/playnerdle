@@ -439,8 +439,49 @@ html body.legal-page :where(.userBtn, .helpBtn, #snackbar) { display: none !impo
 
 /* Reserve a modest slot so late-loading ads do not shift game controls or dominate the page. */
 html body ins.adsbygoogle { min-height: 90px; }
+html body :where(.werdle-guide-ad, [data-bludle-content-ad]) {
+  width: min(calc(100% - 40px), 960px);
+  min-height: 122px;
+  margin: var(--space-6) auto var(--space-8);
+  padding: var(--space-4);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  background: var(--slate-0);
+  text-align: center;
+}
+html body :where(.werdle-guide-ad, [data-bludle-content-ad]) .ad-label {
+  margin: 0 0 var(--space-2);
+  color: var(--slate-500);
+  font: 700 .7rem/1.2 Inter,system-ui,sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+html body .bludle-house-ad[hidden] { display: none !important; }
+html body .bludle-house-ad {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 78px;
+  padding: var(--space-4);
+  border: 1px solid var(--cobalt-100);
+  border-radius: var(--radius-sm);
+  background: var(--cobalt-50);
+  color: var(--slate-800);
+  font-family: Inter,system-ui,sans-serif;
+  text-align: left;
+  text-decoration: none;
+}
+html body .bludle-house-ad__brand { color: var(--cobalt-700); font-size: 1.15rem; font-weight: 850; letter-spacing: -.04em; }
+html body .bludle-house-ad__copy strong,
+html body .bludle-house-ad__copy small { display: block; }
+html body .bludle-house-ad__copy small { margin-top: 2px; color: var(--slate-500); font-size: .75rem; }
+html body .bludle-house-ad__cta { color: var(--cobalt-700); font-size: .8rem; font-weight: 800; white-space: nowrap; }
+html body .bludle-house-ad:hover { border-color: var(--cobalt-300); background: var(--slate-0); }
 
 @media (max-width: 767px) {
+  html body .bludle-house-ad { grid-template-columns: 1fr auto; }
+  html body .bludle-house-ad__brand { grid-column: 1 / -1; }
   html body .page-shell { width: min(calc(100% - 32px),960px); padding-block: var(--space-5) var(--space-7); }
   html body :where(.game-card, .about-card, .panel, .intent-card, .faq-card) { padding: var(--space-4); }
   html body .about-card { grid-template-columns: 1fr; }

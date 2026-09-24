@@ -174,7 +174,7 @@
     <section class="blog-monetization" aria-label="Sponsored">
       <p class="ad-label">Sponsored</p>
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5140172230633441"
-        data-ad-slot="4572198603" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        data-ad-slot="4572198603" data-ad-format="horizontal" data-full-width-responsive="true" data-ad-placement="blog_index"></ins>
     </section>
     <ul class="post-list">
       <li class="post-item"><h2><a href="/blogs/19">Quordle Gameplay Guide: Master the Daily Puzzle</a></h2><div class="post-meta">Published: 2026-06-15</div><p>A friendly UK guide to Quordle daily word puzzle gameplay — how it works, winning strategies, and where to play free multi-word puzzles online.</p></li>
@@ -231,11 +231,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('.adsbygoogle').forEach(function () {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        sendEvent('ad_eligible_view', { placement: 'blog_index' });
-      });
-
       const supportLink = document.querySelector('.support-link');
       if (supportLink) {
         sendEvent('support_cta_view', { placement: 'blog_index_footer' });

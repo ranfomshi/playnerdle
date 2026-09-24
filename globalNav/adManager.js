@@ -55,6 +55,10 @@
   let watching = false;
   let observer;
   let viewTimer;
+  let readyTimer;
+  let responseTimer;
+  let settled = false;
+  let fillObserver;
 
   function track(eventName, properties = {}) {
     const params = { placement: 'result_summary', game: currentPath.slice(1), ...properties };
@@ -67,7 +71,7 @@
   function moveIntoResultSummary() {
     const recommendation = document.getElementById('bludle-engagement-host');
     if (!recommendation?.parentElement) return false;
-    recommendation.insertAdjacentElement('beforebegin', placement);
+    recommendation.insertAdjacentElement('afterend', placement);
     placement.dataset.summaryPlacement = 'true';
     return true;
   }
@@ -106,7 +110,12 @@
   }
 
   function showHouseFallback(reason) {
+    if (settled) return;
+    settled = true;
+    window.clearTimeout(readyTimer);
+    window.clearTimeout(responseTimer);
     const unit = placement.querySelector('ins.adsbygoogle');
+    fillObserver?.disconnect();
     const fallback = placement.querySelector('[data-house-ad-fallback]');
     unit.hidden = true;
     fallback.hidden = false;
@@ -124,9 +133,15 @@
     watching = false;
     const unit = placement.querySelector('ins.adsbygoogle');
 
-    const fillObserver = new MutationObserver(() => {
+    fillObserver = new MutationObserver(() => {
+      if (settled) {
+        fillObserver.disconnect();
+        return;
+      }
       const fillState = unit.dataset.adStatus;
       if (fillState === 'filled') {
+        settled = true;
+        window.clearTimeout(responseTimer);
         placement.dataset.adState = 'filled';
         track('ad_slot_filled');
         fillObserver.disconnect();
@@ -139,17 +154,27 @@
     fillObserver.observe(unit, { attributes: true, attributeFilter: ['data-ad-status'] });
 
     const submit = () => {
+      if (settled) return;
+      window.clearTimeout(readyTimer);
+      window.removeEventListener('bludle:ads-ready', submit);
       try {
         window.adsbygoogle = window.adsbygoogle || [];
         window.adsbygoogle.push({});
         trackRequest();
+        responseTimer = window.setTimeout(() => showHouseFallback('no_response'), 7000);
       } catch (error) {
         showHouseFallback('request_error');
       }
     };
 
     if (window.__bludleAdsReady) submit();
-    else window.addEventListener('bludle:ads-ready', submit, { once: true });
+    else {
+      window.addEventListener('bludle:ads-ready', submit, { once: true });
+      readyTimer = window.setTimeout(() => {
+        window.removeEventListener('bludle:ads-ready', submit);
+        showHouseFallback('ads_unavailable');
+      }, 5000);
+    }
   }
 
   function watchForViewability() {

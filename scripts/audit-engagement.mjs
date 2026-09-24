@@ -50,6 +50,10 @@ if (!manager.includes('if (!progress.completed.includes(currentGame.slug))') ||
   issues.push('globalNav/engagementManager.js: restored summaries may inflate completion streaks');
 }
 
+if (!manager.includes("werdle: () => textMatches('#attempt-label', /solved in|round complete/i) && visible('#stats-dialog')")) {
+  issues.push('globalNav/engagementManager.js: Werdle completion must wait for its visible stats dialog');
+}
+
 for (const game of games) {
   if (!manager.includes(`slug: '${game.slug}'`)) {
     issues.push(`globalNav/engagementManager.js: ${game.slug} has no recommendation metadata`);
