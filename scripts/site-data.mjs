@@ -58,6 +58,14 @@ export const games = [
     related: ['wordmash', 'glyph', 'codle']
   },
   {
+    slug: 'wordbridge', name: 'Word Bridge', category: 'Word', image: '/images/game-screens/wordbridge.png',
+    description: 'Play a free daily linking word game. Find the one middle word that completes two familiar compound words or phrases in three attempts.',
+    format: 'One daily linking-word puzzle', round: 'About 1–3 minutes',
+    how: 'Read the two outer words and enter one bridge word that forms a familiar connection with both. You have three attempts, and a clue appears after the first miss.',
+    why: 'Every answer must work in two directions at once, combining vocabulary with a compact flash of lateral thinking.',
+    related: ['wordmash', 'connex', 'borrowedletters']
+  },
+  {
     slug: 'shiftyfades', name: 'Shifty Fades', category: 'Colour', image: '/images/shifty.png',
     description: 'Find the exact target colour among near matches across fifty increasingly subtle levels.',
     format: 'Fifty progressive levels', round: 'About 2–8 minutes',
@@ -183,10 +191,10 @@ export const gameBySlug = new Map(games.map(game => [game.slug, game]));
 
 export const hubs = [
   ['wordle-alternatives', 'Wordle alternatives', ['werdle', 'bludle', 'codle', 'glyph']],
-  ['daily-word-games', 'Daily word games', ['werdle', 'glyph', 'borrowedletters', 'wordmash']],
+  ['daily-word-games', 'Daily word games', ['werdle', 'wordbridge', 'glyph', 'borrowedletters']],
   ['colour-puzzle-games', 'Colour puzzle games', ['colormatch', 'afterimage', 'secondsight', 'tintuition']],
   ['reaction-games', 'Reaction games', ['reaction', 'arcshift', 'alternate', 'trak']],
-  ['free-browser-games', 'Free browser games', ['werdle', 'connex', 'colormatch', 'reaction']],
+  ['free-browser-games', 'Free browser games', ['werdle', 'wordbridge', 'colormatch', 'reaction']],
   ['no-download-games', 'No-download games', ['bludle', 'wordmash', 'tintuition', 'deadcentre']],
   ['brain-training-games', 'Brain training games', ['seequence', 'deadcentre', 'connex', 'codle']],
   ['logic-puzzle-games', 'Logic puzzle games', ['hunt', 'connex', 'borrowedletters', 'codle']]

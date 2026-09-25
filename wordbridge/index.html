@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Bridge | Daily Linking Word Game | Bludle</title>
+  <meta name="description" content="Play Word Bridge free. Find the one word that completes two familiar phrases in three attempts, with a fresh daily puzzle and no sign-up.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://bludle.com/wordbridge/">
+  <meta name="theme-color" content="#f4efe5">
+  <meta property="og:site_name" content="Bludle">
+  <meta property="og:title" content="Word Bridge | Daily Linking Word Game | Bludle">
+  <meta property="og:description" content="Find the one word that completes two familiar phrases. Three attempts, one daily bridge.">
+  <meta property="og:url" content="https://bludle.com/wordbridge/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://bludle.com/images/social/wordbridge.jpg">
+  <meta property="og:image:alt" content="Word Bridge daily word game on Bludle">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Word Bridge | Daily Linking Word Game | Bludle">
+  <meta name="twitter:description" content="Find the one word that completes two familiar phrases.">
+  <meta name="twitter:image" content="https://bludle.com/images/social/wordbridge.jpg">
+  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/wordbridge/#game","name":"Word Bridge","url":"https://bludle.com/wordbridge/","description":"Find the one word that completes two familiar phrases in three attempts.","image":"https://bludle.com/images/social/wordbridge.jpg","inLanguage":"en-GB","genre":["Word game","Puzzle game"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="/globalNav/discovery.css">
+  <link rel="stylesheet" href="wordbridge.css">
+  <script src="wordbridge.js" type="module"></script>
+</head>
+<body data-game="wordbridge">
+  <div id="navbar-container"></div>
+  <main class="page-shell" id="main-content">
+    <header class="game-header">
+      <div>
+        <p class="eyebrow">Daily linking word puzzle</p>
+        <h1>Word Bridge</h1>
+        <p class="dek">One word connects both sides. Build the bridge.</p>
+      </div>
+      <div class="day-chip" aria-label="Preview puzzle number">
+        <span>Puzzle</span>
+        <strong id="day-number">01</strong>
+      </div>
+    </header>
+
+    <section class="game-card" aria-labelledby="puzzle-title">
+      <div class="status-row">
+        <div>
+          <span class="status-label">Today’s crossing</span>
+          <h2 id="puzzle-title">Connect the two words</h2>
+        </div>
+        <div class="attempts" aria-label="Three attempts available">
+          <span>Attempts</span>
+          <div id="attempt-pips" class="attempt-pips" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bridge-scene" id="bridge-scene">
+        <div class="sky" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="bank bank-left" aria-hidden="true"></div>
+        <div class="bank bank-right" aria-hidden="true"></div>
+
+        <article class="word-bank word-bank-left">
+          <span>First side</span>
+          <strong id="left-word">RAIN</strong>
+        </article>
+
+        <div class="bridge-wrap" aria-hidden="true">
+          <div class="bridge-rail bridge-rail-top"></div>
+          <div class="bridge-planks" id="bridge-planks"></div>
+          <div class="bridge-rail bridge-rail-bottom"></div>
+        </div>
+
+        <article class="word-bank word-bank-right">
+          <span>Second side</span>
+          <strong id="right-word">TIE</strong>
+        </article>
+
+        <div class="river" aria-hidden="true">
+          <i></i><i></i><i></i><i></i>
+        </div>
+        <div class="confetti" id="confetti" aria-hidden="true"></div>
+      </div>
+
+      <div class="phrase-preview" aria-label="Word connection preview">
+        <div><span>Connection one</span><strong id="left-preview"><b>RAIN</b><em>?</em></strong></div>
+        <div class="bridge-mark" aria-hidden="true">↔</div>
+        <div><span>Connection two</span><strong id="right-preview"><em>?</em><b>TIE</b></strong></div>
+      </div>
+
+      <form id="answer-form" class="answer-form" novalidate>
+        <label for="answer">The bridge word</label>
+        <div class="answer-row">
+          <input id="answer" name="answer" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12" aria-describedby="feedback">
+          <button class="primary-button" id="submit-answer" type="submit">Build bridge</button>
+        </div>
+      </form>
+
+      <div class="feedback-panel" id="feedback-panel" data-tone="neutral">
+        <div class="feedback-icon" id="feedback-icon" aria-hidden="true">↗</div>
+        <div>
+          <strong id="feedback-title">Find the missing link.</strong>
+          <p id="feedback" role="status" aria-live="polite">Your answer must make a familiar word or phrase with both sides.</p>
+        </div>
+      </div>
+
+      <div class="solution" id="solution" hidden>
+        <p class="solution-kicker">Bridge complete</p>
+        <div class="solution-phrases">
+          <strong id="solution-left">RAINBOW</strong>
+          <span>and</span>
+          <strong id="solution-right">BOW TIE</strong>
+        </div>
+        <p id="solution-note">BOW completes both connections.</p>
+        <button class="secondary-button" id="share-result" type="button">Share result</button>
+      </div>
+    </section>
+
+    <section class="how-card" aria-labelledby="how-title">
+      <p class="eyebrow">The idea</p>
+      <h2 id="how-title">The middle word belongs to both sides.</h2>
+      <div class="example-line" aria-label="Example: rain, bow, tie">
+        <span>RAIN</span><strong>BOW</strong><span>TIE</span>
+      </div>
+      <p><b>RAINBOW</b> and <b>BOW TIE</b> are both familiar connections. Find the shared word in three attempts; a clue appears after your first miss.</p>
+    </section>
+  </main>
+  <section class="bludle-discovery game-guide" aria-labelledby="about-wordbridge">
+    <div class="discovery-heading">
+      <p class="discovery-kicker">About the game</p>
+      <h2 id="about-wordbridge">How to play Word Bridge</h2>
+      <p>Find the middle word that forms a familiar compound word or phrase with both outer words.</p>
+    </div>
+    <dl class="game-facts">
+      <div><dt>Format</dt><dd>One daily word puzzle</dd></div>
+      <div><dt>Typical round</dt><dd>About 1–3 minutes</dd></div>
+      <div><dt>Cost</dt><dd>Free, with no download required</dd></div>
+    </dl>
+    <div class="discovery-copy">
+      <div><h3>The rules</h3><p>Type one word that connects both sides. For RAIN and TIE, BOW creates RAINBOW and BOW TIE. You have three attempts, and a clue appears after the first miss.</p></div>
+      <div><h3>What makes it different</h3><p>Every answer must work in two directions at once. The animated crossing turns that language link into a bridge you visibly complete.</p></div>
+    </div>
+    <nav class="related-games" aria-label="Games related to Word Bridge">
+      <span>Try next</span><a href="/wordmash/">Word Mash</a><a href="/connex/">Connex</a><a href="/borrowedletters/">Borrowed Letters</a>
+    </nav>
+  </section>
+  <div id="snackbar" role="status" aria-live="polite"></div>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>
