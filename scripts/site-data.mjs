@@ -27,7 +27,7 @@ export const games = [
   },
   {
     slug: 'connex', name: 'Connex', category: 'Word', image: '/images/connex.png',
-    description: 'Sort sixteen words into four hidden groups by finding the connection shared by each set.',
+    description: 'Looking for games like Connections? Play Connex free and sort sixteen words into four hidden groups by finding the precise link shared by each set.',
     format: 'Browser word-association puzzle', round: 'About 5–10 minutes',
     how: 'Select four words that share a precise connection and submit the group. Correct groups lock into place; incorrect attempts encourage you to reconsider overlaps and red herrings.',
     why: 'Connex rewards lateral thinking because plausible relationships often cross the intended groups. The challenge is finding the most exact explanation.',
@@ -67,7 +67,7 @@ export const games = [
   },
   {
     slug: 'colormatch', name: 'Colour Match', category: 'Colour', image: '/images/cm.jpg',
-    description: 'Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values.',
+    description: 'Play a free RGB colour matching game. Recreate the target with red, green and blue controls, then compare your submitted values with the answer.',
     format: 'One daily target and one submission', round: 'About 2–4 minutes',
     how: 'Study the target, adjust the red, green and blue controls, and submit your closest mix. The result reveals the target RGB beside your values and scores the total channel difference.',
     why: 'Colour Match turns an intuitive visual judgement into understandable numeric feedback without revealing the answer before commitment.',
@@ -75,7 +75,7 @@ export const games = [
   },
   {
     slug: 'afterimage', name: 'Afterimage', category: 'Colour', image: '/images/cm.jpg',
-    description: 'Memorise a colour, wait for it to disappear, and rebuild it from RGB controls across five daily rounds.',
+    description: 'Take a free online colour memory test. Study a colour, let it disappear, then rebuild it from memory with RGB controls across five rounds.',
     format: 'Five daily memory rounds', round: 'About 4–7 minutes',
     how: 'Study each colour during the viewing phase. Once it vanishes, reconstruct it with the RGB controls and submit to see the target and your remembered mix together.',
     why: 'Removing the reference separates colour memory from ordinary matching and shows how quickly a precise visual impression drifts.',
@@ -83,7 +83,7 @@ export const games = [
   },
   {
     slug: 'secondsight', name: 'Second Sight', category: 'Colour', image: '/images/game-screens/secondsight.png',
-    description: 'Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds.',
+    description: 'Take a free colour perception test. Remember two fleeting colours and identify whether the second became brighter, darker or shifted in hue.',
     format: 'Ten daily colour comparisons', round: 'About 3–5 minutes',
     how: 'Study one colour, hold it through a blank interval, then study a second. Decide whether the second became lighter, darker, more vivid, more muted, redder, greener, yellower or bluer.',
     why: 'The colours never appear together until after the answer. Each round changes exactly one perceptual dimension, turning colour memory into clear, learnable feedback.',
@@ -99,7 +99,7 @@ export const games = [
   },
   {
     slug: 'guesshue', name: 'Guess Hue', category: 'Colour', image: '/images/hue.png',
-    description: 'Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle.',
+    description: 'Test your colour vision by spotting the different colour in four seconds. Each correct answer makes the next hue difference harder to see.',
     format: 'Endless four-second rounds', round: 'Usually 1–5 minutes',
     how: 'Scan the colour grid and select the tile whose hue differs from the rest. A correct choice extends the streak and reduces the colour gap; a miss ends the run.',
     why: 'The four-second limit keeps perception instinctive, while the adaptive hue gap gives every streak a natural difficulty curve.',
@@ -131,7 +131,7 @@ export const games = [
   },
   {
     slug: 'deadcentre', name: 'Dead Centre', category: 'Logic', image: '/images/hunt.png',
-    description: 'Memorise a target, wait for it to vanish, and click its exact centre across eight daily spatial-memory rounds.',
+    description: 'Take a free spatial memory test. Memorise a target, wait for it to disappear and place its centre across eight increasingly difficult rounds.',
     format: 'Eight daily spatial rounds', round: 'About 3–5 minutes',
     how: 'Study the target while the canvas is passive. When it disappears and the guessing phase begins, place one marker where you remember its centre and receive a distance score.',
     why: 'Changing target sizes and positions make each round a clean test of spatial memory rather than cursor tracking.',
@@ -147,7 +147,7 @@ export const games = [
   },
   {
     slug: 'reaction', name: 'Reaction', category: 'Speed', image: '/images/reaction.jpg',
-    description: 'Measure how quickly you respond to a visual change through short, repeatable browser reaction tests.',
+    description: 'Take a free online reaction time test, measure your response in milliseconds and compare each result with your personal reaction-speed history.',
     format: 'Repeatable reaction trials', round: 'Under 2 minutes',
     how: 'Start a trial, wait without anticipating, and respond the moment the visual signal changes. Repeated attempts produce a more useful picture than a single lucky click.',
     why: 'The restrained presentation keeps attention on the signal and makes it easy to compare attempts without downloads or setup.',
@@ -189,9 +189,7 @@ export const hubs = [
   ['free-browser-games', 'Free browser games', ['werdle', 'connex', 'colormatch', 'reaction']],
   ['no-download-games', 'No-download games', ['bludle', 'wordmash', 'tintuition', 'deadcentre']],
   ['brain-training-games', 'Brain training games', ['seequence', 'deadcentre', 'connex', 'codle']],
-  ['logic-puzzle-games', 'Logic puzzle games', ['hunt', 'connex', 'borrowedletters', 'codle']],
-  ['games-like-wordle', 'Games like Wordle', ['werdle', 'bludle', 'glyph', 'codle']],
-  ['games-like-connections', 'Games like Connections', ['connex', 'borrowedletters', 'wordmash', 'codle']]
+  ['logic-puzzle-games', 'Logic puzzle games', ['hunt', 'connex', 'borrowedletters', 'codle']]
 ].map(([slug, name, games]) => ({ slug, name, games }));
 
 export function relatedHubsFor(hub) {
