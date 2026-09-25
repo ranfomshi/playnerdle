@@ -8,6 +8,8 @@ const lines = [
   '/index.html  /  301!',
   '/privacy.html  /privacy  301!',
   '/terms-and-conditions.html  /terms-and-conditions  301!',
+  '/games-like-wordle/*  /wordle-alternatives/  301!',
+  '/games-like-connections/*  /connex/  301!',
   ...activeBlogNumbers.map(number => `/blogs/${number}.html  /blogs/${number}  301!`),
   ...[...retiredBlogRedirects].flatMap(([number, destination]) => [
     `/blogs/${number}.html  ${destination}  301!`,

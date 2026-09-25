@@ -7,7 +7,7 @@
 - Editorial policy: https://bludle.com/editorial-policy/
 - Journal: https://bludle.com/blogs/
 - Sitemap: https://bludle.com/sitemap.xml
-- Last updated: 2026-09-11
+- Last updated: 2026-09-25
 
 ## Games
 
@@ -16,7 +16,7 @@
 - [Werdle](https://bludle.com/werdle/): Play Werdle free: solve a five-letter daily word in five tries, reveal its origin, or switch to unlimited practice with no sign-up. Format: Daily puzzle and unlimited practice. Typical round: About 3–5 minutes.
 - [Bludle](https://bludle.com/bludle/): Play Bludle free and decode a five-letter word from shades of blue, with A at the light end and Z at the darkest end of the alphabet spectrum. Format: Daily visual word puzzle. Typical round: About 2–4 minutes.
 - [Codle](https://bludle.com/codle/): Play Codle free and decode five-letter word ciphers built from shifting, mirroring, reversing and alternating alphabet rules. Format: Progressive code-breaking rounds. Typical round: About 3–6 minutes.
-- [Connex](https://bludle.com/connex/): Sort sixteen words into four hidden groups by finding the connection shared by each set. Format: Browser word-association puzzle. Typical round: About 5–10 minutes.
+- [Connex](https://bludle.com/connex/): Looking for games like Connections? Play Connex free and sort sixteen words into four hidden groups by finding the precise link shared by each set. Format: Browser word-association puzzle. Typical round: About 5–10 minutes.
 - [Word Mash](https://bludle.com/wordmash/): Build a chain of overlapping words by finding the shared letters that join one answer to the next. Format: Daily overlap puzzle. Typical round: About 3–5 minutes.
 - [Glyph](https://bludle.com/glyph/): Identify daily words from their typographic silhouettes before the individual letters are revealed. Format: Five daily silhouette puzzles. Typical round: About 3–6 minutes.
 - [Borrowed Letters](https://bludle.com/borrowedletters/): Repair five clue answers whose misplaced letters have been passed around a circular chain. Format: Daily circular word puzzle. Typical round: About 5–8 minutes.
@@ -24,22 +24,22 @@
 ### Colour games
 
 - [Shifty Fades](https://bludle.com/shiftyfades/): Find the exact target colour among near matches across fifty increasingly subtle levels. Format: Fifty progressive levels. Typical round: About 2–8 minutes.
-- [Colour Match](https://bludle.com/colormatch/): Recreate the daily target colour by adjusting its red, green and blue channels, then compare both RGB values. Format: One daily target and one submission. Typical round: About 2–4 minutes.
-- [Afterimage](https://bludle.com/afterimage/): Memorise a colour, wait for it to disappear, and rebuild it from RGB controls across five daily rounds. Format: Five daily memory rounds. Typical round: About 4–7 minutes.
-- [Second Sight](https://bludle.com/secondsight/): Remember two fleeting colours and identify exactly how the second changed across ten increasingly subtle daily rounds. Format: Ten daily colour comparisons. Typical round: About 3–5 minutes.
+- [Colour Match](https://bludle.com/colormatch/): Play a free RGB colour matching game. Recreate the target with red, green and blue controls, then compare your submitted values with the answer. Format: One daily target and one submission. Typical round: About 2–4 minutes.
+- [Afterimage](https://bludle.com/afterimage/): Take a free online colour memory test. Study a colour, let it disappear, then rebuild it from memory with RGB controls across five rounds. Format: Five daily memory rounds. Typical round: About 4–7 minutes.
+- [Second Sight](https://bludle.com/secondsight/): Take a free colour perception test. Remember two fleeting colours and identify whether the second became brighter, darker or shifted in hue. Format: Ten daily colour comparisons. Typical round: About 3–5 minutes.
 - [Chroma Lock](https://bludle.com/chromalock/): Stop a cycling colour at the instant it matches the target in a compact visual timing puzzle. Format: Progressive timing challenge. Typical round: About 2–5 minutes.
-- [Guess Hue](https://bludle.com/guesshue/): Play Guess Hue free: spot the one different colour in four seconds as each successful round makes the hue difference more subtle. Format: Endless four-second rounds. Typical round: Usually 1–5 minutes.
+- [Guess Hue](https://bludle.com/guesshue/): Test your colour vision by spotting the different colour in four seconds. Each correct answer makes the next hue difference harder to see. Format: Endless four-second rounds. Typical round: Usually 1–5 minutes.
 - [Tintuition](https://bludle.com/tintuition/): Match colours by eye using HSL controls, build combos and climb through increasingly exact ranks. Format: Ranked colour-matching run. Typical round: About 3–8 minutes.
 
 ### Logic games
 
 - [XY Marks the Spot](https://bludle.com/hunt/): Use coordinate, direction and distance clues to locate hidden treasure before your limited scans run out. Format: Guided demo then puzzle rounds. Typical round: About 3–6 minutes.
 - [Seequence](https://bludle.com/seequence/): Memorise a colour sequence, then reproduce the exact pattern after it disappears. Format: Progressive memory streak. Typical round: About 2–6 minutes.
-- [Dead Centre](https://bludle.com/deadcentre/): Memorise a target, wait for it to vanish, and click its exact centre across eight daily spatial-memory rounds. Format: Eight daily spatial rounds. Typical round: About 3–5 minutes.
+- [Dead Centre](https://bludle.com/deadcentre/): Take a free spatial memory test. Memorise a target, wait for it to disappear and place its centre across eight increasingly difficult rounds. Format: Eight daily spatial rounds. Typical round: About 3–5 minutes.
 
 ### Speed games
 
-- [Reaction](https://bludle.com/reaction/): Measure how quickly you respond to a visual change through short, repeatable browser reaction tests. Format: Repeatable reaction trials. Typical round: Under 2 minutes.
+- [Reaction](https://bludle.com/reaction/): Take a free online reaction time test, measure your response in milliseconds and compare each result with your personal reaction-speed history. Format: Repeatable reaction trials. Typical round: Under 2 minutes.
 - [Arc Shift](https://bludle.com/arcshift/): Time one tap as a runner crosses a shrinking target arc, then adapt as every successful hit reverses its direction and increases the speed. Format: Unlimited one-button arcade runs. Typical round: Usually 1–4 minutes.
 - [Alternate](https://bludle.com/alternate/): React to each colour switch and stretch a five-second time budget through a fast sequence of accurate responses. Format: Five-second reaction run. Typical round: Under 1 minute.
 - [Trak](https://bludle.com/trak/): Follow a moving signal after it disappears and stop it inside changing targets on lines, curves, circles and shaped tracks. Format: Progressive visual tracking levels. Typical round: About 2–6 minutes.
@@ -58,8 +58,6 @@
 - [No-download games](https://bludle.com/no-download-games/)
 - [Brain training games](https://bludle.com/brain-training-games/)
 - [Logic puzzle games](https://bludle.com/logic-puzzle-games/)
-- [Games like Wordle](https://bludle.com/games-like-wordle/)
-- [Games like Connections](https://bludle.com/games-like-connections/)
 
 ## Access
 

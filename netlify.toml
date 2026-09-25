@@ -50,6 +50,18 @@
   status = 301
   force = true
 
+[[redirects]]
+  from = "/games-like-wordle/*"
+  to = "/wordle-alternatives/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/games-like-connections/*"
+  to = "/connex/"
+  status = 301
+  force = true
+
 # Netlify's directory handling supplies trailing-slash redirects for game and guide folders.
 
 [[headers]]

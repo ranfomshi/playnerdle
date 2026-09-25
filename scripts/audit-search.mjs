@@ -79,6 +79,8 @@ const redirects = fs.readFileSync(path.join(root, 'netlify.toml'), 'utf8');
 if (!redirects.includes('from = "https://www.bludle.com/*"') || !redirects.includes('to = "https://bludle.com/:splat"')) errors.push('netlify.toml: missing www-to-apex redirect');
 if (redirects.includes('from = "https://bludle.com/*"')) errors.push('netlify.toml: apex host must not redirect to itself');
 if (!redirects.includes('from = "/colourmatch/*"') || !redirects.includes('to = "/colormatch/:splat"')) errors.push('netlify.toml: missing retired Colour Match route redirect');
+if (!redirects.includes('from = "/games-like-wordle/*"') || !redirects.includes('to = "/wordle-alternatives/"')) errors.push('netlify.toml: missing consolidated Wordle guide redirect');
+if (!redirects.includes('from = "/games-like-connections/*"') || !redirects.includes('to = "/connex/"')) errors.push('netlify.toml: missing consolidated Connections guide redirect');
 const flatRedirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
 for (const name of blogs) {
   const number = name.replace('.html', '');

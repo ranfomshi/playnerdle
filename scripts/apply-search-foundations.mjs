@@ -36,7 +36,7 @@ const gameResources = new Map([
   ['werdle', [['/blogs/10', 'daily word puzzle strategy'], ['/blogs/15', 'free Wordle analysis alternatives'], ['/wordle-alternatives/', 'original Wordle alternatives']]],
   ['bludle', [['/blogs/7', 'word games for colour lovers'], ['/blogs/8', 'why word puzzles are compelling'], ['/wordle-alternatives/', 'original Wordle alternatives']]],
   ['codle', [['/blogs/6', 'word pattern and elimination tips'], ['/brain-training-games/', 'brain-training games'], ['/logic-puzzle-games/', 'logic puzzle games']]],
-  ['connex', [['/brain-training-games/', 'brain-training games'], ['/games-like-connections/', 'games like Connections']]],
+  ['connex', [['/brain-training-games/', 'brain-training games'], ['/daily-word-games/', 'daily word games']]],
   ['chromalock', [['/colour-puzzle-games/', 'colour puzzle games'], ['/reaction-games/', 'quick reaction games']]],
   ['guesshue', [['/colour-puzzle-games/', 'colour puzzle games'], ['/reaction-games/', 'quick reaction games']]],
   ['tintuition', [['/colour-puzzle-games/', 'colour puzzle games'], ['/no-download-games/', 'no-download games']]],
