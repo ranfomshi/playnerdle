@@ -3,9 +3,6 @@
 
   const clientId = 'ca-pub-5140172230633441';
   const resultSummarySlot = '7551359942';
-  const slotByGame = new Map([
-    ['/werdle', '3900592841']
-  ]);
   const levelSummaryGames = new Set(['/tintuition', '/seequence']);
   const gamePaths = new Set([
     '/afterimage', '/alternate', '/bludle', '/borrowedletters', '/chromalock',
@@ -36,7 +33,7 @@
     <ins class="adsbygoogle"
       style="display:block"
       data-ad-client="${clientId}"
-      data-ad-slot="${slotByGame.get(currentPath) || resultSummarySlot}"
+      data-ad-slot="${resultSummarySlot}"
       data-ad-format="horizontal"
       data-full-width-responsive="true"></ins>
     <a class="pn-house-ad" href="https://keyzee.co.uk" target="_blank" rel="noopener noreferrer sponsored"

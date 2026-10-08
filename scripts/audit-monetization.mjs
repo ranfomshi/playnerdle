@@ -39,6 +39,10 @@ if (!manager.includes("const resultSummarySlot = '7551359942'")) {
   issues.push('globalNav/adManager.js: result-summary unit is missing');
 }
 
+if (manager.includes("['/werdle', '3900592841']") || manager.includes('slotByGame.get(currentPath)')) {
+  issues.push('globalNav/adManager.js: Werdle result summaries still reuse the low-viewability guide unit');
+}
+
 for (const game of games) {
   if (!manager.includes(`'/${game.slug}'`)) {
     issues.push(`globalNav/adManager.js: /${game.slug}/ is not covered`);
