@@ -43,7 +43,7 @@ export const games = [
   },
   {
     slug: 'glyph', name: 'Glyph', category: 'Word', image: '/images/werdle.png',
-    description: 'Identify daily words from their typographic silhouettes before the individual letters are revealed.',
+    description: 'Guess five daily words from their typographic silhouettes. Use the shape of lowercase letters and optional clues before the answers are revealed.',
     format: 'Five daily silhouette puzzles', round: 'About 3–6 minutes',
     how: 'Inspect the outline made by ascenders, descenders and letter widths. Enter a word that fits the silhouette, or reveal an optional clue when shape alone is not enough.',
     why: 'Glyph makes the normally invisible shape of written language into the clue, producing a word game that feels distinct from letter-colour deduction.',
