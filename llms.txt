@@ -7,7 +7,7 @@
 - Editorial policy: https://bludle.com/editorial-policy/
 - Journal: https://bludle.com/blogs/
 - Sitemap: https://bludle.com/sitemap.xml
-- Last updated: 2026-09-25
+- Last updated: 2026-10-12
 
 ## Games
 
@@ -21,6 +21,7 @@
 - [Glyph](https://bludle.com/glyph/): Identify daily words from their typographic silhouettes before the individual letters are revealed. Format: Five daily silhouette puzzles. Typical round: About 3–6 minutes.
 - [Borrowed Letters](https://bludle.com/borrowedletters/): Repair five clue answers whose misplaced letters have been passed around a circular chain. Format: Daily circular word puzzle. Typical round: About 5–8 minutes.
 - [Word Bridge](https://bludle.com/wordbridge/): Play a free daily linking word game. Find the one middle word that completes two familiar compound words or phrases in three attempts. Format: One daily linking-word puzzle. Typical round: About 1–3 minutes.
+- [Rulebreaker](https://bludle.com/rulebreaker/): Play a free daily cipher game. Build, tune and reorder live transformation rules until an encrypted phrase becomes readable. Format: One daily cipher plus guided training. Typical round: About 3–8 minutes.
 
 ### Colour games
 

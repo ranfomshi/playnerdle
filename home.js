@@ -56,6 +56,7 @@ const tileHandlers = {
   glyph: () => trackClick('glyph'),
   borrowedLetters: () => trackClick('borrowedletters'),
   wordBridge: () => trackClick('wordbridge'),
+  rulebreaker: () => trackClick('rulebreaker'),
   reaction: () => trackClick('reaction'),
   shiftyFades: () => trackClick('shiftyfades'),
   colourMatch: () => trackClick('colourmatch'),

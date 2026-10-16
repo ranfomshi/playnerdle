@@ -8,7 +8,7 @@
     '/afterimage', '/alternate', '/bludle', '/borrowedletters', '/chromalock',
     '/codle', '/colormatch', '/connex', '/deadcentre', '/glyph', '/guesshue',
     '/heardle', '/hunt', '/reaction', '/arcshift', '/seequence', '/shiftyfades', '/tintuition',
-    '/secondsight', '/trak', '/werdle', '/wordbridge', '/wordmash'
+    '/secondsight', '/trak', '/werdle', '/wordbridge', '/rulebreaker', '/wordmash'
   ]);
 
   const currentPath = window.location.pathname

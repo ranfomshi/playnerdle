@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4efe5">
+  <title>Rulebreaker | Daily Live Cipher Game | Bludle</title>
+  <meta name="description" content="Play Rulebreaker free. Build, tune and reorder live cipher rules until an encrypted daily phrase resolves into readable language.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://bludle.com/rulebreaker/">
+  <meta property="og:site_name" content="Bludle">
+  <meta property="og:title" content="Rulebreaker | Daily Live Cipher Game | Bludle">
+  <meta property="og:description" content="Build a machine of live cipher rules and make today's encrypted transmission speak.">
+  <meta property="og:url" content="https://bludle.com/rulebreaker/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://bludle.com/images/social/rulebreaker.png">
+  <meta property="og:image:alt" content="Rulebreaker daily cipher game on Bludle">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rulebreaker | Daily Live Cipher Game | Bludle">
+  <meta name="twitter:description" content="Build a live cipher machine and decode today's phrase.">
+  <meta name="twitter:image" content="https://bludle.com/images/social/rulebreaker.png">
+  <script type="application/ld+json" data-bludle-schema>{"@context":"https://schema.org","@type":["WebApplication","VideoGame"],"@id":"https://bludle.com/rulebreaker/#game","name":"Rulebreaker","url":"https://bludle.com/rulebreaker/","description":"Build, tune and reorder live cipher rules to decode a daily phrase.","image":"https://bludle.com/images/social/rulebreaker.png","inLanguage":"en-GB","genre":["Word game","Cipher game","Logic puzzle"],"applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript and a modern web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"GBP","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://bludle.com/#organization"},"isPartOf":{"@id":"https://bludle.com/#website"}}</script>
+  <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="stylesheet" href="/globalNav/bludleDesignSystem.css">
+  <link rel="stylesheet" href="/globalNav/discovery.css">
+  <link rel="stylesheet" href="rulebreaker.css">
+</head>
+<body data-game="rulebreaker">
+  <div id="navbar-container"></div>
+
+  <main id="main-content">
+    <section class="intro" aria-labelledby="game-title">
+      <div>
+        <p class="kicker">Daily transmission <span id="puzzle-number">01</span></p>
+        <h1 id="game-title">Make the machine <em>say something.</em></h1>
+      </div>
+      <div class="intro-side"><p class="intro-copy">Build a chain of rules. Every change runs instantly, so watch the noise resolve into language.</p><button id="help-button" class="round-button" type="button">How to play</button></div>
+    </section>
+
+    <section class="workbench" aria-label="Cipher workbench">
+      <div class="signal-panel">
+        <div class="panel-heading">
+          <span>Incoming transmission</span>
+          <span class="status-light"><i></i> encrypted</span>
+        </div>
+        <p id="ciphertext" class="ciphertext" aria-label="Encrypted message"></p>
+
+        <div class="machine-flow" aria-hidden="true">
+          <span>INPUT</span><b></b><span id="module-count-label">NO MODULES</span><b></b><span>OUTPUT</span>
+        </div>
+
+        <div class="output-card" aria-live="polite">
+          <div class="panel-heading">
+            <span>Live output</span>
+            <span class="signal-status"><small>Signal clarity</small><b id="signal-label" class="signal-label">Static</b></span>
+          </div>
+          <p id="output" class="output"></p>
+          <div class="signal-meter"><span id="signal-meter-fill"></span></div>
+          <div class="signal-scale"><span>Static</span><span>Words emerging</span><span>Clear</span></div>
+        </div>
+
+        <div id="feedback" class="feedback">Start by adding a rule to the machine.</div>
+        <button id="lock-button" class="primary-button" type="button">
+          <span>Lock this decode</span><span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <div class="controls-panel">
+        <div class="mission-brief">
+          <div><span>Machine brief</span><strong id="mission-brief">Loading transmission…</strong></div>
+          <button id="hint-button" type="button">Reveal a hint <span>0/3</span></button>
+          <p id="hint-text" aria-live="polite">Hints become more specific each time.</p>
+        </div>
+        <div class="section-heading">
+          <div><span class="step">01</span><h2>Choose modules</h2></div>
+          <p>Some are decoys.</p>
+        </div>
+        <div id="rule-palette" class="rule-palette"></div>
+
+        <div class="section-heading pipeline-heading">
+          <div><span class="step">02</span><h2>Build the chain</h2></div>
+          <button id="clear-button" class="text-button" type="button">Clear all</button>
+        </div>
+        <div id="pipeline" class="pipeline" aria-live="polite"></div>
+        <p class="pipeline-note">Rules run from top to bottom. Order can change everything.</p>
+      </div>
+    </section>
+
+    <section class="lab-notes strategy-guide" aria-labelledby="notes-title">
+      <p class="kicker">Decoder's notebook</p>
+      <h2 id="notes-title">How to find your first foothold.</h2>
+      <div class="notes-grid">
+        <article><span>01</span><h3>Question the spaces</h3><p>Word lengths survive most rules, so A, I, THE and AND are useful anchors. If none fit, test whether the breaks themselves have moved.</p></article>
+        <article><span>02</span><h3>Fix shape before letters</h3><p>If letters look scrambled inside otherwise believable word lengths, try reversals, rotations or neighbour swaps before alphabet shifts.</p></article>
+        <article><span>03</span><h3>Change one thing</h3><p>Add or tune one module at a time. The live output tells you whether that single decision revealed more language.</p></article>
+        <article><span>04</span><h3>Follow repeated patterns</h3><p>Repeated ciphertext shapes usually remain related. If the same cluster appears twice, expect the decoded fragment to repeat too.</p></article>
+        <article><span>05</span><h3>Reorder promising rules</h3><p>A useful rule in the wrong position can produce noise. Move it earlier or later before discarding it.</p></article>
+        <article><span>06</span><h3>Read the signal relatively</h3><p>The meter is most useful as a compass: keep changes that strengthen it, but trust recognisable language over tiny score movements.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="help-dialog" class="dialog">
+    <button class="dialog-close" type="button" aria-label="Close">×</button>
+    <p class="kicker">Field manual</p>
+    <h2>How to intercept a message</h2>
+    <ol>
+      <li><span>1</span><div><strong>Add rule modules</strong><p>The output updates the instant a module enters the chain.</p></div></li>
+      <li><span>2</span><div><strong>Tune and reorder</strong><p>Adjust numerical rules and move modules until words begin to emerge.</p></div></li>
+      <li><span>3</span><div><strong>Lock your decode</strong><p>Submit only when you believe the complete transmission is readable.</p></div></li>
+    </ol>
+    <div class="tutorial-example" aria-label="Cipher example">
+      <span>KHOOR</span><b>SHIFT −3</b><span>HELLO</span>
+    </div>
+    <p class="tutorial-note">The first transmission starts with the correct module fitted. You only need to tune its value and watch the output.</p>
+    <button class="primary-button dialog-action" type="button">Open the workbench</button>
+  </dialog>
+
+  <dialog id="result-dialog" class="dialog result-dialog">
+    <div class="result-stamp">DECODED</div>
+    <p class="kicker">Transmission restored</p>
+    <h2 id="result-message"></h2>
+    <div class="result-stats">
+      <div><strong id="result-edits">0</strong><span>Rule edits</span></div>
+      <div><strong id="result-attempts">0</strong><span>Locks tried</span></div>
+      <div><strong id="result-grade">A</strong><span>Grade</span></div>
+    </div>
+    <button id="share-button" class="primary-button" type="button"><span>Share result</span><span>↗</span></button>
+    <button class="secondary-button result-close" type="button">Keep experimenting</button>
+  </dialog>
+
+  <section class="bludle-discovery game-guide" aria-labelledby="about-rulebreaker">
+    <div class="discovery-heading">
+      <p class="discovery-kicker">About the game</p>
+      <h2 id="about-rulebreaker">How to play Rulebreaker</h2>
+      <p>Reverse an encrypted phrase by assembling the exact sequence of transformations that created it.</p>
+    </div>
+    <dl class="game-facts">
+      <div><dt>Format</dt><dd>One daily cipher plus guided training</dd></div>
+      <div><dt>Typical round</dt><dd>About 3–8 minutes</dd></div>
+      <div><dt>Daily phrases</dt><dd>More than two years without repetition</dd></div>
+    </dl>
+    <div class="discovery-copy">
+      <div><h3>The rules</h3><p>Add transformations to the machine, tune their options and reorder the chain. The output changes instantly; lock the decode once the complete phrase is readable.</p></div>
+      <div><h3>What makes it different</h3><p>You are not typing the answer. You are reconstructing the machinery that reveals it, learning each cipher through direct experimentation.</p></div>
+    </div>
+    <nav class="related-games" aria-label="Games related to Rulebreaker">
+      <span>Try next</span><a href="/wordbridge/">Word Bridge</a><a href="/codle/">Codle</a><a href="/borrowedletters/">Borrowed Letters</a>
+    </nav>
+  </section>
+  <script src="phrases.js"></script>
+  <script src="rulebreaker.js"></script>
+  <script type="module" src="/globalNav/globalNav.js"></script>
+</body>
+</html>
