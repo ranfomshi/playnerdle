@@ -137,6 +137,8 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     { name: 'Word Mash', href: '/wordmash/', category: 'Word' },
     { name: 'Glyph', href: '/glyph/', category: 'Word' },
     { name: 'Borrowed Letters', href: '/borrowedletters/', category: 'Word' },
+    { name: 'Word Bridge', href: '/wordbridge/', category: 'Word' },
+    { name: 'Rulebreaker', href: '/rulebreaker/', category: 'Word' },
     { name: 'Shifty Fades', href: '/shiftyfades/', category: 'Colour' },
     { name: 'Colour Match', href: '/colormatch/', category: 'Colour' },
     { name: 'Afterimage', href: '/afterimage/', category: 'Colour' },

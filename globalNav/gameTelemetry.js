@@ -6,7 +6,7 @@
   const SCHEMA_VERSION = 3;
   const formats = {
     werdle: 'hybrid', bludle: 'session', codle: 'daily', connex: 'session', wordmash: 'daily',
-    glyph: 'daily', borrowedletters: 'daily', shiftyfades: 'session', colormatch: 'session',
+    glyph: 'daily', borrowedletters: 'daily', wordbridge: 'daily', rulebreaker: 'daily', shiftyfades: 'session', colormatch: 'session',
     afterimage: 'daily', secondsight: 'daily', chromalock: 'session', guesshue: 'session', tintuition: 'session',
     hunt: 'session', seequence: 'session', deadcentre: 'daily', heardle: 'session',
     reaction: 'daily', arcshift: 'session', alternate: 'session', trak: 'session'
@@ -61,6 +61,11 @@
     }),
     borrowedletters: () => ({
       score: number('#final-score'), attempts_used: number('#passes-used'), hints_used: number('#hints-used')
+    }),
+    wordbridge: () => ({ attempts_used: count('#attempt-pips i.used') }),
+    rulebreaker: () => ({
+      attempts_used: number('#result-attempts'), hints_used: Number((text('#hint-button span').split('/')[0] || 0)),
+      score: number('#result-edits'), difficulty: mode('#mission-brief')
     }),
     shiftyfades: () => ({ level_reached: number('#finalLevel') ?? number('#level') }),
     colormatch: () => ({
