@@ -96,7 +96,7 @@ function render() {
   const left = MAX_ATTEMPTS - game.guesses.length;
   elements.attemptLabel.textContent = game.status === 'playing' ? `${left} ${left === 1 ? 'try' : 'tries'} left` : game.status === 'won' ? `Solved in ${game.guesses.length}` : 'Round complete';
   elements.resultActions.hidden = game.status === 'playing';
-  document.querySelector('#next-button').hidden = mode === 'daily';
+  document.querySelector('#next-button').textContent = mode === 'daily' ? 'Play practice' : 'Play another';
 }
 
 function renderBoard() {
@@ -190,7 +190,7 @@ function updateStats() {
 }
 
 function newPracticeGame() {
-  game = createGame('practice', true); elements.stats.close(); setMessage('A fresh word is ready'); render(); save();
+  mode = 'practice'; game = createGame(mode, true); elements.stats.close(); setMessage('A fresh word is ready'); render(); save();
 }
 
 function shareText() {

@@ -25,7 +25,7 @@ if (!mixpanel.includes('https://api-eu.mixpanel.com') || !mixpanel.includes('deb
   issues.push('mixpanel.js: privacy-conscious EU production configuration is missing');
 }
 
-for (const eventName of ['search_landing', 'game_start', 'game_complete', 'completed_game_summary_view', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete', 'result_home_click']) {
+for (const eventName of ['search_landing', 'game_start', 'game_complete', 'completed_game_summary_view', 'next_game_recommendation_view', 'next_game_click', 'next_game_start', 'next_game_complete', 'result_home_click', 'same_game_replay_click']) {
   if (!manager.includes(`'${eventName}'`)) issues.push(`globalNav/engagementManager.js: missing ${eventName} event`);
 }
 
@@ -91,6 +91,29 @@ if (!manager.includes('Progress stays on this device')) {
 
 if (!manager.includes('data-summary-home') || !manager.includes('&larr; All games')) {
   issues.push('globalNav/engagementManager.js: completed-game summaries have no subtle route home');
+}
+
+if (!manager.includes('replay-first') || !manager.includes('replayPending') || !manager.includes('is_same_game_replay: replayCount > 0')) {
+  issues.push('globalNav/engagementManager.js: same-game replay is not prioritised and measured');
+}
+
+const werdle = await readFile(path.join(root, 'werdle', 'index.html'), 'utf8');
+if (!werdle.includes('id="next-button" class="primary-button"') || !werdle.includes('Play practice')) {
+  issues.push('werdle/index.html: result summary does not offer a primary practice continuation');
+}
+const werdleScript = await readFile(path.join(root, 'werdle', 'app.js'), 'utf8');
+if (!werdleScript.includes("mode = 'practice'; game = createGame(mode, true)")) {
+  issues.push('werdle/app.js: the result action does not switch daily players into practice mode');
+}
+
+const replayEntries = manager.match(/const replayControls = Object\.freeze\(\{([\s\S]*?)\n  \}\);/)?.[1] || '';
+for (const [, slug, selectors] of replayEntries.matchAll(/^\s*(\w+): '([^']+)'/gm)) {
+  const html = await readFile(path.join(root, slug, 'index.html'), 'utf8');
+  for (const selector of selectors.split(', ')) {
+    if (!html.includes(`id="${selector.slice(1)}"`)) {
+      issues.push(`${slug}/index.html: replay control ${selector} is missing`);
+    }
+  }
 }
 
 if (!manager.includes("landing_channel: landing.landing_channel")) {
