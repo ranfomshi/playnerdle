@@ -10,6 +10,7 @@ body {
 }
 
 .home-hero,
+.home-continuation,
 .home-picks,
 .game-discovery,
 .home-ad-unit,
@@ -71,6 +72,42 @@ body {
   font-size: var(--text-sm);
   font-weight: 500;
 }
+
+.home-continuation {
+  display: grid;
+  grid-template-columns: minmax(180px, .7fr) minmax(0, 1.3fr);
+  gap: var(--space-6);
+  align-items: center;
+  margin-bottom: var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  background: var(--slate-0);
+}
+
+.home-continuation[hidden] { display: none; }
+.home-continuation-heading .section-kicker { margin-bottom: var(--space-2); }
+.home-continuation-heading h2 { margin: 0; color: var(--slate-900); font-size: var(--text-xl); line-height: 1.15; }
+.home-continuation-heading > p:last-child { margin: var(--space-2) 0 0; color: var(--slate-500); font-size: var(--text-sm); }
+.home-continuation-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.home-continuation-link {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+  color: var(--slate-700);
+  text-decoration: none;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.home-continuation-link:hover { border-color: var(--cobalt-300); background: var(--slate-50); }
+.home-continuation-link:focus-visible { outline: 3px solid var(--cobalt-300); outline-offset: 2px; }
+.home-continuation-link-label { color: var(--cobalt-700); font-size: var(--text-sm); font-weight: 600; }
+.home-continuation-link strong { padding-right: var(--space-4); color: var(--slate-900); font-size: var(--text-base); }
+.home-continuation-link small { color: var(--slate-500); font-size: var(--text-sm); }
+.home-continuation-arrow { position: absolute; top: 50%; right: var(--space-4); transform: translateY(-50%); color: var(--cobalt-700); }
 
 .home-picks {
   display: grid;
@@ -358,8 +395,10 @@ html[data-home-experiment="treatment"] .hero-chips {
   .home-house-ad { grid-template-columns: 1fr auto; gap: var(--space-2) var(--space-4); }
   .home-house-ad__brand { grid-column: 1 / -1; }
   .home-house-ad__copy small { font-size: .75rem; }
-  .home-hero, .home-picks, .game-discovery, .home-ad-unit, .content, .filter-empty, .seo-content { width: min(calc(100% - 32px), var(--content-max)); }
+  .home-hero, .home-continuation, .home-picks, .game-discovery, .home-ad-unit, .content, .filter-empty, .seo-content { width: min(calc(100% - 32px), var(--content-max)); }
   .home-hero { display: block; padding-block: 40px 32px; }
+  .home-continuation { grid-template-columns: 1fr; gap: var(--space-4); }
+  .home-continuation-links { grid-template-columns: 1fr; }
   .home-picks { grid-template-columns: 1fr; gap: var(--space-4); }
   .home-picks-list { grid-template-columns: 1fr; gap: var(--space-1); }
   .home-hero h1 { font-size: clamp(2.5rem, 13vw, 3.75rem); }
