@@ -15,8 +15,9 @@
   <meta name="twitter:site" content="@bludle">
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="/globalNav/globalNav.css">
+  <link rel="modulepreload" href="homeContinuity.js">
   <script type="module" src="/globalNav/globalNav.js" defer=""></script>
-  <script src="home.js?v=motion-1" defer=""></script>
+  <script type="module" src="home.js?v=continue-1"></script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -239,6 +240,15 @@
       <img class="werdle-anchor-art" src="/images/game-screens/werdle.png" alt="Werdle gameplay showing a five-letter guess" width="1265" height="712" decoding="async" fetchpriority="high">
     </aside>
   </header>
+
+  <section class="home-continuation" id="home-continuation" aria-labelledby="home-continuation-title" hidden>
+    <div class="home-continuation-heading">
+      <p class="section-kicker">Your games</p>
+      <h2 id="home-continuation-title">Pick up your puzzle</h2>
+      <p>Progress stays on this device.</p>
+    </div>
+    <div class="home-continuation-links" id="home-continuation-links"></div>
+  </section>
 
   <section class="home-picks" aria-labelledby="home-picks-title">
     <div class="home-picks-heading">

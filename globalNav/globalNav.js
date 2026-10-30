@@ -38,6 +38,7 @@ import { resolveAnalyticsPolicy } from './analyticsPolicy.js';
     script.src = '/mixpanel.js';
     script.async = false;
     script.dataset.bludleProductAnalytics = '';
+    script.addEventListener('load', () => window.dispatchEvent(new Event('bludle:product-analytics-ready')));
     document.head.append(script);
   }
 

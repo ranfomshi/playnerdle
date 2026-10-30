@@ -1,3 +1,5 @@
+import { getHomeContinuity } from './homeContinuity.js';
+
 function sendEvent(eventName, params) {
   if (typeof window.gtag === 'function') {
     window.gtag('event', eventName, params);
@@ -33,6 +35,96 @@ function trackClick(gameName, placement = 'game_grid') {
     placement,
     experiment_variant: document.documentElement.dataset.homeExperiment || 'unassigned',
   });
+}
+
+function setupHomeContinuity() {
+  const section = document.getElementById('home-continuation');
+  const links = document.getElementById('home-continuation-links');
+  if (!section || !links) return;
+
+  let picks;
+  try { picks = getHomeContinuity(window.localStorage); } catch { return; }
+  if (!picks) return;
+
+  let returningVisitTracked = false;
+  const trackReturningVisit = () => {
+    if (returningVisitTracked || window.__bludleAnalyticsDisabled ||
+        window.__bludleAnalyticsConsent !== true || !window.mixpanel?.track) return;
+    returningVisitTracked = true;
+    window.removeEventListener('bludle:analytics-consent', trackReturningVisit);
+    window.removeEventListener('bludle:product-analytics-ready', trackReturningVisit);
+    sendEvent('home_returning_visit', {
+      source_page: 'home', game_count: picks.length,
+      has_saved_attempt: picks.some(pick => pick.kind === 'resume'),
+    });
+  };
+  window.addEventListener('bludle:analytics-consent', trackReturningVisit);
+  window.addEventListener('bludle:product-analytics-ready', trackReturningVisit);
+  trackReturningVisit();
+  if (!picks.length) return;
+
+  document.getElementById('home-continuation-title').textContent =
+    picks.some(pick => pick.kind === 'resume') ? 'Pick up your puzzle' :
+      picks.length === 1 ? 'A game for today' : 'Today’s unplayed games';
+  picks.forEach((pick, position) => {
+    const link = document.createElement('a');
+    link.href = `/${pick.slug}/`;
+    link.className = 'home-continuation-link';
+    const label = document.createElement('span');
+    label.className = 'home-continuation-link-label';
+    label.textContent = pick.kind === 'resume' ? 'Continue' : 'Play today';
+    const name = document.createElement('strong');
+    name.textContent = pick.name;
+    const detail = document.createElement('small');
+    detail.textContent = pick.detail;
+    const arrow = document.createElement('span');
+    arrow.className = 'home-continuation-arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+    arrow.textContent = '→';
+    link.append(label, name, detail, arrow);
+    link.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('bludle:home-continuation:v1', JSON.stringify({
+          slug: pick.slug, kind: pick.kind, at: Date.now(),
+        }));
+      } catch { /* Storage is optional. */ }
+      trackClick(pick.slug, 'home_continuation');
+      sendEvent('home_continuation_click', {
+        game_name: pick.slug, continuation_type: pick.kind, position: position + 1,
+        attempts_saved: pick.attemptsSaved, source_page: 'home',
+      });
+    });
+    links.append(link);
+  });
+  section.hidden = false;
+
+  let visible = false;
+  let viewTracked = false;
+  const trackView = () => {
+    if (!visible || viewTracked || window.__bludleAnalyticsDisabled ||
+        window.__bludleAnalyticsConsent !== true || !window.mixpanel?.track) return;
+    viewTracked = true;
+    window.removeEventListener('bludle:analytics-consent', trackView);
+    window.removeEventListener('bludle:product-analytics-ready', trackView);
+    sendEvent('home_continuation_view', {
+      source_page: 'home', game_count: picks.length,
+      has_saved_attempt: picks.some(pick => pick.kind === 'resume'),
+    });
+  };
+  window.addEventListener('bludle:analytics-consent', trackView);
+  window.addEventListener('bludle:product-analytics-ready', trackView);
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.5)) return;
+      observer.disconnect();
+      visible = true;
+      trackView();
+    }, { threshold: 0.5 });
+    observer.observe(section);
+  } else {
+    visible = true;
+    trackView();
+  }
 }
 
 async function applyHomepageExperiment() {
@@ -170,6 +262,10 @@ function setupGameFiltering() {
   ['pointerenter', 'focusin', 'touchstart'].forEach(eventName => discovery?.addEventListener(eventName, warmMotion, { once: true, passive: true }));
   window.addEventListener('bludle:motion-ready', () => { if (motionIntent) warmMotion(); }, { once: true });
 }
+
+// Module scripts execute after parsing; reveal the rail before DOMContentLoaded
+// to avoid moving the game grid after the first paint.
+setupHomeContinuity();
 
 window.addEventListener('DOMContentLoaded', () => {
   trackSessionStart();

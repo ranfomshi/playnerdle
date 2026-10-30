@@ -9,6 +9,8 @@
   const LANDING_KEY = 'bludle:landing-context:v1';
   const PENDING_KEY = 'bludle:next-game:v1';
   const SESSION_COUNT_KEY = 'bludle:session-game-count:v1';
+  const LAST_GAME_START_KEY = 'bludle:last-game-start:v1';
+  const HOME_CONTINUATION_KEY = 'bludle:home-continuation:v1';
   const ALLOWED_GAME_EVENTS = new Set([
     'werdle_first_guess', 'second_sight_answer', 'afterimage_memory_reconstruction',
     'arc_shift_attempt', 'arc_shift_run_complete', 'guess_hue_round'
@@ -290,9 +292,14 @@
     started = true;
     runNumberOnPage += 1;
     startedAt = performance.now();
+    write(localStorage, LAST_GAME_START_KEY, { slug: currentGame.slug, at: Date.now() });
     window.BludleMotion?.load();
     const sessionGameNumber = Number(sessionStorage.getItem(SESSION_COUNT_KEY) || 0) + 1;
     try { sessionStorage.setItem(SESSION_COUNT_KEY, String(sessionGameNumber)); } catch { /* Ignore. */ }
+    const homeContinuation = read(sessionStorage, HOME_CONTINUATION_KEY, null);
+    const fromHomeContinuation = homeContinuation?.slug === currentGame.slug &&
+      Date.now() - homeContinuation.at < 30 * 60 * 1000;
+    remove(sessionStorage, HOME_CONTINUATION_KEY);
     track('game_start', {
       game_name: currentGame.slug,
       game_category: currentGame.category.toLowerCase(),
@@ -305,6 +312,7 @@
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine,
       is_next_game: Boolean(pendingNext),
+      home_continuation_type: fromHomeContinuation ? homeContinuation.kind : undefined,
       previous_game: pendingNext?.from
     });
     if (pendingNext) track('next_game_start', { from_game: pendingNext.from, to_game: currentGame.slug, recommendation_id: pendingNext.recommendationId });
