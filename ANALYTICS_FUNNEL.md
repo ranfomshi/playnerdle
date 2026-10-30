@@ -5,14 +5,16 @@ The shared engagement manager in `globalNav/engagementManager.js` emits the same
 ## Funnel events
 
 1. `search_landing` — the first page in a session arrived from a recognised organic search engine.
-2. `game_start` — the first meaningful interaction with a game.
-3. `game_complete` — the game reached its genuine result or run-complete state.
+2. `game_start` — the first meaningful interaction with a game, or the start of another run on the same page.
+3. `game_complete` — the game reached its genuine result or run-complete state; replayed runs produce another completion.
 4. `next_game_recommendation_view` — the single post-result recommendation was shown.
 5. `next_game_click` — the player selected that recommendation.
 6. `next_game_start` — the recommended game was opened and started.
 7. `next_game_complete` — the recommended game was completed.
 
 `game_page_view` and `next_game_arrival` provide useful diagnostics but are not required funnel steps.
+
+`same_game_replay_click` records use of a result-screen replay control. `game_start` and `game_complete` include `is_same_game_replay` and `run_number_on_page`; a replay click is not a completed run. Compare total starts and completions per session, same-game replays, next-game starts and return visits together. A lower next-game click rate alone is not evidence of worse retention when players continue in the current game.
 
 ## Useful parameters
 
@@ -24,6 +26,7 @@ The shared engagement manager in `globalNav/engagementManager.js` emits the same
 | `landing_channel` | Organic search, referral or direct |
 | `search_engine` | Recognised organic search engine |
 | `session_game_number` | Number of games started in the session |
+| `is_same_game_replay` / `run_number_on_page` | Distinguishes repeat runs from the first run on a page |
 | `time_to_complete_seconds` | Time from first interaction to result |
 | `completed_today_count` | Distinct games completed locally today |
 | `play_streak_days` | Consecutive local dates with a completion |

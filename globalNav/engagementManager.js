@@ -101,6 +101,24 @@
     trak: { slug: 'hunt', id: 'focus_to_coordinates', reason: 'You tracked a moving target. Now narrow down a hidden point from coordinate clues.' },
     heardle: { slug: 'werdle', id: 'sound_to_word', reason: 'Move from recognising a sound to solving the flagship daily word.' }
   };
+  // Only controls that start a fresh run of the same game belong here. Daily-only
+  // result screens keep the next-game recommendation as their main continuation.
+  const replayControls = Object.freeze({
+    werdle: '#next-button',
+    bludle: '#playAgain',
+    codle: '#next-button',
+    connex: '#connex-restart',
+    shiftyfades: '#playAgain, #playAgainWin',
+    chromalock: '#restart-button',
+    guesshue: '#restart-button',
+    tintuition: '#restart-button',
+    hunt: '#again-button, #change-button',
+    seequence: '#restart-button',
+    heardle: '#playAgainBtn',
+    arcshift: '#replay-button',
+    alternate: '#retry-button',
+    trak: '#restart-button'
+  });
   const normalizePath = path => (path || '/').toLowerCase().replace(/\/index\.html$/, '').replace(/^\/+|\/+$/g, '');
   const currentSlug = normalizePath(window.location.pathname).split('/')[0];
   const currentGame = gameBySlug.get(currentSlug);
@@ -235,6 +253,11 @@
 
   let started = false;
   let completed = false;
+  let replayPending = false;
+  let replayStartsOnClose = true;
+  let replayCount = 0;
+  let runNumberOnPage = 0;
+  let lastCompletionSurface = null;
   let startedAt = 0;
   let pendingNext = read(sessionStorage, PENDING_KEY, null);
 
@@ -265,6 +288,7 @@
   function startGame(trigger = 'interaction') {
     if (started) return;
     started = true;
+    runNumberOnPage += 1;
     startedAt = performance.now();
     window.BludleMotion?.load();
     const sessionGameNumber = Number(sessionStorage.getItem(SESSION_COUNT_KEY) || 0) + 1;
@@ -275,6 +299,8 @@
       ...(window.BludleGameTelemetry?.context(currentGame.slug) || {}),
       start_trigger: trigger,
       session_game_number: sessionGameNumber,
+      run_number_on_page: runNumberOnPage,
+      is_same_game_replay: replayCount > 0,
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine,
@@ -287,6 +313,7 @@
 
   function isMeaningfulInteraction(target) {
     if (!(target instanceof Element)) return false;
+    if (replayControls[currentGame.slug] && target.closest(replayControls[currentGame.slug])) return false;
     if (target.closest('#navbar-container, .bludle-discovery, .related-games, .related-card, .ad-card, .ad-stack, [class*="advert"], [id*="help" i], [id*="stats" i]')) return false;
     const control = target.closest('button, input, select, textarea, canvas, [role="button"], [data-key], .cell, .tile');
     if (!control || control.closest('a[href]')) return false;
@@ -303,7 +330,10 @@
   document.addEventListener('keydown', event => {
     if (event.ctrlKey || event.metaKey || event.altKey || event.key === 'Escape' || event.key === 'Tab') return;
     const target = event.target;
-    if (target instanceof Element && target.closest('#navbar-container, dialog[id*="help" i], dialog[id*="stats" i]')) return;
+    if (target instanceof Element && (
+      target.closest('#navbar-container, dialog[id*="help" i], dialog[id*="stats" i]') ||
+      (replayControls[currentGame.slug] && target.closest(replayControls[currentGame.slug]))
+    )) return;
     startGame('keyboard');
   }, true);
 
@@ -422,7 +452,19 @@
       @media(max-width:520px){.top{display:block}.progress{margin-top:12px;border:0;border-top:1px solid #dce1ec;padding:10px 0 0;text-align:left}.progress strong,.progress span{display:inline}.next{align-items:flex-end}.next:has(.preview){grid-template-columns:72px minmax(0,1fr)}.preview{width:72px;height:45px}.next:has(.preview) .action{display:none}.action{font-size:0}.action::after{content:'Go';font-size:13px}.foot{align-items:flex-start}.disclosure{max-width:22ch}}
       @media(prefers-reduced-motion:reduce){.next{transition:none}}
       ${treatmentStyles}
+      .card.replay-first{border-color:#e0e5ef;background:#f7f9fc;box-shadow:none}
+      .replay-first .top{padding:13px 16px 8px}.replay-first h2{font-size:16px}.replay-first .reason{margin-top:4px;font-size:12px}
+      .replay-first .progress,.replay-first .preview{display:none}
+      .replay-first .next{margin:0 16px 12px;padding:10px 12px;border:1px solid #cbd5e8;background:#fff;color:#1c3993;box-shadow:none}
+      .replay-first .next:hover{background:#eef3ff;transform:none}.replay-first .next strong{font-size:14px}.replay-first .next small{color:#53617f}
+      .replay-first .action{font-size:12px}.replay-first .action::after{content:none}.replay-first .foot{padding:9px 16px}
     `;
+  }
+
+  function replayControlFor(surface) {
+    const selector = replayControls[currentGame.slug];
+    const control = selector && surface?.querySelector?.(selector);
+    return control && !control.hidden && !control.disabled ? control : null;
   }
 
   async function postGameExperimentVariant() {
@@ -442,27 +484,34 @@
     if (document.getElementById('bludle-engagement-host')) return;
     const next = recommendation(progress.completed);
     if (!next) return;
+    const canReplay = Boolean(replayControlFor(surface));
     const host = document.createElement('div');
     host.id = 'bludle-engagement-host';
     const root = host.attachShadow({ mode: 'open' });
     const target = surface?.querySelector?.('.modal-content') || surface || document.querySelector('main') || document.body;
-    target.append(host);
+    const existingAd = target.querySelector?.('#bludle-result-ad');
+    if (existingAd) existingAd.before(host);
+    else target.append(host);
 
     const experimentVariant = await postGameExperimentVariant();
+    if (!host.isConnected || replayPending || (surface instanceof HTMLDialogElement && !surface.open)) {
+      host.remove();
+      return;
+    }
     const isTreatment = experimentVariant === 'treatment';
     const typicalMinutes = typicalMinutesByCategory[next.game.category] || 2;
     host.dataset.experimentVariant = experimentVariant;
 
-    const journey = isTreatment
+    const journey = isTreatment && !canReplay
       ? `<p class="journey"><span class="done">${currentGame.name} complete</span><span class="arrow" aria-hidden="true">&rarr;</span><span>${next.game.name} next</span></p>`
       : '';
-    const eyebrow = isTreatment ? 'One more?' : 'Your next game';
-    const title = isTreatment ? `${next.game.name} takes about ${typicalMinutes} minute${typicalMinutes === 1 ? '' : 's'}.` : `Keep the run going with ${next.game.name}.`;
-    const action = isTreatment ? 'Play now &rarr;' : 'Start next &rarr;';
-    const preview = isTreatment ? `<img class="preview" src="/images/game-screens/${next.game.slug}.png" alt="" width="1265" height="712" loading="lazy">` : '';
+    const eyebrow = canReplay ? 'Another challenge' : isTreatment ? 'One more?' : 'Your next game';
+    const title = canReplay ? `Try ${next.game.name} when you're ready.` : isTreatment ? `${next.game.name} takes about ${typicalMinutes} minute${typicalMinutes === 1 ? '' : 's'}.` : `Keep the run going with ${next.game.name}.`;
+    const action = canReplay ? 'Explore &rarr;' : isTreatment ? 'Play now &rarr;' : 'Start next &rarr;';
+    const preview = isTreatment && !canReplay ? `<img class="preview" src="/images/game-screens/${next.game.slug}.png" alt="" width="1265" height="712" loading="lazy">` : '';
     const detail = isTreatment ? `${next.game.category} &middot; No sign-up &middot; About ${typicalMinutes} min` : `${next.game.category} challenge`;
 
-    root.innerHTML = `<style>${cardStyles(experimentVariant)}</style><section class="card" aria-labelledby="bludle-next-title">
+    root.innerHTML = `<style>${cardStyles(canReplay ? 'replay-first' : experimentVariant)}</style><section class="card${canReplay ? ' replay-first' : ''}" aria-labelledby="bludle-next-title">
       <div class="top"><div>${journey}<p class="eyebrow">${eyebrow}</p><h2 id="bludle-next-title">${title}</h2><p class="reason">${next.reason}</p></div>
       <div class="progress"><strong>${progress.completed.length} played</strong><span> today &middot; ${streak} day streak</span></div></div>
       <a class="next" href="/${next.game.slug}/" data-slug="${next.game.slug}" data-recommendation-id="${next.id}">${preview}<span><strong>Play ${next.game.name}</strong><small>${detail}</small></span><span class="action">${action}</span></a>
@@ -473,6 +522,7 @@
       to_game: next.game.slug,
       recommendation_id: next.id,
       recommendation_strategy: next.strategy,
+      continuation_context: canReplay ? 'replay_available' : 'next_game_only',
       completed_today_count: progress.completed.length,
       experiment_variant: experimentVariant,
       estimated_minutes: typicalMinutes,
@@ -489,6 +539,7 @@
         recommendation_position: 1,
         recommendation_id: pending.recommendationId,
         recommendation_strategy: next.strategy,
+        continuation_context: canReplay ? 'replay_available' : 'next_game_only',
         completed_today_count: progress.completed.length,
         experiment_variant: experimentVariant,
         estimated_minutes: typicalMinutes,
@@ -520,6 +571,7 @@
     if (completed) return;
     if (!started) startGame(details.trigger || 'completion');
     completed = true;
+    lastCompletionSurface = surface;
     const { progress, streak } = recordCompletion(currentGame.slug);
     const durationSeconds = Math.max(1, Math.round((performance.now() - startedAt) / 1000));
     const properties = {
@@ -528,6 +580,8 @@
       ...(window.BludleGameTelemetry?.snapshot(currentGame.slug) || {}),
       outcome: details.outcome || inferOutcome(surface),
       time_to_complete_seconds: durationSeconds,
+      run_number_on_page: runNumberOnPage,
+      is_same_game_replay: replayCount > 0,
       completed_today_count: progress.completed.length,
       play_streak_days: streak,
       landing_page: landing.landing_page,
@@ -549,6 +603,7 @@
   function showRestoredSummary(surface) {
     if (completed) return;
     completed = true;
+    lastCompletionSurface = surface;
 
     const progress = progressForToday();
     if (!progress.completed.includes(currentGame.slug)) {
@@ -577,6 +632,19 @@
   let checkScheduled = false;
   function checkForCompletion() {
     checkScheduled = false;
+    if (replayPending) {
+      // Wait until the old result has actually closed. Otherwise a replay click
+      // could immediately count the previous result as a second completion.
+      if (!completionRules[currentGame.slug]?.()) {
+        replayPending = false;
+        completed = false;
+        started = false;
+        startedAt = 0;
+        lastCompletionSurface = null;
+        if (replayStartsOnClose) startGame('same_game_replay');
+      }
+      return;
+    }
     if (completed) return;
     const surface = (started ? completionRules : restoredSummaryRules)[currentGame.slug]?.();
     if (!surface) return;
@@ -585,7 +653,7 @@
   }
 
   function scheduleCompletionCheck() {
-    if (checkScheduled || completed) return;
+    if (checkScheduled || (completed && !replayPending)) return;
     checkScheduled = true;
     requestAnimationFrame(checkForCompletion);
   }
@@ -593,6 +661,25 @@
   const observer = new MutationObserver(scheduleCompletionCheck);
   observer.observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['open', 'hidden', 'style', 'class', 'disabled'] });
   scheduleCompletionCheck();
+
+  document.addEventListener('click', event => {
+    const selector = replayControls[currentGame.slug];
+    const control = selector && event.target.closest?.(selector);
+    if (!completed || replayPending || !control || !lastCompletionSurface?.contains(control)) return;
+    replayCount += 1;
+    replayStartsOnClose = control.id !== 'change-button';
+    track('same_game_replay_click', {
+      game_name: currentGame.slug,
+      replay_action: control.id === 'change-button' ? 'change_map' : 'play_again',
+      replay_count_on_page: replayCount,
+      completed_run_number_on_page: runNumberOnPage,
+      landing_page: landing.landing_page,
+      landing_channel: landing.landing_channel
+    });
+    replayPending = true;
+    document.getElementById('bludle-engagement-host')?.remove();
+    scheduleCompletionCheck();
+  });
 
   window.BludleEngagement = Object.freeze({
     start: details => startGame(details?.trigger || 'explicit'),
