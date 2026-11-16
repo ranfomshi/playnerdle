@@ -116,6 +116,10 @@ html body {
   line-height: 22px;
   -webkit-font-smoothing: antialiased;
 }
+/* Reserve the fixed 64px navigation and a 12px gap before the first paint.
+   The navigation script can still correct unusual layouts, but ordinary pages
+   must not gain their top padding after content has already appeared. */
+html body:has(> #navbar-container) { padding-top: calc(var(--global-nav-height, 64px) + 12px) !important; }
 html body::before, html body::after { filter: none; }
 html body :where(button, input, select, textarea) { font-family: "Inter", system-ui, sans-serif !important; }
 html body :where(code, pre, kbd, samp, .mono) { font-family: "JetBrains Mono", monospace !important; }
