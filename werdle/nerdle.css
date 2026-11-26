@@ -9,3 +9,11 @@
 @media(max-height:760px) and (max-width:560px){.game-card{padding-bottom:15px}.mode-switch{margin-bottom:11px}.mode-switch button{padding:7px}.mode-switch button small{display:none}.board{width:275px;margin:11px auto 8px;gap:5px}.board-row{gap:5px}.message{margin-bottom:8px}.key{height:39px}.keyboard{gap:4px}.game-footnote{margin-top:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .game-lede{max-width:620px;margin:12px 0 20px;color:var(--muted);font-size:.94rem;line-height:1.55}
+.shared-challenge{display:grid;gap:4px;margin:0 0 18px;padding:14px 16px;border:1px solid #bdcbed;border-radius:12px;background:#f2f5fc;color:#213663;text-align:left}
+.shared-challenge-label{color:#4763a2;font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.shared-challenge strong{font:700 .96rem/1.35 "Manrope",sans-serif}
+.shared-challenge span:last-child{font-size:.8rem;line-height:1.4}
+#stats-dialog .solve-story{margin:16px 0 0;padding:15px 16px;border:1px solid #d7dfef;border-radius:12px;background:#f5f7fc;color:#24375b}
+#stats-dialog .solve-story .eyebrow{color:#4763a2}
+#stats-dialog .solve-story p{margin:8px 0 0;font-size:.82rem;line-height:1.45}
+.shared-challenge[hidden],#stats-dialog .solve-story[hidden]{display:none}

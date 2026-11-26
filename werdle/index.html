@@ -50,6 +50,11 @@
         </div>
       </header>
       <p class="game-lede">Solve today’s five-letter word in five tries, then discover where the answer came from—or switch to unlimited practice.</p>
+      <aside id="shared-challenge" class="shared-challenge" aria-label="Shared Werdle challenge" hidden>
+        <span class="shared-challenge-label">A Werdle challenge</span>
+        <strong id="shared-challenge-title"></strong>
+        <span id="shared-challenge-detail"></span>
+      </aside>
 
       <div class="mode-switch" role="group" aria-label="Game mode">
         <button type="button" data-mode="daily" aria-pressed="true"><span>Daily</span><small>One shared word</small></button>
@@ -120,6 +125,11 @@
     <div class="stats-grid">
       <div><strong id="stat-played">0</strong><span>Played</span></div><div><strong id="stat-win-rate">0%</strong><span>Win rate</span></div><div><strong id="stat-streak">0</strong><span>Streak</span></div><div><strong id="stat-best">0</strong><span>Best</span></div>
     </div>
+    <section id="solve-story" class="solve-story" aria-label="Your route through this round" hidden>
+      <span class="eyebrow">THIS ROUND</span>
+      <p id="story-opening"></p>
+      <p id="story-progress"></p>
+    </section>
     <div id="result-actions" class="result-actions" hidden>
       <button id="next-button" class="primary-button" type="button">Play practice</button>
       <button id="share-button" class="secondary-button" type="button">Share result</button>

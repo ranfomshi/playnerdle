@@ -16,7 +16,7 @@
     'arc_shift_attempt', 'arc_shift_run_complete', 'guess_hue_round'
   ]);
   const GAME_EVENT_PROPERTIES = {
-    game_share: new Set(['game_mode', 'share_variant', 'share_method', 'outcome']),
+    game_share: new Set(['game_mode', 'share_variant', 'share_method', 'share_score', 'outcome']),
     werdle_first_guess: new Set([
       'first_guess', 'exact_letters', 'present_letters', 'absent_letters', 'vowel_count',
       'unique_letter_count', 'has_repeated_letter', 'game_mode'
@@ -171,6 +171,8 @@
     const shareVariant = currentGame?.slug === 'werdle' && source === 'player_share' &&
       medium === 'game_share' && campaign === 'werdle_result' &&
       (content === 'control' || content === 'challenge') ? content : undefined;
+    const score = query.get('challenge_score');
+    const sharedScore = shareVariant && (score === 'X' || /^[1-5]$/.test(score || '')) ? score : undefined;
     const existing = read(sessionStorage, LANDING_KEY, null);
     // A tagged shared link is a new arrival even when another Bludle page was
     // already open in this tab; ordinary navigation keeps its first landing.
@@ -192,6 +194,7 @@
       landing_channel: channel,
       search_engine: matchedEngine || undefined,
       share_variant: shareVariant,
+      share_score: sharedScore,
       landed_at: Date.now()
     };
     write(sessionStorage, LANDING_KEY, landing);
@@ -296,6 +299,7 @@
     landing_channel: landing.landing_channel,
     search_engine: landing.search_engine,
     share_variant: landing.share_variant,
+    share_score: landing.share_score,
     is_next_game: Boolean(pendingNext)
   });
 
@@ -324,6 +328,7 @@
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine,
       share_variant: landing.share_variant,
+      share_score: landing.share_score,
       is_next_game: Boolean(pendingNext),
       home_continuation_type: fromHomeContinuation ? homeContinuation.kind : undefined,
       previous_game: pendingNext?.from
@@ -609,6 +614,7 @@
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine,
       share_variant: landing.share_variant,
+      share_score: landing.share_score,
       is_next_game: Boolean(pendingNext),
       previous_game: pendingNext?.from
     };
