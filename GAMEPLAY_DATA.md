@@ -52,3 +52,9 @@ The event includes the round number, study and distraction durations, target hue
 9. Afterimage `perceptual_distance` and signed deltas by `round_number` to separate colour bias from the shorter study time and longer distraction.
 
 Use a minimum sample threshold before publishing findings. Do not report a puzzle/day segment with fewer than 25 completed plays, and prefer at least 100 for comparisons or press claims.
+
+## Shareable result stories
+
+Word Bridge, Afterimage and Second Sight build result cards from completed local game state. Word Bridge shows its two public prompt words, attempt path and score, but never the connecting answer. Afterimage shows the five per-round accuracy scores and strongest recall. Second Sight shows the correct/incorrect pattern plus raw correct/total counts for brightness, intensity and hue, rather than comparing a player to a population. These cards are summaries for players to share, not additional gameplay telemetry.
+
+Each card links to its canonical game page with `player_share` / `game_share` UTM tags. The URL contains no answer, raw colour, personal identifier or score. A recipient may visit on a later day, so the copy does not claim they will see the sender's puzzle. Tagged arrivals indicate a source, not a proven one-to-one conversion from a particular share action.
