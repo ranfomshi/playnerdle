@@ -12,10 +12,11 @@
   const LAST_GAME_START_KEY = 'bludle:last-game-start:v1';
   const HOME_CONTINUATION_KEY = 'bludle:home-continuation:v1';
   const ALLOWED_GAME_EVENTS = new Set([
-    'werdle_first_guess', 'second_sight_answer', 'afterimage_memory_reconstruction',
+    'werdle_first_guess', 'game_share', 'second_sight_answer', 'afterimage_memory_reconstruction',
     'arc_shift_attempt', 'arc_shift_run_complete', 'guess_hue_round'
   ]);
   const GAME_EVENT_PROPERTIES = {
+    game_share: new Set(['game_mode', 'share_variant', 'share_method', 'share_score', 'outcome']),
     werdle_first_guess: new Set([
       'first_guess', 'exact_letters', 'present_letters', 'absent_letters', 'vowel_count',
       'unique_letter_count', 'has_repeated_letter', 'game_mode'
@@ -162,12 +163,21 @@
   }
 
   function detectLanding() {
-    const existing = read(sessionStorage, LANDING_KEY, null);
-    if (existing) return existing;
-
     const query = new URLSearchParams(window.location.search);
     const source = (query.get('utm_source') || '').toLowerCase();
     const medium = (query.get('utm_medium') || '').toLowerCase();
+    const campaign = (query.get('utm_campaign') || '').toLowerCase();
+    const content = (query.get('utm_content') || '').toLowerCase();
+    const shareVariant = currentGame?.slug === 'werdle' && source === 'player_share' &&
+      medium === 'game_share' && campaign === 'werdle_result' &&
+      (content === 'control' || content === 'challenge') ? content : undefined;
+    const score = query.get('challenge_score');
+    const sharedScore = shareVariant && (score === 'X' || /^[1-5]$/.test(score || '')) ? score : undefined;
+    const existing = read(sessionStorage, LANDING_KEY, null);
+    // A tagged shared link is a new arrival even when another Bludle page was
+    // already open in this tab; ordinary navigation keeps its first landing.
+    if (existing && !shareVariant) return existing;
+
     let referrer = '';
     try { referrer = document.referrer ? new URL(document.referrer).hostname.toLowerCase() : ''; } catch { /* Ignore malformed referrers. */ }
 
@@ -176,11 +186,15 @@
       ['yahoo', /(^|\.)search\.yahoo\.com$/], ['ecosia', /(^|\.)ecosia\.org$/]
     ];
     const matchedEngine = engines.find(([name, pattern]) => pattern.test(referrer) || source === name || source.includes(name))?.[0];
-    const channel = matchedEngine || medium === 'organic' ? 'organic_search' : source || referrer ? 'referral' : 'direct';
+    const channel = shareVariant ? 'player_share'
+      : (matchedEngine || medium === 'organic') ? 'organic_search'
+        : (source || referrer) ? 'referral' : 'direct';
     const landing = {
       landing_page: window.location.pathname || '/',
       landing_channel: channel,
       search_engine: matchedEngine || undefined,
+      share_variant: shareVariant,
+      share_score: sharedScore,
       landed_at: Date.now()
     };
     write(sessionStorage, LANDING_KEY, landing);
@@ -284,6 +298,8 @@
     landing_page: landing.landing_page,
     landing_channel: landing.landing_channel,
     search_engine: landing.search_engine,
+    share_variant: landing.share_variant,
+    share_score: landing.share_score,
     is_next_game: Boolean(pendingNext)
   });
 
@@ -311,6 +327,8 @@
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine,
+      share_variant: landing.share_variant,
+      share_score: landing.share_score,
       is_next_game: Boolean(pendingNext),
       home_continuation_type: fromHomeContinuation ? homeContinuation.kind : undefined,
       previous_game: pendingNext?.from
@@ -595,6 +613,8 @@
       landing_page: landing.landing_page,
       landing_channel: landing.landing_channel,
       search_engine: landing.search_engine,
+      share_variant: landing.share_variant,
+      share_score: landing.share_score,
       is_next_game: Boolean(pendingNext),
       previous_game: pendingNext?.from
     };

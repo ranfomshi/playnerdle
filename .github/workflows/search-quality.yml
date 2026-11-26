@@ -30,6 +30,8 @@ jobs:
         run: node scripts/audit-game-telemetry.mjs
       - name: Validate Werdle opening-guess telemetry
         run: node scripts/audit-werdle-first-guess.mjs
+      - name: Validate Werdle result-share attribution
+        run: node scripts/audit-werdle-share.mjs
       - name: Validate Word Mash answer normalisation
         run: node scripts/audit-wordmash.mjs
       - name: Validate Shifty Fades gameplay presentation

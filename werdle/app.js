@@ -1,5 +1,6 @@
 import { WORDS } from './words.js';
 import { firstGuessProperties } from './firstGuessTelemetry.js';
+import { chooseShareVariant, readSharedChallenge, shareText, shareUrl, solveStory } from './shareResult.js';
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 5;
@@ -16,6 +17,8 @@ const elements = {
   help: document.querySelector('#help-dialog'),
   stats: document.querySelector('#stats-dialog'),
   resultActions: document.querySelector('#result-actions'),
+  sharedChallenge: document.querySelector('#shared-challenge'),
+  story: document.querySelector('#solve-story'),
   toast: document.querySelector('#toast'),
 };
 
@@ -46,7 +49,9 @@ const loadStore = () => {
 };
 
 const store = loadStore();
-let mode = localStorage.getItem('werdle:mode') || 'daily';
+const dailyShareVariant = chooseShareVariant();
+const sharedChallenge = readSharedChallenge(window.location.search, todayKey(), MAX_ATTEMPTS);
+let mode = sharedChallenge ? 'daily' : localStorage.getItem('werdle:mode') || 'daily';
 let game = createGame(mode);
 let locked = false;
 
@@ -96,7 +101,34 @@ function render() {
   const left = MAX_ATTEMPTS - game.guesses.length;
   elements.attemptLabel.textContent = game.status === 'playing' ? `${left} ${left === 1 ? 'try' : 'tries'} left` : game.status === 'won' ? `Solved in ${game.guesses.length}` : 'Round complete';
   elements.resultActions.hidden = game.status === 'playing';
+  const story = game.status === 'playing' ? null : solveStory(scoredGuesses(), game.status, MAX_ATTEMPTS);
+  elements.story.hidden = !story;
+  if (story) {
+    document.querySelector('#story-opening').textContent = story.opening;
+    document.querySelector('#story-progress').textContent = story.progress;
+  }
   document.querySelector('#next-button').textContent = mode === 'daily' ? 'Play practice' : 'Play another';
+}
+
+function scoredGuesses() {
+  return game.guesses.map(guess => scoreGuess(guess, game.secret));
+}
+
+function renderSharedChallenge() {
+  if (!sharedChallenge) return;
+  const title = document.querySelector('#shared-challenge-title');
+  const detail = document.querySelector('#shared-challenge-detail');
+  if (!sharedChallenge.current) {
+    title.textContent = 'That shared round has passed.';
+    detail.textContent = 'Today’s word is ready for a fresh attempt.';
+  } else if (sharedChallenge.score === null) {
+    title.textContent = 'A player ran out of tries on today’s word.';
+    detail.textContent = 'Can you find it in five?';
+  } else {
+    title.textContent = `A player solved today’s word in ${sharedChallenge.score} ${sharedChallenge.score === 1 ? 'try' : 'tries'}.`;
+    detail.textContent = sharedChallenge.score === 1 ? 'Can you match their first-try solve?' : 'Can you match or beat it?';
+  }
+  elements.sharedChallenge.hidden = false;
 }
 
 function renderBoard() {
@@ -193,16 +225,26 @@ function newPracticeGame() {
   mode = 'practice'; game = createGame(mode, true); elements.stats.close(); setMessage('A fresh word is ready'); render(); save();
 }
 
-function shareText() {
-  const rows = game.guesses.map((guess) => scoreGuess(guess, game.secret).map((status) => ({ exact: '🟩', present: '🟦', absent: '⬛' })[status]).join('')).join('\n');
-  return `Werdle ${game.mode === 'daily' ? todayKey() : 'Practice'} ${game.status === 'won' ? game.guesses.length : 'X'}/${MAX_ATTEMPTS}\n\n${rows}\n\nbludle.com/werdle`;
+function resultRows(scores) {
+  return scores.map(row => row.map(status => ({ exact: '🟩', present: '🟦', absent: '⬛' })[status]).join('')).join('\n');
 }
 
 async function share() {
-  const text = shareText();
+  const variant = game.mode === 'daily' ? dailyShareVariant : 'control';
+  const date = todayKey();
+  const scores = scoredGuesses();
+  const text = shareText({ mode: game.mode, date, status: game.status, guessCount: game.guesses.length, maxAttempts: MAX_ATTEMPTS, rows: resultRows(scores), variant, story: solveStory(scores, game.status, MAX_ATTEMPTS) });
+  const url = shareUrl(variant, { mode: game.mode, date, status: game.status, guessCount: game.guesses.length });
   try {
-    if (navigator.share) await navigator.share({ title: 'Werdle', text });
-    else { await navigator.clipboard.writeText(text); toast('Result copied'); }
+    const method = navigator.share ? 'native' : 'clipboard';
+    if (navigator.share) await navigator.share({ title: 'Werdle', text, url });
+    else { await navigator.clipboard.writeText(`${text}\n\n${url}`); toast('Result copied'); }
+    const properties = { game_mode: game.mode, share_variant: variant, share_method: method, share_score: game.status === 'won' ? String(game.guesses.length) : 'X', outcome: game.status };
+    if (window.BludleEngagement?.gameEvent) window.BludleEngagement.gameEvent('game_share', properties);
+    else {
+      window.__bludleGameplayEventQueue = window.__bludleGameplayEventQueue || [];
+      window.__bludleGameplayEventQueue.push({ eventName: 'game_share', properties });
+    }
   } catch (error) { if (error.name !== 'AbortError') toast('Could not share result'); }
 }
 
@@ -227,5 +269,5 @@ document.querySelector('#next-button').addEventListener('click', newPracticeGame
 document.querySelectorAll('.dialog-close,[data-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog').close()));
 document.querySelectorAll('dialog').forEach((dialog) => dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); }));
 
-updateStats(); render();
+updateStats(); render(); renderSharedChallenge();
 if (!localStorage.getItem('werdle:welcomed')) { localStorage.setItem('werdle:welcomed', '1'); elements.help.showModal(); }

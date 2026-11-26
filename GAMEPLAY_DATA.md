@@ -23,6 +23,12 @@ Werdle sends one `werdle_first_guess` event when a player submits the opening gu
 
 Later guesses and the puzzle answer are never sent. Restoring an in-progress daily round does not resend its first guess. This event supports reports about popular opening strategies and how the information gained on turn one relates to eventual completion, without collecting a player's full solution path.
 
+## Werdle result-share test
+
+Werdle randomly picks one of two result-share messages per page load: a score/grid plus an explanation of the player's opening clue and strongest later clue (`control`), or the same result with a short daily challenge (`challenge`). Practice results always use the control copy because the recipient may receive a different word. Neither variant reveals the answer. A daily shared link carries the date and a bounded result (`1`–`5` or `X`) so the landing page can offer a spoiler-free same-day challenge; older links say the shared round has passed. There is no player identifier or answer in the URL. All shared links carry `utm_source=player_share`, `utm_medium=game_share`, `utm_campaign=werdle_result`, and the bounded `utm_content` variant.
+
+A successful native share or clipboard copy emits `game_share` with `game_mode`, `share_variant`, `share_method`, `share_score` and `outcome`. A tagged Werdle arrival is recorded as `landing_channel=player_share`; its bounded `share_variant` and `share_score` are included on `game_page_view`, `game_start` and `game_complete`. A tagged arrival starts a new landing context even if the tab had an earlier Bludle visit. These events can compare tagged arrivals and starts by variant or shared result, but they cannot identify who received a share or prove that a given share action caused a visit. Do not interpret repeated shares as distinct sharers or claim a winner on a small sample.
+
 ## Afterimage colour-memory bias
 
 After every submitted Afterimage round, the Mixpanel-only `afterimage_memory_reconstruction` event records the displayed target and the player's reconstruction as bounded RGB values. It also converts both colours to OKLab, a perceptual colour space, and records lightness, chroma, hue and perceptual distance. Keeping this detailed research event in Mixpanel avoids exceeding GA4's smaller event-parameter allowance.
@@ -50,5 +56,6 @@ The event includes the round number, study and distraction durations, target hue
 7. Afterimage mean and median `memory_minus_target_lightness` and `memory_minus_target_chroma`; values consistently above or below zero indicate directional memory bias.
 8. Afterimage `memory_minus_target_hue_degrees` filtered to `hue_comparison_available = true`, broken down by `target_hue_band`.
 9. Afterimage `perceptual_distance` and signed deltas by `round_number` to separate colour bias from the shorter study time and longer distraction.
+10. Werdle `game_share` by `share_variant`, then `game_page_view` and `game_start` filtered to `landing_channel=player_share`, broken down by `share_variant`.
 
 Use a minimum sample threshold before publishing findings. Do not report a puzzle/day segment with fewer than 25 completed plays, and prefer at least 100 for comparisons or press claims.
