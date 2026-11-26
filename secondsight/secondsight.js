@@ -1,3 +1,5 @@
+import { resultShareUrl, secondSightShareCard } from '../globalNav/shareCards.js';
+
 const ROUND_COUNT = 10;
 const TODAY_KEY = 'secondSightToday';
 const HISTORY_KEY = 'secondSightHistory';
@@ -340,12 +342,12 @@ function snackbar(message) {
 }
 
 async function shareResult() {
-  const correct = state.answers.filter(answer => answer.correct).length;
-  const blocks = state.answers.map(answer => answer.correct ? '🟦' : '⬜').join('');
-  const text = `Second Sight ${state.date}\n${correct}/${ROUND_COUNT} · ${state.score.toLocaleString('en-GB')} points\n${blocks}\nhttps://bludle.com/secondsight/`;
+  if (!state.complete) return;
+  const text = secondSightShareCard(state);
+  const url = resultShareUrl('secondsight');
   try {
-    if (navigator.share) await navigator.share({ title: 'Second Sight', text });
-    else { await navigator.clipboard.writeText(text); snackbar('Result copied'); }
+    if (navigator.share) await navigator.share({ title: 'Second Sight', text, url });
+    else { await navigator.clipboard.writeText(`${text}\n\n${url}`); snackbar('Result copied'); }
   } catch (error) {
     if (error?.name !== 'AbortError') snackbar('Could not share result');
   }

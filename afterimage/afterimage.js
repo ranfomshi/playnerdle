@@ -1,4 +1,5 @@
 import { buildMemoryMetrics } from './memoryMetrics.js';
+import { afterimageShareCard, resultShareUrl } from '../globalNav/shareCards.js';
 
 const ROUND_CONFIG = [
   { study: 5000, distraction: 0 },
@@ -306,10 +307,11 @@ function toast(message) {
 async function shareResult() {
   const result = readJson(storage.today, null);
   if (!result || result.date !== dateKey) return;
-  const text = `Afterimage ${result.accuracy}%\n${result.rounds.map(value => `${value}%`).join('  ')}\nFive colours. No second look.`;
+  const text = afterimageShareCard(result);
+  const url = resultShareUrl('afterimage');
   try {
-    if (navigator.share) await navigator.share({ title: 'Afterimage', text, url: location.href });
-    else await navigator.clipboard.writeText(`${text}\n${location.href}`);
+    if (navigator.share) await navigator.share({ title: 'Afterimage', text, url });
+    else await navigator.clipboard.writeText(`${text}\n\n${url}`);
     toast(navigator.share ? 'Share sheet opened' : 'Result copied');
   } catch (error) {
     if (error.name !== 'AbortError') toast('Could not share this result');

@@ -1,3 +1,5 @@
+import { resultShareUrl, wordBridgeShareCard } from '../globalNav/shareCards.js';
+
 const puzzles = [
   { left: 'rain', bridge: 'bow', right: 'tie', leftPhrase: 'rainbow', rightPhrase: 'bow tie', hint: 'It can be tied, drawn or used to shoot an arrow.' },
   { left: 'foot', bridge: 'ball', right: 'room', leftPhrase: 'football', rightPhrase: 'ballroom', hint: 'A round object used in many sports.' },
@@ -220,13 +222,19 @@ function initialise() {
 }
 
 async function shareResult() {
-  const result = state.won ? `${state.attempts.length}/3` : 'X/3';
-  const path = state.attempts.map(guess => guess === puzzle.bridge ? '🟩' : '🟫').join('');
-  const copy = `Word Bridge #${puzzleNumber} ${result}\n${path}\nhttps://bludle.com/wordbridge/`;
+  if (!finished) return;
+  const text = wordBridgeShareCard({
+    number: puzzleNumber,
+    left: puzzle.left,
+    right: puzzle.right,
+    attempts: state.attempts.map(guess => guess === puzzle.bridge),
+    won: state.won
+  });
+  const url = resultShareUrl('wordbridge');
   try {
-    if (navigator.share) await navigator.share({ title: 'Word Bridge', text: copy });
+    if (navigator.share) await navigator.share({ title: 'Word Bridge', text, url });
     else {
-      await navigator.clipboard.writeText(copy);
+      await navigator.clipboard.writeText(`${text}\n\n${url}`);
       elements.share.textContent = 'Copied to clipboard';
     }
   } catch { /* Cancelling the share sheet is not an error. */ }
