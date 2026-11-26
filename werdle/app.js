@@ -1,5 +1,6 @@
 import { WORDS } from './words.js';
 import { firstGuessProperties } from './firstGuessTelemetry.js';
+import { chooseShareVariant, shareText, shareUrl } from './shareResult.js';
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 5;
@@ -46,6 +47,7 @@ const loadStore = () => {
 };
 
 const store = loadStore();
+const dailyShareVariant = chooseShareVariant();
 let mode = localStorage.getItem('werdle:mode') || 'daily';
 let game = createGame(mode);
 let locked = false;
@@ -193,16 +195,25 @@ function newPracticeGame() {
   mode = 'practice'; game = createGame(mode, true); elements.stats.close(); setMessage('A fresh word is ready'); render(); save();
 }
 
-function shareText() {
+function resultRows() {
   const rows = game.guesses.map((guess) => scoreGuess(guess, game.secret).map((status) => ({ exact: '🟩', present: '🟦', absent: '⬛' })[status]).join('')).join('\n');
-  return `Werdle ${game.mode === 'daily' ? todayKey() : 'Practice'} ${game.status === 'won' ? game.guesses.length : 'X'}/${MAX_ATTEMPTS}\n\n${rows}\n\nbludle.com/werdle`;
+  return rows;
 }
 
 async function share() {
-  const text = shareText();
+  const variant = game.mode === 'daily' ? dailyShareVariant : 'control';
+  const text = shareText({ mode: game.mode, date: todayKey(), status: game.status, guessCount: game.guesses.length, maxAttempts: MAX_ATTEMPTS, rows: resultRows(), variant });
+  const url = shareUrl(variant);
   try {
-    if (navigator.share) await navigator.share({ title: 'Werdle', text });
-    else { await navigator.clipboard.writeText(text); toast('Result copied'); }
+    const method = navigator.share ? 'native' : 'clipboard';
+    if (navigator.share) await navigator.share({ title: 'Werdle', text, url });
+    else { await navigator.clipboard.writeText(`${text}\n\n${url}`); toast('Result copied'); }
+    const properties = { game_mode: game.mode, share_variant: variant, share_method: method, outcome: game.status };
+    if (window.BludleEngagement?.gameEvent) window.BludleEngagement.gameEvent('game_share', properties);
+    else {
+      window.__bludleGameplayEventQueue = window.__bludleGameplayEventQueue || [];
+      window.__bludleGameplayEventQueue.push({ eventName: 'game_share', properties });
+    }
   } catch (error) { if (error.name !== 'AbortError') toast('Could not share result'); }
 }
 
